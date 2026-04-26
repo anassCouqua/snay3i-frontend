@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import "./App.css";
 
-const API_BASE = "https://snay3i-backend.onrender.com";
+const API_BASE = "http://127.0.0.1:8000";
 
 const CATEGORIES = [
   { id: "all",         label: "Tous",        ar: "الكل",         emoji: "🏠" },
@@ -143,6 +143,17 @@ function ContactModal({worker, onClose}){
               <span>💬</span><span>WhatsApp • واتساب</span>
             </a>
           </div>
+          {worker.photos && worker.photos.length > 0 && (
+            <div className="modal-section">
+              <h4 className="modal-section-title">Réalisations • أعمالي</h4>
+              <div className="modal-portfolio">
+                {worker.photos.map((url,i) => (
+                  <img key={i} src={url} alt="" className="modal-portfolio-img"/>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="modal-tags">
             {worker.tags.map(t=><span key={t} className="modal-tag">{t}</span>)}
           </div>
@@ -215,6 +226,17 @@ function WorkerCard({worker,index,userLoc}){
         <div className="card-tags">
           {worker.tags.map(t=><span key={t} className="card-tag">{t}</span>)}
         </div>
+
+        {worker.photos && worker.photos.length > 0 && (
+          <div className="card-portfolio">
+            {worker.photos.slice(0,3).map((url,i) => (
+              <img key={i} src={url} alt="" className="portfolio-thumb"/>
+            ))}
+            {worker.photos.length > 3 && (
+              <div className="portfolio-more">+{worker.photos.length - 3}</div>
+            )}
+          </div>
+        )}
 
         <div className="card-actions">
           <button className="btn-main" onClick={()=>setModal(true)}>
@@ -427,7 +449,7 @@ const SERVICES_LIST = [
 function RegisterPage({ onBack, lang }) {
   const [step, setStep] = useState(1);
   const [form, setForm] = useState({
-    name: "", service: "", city: "", phone: "", whatsapp: "", address: "", bio: "", years_exp: "", tags: ""
+    name: "", service: "", city: "", phone: "", whatsapp: "", address: "", bio: "", years_exp: "", tags: "", photos: []
   });
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
@@ -607,6 +629,32 @@ function RegisterPage({ onBack, lang }) {
               <input className="reg-input"
                 placeholder="Ex: Urgences, Chauffe-eau, Hammam"
                 value={form.tags} onChange={e => update("tags", e.target.value)}/>
+            </div>
+
+            <div className="reg-field">
+              <label className="reg-label">📸 Photos de vos travaux <span className="reg-optional">(optionnel)</span></label>
+              <div className="reg-photo-upload" onClick={() => document.getElementById("photo-input").click()}>
+                <input id="photo-input" type="file" accept="image/*" multiple style={{display:"none"}}
+                  onChange={e => {
+                    const files = Array.from(e.target.files);
+                    const urls = files.map(f => URL.createObjectURL(f));
+                    update("photos", urls);
+                  }}/>
+                {form.photos && form.photos.length > 0 ? (
+                  <div className="reg-photos-preview">
+                    {form.photos.map((url, i) => (
+                      <img key={i} src={url} alt="" className="reg-photo-thumb"/>
+                    ))}
+                    <div className="reg-photo-add">+</div>
+                  </div>
+                ) : (
+                  <div className="reg-photo-placeholder">
+                    <span style={{fontSize:32}}>📷</span>
+                    <p>Appuyez pour ajouter des photos</p>
+                    <p className="reg-photo-hint">Avant/après, chantiers, realisations...</p>
+                  </div>
+                )}
+              </div>
             </div>
 
             {error && <p className="reg-error">{error}</p>}
