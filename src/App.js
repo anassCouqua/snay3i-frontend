@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import "./App.css";
 
-const API_BASE = "https://snay3i-backend.onrender.com";
+const API_BASE = "http://127.0.0.1:8000";
 
 const CATEGORIES = [
   { id: "all",         label: "Tous",        ar: "الكل",         emoji: "🏠" },
@@ -272,14 +272,15 @@ function ChatWindow({worker, onClose}){
     "Pas de probleme, je m en occupe. Je serai la dans 30 minutes.",
   ];
 
-  const loadMessages = async () => {
+  const loadMessages = useCallback(async () => {
     try {
       const res = await fetch(`${API_BASE}/chat/${worker.id}/${SESSION_ID}`);
       const data = await res.json();
       if(Array.isArray(data)) setMsgs(data);
     } catch(e) {}
-  };
+  }, [worker.id]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { loadMessages(); }, []);
 
   useEffect(() => {
