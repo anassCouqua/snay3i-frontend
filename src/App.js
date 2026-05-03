@@ -1020,6 +1020,7 @@ export default function App(){
           <span>🇲🇦 Fait avec fierté au Maroc</span>
         </div>
       </main>
+      {showMap && <MapModal workers={sorted} onClose={()=>setShowMap(false)}/>}
     </div>
   );
 }
