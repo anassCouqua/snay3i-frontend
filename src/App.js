@@ -692,300 +692,140 @@ function RegisterPage({ onBack, lang }) {
 // ── MAP MODAL ─────────────────────────────────────────────────────
 function MapModal({workers, onClose, userLoc, activeCategory}) {
   const mapRef = useRef(null);
-  const [locating, setLocating] = useState(false);
-  const [myPos, setMyPos] = useState(userLoc || null);
-  const [filter, setFilter] = useState(activeCategory || "all");
-  const [selectedWorker, setSelectedWorker] = useState(null);
+  const mapInst = useRef(null);
   const markersRef = useRef([]);
   const userMarkerRef = useRef(null);
-  const mapInstRef = useRef(null);
+  const [filter, setFilter] = useState(activeCategory || "all");
+  const [selectedWorker, setSelectedWorker] = useState(null);
+  const [locating, setLocating] = useState(false);
+  const [myPos, setMyPos] = useState(userLoc || null);
 
   const CITY_COORDS = {
-    Casablanca:{lat:33.5731,lng:-7.5898},
-    Rabat:     {lat:34.0209,lng:-6.8416},
-    Marrakech: {lat:31.6295,lng:-7.9811},
-    Fes:       {lat:34.0181,lng:-5.0078},
-    Tanger:    {lat:35.7595,lng:-5.8340},
-    Agadir:    {lat:30.4278,lng:-9.5981},
+    Casablanca:[-7.5898, 33.5731],
+    Rabat:     [-6.8416, 34.0209],
+    Marrakech: [-7.9811, 31.6295],
+    Fes:       [-5.0078, 34.0181],
+    Tanger:    [-5.8340, 35.7595],
+    Agadir:    [-9.5981, 30.4278],
   };
 
-  const SERVICE_EMOJI = {
-    plumber:"🔧", electrician:"⚡", builder:"🧱",
-    handyman:"🔨", painter:"🎨", carpenter:"🪚"
-  };
+  const SERVICE_EMOJI = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
+  const SERVICE_COLOR = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
 
-  const SERVICE_COLOR = {
-    plumber:"#1A5C82", electrician:"#D4A843",
-    builder:"#8B4513", handyman:"#2E8B57",
-    painter:"#9C2752", carpenter:"#6B3A9E"
-  };
-
-  const makeEmojiIcon = (emoji, color, size=36) => {
-    const canvas = document.createElement("canvas");
-    canvas.width = size; canvas.height = size + 10;
-    const ctx = canvas.getContext("2d");
-    // Circle background
-    ctx.beginPath();
-    ctx.arc(size/2, size/2, size/2 - 2, 0, 2*Math.PI);
-    ctx.fillStyle = color;
-    ctx.fill();
-    ctx.strokeStyle = "#fff";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    // Pin tail
-    ctx.beginPath();
-    ctx.moveTo(size/2 - 5, size - 4);
-    ctx.lineTo(size/2, size + 8);
-    ctx.lineTo(size/2 + 5, size - 4);
-    ctx.fillStyle = color;
-    ctx.fill();
-    // Emoji
-    ctx.font = `${size * 0.42}px serif`;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(emoji, size/2, size/2);
-    return canvas.toDataURL();
-  };
-
-  const makeUserIcon = () => {
-    const canvas = document.createElement("canvas");
-    canvas.width = 40; canvas.height = 40;
-    const ctx = canvas.getContext("2d");
-    // Pulsing blue circle
-    ctx.beginPath();
-    ctx.arc(20, 20, 18, 0, 2*Math.PI);
-    ctx.fillStyle = "rgba(26,122,110,0.2)";
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(20, 20, 12, 0, 2*Math.PI);
-    ctx.fillStyle = "#1A7A6E";
-    ctx.fill();
-    ctx.strokeStyle = "#fff";
-    ctx.lineWidth = 3;
-    ctx.stroke();
-    ctx.font = "14px serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText("📍", 20, 20);
-    return canvas.toDataURL();
-  };
-
-  // Init map
-  useEffect(() => {
-    if (!mapRef.current || !window.google) return;
-    const center = myPos || {lat:32.0, lng:-6.5};
-    const zoom = myPos ? 10 : 6;
-    const map = new window.google.maps.Map(mapRef.current, {
-      center, zoom,
-      disableDefaultUI: false,
-      zoomControl: true,
-      mapTypeControl: false,
-      streetViewControl: false,
-      fullscreenControl: false,
-      styles: [
-        {elementType:"geometry", stylers:[{color:"#FAF6EF"}]},
-        {elementType:"labels.text.fill", stylers:[{color:"#0D1B2A"}]},
-        {elementType:"labels.text.stroke", stylers:[{color:"#FAF6EF"}]},
-        {featureType:"water", elementType:"geometry", stylers:[{color:"#D8F0EC"}]},
-        {featureType:"road", elementType:"geometry", stylers:[{color:"#E8E0D4"}]},
-        {featureType:"road.highway", elementType:"geometry", stylers:[{color:"#C4622D",lightness:60}]},
-        {featureType:"poi", stylers:[{visibility:"off"}]},
-        {featureType:"administrative.country", elementType:"geometry.stroke", stylers:[{visibility:"off"}]},
-        {featureType:"administrative.province", elementType:"geometry.stroke", stylers:[{visibility:"off"}]},
-        {featureType:"administrative", elementType:"labels", stylers:[{visibility:"off"}]},
-      ]
+  const addWorkerMarkers = useCallback((map, workerList, currentFilter) => {
+    markersRef.current.forEach(m => m.remove());
+    markersRef.current = [];
+    const filtered = currentFilter === "all" ? workerList : workerList.filter(w => w.service === currentFilter);
+    filtered.forEach((worker, i) => {
+      const coords = CITY_COORDS[worker.city];
+      if (!coords) return;
+      const jitter = [coords[0] + (Math.random()-0.5)*0.15, coords[1] + (Math.random()-0.5)*0.15];
+      const color = SERVICE_COLOR[worker.service] || "#C4622D";
+      const emoji = SERVICE_EMOJI[worker.service] || "🔧";
+      const el = document.createElement("div");
+      el.style.cssText = "width:44px;height:54px;cursor:pointer;display:flex;flex-direction:column;align-items:center;";
+      el.innerHTML = `<div style="width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:${color};border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;"><span style="transform:rotate(45deg);font-size:20px">${emoji}</span></div>`;
+      el.addEventListener("click", () => setSelectedWorker(worker));
+      const marker = new mapboxgl.Marker({element:el, anchor:"bottom"}).setLngLat(jitter).addTo(map);
+      markersRef.current.push(marker);
     });
-    mapInstRef.current = map;
-
-    // Add user marker if we have location
-    if (myPos) {
-      const userMarker = new window.google.maps.Marker({
-        position: myPos,
-        map,
-        title: "Votre position",
-        icon: {url: makeUserIcon(), scaledSize: new window.google.maps.Size(40,40), anchor: new window.google.maps.Point(20,20)},
-        zIndex: 999,
-      });
-      userMarkerRef.current = userMarker;
-      // Accuracy circle
-      new window.google.maps.Circle({
-        map, center: myPos, radius: 2000,
-        fillColor:"#1A7A6E", fillOpacity:0.08,
-        strokeColor:"#1A7A6E", strokeOpacity:0.3, strokeWeight:1,
-      });
-    }
-
-    placeWorkerMarkers(map, workers, filter);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const placeWorkerMarkers = (map, workerList, currentFilter) => {
-    // Clear existing markers
-    markersRef.current.forEach(m => m.setMap(null));
-    markersRef.current = [];
-
-    const filtered = currentFilter === "all"
-      ? workerList
-      : workerList.filter(w => w.service === currentFilter);
-
-    filtered.forEach(worker => {
-      const coords = CITY_COORDS[worker.city];
-      if (!coords) return;
-      const jitter = {
-        lat: coords.lat + (Math.random()-0.5)*0.12,
-        lng: coords.lng + (Math.random()-0.5)*0.12
-      };
-      const emoji = SERVICE_EMOJI[worker.service] || "🔧";
-      const color = SERVICE_COLOR[worker.service] || "#C4622D";
-      const iconUrl = makeEmojiIcon(emoji, color);
-
-      const marker = new window.google.maps.Marker({
-        position: jitter,
-        map,
-        title: worker.name,
-        icon: {
-          url: iconUrl,
-          scaledSize: new window.google.maps.Size(36, 46),
-          anchor: new window.google.maps.Point(18, 46),
-        },
-        animation: window.google.maps.Animation.DROP,
-      });
-
-      marker.addListener("click", () => {
-        setSelectedWorker(worker);
-        map.panTo(jitter);
-      });
-
-      markersRef.current.push(marker);
+  useEffect(() => {
+    if (!mapRef.current) return;
+    const center = myPos ? [myPos.lng, myPos.lat] : [-7.0926, 31.7917];
+    const map = new mapboxgl.Map({
+      container: mapRef.current,
+      style: "mapbox://styles/mapbox/light-v11",
+      center, zoom: myPos ? 10 : 5,
+      attributionControl: false,
     });
-  };
+    mapInst.current = map;
+    map.addControl(new mapboxgl.NavigationControl(), "top-right");
+    map.on("load", () => {
+      ["admin-0-boundary","admin-0-boundary-disputed","admin-1-boundary"].forEach(layer => {
+        if (map.getLayer(layer)) map.setPaintProperty(layer, "line-opacity", 0);
+      });
+      addWorkerMarkers(map, workers, filter);
+      if (myPos) {
+        const el = document.createElement("div");
+        el.style.cssText = "width:20px;height:20px;border-radius:50%;background:#1A7A6E;border:3px solid #fff;box-shadow:0 0 0 4px rgba(26,122,110,0.3);";
+        userMarkerRef.current = new mapboxgl.Marker({element:el}).setLngLat([myPos.lng,myPos.lat]).addTo(map);
+      }
+    });
+    return () => map.remove();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const handleFilterChange = (newFilter) => {
-    setFilter(newFilter);
+  const handleFilter = (f) => {
+    setFilter(f);
     setSelectedWorker(null);
-    if (mapInstRef.current) {
-      placeWorkerMarkers(mapInstRef.current, workers, newFilter);
-    }
+    if (mapInst.current) addWorkerMarkers(mapInst.current, workers, f);
   };
 
-  const handleLocateMe = () => {
+  const handleLocate = () => {
     if (!navigator.geolocation) return;
     setLocating(true);
     navigator.geolocation.getCurrentPosition(pos => {
-      const pos2 = {lat: pos.coords.latitude, lng: pos.coords.longitude};
-      setMyPos(pos2);
+      const p = {lat:pos.coords.latitude, lng:pos.coords.longitude};
+      setMyPos(p);
       setLocating(false);
-      if (mapInstRef.current) {
-        mapInstRef.current.panTo(pos2);
-        mapInstRef.current.setZoom(11);
-        if (userMarkerRef.current) userMarkerRef.current.setMap(null);
-        const userMarker = new window.google.maps.Marker({
-          position: pos2, map: mapInstRef.current,
-          title: "Votre position",
-          icon: {url: makeUserIcon(), scaledSize: new window.google.maps.Size(40,40), anchor: new window.google.maps.Point(20,20)},
-          zIndex:999,
-        });
-        userMarkerRef.current = userMarker;
-        new window.google.maps.Circle({
-          map: mapInstRef.current, center: pos2, radius: 2000,
-          fillColor:"#1A7A6E", fillOpacity:0.08,
-          strokeColor:"#1A7A6E", strokeOpacity:0.3, strokeWeight:1,
-        });
+      if (mapInst.current) {
+        mapInst.current.flyTo({center:[p.lng,p.lat], zoom:11, duration:1500});
+        const el = document.createElement("div");
+        el.style.cssText = "width:20px;height:20px;border-radius:50%;background:#1A7A6E;border:3px solid #fff;box-shadow:0 0 0 4px rgba(26,122,110,0.3);";
+        if (userMarkerRef.current) userMarkerRef.current.remove();
+        userMarkerRef.current = new mapboxgl.Marker({element:el}).setLngLat([p.lng,p.lat]).addTo(mapInst.current);
       }
     }, () => setLocating(false));
   };
 
-  const filteredCount = filter === "all"
-    ? workers.length
-    : workers.filter(w => w.service === filter).length;
+  const filteredCount = filter==="all" ? workers.length : workers.filter(w=>w.service===filter).length;
 
   return (
-    <div style={{position:"fixed",inset:0,zIndex:2000,display:"flex",flexDirection:"column",background:"#0D1B2A"}}>
-      {/* HEADER */}
+    <div style={{position:"fixed",inset:0,zIndex:2000,display:"flex",flexDirection:"column"}}>
+      <style>{".mapboxgl-ctrl-logo,.mapboxgl-ctrl-attrib{display:none!important}"}</style>
       <div style={{background:"#0D1B2A",padding:"14px 16px",display:"flex",alignItems:"center",gap:12,flexShrink:0}}>
-        <button onClick={onClose} style={{background:"rgba(255,255,255,0.12)",border:"none",color:"#fff",width:36,height:36,borderRadius:"50%",cursor:"pointer",fontSize:18,display:"flex",alignItems:"center",justifyContent:"center"}}>←</button>
+        <button onClick={onClose} style={{background:"rgba(255,255,255,0.12)",border:"none",color:"#fff",width:38,height:38,borderRadius:"50%",cursor:"pointer",fontSize:20}}>←</button>
         <div style={{flex:1}}>
           <div style={{color:"#fff",fontWeight:700,fontSize:16}}>🗺 Carte des Maalems</div>
           <div style={{color:"rgba(255,255,255,0.55)",fontSize:12}}>{filteredCount} artisan{filteredCount!==1?"s":""} {myPos?"près de vous":"au Maroc"}</div>
         </div>
-        <button onClick={handleLocateMe} style={{
-          background: myPos ? "#1A7A6E" : "rgba(255,255,255,0.12)",
-          border:"none",color:"#fff",padding:"8px 14px",borderRadius:20,
-          cursor:"pointer",fontSize:12,fontWeight:600,
-          display:"flex",alignItems:"center",gap:6
-        }}>
-          {locating ? "⌛" : myPos ? "✅ Localisé" : "🎯 Me localiser"}
+        <button onClick={handleLocate} style={{background:myPos?"#1A7A6E":"rgba(255,255,255,0.12)",border:"none",color:"#fff",padding:"8px 14px",borderRadius:20,cursor:"pointer",fontSize:12,fontWeight:600,whiteSpace:"nowrap"}}>
+          {locating?"⌛ GPS...":myPos?"✅ Localisé":"🎯 Me localiser"}
         </button>
       </div>
-
-      {/* SERVICE FILTER PILLS */}
-      <div style={{background:"#0D1B2A",paddingBottom:12,overflowX:"auto",flexShrink:0}}>
+      <div style={{background:"#0D1B2A",paddingBottom:12,flexShrink:0,overflowX:"auto"}}>
         <div style={{display:"flex",gap:8,paddingInline:16,width:"max-content"}}>
           {[{id:"all",label:"Tous",emoji:"🏠"},...CATEGORIES.filter(c=>c.id!=="all")].map(cat=>(
-            <button key={cat.id}
-              onClick={() => handleFilterChange(cat.id)}
-              style={{
-                display:"flex",alignItems:"center",gap:5,
-                padding:"6px 12px",borderRadius:20,
-                border: filter===cat.id ? "none" : "1.5px solid rgba(255,255,255,0.2)",
-                background: filter===cat.id ? "#C4622D" : "rgba(255,255,255,0.08)",
-                color:"#fff",cursor:"pointer",fontSize:12,fontWeight:600,
-                whiteSpace:"nowrap",
-              }}>
-              <span>{cat.emoji}</span>
-              <span>{cat.label}</span>
+            <button key={cat.id} onClick={()=>handleFilter(cat.id)} style={{display:"flex",alignItems:"center",gap:5,padding:"7px 13px",borderRadius:20,border:filter===cat.id?"none":"1.5px solid rgba(255,255,255,0.2)",background:filter===cat.id?"#C4622D":"rgba(255,255,255,0.08)",color:"#fff",cursor:"pointer",fontSize:12,fontWeight:600,whiteSpace:"nowrap"}}>
+              <span>{cat.emoji}</span><span>{cat.label}</span>
             </button>
           ))}
         </div>
       </div>
-
-      {/* MAP */}
       <div style={{flex:1,position:"relative"}}>
         <div ref={mapRef} style={{width:"100%",height:"100%"}}/>
-
-        {/* Selected worker card */}
-        {selectedWorker && (
-          <div style={{
-            position:"absolute",bottom:16,left:16,right:16,
-            background:"#fff",borderRadius:16,padding:16,
-            boxShadow:"0 8px 32px rgba(0,0,0,0.25)",
-            animation:"slideUp 0.2s ease"
-          }}>
+        {selectedWorker&&(
+          <div style={{position:"absolute",bottom:20,left:16,right:16,background:"#fff",borderRadius:20,padding:18,boxShadow:"0 12px 40px rgba(0,0,0,0.2)"}}>
             <div style={{display:"flex",alignItems:"flex-start",gap:12}}>
-              <div style={{
-                width:48,height:48,borderRadius:14,
-                background: SERVICE_COLOR[selectedWorker.service] || "#C4622D",
-                display:"flex",alignItems:"center",justifyContent:"center",
-                fontSize:22,flexShrink:0
-              }}>
-                {SERVICE_EMOJI[selectedWorker.service] || "🔧"}
+              <div style={{width:52,height:52,borderRadius:16,flexShrink:0,background:SERVICE_COLOR[selectedWorker.service]||"#C4622D",display:"flex",alignItems:"center",justifyContent:"center",fontSize:24}}>
+                {SERVICE_EMOJI[selectedWorker.service]||"🔧"}
               </div>
               <div style={{flex:1,minWidth:0}}>
                 <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:3}}>
                   <span style={{fontWeight:700,fontSize:15,color:"#0D1B2A"}}>{selectedWorker.name}</span>
-                  {selectedWorker.verified && <span style={{background:"#D8F5E4",color:"#1A6B3A",fontSize:10,fontWeight:700,padding:"2px 7px",borderRadius:20}}>✓</span>}
+                  {selectedWorker.verified&&<span style={{background:"#D8F5E4",color:"#1A6B3A",fontSize:10,fontWeight:700,padding:"2px 7px",borderRadius:20}}>✓</span>}
                 </div>
-                <div style={{fontSize:12,color:"#C4622D",fontWeight:600,marginBottom:4}}>
-                  {catLabel(selectedWorker.service)} • {selectedWorker.city}
-                </div>
-                <div style={{fontSize:12,color:"#7A7065"}}>⭐ {selectedWorker.rating} • {selectedWorker.reviews} avis • {selectedWorker.years_exp} ans</div>
+                <div style={{fontSize:12,color:"#C4622D",fontWeight:600,marginBottom:4}}>{SERVICE_EMOJI[selectedWorker.service]} {catLabel(selectedWorker.service)} • {selectedWorker.city}</div>
+                <div style={{fontSize:12,color:"#7A7065"}}>⭐ {selectedWorker.rating} • {selectedWorker.reviews} avis</div>
               </div>
-              <button onClick={()=>setSelectedWorker(null)} style={{background:"none",border:"none",cursor:"pointer",fontSize:18,color:"#aaa",padding:4}}>✕</button>
+              <button onClick={()=>setSelectedWorker(null)} style={{background:"none",border:"none",cursor:"pointer",fontSize:18,color:"#aaa"}}>✕</button>
             </div>
-            <div style={{display:"flex",gap:8,marginTop:12}}>
-              <a href={`tel:${selectedWorker.phone}`} style={{
-                flex:1,padding:"10px",borderRadius:10,
-                background:"#0D1B2A",color:"#fff",
-                textDecoration:"none",textAlign:"center",
-                fontWeight:700,fontSize:13
-              }}>📞 Appeler</a>
-              <a href={`https://wa.me/${(selectedWorker.whatsapp||"").replace(/\D/g,"")}`}
-                target="_blank" rel="noreferrer" style={{
-                  flex:1,padding:"10px",borderRadius:10,
-                  background:"#D8F5E4",color:"#1A6B3A",
-                  textDecoration:"none",textAlign:"center",
-                  fontWeight:700,fontSize:13
-                }}>💬 WhatsApp</a>
+            <div style={{display:"flex",gap:8,marginTop:14}}>
+              <a href={"tel:"+selectedWorker.phone} style={{flex:1,padding:"12px",borderRadius:12,textAlign:"center",background:"#0D1B2A",color:"#fff",textDecoration:"none",fontWeight:700,fontSize:13,display:"block"}}>📞 Appeler</a>
+              <a href={"https://wa.me/"+(selectedWorker.whatsapp||"").replace(/\D/g,"")} target="_blank" rel="noreferrer" style={{flex:1,padding:"12px",borderRadius:12,textAlign:"center",background:"#D8F5E4",color:"#1A6B3A",textDecoration:"none",fontWeight:700,fontSize:13,display:"block"}}>💬 WhatsApp</a>
             </div>
           </div>
         )}
