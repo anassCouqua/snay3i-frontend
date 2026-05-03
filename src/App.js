@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import "./App.css";
 
-const API_BASE = "https://snay3i-backend.onrender.com";
+const API_BASE = "http://127.0.0.1:8000";
 
 const CATEGORIES = [
   { id: "all",         label: "Tous",        ar: "الكل",         emoji: "🏠" },
@@ -1075,7 +1075,16 @@ export default function App(){
           {/* TOP BAR */}
           <div className="topbar">
             <div className="brand">
-              <img src="/logo.png" alt="Snay3i.ma" style={{height:48,objectFit:"contain"}}/>
+              <div className="brand-mark">
+                <svg viewBox="0 0 32 32" fill="none">
+                  <polygon points="16,2 19,11 29,11 21,17 24,27 16,21 8,27 11,17 3,11 13,11" fill="#fff" opacity="0.95"/>
+                </svg>
+              </div>
+              <div className="brand-name">
+                <span className="brand-fr">Snay3i</span>
+                <span className="brand-dot">.ma</span>
+              </div>
+              <span className="brand-ar">صنايعي</span>
             </div>
             <button className="lang-btn" onClick={()=>setLang(l=>l==="fr"?"ar":"fr")}>
               {lang==="fr"?"عربي":"FR"}
@@ -1177,7 +1186,6 @@ export default function App(){
           {nearCity&&<span className="near-tag"> · {nearCity}</span>}
         </span>
         {error&&<span className="err-msg">{error}</span>}
-        <button onClick={()=>setShowMap(true)} style={{padding:"6px 14px",borderRadius:20,border:"1.5px solid var(--border)",background:"var(--white)",cursor:"pointer",fontSize:13,fontWeight:600,color:"var(--ink)"}}>🗺 Carte</button>
         <div className="sort-row">
           {[["rating","⭐"],["price","💰"],["distance","📍"]].map(([k,ic])=>(
             <button key={k}
@@ -1227,7 +1235,6 @@ export default function App(){
           <span>🇲🇦 Fait avec fierté au Maroc</span>
         </div>
       </main>
-      {showMap&&<MapModal workers={sorted} onClose={()=>setShowMap(false)} userLoc={userLoc} activeCategory={category}/>}
     </div>
   );
 }
