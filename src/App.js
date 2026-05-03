@@ -1,4 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN || "";
 import "./App.css";
 
 const API_BASE = "https://snay3i-backend.onrender.com";
