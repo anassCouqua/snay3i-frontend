@@ -685,6 +685,97 @@ function RegisterPage({ onBack, lang }) {
   );
 }
 
+
+// ── MAP MODAL ─────────────────────────────────────────────────────
+function MapModal({workers, onClose}) {
+  const mapRef = useRef(null);
+
+  const CITY_COORDS = {
+    Casablanca:{lat:33.5731,lng:-7.5898},
+    Rabat:     {lat:34.0209,lng:-6.8416},
+    Marrakech: {lat:31.6295,lng:-7.9811},
+    Fes:       {lat:34.0181,lng:-5.0078},
+    Tanger:    {lat:35.7595,lng:-5.8340},
+    Agadir:    {lat:30.4278,lng:-9.5981},
+  };
+
+  useEffect(() => {
+    if (!mapRef.current || !window.google) return;
+    const mapInstance = new window.google.maps.Map(mapRef.current, {
+      center: {lat:32.0, lng:-6.5},
+      zoom: 6,
+      styles: [
+        {elementType:"geometry", stylers:[{color:"#FAF6EF"}]},
+        {elementType:"labels.text.fill", stylers:[{color:"#0D1B2A"}]},
+        {featureType:"water", elementType:"geometry", stylers:[{color:"#D8F0EC"}]},
+        {featureType:"road", elementType:"geometry", stylers:[{color:"#E8E0D4"}]},
+        {featureType:"administrative.country", elementType:"geometry.stroke", stylers:[{visibility:"off"}]},
+        {featureType:"administrative.province", elementType:"geometry.stroke", stylers:[{visibility:"off"}]},
+        {featureType:"administrative", elementType:"labels", stylers:[{visibility:"off"}]},
+      ]
+    });
+
+    workers.forEach(worker => {
+      const coords = CITY_COORDS[worker.city];
+      if (!coords) return;
+      const jitter = {
+        lat: coords.lat + (Math.random()-0.5)*0.1,
+        lng: coords.lng + (Math.random()-0.5)*0.1
+      };
+      const marker = new window.google.maps.Marker({
+        position: jitter,
+        map: mapInstance,
+        title: worker.name,
+        icon: {
+          path: window.google.maps.SymbolPath.CIRCLE,
+          scale: 10,
+          fillColor: "#C4622D",
+          fillOpacity: 1,
+          strokeColor: "#fff",
+          strokeWeight: 2,
+        }
+      });
+      const infoWindow = new window.google.maps.InfoWindow({
+        content: `<div style="font-family:sans-serif;padding:8px;max-width:200px">
+          <strong style="color:#0D1B2A">${worker.name}</strong><br/>
+          <span style="color:#C4622D;font-size:12px">${catLabel(worker.service)} • ${worker.city}</span><br/>
+          <span style="color:#666;font-size:12px">${worker.phone}</span>
+        </div>`
+      });
+      marker.addListener("click", () => infoWindow.open(mapInstance, marker));
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [workers]);
+
+  return (
+    <div style={{
+      position:"fixed",inset:0,zIndex:2000,
+      background:"rgba(13,27,42,0.7)",
+      display:"flex",flexDirection:"column"
+    }} onClick={onClose}>
+      <div style={{
+        flex:1,margin:"20px",borderRadius:20,overflow:"hidden",
+        display:"flex",flexDirection:"column",background:"#fff"
+      }} onClick={e=>e.stopPropagation()}>
+        <div style={{
+          background:"#0D1B2A",padding:"16px 20px",
+          display:"flex",alignItems:"center",justifyContent:"space-between"
+        }}>
+          <div>
+            <span style={{color:"#fff",fontWeight:700,fontSize:16}}>🗺 Carte des Maalems</span>
+            <span style={{color:"rgba(255,255,255,0.6)",fontSize:12,marginLeft:10}}>{workers.length} artisans</span>
+          </div>
+          <button onClick={onClose} style={{
+            background:"rgba(255,255,255,0.15)",border:"none",color:"#fff",
+            width:32,height:32,borderRadius:"50%",cursor:"pointer",fontSize:16
+          }}>✕</button>
+        </div>
+        <div ref={mapRef} style={{flex:1}}/>
+      </div>
+    </div>
+  );
+}
+
 // ── APP ───────────────────────────────────────────────────────────
 export default function App(){
   const [query,setQuery]=useState("");
@@ -699,6 +790,7 @@ export default function App(){
   const [locErr,setLocErr]=useState("");
   const [sort,setSort]=useState("rating");
   const [lang,setLang]=useState("fr");
+  const [showMap,setShowMap]=useState(false);
   const [showRegister,setShowRegister]=useState(false);
 
   const fetchWorkers=useCallback(async(svc,ct)=>{
@@ -767,7 +859,16 @@ export default function App(){
           {/* TOP BAR */}
           <div className="topbar">
             <div className="brand">
-              <img src="/logo.png" alt="Snay3i.ma" style={{height:64,objectFit:"contain"}}/>
+              <div className="brand-mark">
+                <svg viewBox="0 0 32 32" fill="none">
+                  <polygon points="16,2 19,11 29,11 21,17 24,27 16,21 8,27 11,17 3,11 13,11" fill="#fff" opacity="0.95"/>
+                </svg>
+              </div>
+              <div className="brand-name">
+                <span className="brand-fr">Snay3i</span>
+                <span className="brand-dot">.ma</span>
+              </div>
+              <span className="brand-ar">صنايعي</span>
             </div>
             <button className="lang-btn" onClick={()=>setLang(l=>l==="fr"?"ar":"fr")}>
               {lang==="fr"?"عربي":"FR"}
