@@ -1186,6 +1186,7 @@ export default function App(){
           {nearCity&&<span className="near-tag"> · {nearCity}</span>}
         </span>
         {error&&<span className="err-msg">{error}</span>}
+        <button onClick={()=>setShowMap(true)} style={{padding:"6px 14px",borderRadius:20,border:"1.5px solid var(--border)",background:"var(--white)",cursor:"pointer",fontSize:13,fontWeight:600,color:"var(--ink)"}}>🗺 Carte</button>
         <div className="sort-row">
           {[["rating","⭐"],["price","💰"],["distance","📍"]].map(([k,ic])=>(
             <button key={k}
@@ -1235,6 +1236,7 @@ export default function App(){
           <span>🇲🇦 Fait avec fierté au Maroc</span>
         </div>
       </main>
+      {showMap&&<MapModal workers={sorted} onClose={()=>setShowMap(false)} userLoc={userLoc} activeCategory={category}/>}
     </div>
   );
 }
