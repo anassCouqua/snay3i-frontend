@@ -737,7 +737,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
     const center = myPos ? [myPos.lng, myPos.lat] : [-7.0926, 31.7917];
     const map = new mapboxgl.Map({
       container: mapRef.current,
-      style: "mapbox://styles/mapbox/light-v11",
+      style: "mapbox://styles/mapbox/navigation-night-v1",
       center, zoom: myPos ? 10 : 5,
       attributionControl: false,
       worldview: "MA",
