@@ -735,7 +735,13 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
   useEffect(() => {
     if (!mapRef.current) return;
     const center = myPos ? [myPos.lng, myPos.lat] : [-7.0926, 31.7917];
-    const map = new mapboxgl.Map({
+    if (!mapboxgl.getRTLTextPluginStatus || mapboxgl.getRTLTextPluginStatus() === "unavailable") {
+        mapboxgl.setRTLTextPlugin(
+          "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.3.0/mapbox-gl-rtl-text.js",
+          null, true
+        );
+      }
+      const map = new mapboxgl.Map({
       container: mapRef.current,
       style: "mapbox://styles/mapbox/navigation-night-v1",
       center, zoom: myPos ? 10 : 5,
