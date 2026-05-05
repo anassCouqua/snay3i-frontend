@@ -740,6 +740,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
       style: "mapbox://styles/mapbox/light-v11",
       center, zoom: myPos ? 10 : 5,
       attributionControl: false,
+      worldview: "MA",
     });
     mapInst.current = map;
     map.addControl(new mapboxgl.NavigationControl(), "top-right");
