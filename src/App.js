@@ -3,7 +3,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
 
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "https://snay3i-backend.onrender.com";
 
 const CATEGORIES = [
   { id: "all",         label: "Tous",        ar: "الكل",         emoji: "🏠" },
@@ -689,7 +689,7 @@ function RegisterPage({ onBack, lang }) {
 
 
 // ── MAP MODAL ─────────────────────────────────────────────────────
-mapboxgl.accessToken = "YOUR_MAPBOX_TOKEN";
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN || "";
 
 function MapModal({workers, onClose, userLoc, activeCategory}) {
   const mapRef = useRef(null);
