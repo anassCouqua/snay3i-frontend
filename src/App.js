@@ -793,7 +793,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
       .setLngLat([pos.lng, pos.lat]);
   };
 
-  const addWorkerMarkers = (map, workerList, currentFilter) => {
+  const addWorkerMarkers = useCallback((map, workerList, currentFilter) => {
     markersRef.current.forEach(m => m.remove());
     markersRef.current = [];
 
