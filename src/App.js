@@ -783,6 +783,12 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
           map.setFilter(adminLayer, ["match", ["get", "worldview"], ["all", WORLD_VIEW], true, false]);
         }
       });
+      // Hide the berm/sand wall line
+      map.getStyle().layers.forEach(layer => {
+        if (layer.id.includes("berm") || layer.id.includes("wall") || layer.id.includes("barrier")) {
+          try { map.setLayoutProperty(layer.id, "visibility", "none"); } catch(e) {}
+        }
+      });
       // Add worker markers inline
       const SERVICE_EMOJI_M = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
       const SERVICE_COLOR_M = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
