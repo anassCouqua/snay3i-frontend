@@ -758,6 +758,12 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
       center: myPos ? [myPos.lng, myPos.lat] : [-7.0926, 31.7917],
       zoom: myPos ? 10 : 5,
       attributionControl: false,
+      transformRequest: (url) => {
+        if (url.includes("api.mapbox.com") || url.includes("mapbox://")) {
+          return { url: url.includes("?") ? url + "&worldview=MA" : url + "?worldview=MA" };
+        }
+        return { url };
+      }
     });
 
     mapInst.current = map;
@@ -1577,6 +1583,12 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
       center: myPos ? [myPos.lng, myPos.lat] : [-7.0926, 31.7917],
       zoom: myPos ? 10 : 5,
       attributionControl: false,
+      transformRequest: (url) => {
+        if (url.includes("api.mapbox.com") || url.includes("mapbox://")) {
+          return { url: url.includes("?") ? url + "&worldview=MA" : url + "?worldview=MA" };
+        }
+        return { url };
+      }
     });
 
     mapInst.current = map;
