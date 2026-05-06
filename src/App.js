@@ -797,7 +797,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
 
     return () => map.remove();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [workers]);
 
   const addUserMarker = (map, pos) => {
     if (userMarkerRef.current) userMarkerRef.current.remove();
@@ -1613,7 +1613,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
 
     return () => map.remove();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [workers]);
 
   const addUserMarker = (map, pos) => {
     if (userMarkerRef.current) userMarkerRef.current.remove();
