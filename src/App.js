@@ -772,15 +772,17 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
 
     map.on("load", () => {
       // Hide country borders
-      map.getStyle().layers.forEach(layer => {
-        if (layer.id.includes("disputed") || layer.id.includes("admin-0-boundary")) {
-          try { map.setPaintProperty(layer.id, "line-opacity", 0); } catch(e) {}
+      // Set Morocco worldview - removes disputed border and Western Sahara label
+      const WORLD_VIEW = "MA";
+      const adminLayers = [
+        "admin-0-boundary", "admin-1-boundary", "admin-0-boundary-disputed",
+        "admin-1-boundary-bg", "admin-0-boundary-bg", "country-label"
+      ];
+      adminLayers.forEach((adminLayer) => {
+        if (map.getLayer(adminLayer)) {
+          map.setFilter(adminLayer, ["match", ["get", "worldview"], ["all", WORLD_VIEW], true, false]);
         }
       });
-      if (map.getLayer("admin-0-boundary-disputed")) {
-        map.setPaintProperty("admin-0-boundary-disputed", "line-opacity", 0);
-        map.setPaintProperty("admin-0-boundary-disputed", "line-width", 0);
-      }
       // Add worker markers inline
       const SERVICE_EMOJI_M = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
       const SERVICE_COLOR_M = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
@@ -1597,15 +1599,17 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
 
     map.on("load", () => {
       // Hide country borders
-      map.getStyle().layers.forEach(layer => {
-        if (layer.id.includes("disputed") || layer.id.includes("admin-0-boundary")) {
-          try { map.setPaintProperty(layer.id, "line-opacity", 0); } catch(e) {}
+      // Set Morocco worldview - removes disputed border and Western Sahara label
+      const WORLD_VIEW = "MA";
+      const adminLayers = [
+        "admin-0-boundary", "admin-1-boundary", "admin-0-boundary-disputed",
+        "admin-1-boundary-bg", "admin-0-boundary-bg", "country-label"
+      ];
+      adminLayers.forEach((adminLayer) => {
+        if (map.getLayer(adminLayer)) {
+          map.setFilter(adminLayer, ["match", ["get", "worldview"], ["all", WORLD_VIEW], true, false]);
         }
       });
-      if (map.getLayer("admin-0-boundary-disputed")) {
-        map.setPaintProperty("admin-0-boundary-disputed", "line-opacity", 0);
-        map.setPaintProperty("admin-0-boundary-disputed", "line-width", 0);
-      }
       // Add worker markers inline
       const SERVICE_EMOJI_M = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
       const SERVICE_COLOR_M = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
