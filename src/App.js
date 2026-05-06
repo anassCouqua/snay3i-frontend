@@ -766,12 +766,15 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
 
     map.on("load", () => {
       // Hide country borders
-      ["country-label","state-label","admin-1-boundary","admin-0-boundary","admin-0-boundary-disputed"].forEach(layer => {
-        if (map.getLayer(layer)) {
-          if (layer.includes("boundary")) map.setPaintProperty(layer, "line-opacity", 0);
-          if (layer.includes("label")) map.setLayoutProperty(layer, "visibility", "none");
+      map.getStyle().layers.forEach(layer => {
+        if (layer.id.includes("disputed") || layer.id.includes("admin-0-boundary")) {
+          try { map.setPaintProperty(layer.id, "line-opacity", 0); } catch(e) {}
         }
       });
+      if (map.getLayer("admin-0-boundary-disputed")) {
+        map.setPaintProperty("admin-0-boundary-disputed", "line-opacity", 0);
+        map.setPaintProperty("admin-0-boundary-disputed", "line-width", 0);
+      }
       // Add worker markers inline
       const SERVICE_EMOJI_M = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
       const SERVICE_COLOR_M = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
@@ -1582,12 +1585,15 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
 
     map.on("load", () => {
       // Hide country borders
-      ["country-label","state-label","admin-1-boundary","admin-0-boundary","admin-0-boundary-disputed"].forEach(layer => {
-        if (map.getLayer(layer)) {
-          if (layer.includes("boundary")) map.setPaintProperty(layer, "line-opacity", 0);
-          if (layer.includes("label")) map.setLayoutProperty(layer, "visibility", "none");
+      map.getStyle().layers.forEach(layer => {
+        if (layer.id.includes("disputed") || layer.id.includes("admin-0-boundary")) {
+          try { map.setPaintProperty(layer.id, "line-opacity", 0); } catch(e) {}
         }
       });
+      if (map.getLayer("admin-0-boundary-disputed")) {
+        map.setPaintProperty("admin-0-boundary-disputed", "line-opacity", 0);
+        map.setPaintProperty("admin-0-boundary-disputed", "line-width", 0);
+      }
       // Add worker markers inline
       const SERVICE_EMOJI_M = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
       const SERVICE_COLOR_M = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
