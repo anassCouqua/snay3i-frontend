@@ -839,7 +839,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
       const emoji = SERVICE_EMOJI_W[worker.service] || "🔧";
       const el = document.createElement("div");
       el.style.cssText = "width:44px;height:54px;cursor:pointer;display:flex;flex-direction:column;align-items:center;";
-      el.innerHTML = \`<div style="width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:\${color};border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;"><span style="transform:rotate(45deg);font-size:20px">\${emoji}</span></div>\`;
+      el.innerHTML = `<div style="width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:${color};border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;"><span style="transform:rotate(45deg);font-size:20px">${emoji}</span></div>`;
       el.addEventListener("click", () => setSelectedWorker(worker));
       const marker = new mapboxgl.Marker({element:el, anchor:"bottom"}).setLngLat(jitter).addTo(map);
       markersRef.current.push(marker);
@@ -1697,7 +1697,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
       const emoji = SERVICE_EMOJI_W[worker.service] || "🔧";
       const el = document.createElement("div");
       el.style.cssText = "width:44px;height:54px;cursor:pointer;display:flex;flex-direction:column;align-items:center;";
-      el.innerHTML = \`<div style="width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:\${color};border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;"><span style="transform:rotate(45deg);font-size:20px">\${emoji}</span></div>\`;
+      el.innerHTML = `<div style="width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:${color};border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;"><span style="transform:rotate(45deg);font-size:20px">${emoji}</span></div>`;
       el.addEventListener("click", () => setSelectedWorker(worker));
       const marker = new mapboxgl.Marker({element:el, anchor:"bottom"}).setLngLat(jitter).addTo(map);
       markersRef.current.push(marker);
