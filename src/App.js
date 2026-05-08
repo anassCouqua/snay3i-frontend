@@ -1554,7 +1554,6 @@ function RegisterPage({ onBack, lang }) {
 }
 
 
-// ── MAP MODAL ─────────────────────────────────────────────────────
 export default function App(){
   const [query,setQuery]=useState("");
   const [city,setCity]=useState("Toutes");
