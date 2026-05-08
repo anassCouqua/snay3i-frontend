@@ -3,9 +3,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
 
-import { 
-
-const CATEGORIES = [
+onst CATEGORIES = [
   { id: "all",         label: "Tous",        ar: "الكل",         emoji: "🏠" },
   { id: "plumber",     label: "Plombier",    ar: "سبّاك",        emoji: "🔧" },
   { id: "electrician", label: "Électricien", ar: "كهربائي",      emoji: "⚡" },
