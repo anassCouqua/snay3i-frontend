@@ -783,9 +783,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
         }
       });
       // Add worker markers inline
-      const SERVICE_EMOJI_M = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
-      const SERVICE_COLOR_M = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
-            workers.forEach((worker, i) => {
+                        workers.forEach((worker, i) => {
         const coords = CITY_COORDS_M[worker.city];
         if (!coords) return;
         const jitter = [coords[0]+(Math.random()-0.5)*0.12, coords[1]+(Math.random()-0.5)*0.12];
@@ -818,9 +816,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
     // Clear existing markers
     markersRef.current.forEach(m => m.remove());
     markersRef.current = [];
-    const SERVICE_EMOJI_W = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
-    const SERVICE_COLOR_W = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
-        workers.forEach((worker) => {
+                workers.forEach((worker) => {
       const coords = CITY_COORDS_W[worker.city];
       if (!coords) return;
       const jitter = [coords[0]+(Math.random()-0.5)*0.12, coords[1]+(Math.random()-0.5)*0.12];
