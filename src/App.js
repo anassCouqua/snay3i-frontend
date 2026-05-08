@@ -818,8 +818,14 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
 
   // Re-add markers when workers load
   useEffect(() => {
-    if (!mapInst.current || !workers.length) return;
-    const map = mapInst.current;
+    if (!workers.length) return;
+    // Wait for map to be ready
+    const tryAddMarkers = () => {
+      if (!mapInst.current) {
+        setTimeout(tryAddMarkers, 500);
+        return;
+      }
+      const map = mapInst.current;
     // Clear existing markers
     markersRef.current.forEach(m => m.remove());
     markersRef.current = [];
@@ -844,6 +850,8 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
       const marker = new mapboxgl.Marker({element:el, anchor:"bottom"}).setLngLat(jitter).addTo(map);
       markersRef.current.push(marker);
     });
+    };
+    tryAddMarkers();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workers]);
 
