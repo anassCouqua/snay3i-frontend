@@ -1,3 +1,8 @@
+import { useState, useEffect, useCallback, useRef } from "react";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import "./App.css";
+
 import { 
 
 const CATEGORIES = [
