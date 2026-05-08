@@ -769,6 +769,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
     mapInst.current = map;
 
     map.addControl(new mapboxgl.NavigationControl(), "top-right");
+    setTimeout(() => map.resize(), 100);
 
     map.on("load", () => {
       // Hide country borders
