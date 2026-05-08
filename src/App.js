@@ -786,7 +786,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
                         workers.forEach((worker, i) => {
         const coords = CITY_COORDS_M[worker.city];
         if (!coords) return;
-        const jitter = [coords[0]+(Math.random()-0.5)*0.12, coords[1]+(Math.random()-0.5)*0.12];
+        const jitter = [coords.lng+(Math.random()-0.5)*0.12, coords.lat+(Math.random()-0.5)*0.12];
         const color = SERVICE_COLOR_M[worker.service] || "#C4622D";
         const emoji = SERVICE_EMOJI_M[worker.service] || "🔧";
         const el = document.createElement("div");
@@ -819,7 +819,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
                 workers.forEach((worker) => {
       const coords = CITY_COORDS_W[worker.city];
       if (!coords) return;
-      const jitter = [coords[0]+(Math.random()-0.5)*0.12, coords[1]+(Math.random()-0.5)*0.12];
+      const jitter = [coords.lng+(Math.random()-0.5)*0.12, coords.lat+(Math.random()-0.5)*0.12];
       const color = SERVICE_COLOR_W[worker.service] || "#C4622D";
       const emoji = SERVICE_EMOJI_W[worker.service] || "🔧";
       const el = document.createElement("div");
