@@ -727,15 +727,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
   const [locating, setLocating] = useState(false);
   const [myPos, setMyPos] = useState(userLoc || null);
 
-  const CITY_COORDS = {
-    Casablanca:[[-7.5898, 33.5731]],
-    Rabat:     [[-6.8416, 34.0209]],
-    Marrakech: [[-7.9811, 31.6295]],
-    Fes:       [[-5.0078, 34.0181]],
-    Tanger:    [[-5.8340, 35.7595]],
-    Agadir:    [[-9.5981, 30.4278]],
-  };
-
+  
   const SERVICE_EMOJI = {
     plumber:"🔧", electrician:"⚡", builder:"🧱",
     handyman:"🔨", painter:"🎨", carpenter:"🪚"
