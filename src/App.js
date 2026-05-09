@@ -776,9 +776,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
         }
       });
       // Add worker markers inline
-      const SERVICE_EMOJI_M = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
-      const SERVICE_COLOR_M = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
-            workers.forEach((worker, i) => {
+                        workers.forEach((worker, i) => {
         const coords = CITY_COORDS_M[worker.city];
         if (!coords) return;
         const jitter = [coords[0]+(Math.random()-0.5)*0.12, coords[1]+(Math.random()-0.5)*0.12];
@@ -1520,7 +1518,7 @@ function RegisterPage({ onBack, lang }) {
 // ── MAP MODAL ─────────────────────────────────────────────────────
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN || "";
 
-function MapModal({workers, onClose, userLoc, activeCategory}) {
+) {
   const mapRef = useRef(null);
   const mapInst = useRef(null);
   const markersRef = useRef([]);
@@ -1531,17 +1529,8 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
   const [myPos, setMyPos] = useState(userLoc || null);
 
   
-  const SERVICE_EMOJI = {
-    plumber:"🔧", electrician:"⚡", builder:"🧱",
-    handyman:"🔨", painter:"🎨", carpenter:"🪚"
-  };
-
-  const SERVICE_COLOR = {
-    plumber:"#1A5C82", electrician:"#D4A843",
-    builder:"#8B4513", handyman:"#2E8B57",
-    painter:"#9C2752", carpenter:"#6B3A9E"
-  };
-
+  
+  
 
 
   useEffect(() => {
@@ -1579,9 +1568,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
         }
       });
       // Add worker markers inline
-      const SERVICE_EMOJI_M = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
-      const SERVICE_COLOR_M = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
-            workers.forEach((worker, i) => {
+                        workers.forEach((worker, i) => {
         const coords = CITY_COORDS_M[worker.city];
         if (!coords) return;
         const jitter = [coords[0]+(Math.random()-0.5)*0.12, coords[1]+(Math.random()-0.5)*0.12];
