@@ -1,4 +1,8 @@
-import {
+import { useState, useEffect, useCallback, useRef } from "react";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import "./App.css";
+
 const API_BASE = "https://snay3i-backend.onrender.com";
 
 const CATEGORIES = [
@@ -779,12 +783,6 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
           map.setFilter(adminLayer, ["match", ["get", "worldview"], ["all", WORLD_VIEW], true, false]);
         }
       });
-      // Hide the berm/sand wall line
-      map.getStyle().layers.forEach(layer => {
-        if (layer.id.includes("berm") || layer.id.includes("wall") || layer.id.includes("barrier")) {
-          try { map.setLayoutProperty(layer.id, "visibility", "none"); } catch(e) {}
-        }
-      });
       // Add worker markers inline
       const SERVICE_EMOJI_M = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
       const SERVICE_COLOR_M = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
@@ -795,7 +793,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
       workers.forEach((worker, i) => {
         const coords = CITY_COORDS_M[worker.city];
         if (!coords) return;
-        const jitter = [coords.lng+(Math.random()-0.5)*0.12, coords.lat+(Math.random()-0.5)*0.12];
+        const jitter = [coords[0]+(Math.random()-0.5)*0.12, coords[1]+(Math.random()-0.5)*0.12];
         const color = SERVICE_COLOR_M[worker.service] || "#C4622D";
         const emoji = SERVICE_EMOJI_M[worker.service] || "🔧";
         const el = document.createElement("div");
@@ -809,45 +807,6 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
     });
 
     return () => map.remove();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // Re-add markers when workers load
-  useEffect(() => {
-    if (!workers.length) return;
-    // Wait for map to be ready
-    const tryAddMarkers = () => {
-      if (!mapInst.current) {
-        setTimeout(tryAddMarkers, 500);
-        return;
-      }
-      const map = mapInst.current;
-    // Clear existing markers
-    markersRef.current.forEach(m => m.remove());
-    markersRef.current = [];
-    const SERVICE_EMOJI_W = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
-    const SERVICE_COLOR_W = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
-    const CITY_COORDS_W = {
-      Casablanca:[-7.5898,33.5731],Rabat:[-6.8416,34.0209],Marrakech:[-7.9811,31.6295],
-      Fes:[-5.0078,34.0181],Tanger:[-5.8340,35.7595],Agadir:[-9.5981,30.4278],
-      Meknes:[-5.5547,33.8935],Oujda:[-1.9067,34.6867],Kenitra:[-6.5858,34.2610],
-      Tetouan:[-5.3626,35.5785],Sale:[-6.7972,34.0531],
-    };
-    workers.forEach((worker) => {
-      const coords = CITY_COORDS_W[worker.city];
-      if (!coords) return;
-      const jitter = [coords.lng+(Math.random()-0.5)*0.12, coords.lat+(Math.random()-0.5)*0.12];
-      const color = SERVICE_COLOR_W[worker.service] || "#C4622D";
-      const emoji = SERVICE_EMOJI_W[worker.service] || "🔧";
-      const el = document.createElement("div");
-      el.style.cssText = "width:44px;height:54px;cursor:pointer;display:flex;flex-direction:column;align-items:center;";
-      el.innerHTML = `<div style="width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:${color};border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;"><span style="transform:rotate(45deg);font-size:20px">${emoji}</span></div>`;
-      el.addEventListener("click", () => setSelectedWorker(worker));
-      const marker = new mapboxgl.Marker({element:el, anchor:"bottom"}).setLngLat(jitter).addTo(map);
-      markersRef.current.push(marker);
-    });
-    };
-    tryAddMarkers();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workers]);
 
@@ -866,6 +825,10 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
       .setLngLat([pos.lng, pos.lat]);
   };
 
+useState, useEffect, useCallback, useRef } from "react";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import "./App.css";
 
 const API_BASE = "https://snay3i-backend.onrender.com";
 
@@ -1579,6 +1542,287 @@ function RegisterPage({ onBack, lang }) {
 
 
 // ── MAP MODAL ─────────────────────────────────────────────────────
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN || "";
+
+function MapModal({workers, onClose, userLoc, activeCategory}) {
+  const mapRef = useRef(null);
+  const mapInst = useRef(null);
+  const markersRef = useRef([]);
+  const userMarkerRef = useRef(null);
+  const [filter, setFilter] = useState(activeCategory || "all");
+  const [selectedWorker, setSelectedWorker] = useState(null);
+  const [locating, setLocating] = useState(false);
+  const [myPos, setMyPos] = useState(userLoc || null);
+
+  const CITY_COORDS = {
+    Casablanca:[[-7.5898, 33.5731]],
+    Rabat:     [[-6.8416, 34.0209]],
+    Marrakech: [[-7.9811, 31.6295]],
+    Fes:       [[-5.0078, 34.0181]],
+    Tanger:    [[-5.8340, 35.7595]],
+    Agadir:    [[-9.5981, 30.4278]],
+  };
+
+  const SERVICE_EMOJI = {
+    plumber:"🔧", electrician:"⚡", builder:"🧱",
+    handyman:"🔨", painter:"🎨", carpenter:"🪚"
+  };
+
+  const SERVICE_COLOR = {
+    plumber:"#1A5C82", electrician:"#D4A843",
+    builder:"#8B4513", handyman:"#2E8B57",
+    painter:"#9C2752", carpenter:"#6B3A9E"
+  };
+
+
+
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    const map = new mapboxgl.Map({
+      container: mapRef.current,
+      style: "mapbox://styles/couqua/cmotb531x00az01saghiv57iw",
+      center: myPos ? [myPos.lng, myPos.lat] : [-7.0926, 31.7917],
+      zoom: myPos ? 10 : 5,
+      attributionControl: false,
+      transformRequest: (url) => {
+        if (url.includes("api.mapbox.com") || url.includes("mapbox://")) {
+          return { url: url.includes("?") ? url + "&worldview=MA" : url + "?worldview=MA" };
+        }
+        return { url };
+      }
+    });
+
+    mapInst.current = map;
+
+    map.addControl(new mapboxgl.NavigationControl(), "top-right");
+
+    map.on("load", () => {
+      // Hide country borders
+      // Set Morocco worldview - removes disputed border and Western Sahara label
+      const WORLD_VIEW = "MA";
+      const adminLayers = [
+        "admin-0-boundary", "admin-1-boundary", "admin-0-boundary-disputed",
+        "admin-1-boundary-bg", "admin-0-boundary-bg", "country-label"
+      ];
+      adminLayers.forEach((adminLayer) => {
+        if (map.getLayer(adminLayer)) {
+          map.setFilter(adminLayer, ["match", ["get", "worldview"], ["all", WORLD_VIEW], true, false]);
+        }
+      });
+      // Add worker markers inline
+      const SERVICE_EMOJI_M = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
+      const SERVICE_COLOR_M = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
+      const CITY_COORDS_M = {
+        Casablanca:[-7.5898,33.5731],Rabat:[-6.8416,34.0209],Marrakech:[-7.9811,31.6295],
+        Fes:[-5.0078,34.0181],Tanger:[-5.8340,35.7595],Agadir:[-9.5981,30.4278],
+      };
+      workers.forEach((worker, i) => {
+        const coords = CITY_COORDS_M[worker.city];
+        if (!coords) return;
+        const jitter = [coords[0]+(Math.random()-0.5)*0.12, coords[1]+(Math.random()-0.5)*0.12];
+        const color = SERVICE_COLOR_M[worker.service] || "#C4622D";
+        const emoji = SERVICE_EMOJI_M[worker.service] || "🔧";
+        const el = document.createElement("div");
+        el.style.cssText = "width:44px;height:54px;cursor:pointer;display:flex;flex-direction:column;align-items:center;";
+        el.innerHTML = `<div style="width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:${color};border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;"><span style="transform:rotate(45deg);font-size:20px">${emoji}</span></div>`;
+        el.addEventListener("click", () => setSelectedWorker(worker));
+        const marker = new mapboxgl.Marker({element:el, anchor:"bottom"}).setLngLat(jitter).addTo(map);
+        markersRef.current.push(marker);
+      });
+      if (myPos) addUserMarker(map, myPos);
+    });
+
+    return () => map.remove();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [workers]);
+
+  const addUserMarker = (map, pos) => {
+    if (userMarkerRef.current) userMarkerRef.current.remove();
+    const el = document.createElement("div");
+    el.style.cssText = `
+      width:22px;height:22px;border-radius:50%;
+      background:#1A7A6E;border:3px solid #fff;
+      box-shadow:0 0 0 4px rgba(26,122,110,0.3);
+    `;
+    userMarkerRef.current = new mapboxgl.Marker({element:el})
+      .setLngLat([pos.lng, pos.lat])
+      .addTo(map);
+    new mapboxgl.Marker({color:"transparent"})
+      .setLngLat([pos.lng, pos.lat]);
+  };
+
+  const addWorkerMarkers = useCallback((map, workerList, currentFilter) => {
+    markersRef.current.forEach(m => m.remove());
+    markersRef.current = [];
+
+    const filtered = currentFilter === "all"
+      ? workerList
+      : workerList.filter(w => w.service === currentFilter);
+
+    filtered.forEach((worker, i) => {
+      const coords = CITY_COORDS[worker.city];
+      if (!coords) return;
+      const base = coords[0];
+      const jitter = [
+        base[0] + (Math.random()-0.5)*0.15,
+        base[1] + (Math.random()-0.5)*0.15
+      ];
+
+      const el = document.createElement("div");
+      const color = SERVICE_COLOR[worker.service] || "#C4622D";
+      const emoji = SERVICE_EMOJI[worker.service] || "🔧";
+      el.style.cssText = `
+        width:42px;height:52px;cursor:pointer;
+        display:flex;flex-direction:column;align-items:center;
+        animation:dropIn 0.4s ease ${i*30}ms both;
+      `;
+      el.innerHTML = `
+        <div style="
+          width:42px;height:42px;border-radius:50% 50% 50% 0;
+          transform:rotate(-45deg);
+          background:${color};
+          border:3px solid #fff;
+          box-shadow:0 3px 12px rgba(0,0,0,0.25);
+          display:flex;align-items:center;justify-content:center;
+        ">
+          <span style="transform:rotate(45deg);font-size:20px;line-height:1">${emoji}</span>
+        </div>
+      `;
+
+      el.addEventListener("click", () => setSelectedWorker(worker));
+
+      const marker = new mapboxgl.Marker({element:el, anchor:"bottom"})
+        .setLngLat(jitter)
+        .addTo(map);
+
+      markersRef.current.push(marker);
+    });
+  };
+
+  const handleFilter = (f) => {
+    setFilter(f);
+    setSelectedWorker(null);
+    if (mapInst.current) addWorkerMarkers(mapInst.current, workers, f);
+  };
+
+  const handleLocate = () => {
+    if (!navigator.geolocation) return;
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(pos => {
+      const p = {lat:pos.coords.latitude, lng:pos.coords.longitude};
+      setMyPos(p);
+      setLocating(false);
+      if (mapInst.current) {
+        mapInst.current.flyTo({center:[p.lng,p.lat], zoom:11, duration:1500});
+        addUserMarker(mapInst.current, p);
+      }
+    }, () => setLocating(false));
+  };
+
+  const filteredCount = filter==="all" ? workers.length : workers.filter(w=>w.service===filter).length;
+
+  return (
+    <div style={{position:"fixed",inset:0,zIndex:2000,display:"flex",flexDirection:"column"}}>
+      <style>{`
+        @keyframes dropIn { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+        .mapboxgl-ctrl-logo { display:none !important; }
+        .mapboxgl-ctrl-attrib { display:none !important; }
+      `}</style>
+
+      {/* HEADER */}
+      <div style={{background:"#0D1B2A",padding:"14px 16px",display:"flex",alignItems:"center",gap:12,flexShrink:0,zIndex:10}}>
+        <button onClick={onClose} style={{background:"rgba(255,255,255,0.12)",border:"none",color:"#fff",width:38,height:38,borderRadius:"50%",cursor:"pointer",fontSize:20,display:"flex",alignItems:"center",justifyContent:"center"}}>←</button>
+        <div style={{flex:1}}>
+          <div style={{color:"#fff",fontWeight:700,fontSize:16}}>🗺 Carte des Maalems</div>
+          <div style={{color:"rgba(255,255,255,0.55)",fontSize:12}}>{filteredCount} artisan{filteredCount!==1?"s":""} {myPos?"près de vous":"au Maroc"}</div>
+        </div>
+        <button onClick={handleLocate} style={{
+          background:myPos?"#1A7A6E":"rgba(255,255,255,0.12)",
+          border:"none",color:"#fff",padding:"8px 14px",borderRadius:20,
+          cursor:"pointer",fontSize:12,fontWeight:600,
+          display:"flex",alignItems:"center",gap:6,whiteSpace:"nowrap"
+        }}>
+          {locating?"⌛ GPS...":myPos?"✅ Localisé":"🎯 Me localiser"}
+        </button>
+      </div>
+
+      {/* SERVICE FILTER */}
+      <div style={{background:"#0D1B2A",paddingBottom:12,flexShrink:0,overflowX:"auto"}}>
+        <div style={{display:"flex",gap:8,paddingInline:16,width:"max-content"}}>
+          {[{id:"all",label:"Tous",emoji:"🏠"},...CATEGORIES.filter(c=>c.id!=="all")].map(cat=>(
+            <button key={cat.id} onClick={()=>handleFilter(cat.id)} style={{
+              display:"flex",alignItems:"center",gap:5,
+              padding:"7px 13px",borderRadius:20,
+              border:filter===cat.id?"none":"1.5px solid rgba(255,255,255,0.2)",
+              background:filter===cat.id?"#C4622D":"rgba(255,255,255,0.08)",
+              color:"#fff",cursor:"pointer",fontSize:12,fontWeight:600,
+              whiteSpace:"nowrap",transition:"all 0.15s"
+            }}>
+              <span>{cat.emoji}</span><span>{cat.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* MAP */}
+      <div style={{flex:1,position:"relative"}}>
+        <div ref={mapRef} style={{width:"100%",height:"100%"}}/>
+
+        {/* Selected worker card */}
+        {selectedWorker&&(
+          <div style={{
+            position:"absolute",bottom:20,left:16,right:16,
+            background:"#fff",borderRadius:20,padding:18,
+            boxShadow:"0 12px 40px rgba(0,0,0,0.2)",
+            animation:"dropIn 0.25s ease"
+          }}>
+            <div style={{display:"flex",alignItems:"flex-start",gap:12}}>
+              <div style={{
+                width:52,height:52,borderRadius:16,flexShrink:0,
+                background:SERVICE_COLOR[selectedWorker.service]||"#C4622D",
+                display:"flex",alignItems:"center",justifyContent:"center",fontSize:24
+              }}>
+                {SERVICE_EMOJI[selectedWorker.service]||"🔧"}
+              </div>
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:3,flexWrap:"wrap"}}>
+                  <span style={{fontWeight:700,fontSize:15,color:"#0D1B2A"}}>{selectedWorker.name}</span>
+                  {selectedWorker.verified&&<span style={{background:"#D8F5E4",color:"#1A6B3A",fontSize:10,fontWeight:700,padding:"2px 7px",borderRadius:20}}>✓ Vérifié</span>}
+                </div>
+                <div style={{fontSize:12,color:"#C4622D",fontWeight:600,marginBottom:4}}>
+                  {SERVICE_EMOJI[selectedWorker.service]} {catLabel(selectedWorker.service)} • {selectedWorker.city}
+                </div>
+                <div style={{display:"flex",alignItems:"center",gap:4}}>
+                  {"★★★★★".slice(0,Math.round(selectedWorker.rating)).split("").map((s,i)=>(
+                    <span key={i} style={{color:"#D4A843",fontSize:12}}>★</span>
+                  ))}
+                  <span style={{fontSize:12,color:"#7A7065",marginLeft:4}}>{selectedWorker.rating} • {selectedWorker.reviews} avis</span>
+                </div>
+              </div>
+              <button onClick={()=>setSelectedWorker(null)} style={{background:"none",border:"none",cursor:"pointer",fontSize:18,color:"#aaa",padding:4,flexShrink:0}}>✕</button>
+            </div>
+            <div style={{display:"flex",gap:8,marginTop:14}}>
+              <a href={`tel:${selectedWorker.phone}`} style={{
+                flex:1,padding:"12px",borderRadius:12,textAlign:"center",
+                background:"#0D1B2A",color:"#fff",textDecoration:"none",
+                fontWeight:700,fontSize:13,display:"block"
+              }}>📞 Appeler</a>
+              <a href={`https://wa.me/${(selectedWorker.whatsapp||"").replace(/\D/g,"")}`}
+                target="_blank" rel="noreferrer" style={{
+                  flex:1,padding:"12px",borderRadius:12,textAlign:"center",
+                  background:"#D8F5E4",color:"#1A6B3A",textDecoration:"none",
+                  fontWeight:700,fontSize:13,display:"block"
+                }}>💬 WhatsApp</a>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── APP ───────────────────────────────────────────────────────────
 export default function App(){
   const [query,setQuery]=useState("");
   const [city,setCity]=useState("Toutes");
