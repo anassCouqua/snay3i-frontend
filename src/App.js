@@ -737,6 +737,26 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
     map.addControl(new mapboxgl.NavigationControl(), "top-right");
 
     map.on("load", () => {
+      // Set Morocco worldview
+      const adminLayers = ["admin-0-boundary","admin-1-boundary","admin-0-boundary-disputed","admin-1-boundary-bg","admin-0-boundary-bg","country-label"];
+      adminLayers.forEach(layer => {
+        if (map.getLayer(layer)) map.setFilter(layer, ["match",["get","worldview"],["all","MA"],true,false]);
+      });
+      // Add trader pins
+      workers.forEach(worker => {
+        const c = CITY_COORDS[worker.city];
+        if (!c) return;
+        const jitter = [c.lng+(Math.random()-0.5)*0.1, c.lat+(Math.random()-0.5)*0.1];
+        const colors = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
+        const emojis = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
+        const color = colors[worker.service] || "#C4622D";
+        const emoji = emojis[worker.service] || "🔧";
+        const el = document.createElement("div");
+        el.style.cssText = "width:44px;height:54px;cursor:pointer;display:flex;align-items:center;justify-content:center;";
+        el.innerHTML = "<div style='width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:" + color + ";border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;'><span style='transform:rotate(45deg);font-size:18px'>" + emoji + "</span></div>";
+        el.addEventListener("click", () => setSelectedWorker(worker));
+        new mapboxgl.Marker({element:el,anchor:"bottom"}).setLngLat(jitter).addTo(map);
+      });
       // Hide country borders
       ["country-label","state-label","admin-1-boundary","admin-0-boundary","admin-0-boundary-disputed"].forEach(layer => {
         if (map.getLayer(layer)) {
