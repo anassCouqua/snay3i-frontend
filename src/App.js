@@ -727,7 +727,15 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
   const [locating, setLocating] = useState(false);
   const [myPos, setMyPos] = useState(userLoc || null);
 
-  
+  const CITY_COORDS = {
+    Casablanca:[[-7.5898, 33.5731]],
+    Rabat:     [[-6.8416, 34.0209]],
+    Marrakech: [[-7.9811, 31.6295]],
+    Fes:       [[-5.0078, 34.0181]],
+    Tanger:    [[-5.8340, 35.7595]],
+    Agadir:    [[-9.5981, 30.4278]],
+  };
+
   const SERVICE_EMOJI = {
     plumber:"🔧", electrician:"⚡", builder:"🧱",
     handyman:"🔨", painter:"🎨", carpenter:"🪚"
@@ -761,7 +769,6 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
     mapInst.current = map;
 
     map.addControl(new mapboxgl.NavigationControl(), "top-right");
-    setTimeout(() => map.resize(), 100);
 
     map.on("load", () => {
       // Hide country borders
@@ -783,7 +790,13 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
         }
       });
       // Add worker markers inline
-                        workers.forEach((worker, i) => {
+      const SERVICE_EMOJI_M = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
+      const SERVICE_COLOR_M = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
+      const CITY_COORDS_M = {
+        Casablanca:[-7.5898,33.5731],Rabat:[-6.8416,34.0209],Marrakech:[-7.9811,31.6295],
+        Fes:[-5.0078,34.0181],Tanger:[-5.8340,35.7595],Agadir:[-9.5981,30.4278],
+      };
+      workers.forEach((worker, i) => {
         const coords = CITY_COORDS_M[worker.city];
         if (!coords) return;
         const jitter = [coords.lng+(Math.random()-0.5)*0.12, coords.lat+(Math.random()-0.5)*0.12];
@@ -816,7 +829,15 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
     // Clear existing markers
     markersRef.current.forEach(m => m.remove());
     markersRef.current = [];
-                workers.forEach((worker) => {
+    const SERVICE_EMOJI_W = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
+    const SERVICE_COLOR_W = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
+    const CITY_COORDS_W = {
+      Casablanca:[-7.5898,33.5731],Rabat:[-6.8416,34.0209],Marrakech:[-7.9811,31.6295],
+      Fes:[-5.0078,34.0181],Tanger:[-5.8340,35.7595],Agadir:[-9.5981,30.4278],
+      Meknes:[-5.5547,33.8935],Oujda:[-1.9067,34.6867],Kenitra:[-6.5858,34.2610],
+      Tetouan:[-5.3626,35.5785],Sale:[-6.7972,34.0531],
+    };
+    workers.forEach((worker) => {
       const coords = CITY_COORDS_W[worker.city];
       if (!coords) return;
       const jitter = [coords.lng+(Math.random()-0.5)*0.12, coords.lat+(Math.random()-0.5)*0.12];
@@ -824,7 +845,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
       const emoji = SERVICE_EMOJI_W[worker.service] || "🔧";
       const el = document.createElement("div");
       el.style.cssText = "width:44px;height:54px;cursor:pointer;display:flex;flex-direction:column;align-items:center;";
-      el.innerHTML = `<div style="width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:${color};border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;"><span style="transform:rotate(45deg);font-size:20px">${emoji}</span></div>`;
+      el.innerHTML = \`<div style="width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:\${color};border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;"><span style="transform:rotate(45deg);font-size:20px">\${emoji}</span></div>\`;
       el.addEventListener("click", () => setSelectedWorker(worker));
       const marker = new mapboxgl.Marker({element:el, anchor:"bottom"}).setLngLat(jitter).addTo(map);
       markersRef.current.push(marker);
@@ -849,7 +870,10 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
       .setLngLat([pos.lng, pos.lat]);
   };
 
-
+useState, useEffect, useCallback, useRef } from "react";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import "./App.css";
 
 const API_BASE = "https://snay3i-backend.onrender.com";
 
@@ -891,6 +915,14 @@ const CITIES = [
   "Dakhla","Aousserd",
 ];
 
+const CITY_COORDS = {
+  Casablanca:{ lat:33.5731, lng:-7.5898 },
+  Rabat:     { lat:34.0209, lng:-6.8416 },
+  Marrakech: { lat:31.6295, lng:-7.9811 },
+  Fès:       { lat:34.0181, lng:-5.0078 },
+  Tanger:    { lat:35.7595, lng:-5.8340 },
+  Agadir:    { lat:30.4278, lng:-9.5981 },
+};
 
 const AVATAR_COLORS = [
   ["#B85C2C","#FBE9DF"],["#1A5C4A","#D8F0E8"],["#6B3A9E","#EDE0F8"],
@@ -1554,6 +1586,7 @@ function RegisterPage({ onBack, lang }) {
 }
 
 
+// ── MAP MODAL ─────────────────────────────────────────────────────
 export default function App(){
   const [query,setQuery]=useState("");
   const [city,setCity]=useState("Toutes");
