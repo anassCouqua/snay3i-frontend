@@ -870,10 +870,6 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
       .setLngLat([pos.lng, pos.lat]);
   };
 
-useState, useEffect, useCallback, useRef } from "react";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import "./App.css";
 
 const API_BASE = "https://snay3i-backend.onrender.com";
 
