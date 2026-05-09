@@ -727,15 +727,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
   const [locating, setLocating] = useState(false);
   const [myPos, setMyPos] = useState(userLoc || null);
 
-  const CITY_COORDS = {
-    Casablanca:[[-7.5898, 33.5731]],
-    Rabat:     [[-6.8416, 34.0209]],
-    Marrakech: [[-7.9811, 31.6295]],
-    Fes:       [[-5.0078, 34.0181]],
-    Tanger:    [[-5.8340, 35.7595]],
-    Agadir:    [[-9.5981, 30.4278]],
-  };
-
+  
   const SERVICE_EMOJI = {
     plumber:"🔧", electrician:"⚡", builder:"🧱",
     handyman:"🔨", painter:"🎨", carpenter:"🪚"
@@ -786,11 +778,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
       // Add worker markers inline
       const SERVICE_EMOJI_M = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
       const SERVICE_COLOR_M = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
-      const CITY_COORDS_M = {
-        Casablanca:[-7.5898,33.5731],Rabat:[-6.8416,34.0209],Marrakech:[-7.9811,31.6295],
-        Fes:[-5.0078,34.0181],Tanger:[-5.8340,35.7595],Agadir:[-9.5981,30.4278],
-      };
-      workers.forEach((worker, i) => {
+            workers.forEach((worker, i) => {
         const coords = CITY_COORDS_M[worker.city];
         if (!coords) return;
         const jitter = [coords[0]+(Math.random()-0.5)*0.12, coords[1]+(Math.random()-0.5)*0.12];
@@ -866,14 +854,6 @@ const CITIES = [
   "Dakhla","Aousserd",
 ];
 
-const CITY_COORDS = {
-  Casablanca:{ lat:33.5731, lng:-7.5898 },
-  Rabat:     { lat:34.0209, lng:-6.8416 },
-  Marrakech: { lat:31.6295, lng:-7.9811 },
-  Fès:       { lat:34.0181, lng:-5.0078 },
-  Tanger:    { lat:35.7595, lng:-5.8340 },
-  Agadir:    { lat:30.4278, lng:-9.5981 },
-};
 
 const AVATAR_COLORS = [
   ["#B85C2C","#FBE9DF"],["#1A5C4A","#D8F0E8"],["#6B3A9E","#EDE0F8"],
@@ -1550,15 +1530,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
   const [locating, setLocating] = useState(false);
   const [myPos, setMyPos] = useState(userLoc || null);
 
-  const CITY_COORDS = {
-    Casablanca:[[-7.5898, 33.5731]],
-    Rabat:     [[-6.8416, 34.0209]],
-    Marrakech: [[-7.9811, 31.6295]],
-    Fes:       [[-5.0078, 34.0181]],
-    Tanger:    [[-5.8340, 35.7595]],
-    Agadir:    [[-9.5981, 30.4278]],
-  };
-
+  
   const SERVICE_EMOJI = {
     plumber:"🔧", electrician:"⚡", builder:"🧱",
     handyman:"🔨", painter:"🎨", carpenter:"🪚"
@@ -1609,11 +1581,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
       // Add worker markers inline
       const SERVICE_EMOJI_M = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
       const SERVICE_COLOR_M = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
-      const CITY_COORDS_M = {
-        Casablanca:[-7.5898,33.5731],Rabat:[-6.8416,34.0209],Marrakech:[-7.9811,31.6295],
-        Fes:[-5.0078,34.0181],Tanger:[-5.8340,35.7595],Agadir:[-9.5981,30.4278],
-      };
-      workers.forEach((worker, i) => {
+            workers.forEach((worker, i) => {
         const coords = CITY_COORDS_M[worker.city];
         if (!coords) return;
         const jitter = [coords[0]+(Math.random()-0.5)*0.12, coords[1]+(Math.random()-0.5)*0.12];
