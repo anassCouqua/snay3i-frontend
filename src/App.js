@@ -1518,7 +1518,7 @@ function RegisterPage({ onBack, lang }) {
 // ── MAP MODAL ─────────────────────────────────────────────────────
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN || "";
 
-) {
+function MapModal({workers, onClose, userLoc, activeCategory}) {
   const mapRef = useRef(null);
   const mapInst = useRef(null);
   const markersRef = useRef([]);
