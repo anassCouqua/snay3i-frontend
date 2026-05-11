@@ -244,9 +244,9 @@ function WorkerCard({worker,index,userLoc}){
           <button className="btn-main" onClick={()=>setModal(true)}>
             Contacter • تواصل
           </button>
-          <a className="btn-wa" href={`https://wa.me/${(worker.whatsapp||"").replace(/\D/g,"")}`} target="_blank" rel="noreferrer">
+          <button className="btn-wa" onClick={()=>setChat(true)}>
             💬
-          </a>
+          </button>
           <button className={`btn-fav${faved?" faved":""}`} onClick={()=>setFaved(!faved)}>
             {faved?"♥":"♡"}
           </button>
