@@ -256,9 +256,7 @@ function WorkerCard({worker,index,userLoc}){
           <button className="btn-chat-icon" onClick={()=>setChat(true)}>
             ✉️
           </button>
-          <div style={{display:"none"}}>
-            💬
-          </a>
+
           <button className={`btn-fav${faved?" faved":""}`} onClick={()=>setFaved(!faved)}>
             {faved?"♥":"♡"}
           </button>
