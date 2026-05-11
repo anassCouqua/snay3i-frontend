@@ -176,7 +176,6 @@ function WorkerCard({worker,index,userLoc}){
   const [faved,setFaved]=useState(false);
   const [chat,setChat]=useState(false);
   const [profile,setProfile]=useState(false);
-  const [profile,setProfile]=useState(false);
   const [modal,setModal]=useState(false);
   const dist=userLoc?workerDist(worker,userLoc.lat,userLoc.lng):null;
 
