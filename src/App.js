@@ -3,7 +3,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
 
-const API_BASE = "https://snay3i-backend.onrender.com";
+const API_BASE = "http://127.0.0.1:8000";
 
 const CATEGORIES = [
   { id: "all",         label: "Tous",        ar: "الكل",         emoji: "🏠" },
@@ -175,6 +175,8 @@ function WorkerCard({worker,index,userLoc}){
   const [bg,tc]=avatarColor(worker.name);
   const [faved,setFaved]=useState(false);
   const [chat,setChat]=useState(false);
+  const [profile,setProfile]=useState(false);
+  const [profile,setProfile]=useState(false);
   const [modal,setModal]=useState(false);
   const dist=userLoc?workerDist(worker,userLoc.lat,userLoc.lng):null;
 
@@ -182,6 +184,8 @@ function WorkerCard({worker,index,userLoc}){
     <>
       {modal && <ContactModal worker={worker} onClose={()=>setModal(false)}/>}
       {chat && <ChatWindow worker={worker} onClose={()=>setChat(false)}/>}
+      {profile && <ProfilePage worker={worker} onClose={()=>setProfile(false)}/>}
+      {profile && <ProfilePage worker={worker} onClose={()=>setProfile(false)}/>}
       <div className="card" style={{animationDelay:`${index*80}ms`}}>
         {/* Zellige corner */}
         <div className="card-zel-corner">
@@ -241,12 +245,21 @@ function WorkerCard({worker,index,userLoc}){
         )}
 
         <div className="card-actions">
-          <button className="btn-main" onClick={()=>setModal(true)}>
-            Contacter • تواصل
-          </button>
-          <button className="btn-wa" onClick={()=>setChat(true)}>
+          <a className="btn-call" href={"tel:"+worker.phone}>
+            📞
+          </a>
+          <a className="btn-wa" href={"https://wa.me/"+(worker.whatsapp||"").replace(/\D/g,"")} target="_blank" rel="noreferrer">
             💬
+          </a>
+          <button className="btn-profile" onClick={()=>setProfile(true)}>
+            👤 Profil
           </button>
+          <button className="btn-chat-icon" onClick={()=>setChat(true)}>
+            ✉️
+          </button>
+          <div style={{display:"none"}}>
+            💬
+          </a>
           <button className={`btn-fav${faved?" faved":""}`} onClick={()=>setFaved(!faved)}>
             {faved?"♥":"♡"}
           </button>
@@ -689,7 +702,7 @@ function RegisterPage({ onBack, lang }) {
 
 
 // ── MAP MODAL ─────────────────────────────────────────────────────
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN || "";
+mapboxgl.accessToken = "YOUR_MAPBOX_TOKEN";
 
 function MapModal({workers, onClose, userLoc, activeCategory}) {
   const mapRef = useRef(null);
@@ -726,7 +739,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
 
     const map = new mapboxgl.Map({
       container: mapRef.current,
-      style: "mapbox://styles/couqua/cmotb531x00az01saghiv57iw",
+      style: "mapbox://styles/mapbox/light-v11",
       center: myPos ? [myPos.lng, myPos.lat] : [-7.0926, 31.7917],
       zoom: myPos ? 10 : 5,
       attributionControl: false,
@@ -737,26 +750,6 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
     map.addControl(new mapboxgl.NavigationControl(), "top-right");
 
     map.on("load", () => {
-      // Set Morocco worldview
-      const adminLayers = ["admin-0-boundary","admin-1-boundary","admin-0-boundary-disputed","admin-1-boundary-bg","admin-0-boundary-bg","country-label"];
-      adminLayers.forEach(layer => {
-        if (map.getLayer(layer)) map.setFilter(layer, ["match",["get","worldview"],["all","MA"],true,false]);
-      });
-      // Add trader pins
-      workers.forEach(worker => {
-        const c = CITY_COORDS[worker.city];
-        if (!c) return;
-        const jitter = [c.lng+(Math.random()-0.5)*0.1, c.lat+(Math.random()-0.5)*0.1];
-        const colors = {plumber:"#1A5C82",electrician:"#D4A843",builder:"#8B4513",handyman:"#2E8B57",painter:"#9C2752",carpenter:"#6B3A9E"};
-        const emojis = {plumber:"🔧",electrician:"⚡",builder:"🧱",handyman:"🔨",painter:"🎨",carpenter:"🪚"};
-        const color = colors[worker.service] || "#C4622D";
-        const emoji = emojis[worker.service] || "🔧";
-        const el = document.createElement("div");
-        el.style.cssText = "width:44px;height:54px;cursor:pointer;display:flex;align-items:center;justify-content:center;";
-        el.innerHTML = "<div style='width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:" + color + ";border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;'><span style='transform:rotate(45deg);font-size:18px'>" + emoji + "</span></div>";
-        el.addEventListener("click", () => setSelectedWorker(worker));
-        new mapboxgl.Marker({element:el,anchor:"bottom"}).setLngLat(jitter).addTo(map);
-      });
       // Hide country borders
       ["country-label","state-label","admin-1-boundary","admin-0-boundary","admin-0-boundary-disputed"].forEach(layer => {
         if (map.getLayer(layer)) {
@@ -957,6 +950,126 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
   );
 }
 
+
+// ── PROFILE PAGE ──────────────────────────────────────────────────
+function ProfilePage({worker, onClose}) {
+  const [bg] = avatarColor(worker.name);
+  const [showChat, setShowChat] = useState(false);
+
+  return (
+    <div className="profile-overlay" onClick={onClose}>
+      <div className="profile-page" onClick={e=>e.stopPropagation()}>
+
+        {/* HEADER */}
+        <div className="profile-hero" style={{background:bg}}>
+          <button className="profile-back" onClick={onClose}>←</button>
+          <div className="profile-avatar-wrap">
+            <div className="profile-avatar" style={{background:"rgba(255,255,255,0.2)"}}>
+              <span className="profile-avatar-text">{initials(worker.name)}</span>
+            </div>
+            {worker.verified && (
+              <div className="profile-verified">✓</div>
+            )}
+          </div>
+          <h1 className="profile-name">{worker.name}</h1>
+          <div className="profile-meta">
+            <span>{catEmoji(worker.service)} {catLabel(worker.service)}</span>
+            <span className="profile-dot">•</span>
+            <span>📍 {worker.city}</span>
+          </div>
+          <div className="profile-stats">
+            <div className="profile-stat">
+              <span className="profile-stat-num">{worker.rating}</span>
+              <span className="profile-stat-lbl">Note</span>
+            </div>
+            <div className="profile-stat">
+              <span className="profile-stat-num">{worker.reviews}</span>
+              <span className="profile-stat-lbl">Avis</span>
+            </div>
+            <div className="profile-stat">
+              <span className="profile-stat-num">{worker.years_exp}</span>
+              <span className="profile-stat-lbl">Ans exp.</span>
+            </div>
+          </div>
+        </div>
+
+        {/* BODY */}
+        <div className="profile-body">
+
+          {/* ACTION BUTTONS */}
+          <div className="profile-actions">
+            <a href={"tel:"+worker.phone} className="profile-btn-call">
+              <span>📞</span>
+              <span>Appeler</span>
+            </a>
+            <a href={"https://wa.me/"+(worker.whatsapp||"").replace(/\D/g,"")} target="_blank" rel="noreferrer" className="profile-btn-wa">
+              <span>💬</span>
+              <span>WhatsApp</span>
+            </a>
+            <button className="profile-btn-chat" onClick={()=>setShowChat(true)}>
+              <span>✉️</span>
+              <span>Message</span>
+            </button>
+          </div>
+
+          {/* ABOUT */}
+          <div className="profile-section">
+            <h3 className="profile-section-title">À propos • عن المعلم</h3>
+            <p className="profile-bio">{worker.bio}</p>
+          </div>
+
+          {/* SPECIALITIES */}
+          {worker.tags && worker.tags.length > 0 && (
+            <div className="profile-section">
+              <h3 className="profile-section-title">Spécialités • التخصصات</h3>
+              <div className="profile-tags">
+                {worker.tags.map(t => (
+                  <span key={t} className="profile-tag">{t}</span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ADDRESS */}
+          {worker.address && (
+            <div className="profile-section">
+              <h3 className="profile-section-title">Adresse • العنوان</h3>
+              <div className="profile-address">
+                <span className="profile-address-icon">📍</span>
+                <span>{worker.address}</span>
+              </div>
+            </div>
+          )}
+
+          {/* PORTFOLIO */}
+          {worker.photos && worker.photos.length > 0 && (
+            <div className="profile-section">
+              <h3 className="profile-section-title">Réalisations • أعمالي</h3>
+              <div className="profile-photos">
+                {worker.photos.map((url, i) => (
+                  <img key={i} src={url} alt="" className="profile-photo"/>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* DEVIS GRATUIT */}
+          <div className="profile-devis">
+            <span className="profile-devis-icon">📋</span>
+            <div>
+              <strong>Devis gratuit</strong>
+              <p>Contactez ce professionnel pour obtenir un devis sur place</p>
+            </div>
+          </div>
+
+        </div>
+
+        {showChat && <ChatWindow worker={worker} onClose={()=>setShowChat(false)}/>}
+      </div>
+    </div>
+  );
+}
+
 // ── APP ───────────────────────────────────────────────────────────
 export default function App(){
   const [query,setQuery]=useState("");
@@ -1040,7 +1153,16 @@ export default function App(){
           {/* TOP BAR */}
           <div className="topbar">
             <div className="brand">
-              <img src="/logo.png" alt="Snay3i.ma" style={{height:48,objectFit:"contain"}}/>
+              <div className="brand-mark">
+                <svg viewBox="0 0 32 32" fill="none">
+                  <polygon points="16,2 19,11 29,11 21,17 24,27 16,21 8,27 11,17 3,11 13,11" fill="#fff" opacity="0.95"/>
+                </svg>
+              </div>
+              <div className="brand-name">
+                <span className="brand-fr">Snay3i</span>
+                <span className="brand-dot">.ma</span>
+              </div>
+              <span className="brand-ar">صنايعي</span>
             </div>
             <button className="lang-btn" onClick={()=>setLang(l=>l==="fr"?"ar":"fr")}>
               {lang==="fr"?"عربي":"FR"}
