@@ -184,7 +184,6 @@ function WorkerCard({worker,index,userLoc}){
       {modal && <ContactModal worker={worker} onClose={()=>setModal(false)}/>}
       {chat && <ChatWindow worker={worker} onClose={()=>setChat(false)}/>}
       {profile && <ProfilePage worker={worker} onClose={()=>setProfile(false)}/>}
-      {profile && <ProfilePage worker={worker} onClose={()=>setProfile(false)}/>}
       <div className="card" style={{animationDelay:`${index*80}ms`}}>
         {/* Zellige corner */}
         <div className="card-zel-corner">
