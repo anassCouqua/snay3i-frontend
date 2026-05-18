@@ -1268,7 +1268,6 @@ export default function App(){
             <div className="brand">
               <img src="/logo.png" alt="Snay3i.ma" style={{height:48,objectFit:"contain"}}/>
             </div>
-            <button className="join-btn" onClick={()=>setShowRegister(true)}>{lang==="fr"?"🛠️ Rejoindre":"انضم 🛠️"}</button>
             <button className="lang-btn" onClick={()=>setLang(l=>l==="fr"?"ar":"fr")}>
               {lang==="fr"?"عربي":"FR"}
             </button>
