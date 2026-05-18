@@ -1242,3 +1242,15 @@ body{
 .profile-devis strong { font-size: 14px; color: var(--terra); display: block; margin-bottom: 4px; }
 .profile-devis p { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.5; }
 /* cache bust Mon 11 May 2026 16:13:35 BST */
+
+/* ══ PROFILE STARS ══════════════════════════════════════════════ */
+.profile-rating-row {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 4px;
+  margin-top: 4px;
+}
+.profile-stars { display: flex; gap: 2px; }
+.profile-rating-text {
+  font-size: 12px; color: rgba(255,255,255,0.75);
+  font-weight: 500;
+}
