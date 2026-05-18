@@ -1287,3 +1287,12 @@ body{
 .review-author { font-size:14px; font-weight:700; color:var(--ink); }
 .review-stars-display { color:#FFD700; font-size:14px; }
 .review-comment { font-size:13px; color:var(--muted); line-height:1.5; margin:0; }
+
+/* ══ CITY SELECT SCROLLABLE ═════════════════════════════════════ */
+.scity {
+  max-height: 200px;
+  overflow-y: auto;
+}
+.scity option {
+  padding: 8px;
+}
