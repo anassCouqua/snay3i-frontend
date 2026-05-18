@@ -947,6 +947,100 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
 }
 
 
+
+// ── REVIEWS SECTION ───────────────────────────────────────────────
+function ReviewsSection({worker, apiBase}) {
+  const [reviews, setReviews] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [author, setAuthor] = useState("");
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    fetch(`${apiBase}/reviews/${worker.id}`)
+      .then(r => r.json())
+      .then(setReviews)
+      .catch(() => {});
+  }, [worker.id, apiBase]);
+
+  const submit = async () => {
+    if (!author.trim() || !comment.trim()) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch(`${apiBase}/reviews`, {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({worker_id: worker.id, author, rating, comment})
+      });
+      const newReview = await res.json();
+      setReviews([newReview, ...reviews]);
+      setShowForm(false);
+      setAuthor(""); setComment(""); setRating(5);
+    } catch(e) {}
+    setSubmitting(false);
+  };
+
+  return (
+    <div className="profile-section">
+      <div className="reviews-header">
+        <h3 className="profile-section-title">Avis clients • آراء العملاء</h3>
+        <button className="reviews-add-btn" onClick={()=>setShowForm(!showForm)}>
+          {showForm ? "✕" : "+ Avis"}
+        </button>
+      </div>
+
+      {showForm && (
+        <div className="review-form">
+          <input
+            className="review-input"
+            placeholder="Votre prénom"
+            value={author}
+            onChange={e=>setAuthor(e.target.value)}
+          />
+          <div className="review-stars-pick">
+            {[1,2,3,4,5].map(s=>(
+              <span key={s} onClick={()=>setRating(s)}
+                style={{fontSize:28,cursor:"pointer",color:s<=rating?"#FFD700":"#ddd"}}>★</span>
+            ))}
+          </div>
+          <textarea
+            className="review-textarea"
+            placeholder="Votre avis sur ce professionnel..."
+            value={comment}
+            onChange={e=>setComment(e.target.value)}
+            rows={3}
+          />
+          <button className="review-submit-btn" onClick={submit} disabled={submitting}>
+            {submitting ? "⌛ Envoi..." : "✅ Publier mon avis"}
+          </button>
+        </div>
+      )}
+
+      {reviews.length === 0 && !showForm && (
+        <p className="reviews-empty">Soyez le premier à laisser un avis ⭐</p>
+      )}
+
+      <div className="reviews-list">
+        {reviews.map(r => (
+          <div key={r.id} className="review-item">
+            <div className="review-top">
+              <div className="review-avatar">{r.author[0].toUpperCase()}</div>
+              <div>
+                <div className="review-author">{r.author}</div>
+                <div className="review-stars-display">
+                  {"★".repeat(r.rating)}{"☆".repeat(5-r.rating)}
+                </div>
+              </div>
+            </div>
+            <p className="review-comment">{r.comment}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── PROFILE PAGE ──────────────────────────────────────────────────
 function ProfilePage({worker, onClose}) {
   const [bg] = avatarColor(worker.name);
@@ -1053,6 +1147,9 @@ function ProfilePage({worker, onClose}) {
             )}
           </div>
 
+
+          {/* REVIEWS */}
+          <ReviewsSection worker={worker} apiBase={API_BASE}/>
           {/* DEVIS GRATUIT */}
           <div className="profile-devis">
             <span className="profile-devis-icon">📋</span>
