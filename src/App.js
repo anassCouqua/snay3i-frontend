@@ -1035,16 +1035,23 @@ function ProfilePage({worker, onClose}) {
           )}
 
           {/* PORTFOLIO */}
-          {worker.photos && worker.photos.length > 0 && (
-            <div className="profile-section">
-              <h3 className="profile-section-title">Réalisations • أعمالي</h3>
+          <div className="profile-section">
+            <h3 className="profile-section-title">Réalisations • أعمالي</h3>
+            {worker.photos && worker.photos.length > 0 ? (
               <div className="profile-photos">
                 {worker.photos.map((url, i) => (
                   <img key={i} src={url} alt="" className="profile-photo"/>
                 ))}
               </div>
-            </div>
-          )}
+            ) : (
+              <div className="profile-photos-empty">
+                <div className="profile-photo-placeholder">📷</div>
+                <div className="profile-photo-placeholder">🔧</div>
+                <div className="profile-photo-placeholder">🏠</div>
+                <p className="profile-photos-hint">Les photos de réalisations arrivent bientôt</p>
+              </div>
+            )}
+          </div>
 
           {/* DEVIS GRATUIT */}
           <div className="profile-devis">
