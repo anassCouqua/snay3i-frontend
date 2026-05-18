@@ -1296,3 +1296,19 @@ body{
 .scity option {
   padding: 8px;
 }
+
+/* ══ JOIN BUTTON HEADER ══════════════════════════════════════════ */
+.join-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(196,98,45,0.5);
+  background: rgba(196,98,45,0.15);
+  color: #C4622D;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.join-btn:hover { background: #C4622D; color: #fff; }
