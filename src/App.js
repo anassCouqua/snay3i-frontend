@@ -15,7 +15,23 @@ const CATEGORIES = [
   { id: "carpenter",   label: "Menuisier",   ar: "نجّار",        emoji: "🪚" },
 ];
 
-const CITIES = ["Toutes","Casablanca","Rabat","Marrakech","Fès","Tanger","Agadir"];
+const CITIES = [
+  "Toutes",
+  "Casablanca","Rabat","Marrakech","Fès","Tanger","Agadir",
+  "Meknès","Oujda","Nador","Tétouan","Salé","Kénitra",
+  "Al Hoceima","Chefchaouen","Larache","Ksar El Kebir","Ouazzane",
+  "El Jadida","Safi","Essaouira","Settat","Berrechid","Benslimane","Mohammedia",
+  "Béni Mellal","Khouribga","Fkih Ben Salah","Azilal","Kasba Tadla",
+  "Ouarzazate","Zagora","Tinghir","Errachidia","Midelt","Rissani",
+  "Taroudannt","Tiznit","Guelmim","Inezgane","Ait Melloul","Sidi Ifni","Tan-Tan",
+  "Laâyoune","Dakhla","Boujdour","Smara","Tarfaya","Aousserd",
+  "Taza","Ifrane","Khénifra","Berkane","Taourirt","Guercif","Jerada",
+  "Témara","Skhirat","Sidi Kacem","Sidi Slimane","Khémisset",
+  "Fnideq","Martil","M'diq","Tetouan",
+  "Youssoufia","Kelaa des Sraghna","Chichaoua",
+  "Ait Benhaddou","Kelaat M'Gouna",
+  "Nador","Berkane","Saïdia",
+];
 
 const CITY_COORDS = {
   Casablanca:{ lat:33.5731, lng:-7.5898 },
