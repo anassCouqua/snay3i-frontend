@@ -1414,7 +1414,13 @@ export default function App(){
 
         <div className="footer">
           <span>Snay3i.ma • صنايعي.ما</span>
-          <span>🇲🇦 Fait avec fierté au Maroc</span>
+          <div style={{display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap",marginTop:8}}>
+            <a href="/legal.html#about" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>À propos</a>
+            <a href="/legal.html#privacy" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Confidentialité</a>
+            <a href="/legal.html#terms" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>CGU</a>
+            <a href="/legal.html#contact" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Contact</a>
+          </div>
+          <span style={{fontSize:11,color:"var(--muted)",marginTop:4}}>🇲🇦 Fait avec fierté au Maroc</span>
         </div>
       </main>
     </div>
