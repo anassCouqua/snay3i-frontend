@@ -973,19 +973,16 @@ function ProfilePage({worker, onClose}) {
             <span className="profile-dot">•</span>
             <span>📍 {worker.city}</span>
           </div>
-          <div className="profile-stats">
-            <div className="profile-stat">
-              <span className="profile-stat-num">{worker.rating}</span>
-              <span className="profile-stat-lbl">Note</span>
+          <div className="profile-rating-row">
+            <div className="profile-stars">
+              {"★★★★★".slice(0, Math.round(worker.rating)).split("").map((s,i) => (
+                <span key={i} style={{color:"#FFD700",fontSize:18}}>★</span>
+              ))}
+              {"★★★★★".slice(Math.round(worker.rating)).split("").map((s,i) => (
+                <span key={i} style={{color:"rgba(255,255,255,0.3)",fontSize:18}}>★</span>
+              ))}
             </div>
-            <div className="profile-stat">
-              <span className="profile-stat-num">{worker.reviews}</span>
-              <span className="profile-stat-lbl">Avis</span>
-            </div>
-            <div className="profile-stat">
-              <span className="profile-stat-num">{worker.years_exp}</span>
-              <span className="profile-stat-lbl">Ans exp.</span>
-            </div>
+            <span className="profile-rating-text">{worker.rating} · {worker.reviews} avis · {worker.years_exp} ans exp.</span>
           </div>
         </div>
 
