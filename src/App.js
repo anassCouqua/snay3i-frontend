@@ -1326,6 +1326,13 @@ export default function App(){
         </div>
       </header>
 
+      {/* ══ JOIN ROW ═══════════════════════════════════════════ */}
+          <div className="srow join-row" onClick={()=>setShowRegister(true)}>
+            <div className="sicon" style={{background:"rgba(196,98,45,0.12)"}}>🛠️</div>
+            <span style={{flex:1,fontSize:13,fontWeight:600,color:"var(--ink)"}}>{lang==="fr"?"Vous êtes artisan ? Rejoignez-nous":"أنت معلم؟ انضم إلينا"}</span>
+            <span style={{color:"#C4622D",fontWeight:700,fontSize:13}}>{lang==="fr"?"Gratuit →":"مجاني →"}</span>
+          </div>
+
       {/* ══ LOCATE BANNER ═══════════════════════════════════════ */}
       <div className="locate-banner-area">
         {userLoc?(
