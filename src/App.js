@@ -1361,16 +1361,6 @@ export default function App(){
         </div>
       </div>
 
-      {/* ══ MINI JOIN BANNER ══════════════════════════════════════ */}
-      <div className="mini-join-banner" onClick={()=>setShowRegister(true)}>
-        <span style={{fontSize:22}}>🛠️</span>
-        <div style={{flex:1}}>
-          <div style={{fontWeight:700,fontSize:13,color:"#fff"}}>{lang==="fr"?"Vous êtes artisan ?":"أنت معلم؟"}</div>
-          <div style={{fontSize:11,color:"rgba(255,255,255,0.7)"}}>{lang==="fr"?"Rejoignez Snay3i.ma — gratuit":"انضم إلى صنايعي.ما — مجاني"}</div>
-        </div>
-        <span style={{color:"#C4622D",fontWeight:700,fontSize:13}}>{lang==="fr"?"Rejoindre →":"انضم →"}</span>
-      </div>
-
       {/* ══ TOOLBAR ═════════════════════════════════════════════ */}
       <div className="toolbar">
         <span className="count-label">
