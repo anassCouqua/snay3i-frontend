@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 import "./App.css";
 
 const API_BASE = "https://snay3i-backend.onrender.com";
@@ -821,271 +821,282 @@ function RegisterPage({ onBack, lang }) {
 }
 
 
-// ── MAP MODAL ─────────────────────────────────────────────────────
-mapboxgl.accessToken = "YOUR_MAPBOX_TOKEN";
 
-function MapModal({workers, onClose, userLoc, activeCategory}) {
-  const mapRef = useRef(null);
-  const mapInst = useRef(null);
-  const markersRef = useRef([]);
-  const userMarkerRef = useRef(null);
-  const [filter, setFilter] = useState(activeCategory || "all");
-  const [selectedWorker, setSelectedWorker] = useState(null);
-  const [locating, setLocating] = useState(false);
-  const [myPos, setMyPos] = useState(userLoc || null);
+// ── MAP MODAL (Leaflet — fully CRA-compatible) ───────────────────
+// Coords [lat, lng] — Leaflet convention
+const MAP_PLOT = {
+  Casablanca:[33.5731,-7.5898], Rabat:[34.0209,-6.8416],
+  Marrakech:[31.6295,-7.9811], Fes:[34.0181,-5.0078],
+  "Fès":[34.0181,-5.0078], Tanger:[35.7595,-5.8340],
+  Agadir:[30.4278,-9.5981], Meknes:[33.8935,-5.5473],
+  "Meknès":[33.8935,-5.5473], Oujda:[34.6814,-1.9086],
+  Nador:[35.1680,-2.9287], Tetouan:[35.5785,-5.3684],
+  "Tétouan":[35.5785,-5.3684], Sale:[34.0531,-6.7985],
+  "Salé":[34.0531,-6.7985], Kenitra:[34.2610,-6.5802],
+  "Kénitra":[34.2610,-6.5802], "Al Hoceima":[35.2517,-3.9372],
+  Chefchaouen:[35.1688,-5.2636], Larache:[35.1932,-6.1561],
+  "El Jadida":[33.2316,-8.5007], Safi:[32.2994,-9.2372],
+  Essaouira:[31.5085,-9.7595], Settat:[33.0016,-7.6199],
+  Mohammedia:[33.6861,-7.3832], "Témara":[33.9268,-6.9069],
+  "Beni Mellal":[32.3372,-6.3498], Khouribga:[32.8811,-6.9063],
+  Ouarzazate:[30.9189,-6.8934], Errachidia:[31.9299,-4.4247],
+  Taza:[34.2100,-4.0100], Berkane:[34.9200,-2.3200],
+  Taroudannt:[30.4728,-8.8780], Tiznit:[29.6978,-9.7328],
+  Guelmim:[28.9870,-10.0574], Laayoune:[27.1536,-13.2033],
+  "Laâyoune":[27.1536,-13.2033], Dakhla:[23.7136,-15.9355],
+  "Tan-Tan":[28.4380,-11.1012],
+};
 
-  const MAP_CITY_COORDS = {
-    Casablanca:[[-7.5898, 33.5731]],
-    Rabat:     [[-6.8416, 34.0209]],
-    Marrakech: [[-7.9811, 31.6295]],
-    Fes:       [[-5.0078, 34.0181]],
-    Fès:       [[-5.0078, 34.0181]],
-    Tanger:    [[-5.8340, 35.7595]],
-    Agadir:    [[-9.5981, 30.4278]],
-    Meknes:    [[-5.5473, 33.8935]],
-    Oujda:     [[-1.9086, 34.6814]],
-    Nador:     [[-2.9287, 35.1680]],
-    Tetouan:   [[-5.3684, 35.5785]],
-    Sale:      [[-6.7985, 34.0531]],
-    Kenitra:   [[-6.5802, 34.2610]],
-    "Al Hoceima":[[-3.9372, 35.2517]],
-    Chefchaouen:[[-5.2636,35.1688]],
-    Larache:   [[-6.1561, 35.1932]],
-    "El Jadida":[[-8.5007,33.2316]],
-    Safi:      [[-9.2372, 32.2994]],
-    Essaouira: [[-9.7595, 31.5085]],
-    Settat:    [[-7.6199, 33.0016]],
-    "Beni Mellal":[[-6.3498,32.3372]],
-    Ouarzazate:[[-6.8934, 30.9189]],
-    Errachidia:[[-4.4247, 31.9299]],
-    Taza:      [[-4.0100, 34.2100]],
-    Berkane:   [[-2.3200, 34.9200]],
-    Laayoune:  [[-13.2033,27.1536]],
-    Dakhla:    [[-15.9355,23.7136]],
-    Guelmim:   [[-10.0574,28.9870]],
-    Tiznit:    [[-9.7328, 29.6978]],
-    Taroudannt:[[-8.8780, 30.4728]],
+const SVC_COLOR = {
+  plumber:"#1A5C82", electrician:"#C4A000", builder:"#7B3F10",
+  handyman:"#1E6B3A", painter:"#8B1A4A", carpenter:"#5A2E8A",
+  tiler:"#C4622D", ac_tech:"#0480A4", locksmith:"#2D3748",
+  cleaner:"#047857", gardener:"#15803D", welder:"#92400E",
+};
+
+function MapModal({workers, onClose, userLoc, activeCategory}){
+  const mapRef      = useRef(null);
+  const mapInst     = useRef(null);
+  const layersRef   = useRef([]);
+  const userMkRef   = useRef(null);
+  const [filter,setFilter]               = useState(activeCategory||"all");
+  const [cityPanel,setCityPanel]         = useState(null);
+  const [selectedWorker,setSelectedWorker] = useState(null);
+  const [locating,setLocating]           = useState(false);
+  const [myPos,setMyPos]                 = useState(userLoc||null);
+
+  const dominant = ws => {
+    const c={}; ws.forEach(w=>{c[w.service]=(c[w.service]||0)+1;});
+    return Object.entries(c).sort((a,b)=>b[1]-a[1])[0]?.[0]||"plumber";
   };
 
-  const SERVICE_EMOJI = {
-    plumber:"🔧", electrician:"⚡", builder:"🧱",
-    handyman:"🔨", painter:"🎨", carpenter:"🪚"
-  };
-
-  const SERVICE_COLOR = {
-    plumber:"#1A5C82", electrician:"#D4A843",
-    builder:"#8B4513", handyman:"#2E8B57",
-    painter:"#9C2752", carpenter:"#6B3A9E"
-  };
-
-  useEffect(() => {
-    if (!mapRef.current) return;
-
-    const map = new mapboxgl.Map({
-      container: mapRef.current,
-      style: "mapbox://styles/mapbox/light-v11",
-      center: myPos ? [myPos.lng, myPos.lat] : [-7.0926, 31.7917],
-      zoom: myPos ? 10 : 5,
-      attributionControl: false,
+  const addUserMarker = (map,pos) => {
+    if(userMkRef.current) map.removeLayer(userMkRef.current);
+    const icon = L.divIcon({
+      className:"",
+      html:`<div style="width:18px;height:18px;border-radius:50%;
+        background:#1A7A6E;border:3px solid #fff;
+        box-shadow:0 0 0 6px rgba(26,122,110,.2);"></div>`,
+      iconSize:[18,18], iconAnchor:[9,9],
     });
+    userMkRef.current = L.marker([pos.lat,pos.lng],{icon}).addTo(map);
+  };
 
-    mapInst.current = map;
+  const plotMarkers = (map,workerList,currentFilter) => {
+    layersRef.current.forEach(m=>map.removeLayer(m));
+    layersRef.current=[];
+    const filtered = currentFilter==="all"
+      ? workerList : workerList.filter(w=>w.service===currentFilter);
+    const byCity={};
+    filtered.forEach(w=>{ if(!byCity[w.city])byCity[w.city]=[]; byCity[w.city].push(w); });
 
-    map.addControl(new mapboxgl.NavigationControl(), "top-right");
-
-    map.on("load", () => {
-      // Hide country borders
-      ["country-label","state-label","admin-1-boundary","admin-0-boundary","admin-0-boundary-disputed"].forEach(layer => {
-        if (map.getLayer(layer)) {
-          if (layer.includes("boundary")) map.setPaintProperty(layer, "line-opacity", 0);
-          if (layer.includes("label")) map.setLayoutProperty(layer, "visibility", "none");
-        }
+    Object.entries(byCity).forEach(([city,ws])=>{
+      const coords=MAP_PLOT[city]; if(!coords) return;
+      const count=ws.length;
+      const svc=dominant(ws);
+      const color=SVC_COLOR[svc]||"#C4622D";
+      const sz=count>9?54:count>4?48:42;
+      const icon=L.divIcon({
+        className:"",
+        html:`<div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;">
+          <div style="
+            width:${sz}px;height:${sz}px;border-radius:50%;
+            background:${color};border:3px solid #fff;
+            box-shadow:0 4px 18px rgba(0,0,0,.3);
+            display:flex;align-items:center;justify-content:center;
+            color:#fff;font-weight:800;font-size:${count>1?Math.min(16,10+count):19}px;
+            font-family:system-ui,sans-serif;
+          ">${count>1?count:catEmoji(svc)}</div>
+          ${count>1?`<div style="
+            margin-top:2px;background:rgba(13,27,42,.75);backdrop-filter:blur(4px);
+            color:#fff;font-size:9px;font-weight:700;padding:2px 7px;
+            border-radius:10px;white-space:nowrap;max-width:80px;
+            overflow:hidden;text-overflow:ellipsis;
+          ">${city}</div>`:""}
+        </div>`,
+        iconSize:[sz, count>1?sz+22:sz],
+        iconAnchor:[sz/2, count>1?(sz+22)/2:sz/2],
+        popupAnchor:[0,-(sz/2)],
       });
-      addWorkerMarkers(map, workers, filter);
-      if (myPos) addUserMarker(map, myPos);
+      const mk=L.marker(coords,{icon}).addTo(map);
+      mk.on("click",()=>{
+        if(count===1){ setSelectedWorker(ws[0]); setCityPanel(null); }
+        else { setCityPanel({city,workers:ws}); setSelectedWorker(null); map.setView(coords,Math.min(10,map.getZoom()+2)); }
+      });
+      layersRef.current.push(mk);
     });
+  };
 
-    return () => map.remove();
+  useEffect(()=>{
+    if(!mapRef.current||mapInst.current) return;
+    const map=L.map(mapRef.current,{
+      center: myPos?[myPos.lat,myPos.lng]:[29.5,-7.5],
+      zoom: myPos?10:5,
+      zoomControl:false, attributionControl:false,
+    });
+    L.tileLayer(
+      "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+      {subdomains:"abcd",maxZoom:19}
+    ).addTo(map);
+    L.control.zoom({position:"topright"}).addTo(map);
+    mapInst.current=map;
+    plotMarkers(map,workers,filter);
+    if(myPos) addUserMarker(map,myPos);
+    return()=>{ map.remove(); mapInst.current=null; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  },[]);
 
-  const addUserMarker = (map, pos) => {
-    if (userMarkerRef.current) userMarkerRef.current.remove();
-    const el = document.createElement("div");
-    el.style.cssText = `
-      width:22px;height:22px;border-radius:50%;
-      background:#1A7A6E;border:3px solid #fff;
-      box-shadow:0 0 0 4px rgba(26,122,110,0.3);
-    `;
-    userMarkerRef.current = new mapboxgl.Marker({element:el})
-      .setLngLat([pos.lng, pos.lat])
-      .addTo(map);
-    new mapboxgl.Marker({color:"transparent"})
-      .setLngLat([pos.lng, pos.lat]);
+  const handleFilter=f=>{
+    setFilter(f); setSelectedWorker(null); setCityPanel(null);
+    if(mapInst.current) plotMarkers(mapInst.current,workers,f);
   };
 
-  const addWorkerMarkers = (map, workerList, currentFilter) => {
-    markersRef.current.forEach(m => m.remove());
-    markersRef.current = [];
-
-    const filtered = currentFilter === "all"
-      ? workerList
-      : workerList.filter(w => w.service === currentFilter);
-
-    filtered.forEach((worker, i) => {
-      const coords = MAP_CITY_COORDS[worker.city];
-      if (!coords) return;
-      const base = coords[0];
-      const jitter = [
-        base[0] + (Math.random()-0.5)*0.15,
-        base[1] + (Math.random()-0.5)*0.15
-      ];
-
-      const el = document.createElement("div");
-      const color = SERVICE_COLOR[worker.service] || "#C4622D";
-      const emoji = SERVICE_EMOJI[worker.service] || "🔧";
-      el.style.cssText = `
-        width:42px;height:52px;cursor:pointer;
-        display:flex;flex-direction:column;align-items:center;
-        animation:dropIn 0.4s ease ${i*30}ms both;
-      `;
-      el.innerHTML = `
-        <div style="
-          width:42px;height:42px;border-radius:50% 50% 50% 0;
-          transform:rotate(-45deg);
-          background:${color};
-          border:3px solid #fff;
-          box-shadow:0 3px 12px rgba(0,0,0,0.25);
-          display:flex;align-items:center;justify-content:center;
-        ">
-          <span style="transform:rotate(45deg);font-size:20px;line-height:1">${emoji}</span>
-        </div>
-      `;
-
-      el.addEventListener("click", () => setSelectedWorker(worker));
-
-      const marker = new mapboxgl.Marker({element:el, anchor:"bottom"})
-        .setLngLat(jitter)
-        .addTo(map);
-
-      markersRef.current.push(marker);
-    });
-  };
-
-  const handleFilter = (f) => {
-    setFilter(f);
-    setSelectedWorker(null);
-    if (mapInst.current) addWorkerMarkers(mapInst.current, workers, f);
-  };
-
-  const handleLocate = () => {
-    if (!navigator.geolocation) return;
+  const handleLocate=()=>{
+    if(!navigator.geolocation) return;
     setLocating(true);
-    navigator.geolocation.getCurrentPosition(pos => {
-      const p = {lat:pos.coords.latitude, lng:pos.coords.longitude};
-      setMyPos(p);
-      setLocating(false);
-      if (mapInst.current) {
-        mapInst.current.flyTo({center:[p.lng,p.lat], zoom:11, duration:1500});
-        addUserMarker(mapInst.current, p);
+    navigator.geolocation.getCurrentPosition(pos=>{
+      const p={lat:pos.coords.latitude,lng:pos.coords.longitude};
+      setMyPos(p); setLocating(false);
+      if(mapInst.current){
+        mapInst.current.setView([p.lat,p.lng],11);
+        addUserMarker(mapInst.current,p);
       }
-    }, () => setLocating(false));
+    },()=>setLocating(false));
   };
 
-  const filteredCount = filter==="all" ? workers.length : workers.filter(w=>w.service===filter).length;
+  const total=filter==="all"?workers.length:workers.filter(w=>w.service===filter).length;
 
-  return (
+  return(
     <div style={{position:"fixed",inset:0,zIndex:2000,display:"flex",flexDirection:"column"}}>
       <style>{`
-        @keyframes dropIn { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
-        .mapboxgl-ctrl-logo { display:none !important; }
-        .mapboxgl-ctrl-attrib { display:none !important; }
+        .leaflet-control-attribution{display:none!important}
+        .map-fp:hover{opacity:.82}
+        .wrow:hover{background:rgba(196,98,45,.07)!important}
+        @keyframes slideUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
       `}</style>
 
-      {/* HEADER */}
-      <div style={{background:"#0D1B2A",padding:"14px 16px",display:"flex",alignItems:"center",gap:12,flexShrink:0,zIndex:10}}>
-        <button onClick={onClose} style={{background:"rgba(255,255,255,0.12)",border:"none",color:"#fff",width:38,height:38,borderRadius:"50%",cursor:"pointer",fontSize:20,display:"flex",alignItems:"center",justifyContent:"center"}}>←</button>
-        <div style={{flex:1}}>
-          <div style={{color:"#fff",fontWeight:700,fontSize:16}}>🗺 Carte des Maalems</div>
-          <div style={{color:"rgba(255,255,255,0.55)",fontSize:12}}>{filteredCount} artisan{filteredCount!==1?"s":""} {myPos?"près de vous":"au Maroc"}</div>
+      {/* Header */}
+      <div style={{background:"linear-gradient(135deg,#0D1B2A 0%,#162535 100%)",flexShrink:0}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,padding:"13px 16px 10px"}}>
+          <button onClick={onClose} style={{
+            background:"rgba(255,255,255,.1)",border:"none",color:"#fff",
+            width:38,height:38,borderRadius:"50%",cursor:"pointer",fontSize:20,
+            display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,
+          }}>←</button>
+          <div style={{flex:1}}>
+            <div style={{color:"#fff",fontWeight:800,fontSize:16}}>🗺️ Carte des Maalems</div>
+            <div style={{color:"rgba(255,255,255,.45)",fontSize:11.5,marginTop:1}}>
+              <strong style={{color:"rgba(255,255,255,.7)"}}>{total}</strong> artisan{total!==1?"s":""} · Maroc 🇲🇦 + Provinces du Sud
+            </div>
+          </div>
+          <button onClick={handleLocate} className="map-fp" style={{
+            background:myPos?"#1A7A6E":"rgba(255,255,255,.1)",border:"none",color:"#fff",
+            padding:"8px 13px",borderRadius:20,cursor:"pointer",fontSize:12,fontWeight:700,
+            display:"flex",alignItems:"center",gap:5,whiteSpace:"nowrap",transition:"background .2s",flexShrink:0,
+          }}>{locating?"⌛ GPS...":myPos?"✅ Localisé":"🎯 Me localiser"}</button>
         </div>
-        <button onClick={handleLocate} style={{
-          background:myPos?"#1A7A6E":"rgba(255,255,255,0.12)",
-          border:"none",color:"#fff",padding:"8px 14px",borderRadius:20,
-          cursor:"pointer",fontSize:12,fontWeight:600,
-          display:"flex",alignItems:"center",gap:6,whiteSpace:"nowrap"
-        }}>
-          {locating?"⌛ GPS...":myPos?"✅ Localisé":"🎯 Me localiser"}
-        </button>
+        {/* Filter pills */}
+        <div style={{overflowX:"auto",paddingBottom:12}}>
+          <div style={{display:"flex",gap:7,paddingInline:16,width:"max-content"}}>
+            {[{id:"all",label:"Tous",emoji:"🏠"},...CATEGORIES.filter(c=>c.id!=="all")].map(cat=>(
+              <button key={cat.id} className="map-fp" onClick={()=>handleFilter(cat.id)} style={{
+                display:"flex",alignItems:"center",gap:5,padding:"6px 12px",borderRadius:20,
+                border:filter===cat.id?"none":"1.5px solid rgba(255,255,255,.15)",
+                background:filter===cat.id?"#C4622D":"rgba(255,255,255,.07)",
+                color:"#fff",cursor:"pointer",fontSize:12,fontWeight:700,whiteSpace:"nowrap",transition:"all .15s",
+              }}>{cat.emoji} {cat.label}</button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* SERVICE FILTER */}
-      <div style={{background:"#0D1B2A",paddingBottom:12,flexShrink:0,overflowX:"auto"}}>
-        <div style={{display:"flex",gap:8,paddingInline:16,width:"max-content"}}>
-          {[{id:"all",label:"Tous",emoji:"🏠"},...CATEGORIES.filter(c=>c.id!=="all")].map(cat=>(
-            <button key={cat.id} onClick={()=>handleFilter(cat.id)} style={{
-              display:"flex",alignItems:"center",gap:5,
-              padding:"7px 13px",borderRadius:20,
-              border:filter===cat.id?"none":"1.5px solid rgba(255,255,255,0.2)",
-              background:filter===cat.id?"#C4622D":"rgba(255,255,255,0.08)",
-              color:"#fff",cursor:"pointer",fontSize:12,fontWeight:600,
-              whiteSpace:"nowrap",transition:"all 0.15s"
-            }}>
-              <span>{cat.emoji}</span><span>{cat.label}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* MAP */}
-      <div style={{flex:1,position:"relative"}}>
+      {/* Map */}
+      <div style={{flex:1,position:"relative",overflow:"hidden"}}>
         <div ref={mapRef} style={{width:"100%",height:"100%"}}/>
 
-        {/* Selected worker card */}
+        {/* City drawer */}
+        {cityPanel&&!selectedWorker&&(
+          <div style={{
+            position:"absolute",bottom:0,left:0,right:0,background:"#fff",
+            borderRadius:"22px 22px 0 0",boxShadow:"0 -10px 40px rgba(0,0,0,.18)",
+            animation:"slideUp .22s ease",maxHeight:"55vh",display:"flex",flexDirection:"column",
+          }}>
+            <div style={{width:36,height:4,background:"#E0D8CC",borderRadius:2,margin:"12px auto 10px"}}/>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",paddingInline:20,marginBottom:8}}>
+              <div>
+                <div style={{fontWeight:800,fontSize:17,color:"#0D1B2A"}}>{cityPanel.city}</div>
+                <div style={{fontSize:12,color:"#9A9085",marginTop:2}}>{cityPanel.workers.length} artisans disponibles</div>
+              </div>
+              <button onClick={()=>setCityPanel(null)} style={{background:"#F5F0EB",border:"none",width:32,height:32,borderRadius:"50%",cursor:"pointer",fontSize:16,color:"#666",display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
+            </div>
+            <div style={{overflowY:"auto",paddingInline:12,paddingBottom:16,flex:1}}>
+              {cityPanel.workers.map(w=>{
+                const[bg]=avatarColor(w.name);
+                return(
+                  <div key={w.id} className="wrow" onClick={()=>setSelectedWorker(w)} style={{
+                    display:"flex",alignItems:"center",gap:12,padding:"11px 8px",
+                    borderRadius:12,cursor:"pointer",borderBottom:"1px solid #F5F0EB",
+                  }}>
+                    <div style={{width:44,height:44,borderRadius:12,flexShrink:0,background:bg,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:800,fontSize:13}}>{initials(w.name)}</div>
+                    <div style={{flex:1,minWidth:0}}>
+                      <div style={{display:"flex",alignItems:"center",gap:5}}>
+                        <span style={{fontWeight:700,fontSize:14,color:"#0D1B2A",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",maxWidth:160}}>{w.name}</span>
+                        {w.verified&&<span style={{background:"#D8F5E4",color:"#1A6B3A",fontSize:9,fontWeight:700,padding:"2px 5px",borderRadius:20,flexShrink:0}}>✓</span>}
+                      </div>
+                      <div style={{fontSize:12,color:"#C4622D",fontWeight:600,marginTop:1}}>{catEmoji(w.service)} {catLabel(w.service)}</div>
+                    </div>
+                    <div style={{textAlign:"right",flexShrink:0}}>
+                      <div style={{fontSize:13,fontWeight:700,color:"#D4A843"}}>★ {w.rating}</div>
+                      <div style={{fontSize:10,color:"#9A9085"}}>{w.reviews} avis</div>
+                    </div>
+                    <span style={{color:"#C4622D",fontSize:20,flexShrink:0}}>›</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Worker card */}
         {selectedWorker&&(
           <div style={{
-            position:"absolute",bottom:20,left:16,right:16,
-            background:"#fff",borderRadius:20,padding:18,
-            boxShadow:"0 12px 40px rgba(0,0,0,0.2)",
-            animation:"dropIn 0.25s ease"
+            position:"absolute",bottom:0,left:0,right:0,background:"#fff",
+            borderRadius:"22px 22px 0 0",padding:"0 20px 32px",
+            boxShadow:"0 -10px 40px rgba(0,0,0,.18)",animation:"slideUp .22s ease",
           }}>
-            <div style={{display:"flex",alignItems:"flex-start",gap:12}}>
-              <div style={{
-                width:52,height:52,borderRadius:16,flexShrink:0,
-                background:SERVICE_COLOR[selectedWorker.service]||"#C4622D",
-                display:"flex",alignItems:"center",justifyContent:"center",fontSize:24
-              }}>
-                {SERVICE_EMOJI[selectedWorker.service]||"🔧"}
+            <div style={{width:36,height:4,background:"#E0D8CC",borderRadius:2,margin:"12px auto 16px"}}/>
+            {cityPanel&&(
+              <button onClick={()=>setSelectedWorker(null)} style={{background:"none",border:"none",color:"#C4622D",fontWeight:700,fontSize:13,cursor:"pointer",padding:"0 0 10px",display:"flex",alignItems:"center",gap:4}}>← {cityPanel.city}</button>
+            )}
+            {(()=>{const[bg,tc]=avatarColor(selectedWorker.name);return(
+              <div style={{display:"flex",alignItems:"flex-start",gap:14,marginBottom:14}}>
+                <div style={{width:58,height:58,borderRadius:16,flexShrink:0,background:bg,display:"flex",alignItems:"center",justifyContent:"center",color:tc,fontWeight:800,fontSize:15,position:"relative"}}>
+                  {initials(selectedWorker.name)}
+                  <span style={{position:"absolute",bottom:-4,right:-4,fontSize:16}}>{catEmoji(selectedWorker.service)}</span>
+                </div>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{display:"flex",alignItems:"center",gap:6,flexWrap:"wrap",marginBottom:3}}>
+                    <span style={{fontWeight:800,fontSize:16,color:"#0D1B2A"}}>{selectedWorker.name}</span>
+                    {selectedWorker.verified&&<span style={{background:"#D8F5E4",color:"#1A6B3A",fontSize:10,fontWeight:700,padding:"2px 7px",borderRadius:20}}>✓ Vérifié</span>}
+                  </div>
+                  <div style={{fontSize:13,color:"#C4622D",fontWeight:700,marginBottom:4}}>{catLabel(selectedWorker.service)} · {selectedWorker.city}</div>
+                  <div style={{display:"flex",alignItems:"center",gap:2}}>
+                    {[1,2,3,4,5].map(s=><span key={s} style={{color:s<=Math.round(selectedWorker.rating)?"#D4A843":"#DDD",fontSize:13}}>★</span>)}
+                    <span style={{fontSize:11,color:"#7A7065",marginLeft:4}}>{selectedWorker.rating} · {selectedWorker.reviews} avis · {selectedWorker.years_exp} ans exp.</span>
+                  </div>
+                </div>
+                <button onClick={()=>setSelectedWorker(null)} style={{background:"#F5F0EB",border:"none",width:32,height:32,borderRadius:"50%",cursor:"pointer",fontSize:15,color:"#666",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>✕</button>
               </div>
-              <div style={{flex:1,minWidth:0}}>
-                <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:3,flexWrap:"wrap"}}>
-                  <span style={{fontWeight:700,fontSize:15,color:"#0D1B2A"}}>{selectedWorker.name}</span>
-                  {selectedWorker.verified&&<span style={{background:"#D8F5E4",color:"#1A6B3A",fontSize:10,fontWeight:700,padding:"2px 7px",borderRadius:20}}>✓ Vérifié</span>}
-                </div>
-                <div style={{fontSize:12,color:"#C4622D",fontWeight:600,marginBottom:4}}>
-                  {SERVICE_EMOJI[selectedWorker.service]} {catLabel(selectedWorker.service)} • {selectedWorker.city}
-                </div>
-                <div style={{display:"flex",alignItems:"center",gap:4}}>
-                  {"★★★★★".slice(0,Math.round(selectedWorker.rating)).split("").map((s,i)=>(
-                    <span key={i} style={{color:"#D4A843",fontSize:12}}>★</span>
-                  ))}
-                  <span style={{fontSize:12,color:"#7A7065",marginLeft:4}}>{selectedWorker.rating} • {selectedWorker.reviews} avis</span>
-                </div>
+            );})()}
+            <p style={{fontSize:13,color:"#5A5047",margin:"0 0 14px",lineHeight:1.55,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden"}}>{selectedWorker.bio}</p>
+            {selectedWorker.tags?.length>0&&(
+              <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:16}}>
+                {selectedWorker.tags.slice(0,4).map(t=><span key={t} style={{background:"#F5EDE5",color:"#C4622D",fontSize:11,fontWeight:700,padding:"3px 8px",borderRadius:20}}>{t}</span>)}
               </div>
-              <button onClick={()=>setSelectedWorker(null)} style={{background:"none",border:"none",cursor:"pointer",fontSize:18,color:"#aaa",padding:4,flexShrink:0}}>✕</button>
-            </div>
-            <div style={{display:"flex",gap:8,marginTop:14}}>
-              <a href={`tel:${selectedWorker.phone}`} style={{
-                flex:1,padding:"12px",borderRadius:12,textAlign:"center",
-                background:"#0D1B2A",color:"#fff",textDecoration:"none",
-                fontWeight:700,fontSize:13,display:"block"
-              }}>📞 Appeler</a>
-              <a href={`https://wa.me/${(selectedWorker.whatsapp||"").replace(/\D/g,"")}`}
-                target="_blank" rel="noreferrer" style={{
-                  flex:1,padding:"12px",borderRadius:12,textAlign:"center",
-                  background:"#D8F5E4",color:"#1A6B3A",textDecoration:"none",
-                  fontWeight:700,fontSize:13,display:"block"
-                }}>💬 WhatsApp</a>
+            )}
+            <div style={{display:"flex",gap:8}}>
+              <a href={`tel:${selectedWorker.phone}`} style={{flex:1,padding:"13px 8px",borderRadius:14,textAlign:"center",background:"#0D1B2A",color:"#fff",textDecoration:"none",fontWeight:800,fontSize:13,display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>📞 Appeler</a>
+              <a href={`https://wa.me/${(selectedWorker.whatsapp||"").replace(/\D/g,"")}`} target="_blank" rel="noreferrer" style={{flex:1,padding:"13px 8px",borderRadius:14,textAlign:"center",background:"#E8F9EE",color:"#1A6B3A",textDecoration:"none",fontWeight:800,fontSize:13,display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>💬 WhatsApp</a>
             </div>
           </div>
         )}
@@ -1093,8 +1104,6 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
     </div>
   );
 }
-
-
 
 // ── REVIEWS SECTION ───────────────────────────────────────────────
 function ReviewsSection({worker, apiBase}) {
@@ -1345,7 +1354,14 @@ export default function App(){
       if(q&&q.trim())p.set("q",q.trim());
       if(ct&&ct!=="Toutes")p.set("city",ct);
       if(svc&&svc!=="all")p.set("service",svc);
-      const res=await fetch(`${API_BASE}/search?${p}`);
+      let res=await fetch(`${API_BASE}/search?${p}`);
+      // Fallback to original endpoint if /search fails or backend not updated
+      if(!res.ok){
+        const ep=svc&&svc!=="all"?`${API_BASE}/workers/${svc}`:`${API_BASE}/workers`;
+        const p2=new URLSearchParams();
+        if(ct&&ct!=="Toutes")p2.set("city",ct);
+        res=await fetch(p2.toString()?`${ep}?${p2}`:ep);
+      }
       if(!res.ok)throw new Error("Aucun snay3i trouvé");
       const d=await res.json();
       setWorkers(Array.isArray(d)?d:[]);
@@ -1398,6 +1414,7 @@ export default function App(){
     });
 
   if(showRegister) return <RegisterPage onBack={()=>setShowRegister(false)} lang={lang}/>;
+  if(showMap) return <MapModal workers={workers} onClose={()=>setShowMap(false)} userLoc={userLoc} activeCategory={category}/>;
 
   return(
     <div className="app" dir={lang==="ar"?"rtl":"ltr"}>
@@ -1537,6 +1554,9 @@ export default function App(){
               {ic}
             </button>
           ))}
+          <button className="sort-btn map-toggle-btn" onClick={()=>setShowMap(true)} title="Vue carte">
+            🗺️
+          </button>
         </div>
       </div>
 
