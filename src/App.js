@@ -6,13 +6,19 @@ import "./App.css";
 const API_BASE = "https://snay3i-backend.onrender.com";
 
 const CATEGORIES = [
-  { id: "all",         label: "Tous",        ar: "الكل",         emoji: "🏠" },
-  { id: "plumber",     label: "Plombier",    ar: "سبّاك",        emoji: "🔧" },
-  { id: "electrician", label: "Électricien", ar: "كهربائي",      emoji: "⚡" },
-  { id: "builder",     label: "Maçon",       ar: "بنّاء",        emoji: "🧱" },
-  { id: "handyman",    label: "Bricoleur",   ar: "مصلح",         emoji: "🔨" },
-  { id: "painter",     label: "Peintre",     ar: "نقّاش",        emoji: "🎨" },
-  { id: "carpenter",   label: "Menuisier",   ar: "نجّار",        emoji: "🪚" },
+  { id: "all",         label: "Tous",          ar: "الكل",     emoji: "🏠" },
+  { id: "plumber",     label: "Plombier",      ar: "سبّاك",    emoji: "🔧" },
+  { id: "electrician", label: "Électricien",   ar: "كهربائي",  emoji: "⚡" },
+  { id: "builder",     label: "Maçon",         ar: "بنّاء",    emoji: "🧱" },
+  { id: "handyman",    label: "Bricoleur",     ar: "مصلح",     emoji: "🔨" },
+  { id: "painter",     label: "Peintre",       ar: "نقّاش",    emoji: "🎨" },
+  { id: "carpenter",   label: "Menuisier",     ar: "نجّار",    emoji: "🪚" },
+  { id: "tiler",       label: "Carreleur",     ar: "بلاّط",    emoji: "🏛️" },
+  { id: "ac_tech",     label: "Climatisation", ar: "تكييف",    emoji: "❄️" },
+  { id: "locksmith",   label: "Serrurier",     ar: "قفّال",    emoji: "🔑" },
+  { id: "cleaner",     label: "Ménage",        ar: "تنظيف",    emoji: "🧹" },
+  { id: "gardener",    label: "Jardinier",     ar: "بستاني",   emoji: "🌿" },
+  { id: "welder",      label: "Soudeur",       ar: "لحّام",    emoji: "🔥" },
 ];
 
 const CITIES = [
@@ -34,12 +40,91 @@ const CITIES = [
 ];
 
 const CITY_COORDS = {
-  Casablanca:{ lat:33.5731, lng:-7.5898 },
-  Rabat:     { lat:34.0209, lng:-6.8416 },
-  Marrakech: { lat:31.6295, lng:-7.9811 },
-  Fès:       { lat:34.0181, lng:-5.0078 },
-  Tanger:    { lat:35.7595, lng:-5.8340 },
-  Agadir:    { lat:30.4278, lng:-9.5981 },
+  // ── Major cities ─────────────────────────────────────────────
+  Casablanca:    { lat:33.5731,  lng:-7.5898  },
+  Rabat:         { lat:34.0209,  lng:-6.8416  },
+  Marrakech:     { lat:31.6295,  lng:-7.9811  },
+  Fes:           { lat:34.0181,  lng:-5.0078  },
+  "Fès":         { lat:34.0181,  lng:-5.0078  },
+  Tanger:        { lat:35.7595,  lng:-5.8340  },
+  Agadir:        { lat:30.4278,  lng:-9.5981  },
+  Meknes:        { lat:33.8935,  lng:-5.5473  },
+  "Meknès":      { lat:33.8935,  lng:-5.5473  },
+  Oujda:         { lat:34.6814,  lng:-1.9086  },
+  Nador:         { lat:35.1680,  lng:-2.9287  },
+  Tetouan:       { lat:35.5785,  lng:-5.3684  },
+  "Tétouan":     { lat:35.5785,  lng:-5.3684  },
+  Sale:          { lat:34.0531,  lng:-6.7985  },
+  "Salé":        { lat:34.0531,  lng:-6.7985  },
+  Kenitra:       { lat:34.2610,  lng:-6.5802  },
+  "Kénitra":     { lat:34.2610,  lng:-6.5802  },
+  // ── North ────────────────────────────────────────────────────
+  "Al Hoceima":  { lat:35.2517,  lng:-3.9372  },
+  Chefchaouen:   { lat:35.1688,  lng:-5.2636  },
+  Larache:       { lat:35.1932,  lng:-6.1561  },
+  "Ksar El Kebir":{ lat:35.0015, lng:-5.9070  },
+  Berkane:       { lat:34.9200,  lng:-2.3200  },
+  Taza:          { lat:34.2100,  lng:-4.0100  },
+  Jerada:        { lat:34.3100,  lng:-2.1600  },
+  Taourirt:      { lat:34.4067,  lng:-2.8942  },
+  Guercif:       { lat:34.2285,  lng:-3.3556  },
+  Fnideq:        { lat:35.8464,  lng:-5.3571  },
+  Martil:        { lat:35.6186,  lng:-5.2747  },
+  "M'diq":       { lat:35.6876,  lng:-5.3268  },
+  "Saïdia":      { lat:35.0878,  lng:-2.2278  },
+  // ── Atlantic coast ───────────────────────────────────────────
+  Mohammedia:    { lat:33.6861,  lng:-7.3832  },
+  Berrechid:     { lat:33.2650,  lng:-7.5886  },
+  Benslimane:    { lat:33.6186,  lng:-7.1218  },
+  "El Jadida":   { lat:33.2316,  lng:-8.5007  },
+  Safi:          { lat:32.2994,  lng:-9.2372  },
+  Essaouira:     { lat:31.5085,  lng:-9.7595  },
+  // ── Rabat region ────────────────────────────────────────────
+  "Témara":      { lat:33.9268,  lng:-6.9069  },
+  Temara:        { lat:33.9268,  lng:-6.9069  },
+  Skhirat:       { lat:33.8500,  lng:-7.0333  },
+  "Sidi Kacem":  { lat:34.2241,  lng:-5.7062  },
+  "Sidi Slimane":{ lat:34.2594,  lng:-5.9259  },
+  "Khémisset":   { lat:33.8239,  lng:-6.0660  },
+  // ── Centre & Settat ─────────────────────────────────────────
+  Settat:        { lat:33.0016,  lng:-7.6199  },
+  Khouribga:     { lat:32.8811,  lng:-6.9063  },
+  Youssoufia:    { lat:32.2439,  lng:-8.5298  },
+  "Kelaa des Sraghna":{ lat:32.0517, lng:-7.4100 },
+  // ── Beni Mellal-Khenifra ────────────────────────────────────
+  "Beni Mellal": { lat:32.3372,  lng:-6.3498  },
+  "Béni Mellal": { lat:32.3372,  lng:-6.3498  },
+  "Fkih Ben Salah":{ lat:32.5006, lng:-6.6869 },
+  Azilal:        { lat:31.9654,  lng:-6.5706  },
+  "Kasba Tadla": { lat:32.5960,  lng:-6.2681  },
+  "Khénifra":    { lat:32.9381,  lng:-5.6667  },
+  Ifrane:        { lat:33.5228,  lng:-5.1085  },
+  Midelt:        { lat:32.6845,  lng:-4.7314  },
+  // ── South-east ───────────────────────────────────────────────
+  Ouarzazate:    { lat:30.9189,  lng:-6.8934  },
+  Errachidia:    { lat:31.9299,  lng:-4.4247  },
+  Tinghir:       { lat:31.5167,  lng:-5.5333  },
+  Zagora:        { lat:30.3285,  lng:-5.8380  },
+  Rissani:       { lat:31.2800,  lng:-4.2667  },
+  "Kelaat M'Gouna":{ lat:31.2333, lng:-6.1333 },
+  "Ait Benhaddou":{ lat:31.0469, lng:-7.1300  },
+  // ── Souss-Massa ─────────────────────────────────────────────
+  Taroudannt:    { lat:30.4728,  lng:-8.8780  },
+  Tiznit:        { lat:29.6978,  lng:-9.7328  },
+  Inezgane:      { lat:30.3570,  lng:-9.5382  },
+  "Ait Melloul": { lat:30.3333,  lng:-9.5000  },
+  "Sidi Ifni":   { lat:29.3797,  lng:-10.1726 },
+  // ── Deep south ───────────────────────────────────────────────
+  Guelmim:       { lat:28.9870,  lng:-10.0574 },
+  "Tan-Tan":     { lat:28.4380,  lng:-11.1012 },
+  "Laâyoune":    { lat:27.1536,  lng:-13.2033 },
+  Laayoune:      { lat:27.1536,  lng:-13.2033 },
+  Boujdour:      { lat:26.1249,  lng:-14.4850 },
+  Smara:         { lat:26.7386,  lng:-11.6751 },
+  Tarfaya:       { lat:27.9376,  lng:-12.9212 },
+  Dakhla:        { lat:23.7136,  lng:-15.9355 },
+  Aousserd:      { lat:22.9007,  lng:-14.3264 },
+  Chichaoua:     { lat:31.5385,  lng:-8.7640  },
 };
 
 const AVATAR_COLORS = [
@@ -65,7 +150,7 @@ function getNearestCity(lat,lng){
 function workerDist(worker,uLat,uLng){
   const c=CITY_COORDS[worker.city];
   if(!c)return null;
-  const km=Math.max(0.3,haversineKm(uLat,uLng,c.lat,c.lng)+(Math.random()*3-1.5));
+  const km=haversineKm(uLat,uLng,c.lat,c.lng);
   return km<1?`${Math.round(km*1000)} m`:`${km.toFixed(1)} km`;
 }
 
@@ -308,18 +393,9 @@ function ChatWindow({worker, onClose}){
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
   const [typing, setTyping] = useState(false);
+  const [aiActive, setAiActive] = useState(true); // tracks if AI is available
   const bottomRef = useRef(null);
   const [bg] = avatarColor(worker.name);
-
-  // Auto responses simulate trader replies
-  const AUTO_REPLIES = [
-    "Bonjour ! Merci de me contacter. Comment puis-je vous aider ?",
-    "Oui je suis disponible. Quelle est votre adresse ?",
-    "D accord, je peux passer demain matin. Ca vous convient ?",
-    "Pouvez-vous m envoyer une photo du probleme sur WhatsApp ?",
-    "Je suis libre en fin de semaine. Je vous ferai un devis gratuit sur place.",
-    "Pas de probleme, je m en occupe. Je serai la dans 30 minutes.",
-  ];
 
   const loadMessages = useCallback(async () => {
     try {
@@ -340,6 +416,7 @@ function ChatWindow({worker, onClose}){
     if(!text.trim()) return;
     setSending(true);
     try {
+      // 1. Store client message
       const res = await fetch(`${API_BASE}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -348,20 +425,40 @@ function ChatWindow({worker, onClose}){
       const msg = await res.json();
       setMsgs(prev => [...prev, msg]);
 
-      // Simulate trader auto-reply
+      // 2. Get AI reply
       if(sender === "client") {
         setTyping(true);
-        setTimeout(async () => {
-          setTyping(false);
-          const reply = AUTO_REPLIES[Math.floor(Math.random() * AUTO_REPLIES.length)];
-          const r2 = await fetch(`${API_BASE}/chat`, {
+
+        // Build history: existing msgs + new client message, formatted for Claude
+        const historyForAI = [...msgs, msg].map(m => ({
+          role: m.sender === "client" ? "user" : "assistant",
+          content: m.text,
+        }));
+
+        let replyText = "Je vous répondrai très vite. Vous pouvez aussi m'appeler directement.";
+        try {
+          const aiRes = await fetch(`${API_BASE}/ai-reply`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ worker_id: worker.id, session_id: SESSION_ID, sender: "worker", text: reply })
+            body: JSON.stringify({ worker_id: worker.id, messages: historyForAI })
           });
-          const msg2 = await r2.json();
-          setMsgs(prev => [...prev, msg2]);
-        }, 1500 + Math.random() * 1000);
+          if(aiRes.ok) {
+            const aiData = await aiRes.json();
+            replyText = aiData.text;
+            setAiActive(aiData.source === "ai");
+          }
+        } catch(e) { setAiActive(false); }
+
+        setTyping(false);
+
+        // 3. Store AI reply in DB
+        const r2 = await fetch(`${API_BASE}/chat`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ worker_id: worker.id, session_id: SESSION_ID, sender: "worker", text: replyText })
+        });
+        const msg2 = await r2.json();
+        setMsgs(prev => [...prev, msg2]);
       }
     } catch(e) {}
     setSending(false);
@@ -385,7 +482,12 @@ function ChatWindow({worker, onClose}){
           <div className="chat-header-info">
             <span className="chat-name">{worker.name}</span>
             <span className="chat-status">
-              {typing ? "En train d ecrire..." : "En ligne • " + catLabel(worker.service)}
+              {typing
+                ? "✨ En train de répondre..."
+                : aiActive
+                  ? `🟢 En ligne • ${catLabel(worker.service)} • ✨ IA`
+                  : `🟢 En ligne • ${catLabel(worker.service)}`
+              }
             </span>
           </div>
           <div className="chat-header-actions">
@@ -465,12 +567,18 @@ function ChatWindow({worker, onClose}){
 
 // ── REGISTRATION PAGE ─────────────────────────────────────────────
 const SERVICES_LIST = [
-  { id: "plumber",     label: "Plombier",    ar: "سبّاك",    emoji: "🔧" },
-  { id: "electrician", label: "Electricien", ar: "كهربائي",  emoji: "⚡" },
-  { id: "builder",     label: "Macon",       ar: "بنّاء",    emoji: "🧱" },
-  { id: "handyman",    label: "Bricoleur",   ar: "مصلح",     emoji: "🔨" },
-  { id: "painter",     label: "Peintre",     ar: "نقّاش",    emoji: "🎨" },
-  { id: "carpenter",   label: "Menuisier",   ar: "نجّار",    emoji: "🪚" },
+  { id: "plumber",     label: "Plombier",      ar: "سبّاك",    emoji: "🔧" },
+  { id: "electrician", label: "Electricien",   ar: "كهربائي",  emoji: "⚡" },
+  { id: "builder",     label: "Macon",         ar: "بنّاء",    emoji: "🧱" },
+  { id: "handyman",    label: "Bricoleur",     ar: "مصلح",     emoji: "🔨" },
+  { id: "painter",     label: "Peintre",       ar: "نقّاش",    emoji: "🎨" },
+  { id: "carpenter",   label: "Menuisier",     ar: "نجّار",    emoji: "🪚" },
+  { id: "tiler",       label: "Carreleur",     ar: "بلاّط",    emoji: "🏛️" },
+  { id: "ac_tech",     label: "Climatisation", ar: "تكييف",    emoji: "❄️" },
+  { id: "locksmith",   label: "Serrurier",     ar: "قفّال",    emoji: "🔑" },
+  { id: "cleaner",     label: "Menage",        ar: "تنظيف",    emoji: "🧹" },
+  { id: "gardener",    label: "Jardinier",     ar: "بستاني",   emoji: "🌿" },
+  { id: "welder",      label: "Soudeur",       ar: "لحّام",    emoji: "🔥" },
 ];
 
 function RegisterPage({ onBack, lang }) {
@@ -726,13 +834,37 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
   const [locating, setLocating] = useState(false);
   const [myPos, setMyPos] = useState(userLoc || null);
 
-  const CITY_COORDS = {
+  const MAP_CITY_COORDS = {
     Casablanca:[[-7.5898, 33.5731]],
     Rabat:     [[-6.8416, 34.0209]],
     Marrakech: [[-7.9811, 31.6295]],
     Fes:       [[-5.0078, 34.0181]],
+    Fès:       [[-5.0078, 34.0181]],
     Tanger:    [[-5.8340, 35.7595]],
     Agadir:    [[-9.5981, 30.4278]],
+    Meknes:    [[-5.5473, 33.8935]],
+    Oujda:     [[-1.9086, 34.6814]],
+    Nador:     [[-2.9287, 35.1680]],
+    Tetouan:   [[-5.3684, 35.5785]],
+    Sale:      [[-6.7985, 34.0531]],
+    Kenitra:   [[-6.5802, 34.2610]],
+    "Al Hoceima":[[-3.9372, 35.2517]],
+    Chefchaouen:[[-5.2636,35.1688]],
+    Larache:   [[-6.1561, 35.1932]],
+    "El Jadida":[[-8.5007,33.2316]],
+    Safi:      [[-9.2372, 32.2994]],
+    Essaouira: [[-9.7595, 31.5085]],
+    Settat:    [[-7.6199, 33.0016]],
+    "Beni Mellal":[[-6.3498,32.3372]],
+    Ouarzazate:[[-6.8934, 30.9189]],
+    Errachidia:[[-4.4247, 31.9299]],
+    Taza:      [[-4.0100, 34.2100]],
+    Berkane:   [[-2.3200, 34.9200]],
+    Laayoune:  [[-13.2033,27.1536]],
+    Dakhla:    [[-15.9355,23.7136]],
+    Guelmim:   [[-10.0574,28.9870]],
+    Tiznit:    [[-9.7328, 29.6978]],
+    Taroudannt:[[-8.8780, 30.4728]],
   };
 
   const SERVICE_EMOJI = {
@@ -801,7 +933,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}) {
       : workerList.filter(w => w.service === currentFilter);
 
     filtered.forEach((worker, i) => {
-      const coords = CITY_COORDS[worker.city];
+      const coords = MAP_CITY_COORDS[worker.city];
       if (!coords) return;
       const base = coords[0];
       const jitter = [
@@ -1201,18 +1333,19 @@ export default function App(){
   const [nearCity,setNearCity]=useState(null);
   const [locErr,setLocErr]=useState("");
   const [sort,setSort]=useState("rating");
+  const [distKm,setDistKm]=useState(null); // null = all, 5 | 10 | 20
   const [lang,setLang]=useState("fr");
   const [showMap,setShowMap]=useState(false);
   const [showRegister,setShowRegister]=useState(false);
 
-  const fetchWorkers=useCallback(async(svc,ct)=>{
+  const fetchWorkers=useCallback(async(svc,ct,q)=>{
     setLoading(true);setError("");
     try{
-      const ep=svc&&svc!=="all"?`${API_BASE}/workers/${svc}`:`${API_BASE}/workers`;
       const p=new URLSearchParams();
+      if(q&&q.trim())p.set("q",q.trim());
       if(ct&&ct!=="Toutes")p.set("city",ct);
-      const url=p.toString()?`${ep}?${p}`:ep;
-      const res=await fetch(url);
+      if(svc&&svc!=="all")p.set("service",svc);
+      const res=await fetch(`${API_BASE}/search?${p}`);
       if(!res.ok)throw new Error("Aucun snay3i trouvé");
       const d=await res.json();
       setWorkers(Array.isArray(d)?d:[]);
@@ -1220,7 +1353,12 @@ export default function App(){
     finally{setLoading(false);}
   },[]);
 
-  useEffect(()=>{fetchWorkers(category,city);},[category,city,fetchWorkers]);
+  // Single debounced effect — text queries wait 350ms, category/city are immediate
+  useEffect(()=>{
+    const delay=query.trim()?350:0;
+    const t=setTimeout(()=>fetchWorkers(category,city,query),delay);
+    return()=>clearTimeout(t);
+  },[category,city,query,fetchWorkers]);
 
   const handleLocate=()=>{
     if(!navigator.geolocation){setLocErr("GPS non supporté");return;}
@@ -1239,9 +1377,14 @@ export default function App(){
 
   const sorted=[...workers]
     .filter(w=>{
-      if(!query)return true;
-      const q=query.toLowerCase();
-      return w.name.toLowerCase().includes(q)||w.bio.toLowerCase().includes(q)||w.city.toLowerCase().includes(q);
+      if(distKm&&userLoc){
+        const c=CITY_COORDS[w.city];
+        if(c){
+          const km=haversineKm(userLoc.lat,userLoc.lng,c.lat,c.lng);
+          if(km>distKm)return false;
+        }
+      }
+      return true;
     })
     .sort((a,b)=>{
       if(sort==="rating")return b.rating-a.rating;
@@ -1321,8 +1464,15 @@ export default function App(){
               <div className="sicon navy">📏</div>
               <span className="dist-label">{lang==="fr"?"Distance":"المسافة"}</span>
               <div className="dist-chips-row">
-                {["<5km","<10km","<20km","Partout"].map(d=>(
-                  <button key={d} className="dist-chip-sm">{d}</button>
+                {[{label:"<5 km",km:5},{label:"<10 km",km:10},{label:"<20 km",km:20},{label:"Partout",km:null}].map(d=>(
+                  <button key={d.label}
+                    className={`dist-chip-sm${distKm===d.km?" active":""}`}
+                    onClick={()=>{
+                      if(d.km&&!userLoc){handleLocate();}
+                      setDistKm(prev=>prev===d.km?null:d.km);
+                    }}>
+                    {d.label}
+                  </button>
                 ))}
               </div>
             </div>
@@ -1376,6 +1526,7 @@ export default function App(){
         <span className="count-label">
           <strong>{sorted.length}</strong> snay3i{sorted.length!==1?"s":""}
           {nearCity&&<span className="near-tag"> · {nearCity}</span>}
+          {distKm&&<span className="near-tag"> · &lt;{distKm} km</span>}
         </span>
         {error&&<span className="err-msg">{error}</span>}
         <div className="sort-row">

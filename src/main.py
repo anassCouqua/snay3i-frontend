@@ -5,6 +5,7 @@ from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 from pydantic import BaseModel
 from typing import Optional
 import json
+import os
 
 DATABASE_URL = "sqlite:///./snay3i.db"
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
@@ -46,7 +47,7 @@ class WorkerCreate(BaseModel):
 
 app = FastAPI(title="Snay3i.ma API", version="1.0.0")
 app.add_middleware(CORSMiddleware,
-    allow_origins=["http://localhost:3000","http://localhost:5173"],
+    allow_origins=["*"],
     allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
 def get_db():
@@ -127,6 +128,209 @@ SEED = [
   {"name":"Driss Ait Baha Bricoleur","service":"handyman","city":"Agadir","rating":4.7,"reviews":55,"verified":False,"bio":"Bricoleur paysagiste Agadir. Entretien villa, jardin, piscine, petits travaux et reparations.","tags":["Piscine","Jardin","Entretien"],"phone":"0684-567890","whatsapp":"212684567890","address":"Hay Charaf, Agadir","years_exp":5},
   {"name":"Peintre Agadir Founty","service":"painter","city":"Agadir","rating":4.7,"reviews":62,"verified":True,"bio":"Peintre Agadir et region Souss. Interieur, facade, tadelakt, enduits decoratifs. Devis gratuit.","tags":["Souss","Facade","Tadelakt"],"phone":"0685-678901","whatsapp":"212685678901","address":"Quartier Founty, Agadir","years_exp":10},
   {"name":"Menuisier Agadir","service":"carpenter","city":"Agadir","rating":4.6,"reviews":39,"verified":False,"bio":"Menuisier Agadir. Aluminium, PVC, bois. Cuisine, placards, fenetres, portes sur mesure.","tags":["Aluminium","PVC","Sur mesure"],"phone":"0686-789012","whatsapp":"212686789012","address":"Agadir","years_exp":8},
+  # ══ RABAT ════════════════════════════════════════════════════════
+  {"name":"Plombier Agdal Rabat","service":"plumber","city":"Rabat","rating":4.8,"reviews":92,"verified":True,"bio":"Plombier Agdal et Hay Riad. Fuites, debouchage, chauffe-eau, sanitaires. Devis gratuit.","tags":["Agdal","Hay Riad","Urgent"],"phone":"0661-234501","whatsapp":"212661234501","address":"Agdal, Rabat","years_exp":12},
+  {"name":"Hassan Plomberie Rabat","service":"plumber","city":"Rabat","rating":4.7,"reviews":63,"verified":True,"bio":"Plombier experimente Rabat-Sale. Installations sanitaires, fuites, debouchage canalisations.","tags":["Rabat-Sale","Canalisations","Installations"],"phone":"0662-345612","whatsapp":"212662345612","address":"Rabat","years_exp":15},
+  {"name":"Depannage Plomberie Rabat","service":"plumber","city":"Rabat","rating":4.6,"reviews":44,"verified":False,"bio":"Intervention rapide plomberie Rabat. Disponible 7j/7. Fuites, robinetterie, WC.","tags":["7j/7","Rapide","WC"],"phone":"0663-456723","whatsapp":"212663456723","address":"Rabat","years_exp":8},
+  {"name":"Plombier Souissi Rabat","service":"plumber","city":"Rabat","rating":4.9,"reviews":118,"verified":True,"bio":"Plombier Souissi, Aviation, Hay Nahda. Urgences 24h. Chauffe-eau solaire, salle de bain.","tags":["Souissi","Solaire","24h"],"phone":"0664-567834","whatsapp":"212664567834","address":"Souissi, Rabat","years_exp":18},
+  {"name":"Electricien Agdal Rabat","service":"electrician","city":"Rabat","rating":4.8,"reviews":87,"verified":True,"bio":"Electricien certifie Agdal. Tableau electrique, prises, interphone, domotique. Devis gratuit.","tags":["Agdal","Tableau","Domotique"],"phone":"0665-678945","whatsapp":"212665678945","address":"Agdal, Rabat","years_exp":10},
+  {"name":"Mohamed Electricite Rabat","service":"electrician","city":"Rabat","rating":4.7,"reviews":55,"verified":False,"bio":"Electricien Rabat ville. Depannage, installation, mise aux normes. Intervention rapide.","tags":["Mise aux normes","Depannage","Rapide"],"phone":"0666-789056","whatsapp":"212666789056","address":"Rabat","years_exp":13},
+  {"name":"Electricien Hay Riad","service":"electrician","city":"Rabat","rating":4.9,"reviews":134,"verified":True,"bio":"Electricien Hay Riad et Ryad. Climatisation, panneaux solaires, domotique, alarme.","tags":["Hay Riad","Solaire","Alarme"],"phone":"0667-890167","whatsapp":"212667890167","address":"Hay Riad, Rabat","years_exp":16},
+  {"name":"Macon Batiment Rabat","service":"builder","city":"Rabat","rating":4.7,"reviews":78,"verified":True,"bio":"Entrepreneur batiment Rabat. Construction, renovation, extension, carrelage, peinture.","tags":["Construction","Extension","Renovation"],"phone":"0668-901278","whatsapp":"212668901278","address":"Rabat","years_exp":20},
+  {"name":"Renovation Maison Rabat","service":"builder","city":"Rabat","rating":4.6,"reviews":52,"verified":False,"bio":"Renovation complete Rabat-Sale-Kenitra. Gros oeuvre, second oeuvre, finitions. Devis gratuit.","tags":["Gros oeuvre","Finitions","Devis"],"phone":"0669-012389","whatsapp":"212669012389","address":"Rabat-Sale-Kenitra","years_exp":14},
+  {"name":"Peintre Decorateur Rabat","service":"painter","city":"Rabat","rating":4.8,"reviews":96,"verified":True,"bio":"Peintre decorateur Rabat. Tadelakt, beton cire, stuc, peinture interieure exterieure.","tags":["Tadelakt","Beton cire","Stuc"],"phone":"0661-123490","whatsapp":"212661123490","address":"Rabat","years_exp":11},
+  {"name":"Peintre Agdal Rabat","service":"painter","city":"Rabat","rating":4.7,"reviews":67,"verified":False,"bio":"Peintre professionnel Agdal et Hay Riad. Interieur, facades, enduits. Tarifs competitifs.","tags":["Agdal","Facades","Competitif"],"phone":"0662-234501","whatsapp":"212662234501","address":"Agdal, Rabat","years_exp":9},
+  {"name":"Menuisier Aluminium Rabat","service":"carpenter","city":"Rabat","rating":4.8,"reviews":83,"verified":True,"bio":"Menuisier aluminium et PVC Rabat. Fenetres, portes, verandas, moustiquaires sur mesure.","tags":["Aluminium","PVC","Verandas"],"phone":"0663-345612","whatsapp":"212663345612","address":"Rabat","years_exp":15},
+  {"name":"Menuisier Bois Rabat","service":"carpenter","city":"Rabat","rating":4.6,"reviews":49,"verified":False,"bio":"Menuisier bois Rabat. Cuisines, placards, portes, escaliers sur mesure. Artisan qualifie.","tags":["Cuisine","Placards","Sur mesure"],"phone":"0664-456723","whatsapp":"212664456723","address":"Rabat","years_exp":12},
+  {"name":"Bricoleur Rabat Multi","service":"handyman","city":"Rabat","rating":4.7,"reviews":71,"verified":True,"bio":"Bricoleur polyvalent Rabat. Montage meubles, reparations, petits travaux, climatisation.","tags":["Montage","Reparations","Climatisation"],"phone":"0665-567834","whatsapp":"212665567834","address":"Rabat","years_exp":8},
+  # ══ MARRAKECH ════════════════════════════════════════════════════
+  {"name":"Plombier Gueliz Marrakech","service":"plumber","city":"Marrakech","rating":4.8,"reviews":103,"verified":True,"bio":"Plombier Gueliz et Hivernage. Fuites, debouchage, chauffe-eau, salle de bain complete.","tags":["Gueliz","Hivernage","Salle de bain"],"phone":"0524-123401","whatsapp":"212524123401","address":"Gueliz, Marrakech","years_exp":14},
+  {"name":"Plombier Medina Marrakech","service":"plumber","city":"Marrakech","rating":4.7,"reviews":58,"verified":False,"bio":"Plombier medina et ville nouvelle. Debouchage, fuites, installation sanitaires. Rapide.","tags":["Medina","Ville nouvelle","Rapide"],"phone":"0661-234512","whatsapp":"212661234512","address":"Medina, Marrakech","years_exp":10},
+  {"name":"Plombier Urgence Marrakech","service":"plumber","city":"Marrakech","rating":4.9,"reviews":156,"verified":True,"bio":"Plombier urgence 24h/7j Marrakech. Intervention 30 min. Fuites, debouchage, chauffe-eau.","tags":["24h/7j","30 min","Urgence"],"phone":"0662-345623","whatsapp":"212662345623","address":"Marrakech","years_exp":16},
+  {"name":"Plombier Palmeraie Marrakech","service":"plumber","city":"Marrakech","rating":4.6,"reviews":39,"verified":True,"bio":"Plombier Palmeraie et Amelkis. Piscines, arrosage, installation sanitaires haut de gamme.","tags":["Palmeraie","Piscines","Haut de gamme"],"phone":"0663-456734","whatsapp":"212663456734","address":"Palmeraie, Marrakech","years_exp":12},
+  {"name":"Electricien Marrakech Gueliz","service":"electrician","city":"Marrakech","rating":4.8,"reviews":89,"verified":True,"bio":"Electricien Gueliz et Hivernage. Tableau, prises, eclairage LED, climatisation, alarme.","tags":["Gueliz","LED","Alarme"],"phone":"0664-567845","whatsapp":"212664567845","address":"Gueliz, Marrakech","years_exp":11},
+  {"name":"Electricien Urgence Marrakech","service":"electrician","city":"Marrakech","rating":4.7,"reviews":72,"verified":False,"bio":"Electricien urgence Marrakech. Court-circuit, panne totale, tableau. Intervention rapide.","tags":["Urgence","Court-circuit","Panne"],"phone":"0665-678956","whatsapp":"212665678956","address":"Marrakech","years_exp":9},
+  {"name":"Electricien Solaire Marrakech","service":"electrician","city":"Marrakech","rating":4.9,"reviews":144,"verified":True,"bio":"Specialiste panneaux solaires Marrakech. Installation, maintenance, onduleurs. Economies garanties.","tags":["Solaire","Panneaux","Onduleurs"],"phone":"0666-789067","whatsapp":"212666789067","address":"Marrakech","years_exp":13},
+  {"name":"Macon Marrakech Renovation","service":"builder","city":"Marrakech","rating":4.8,"reviews":121,"verified":True,"bio":"Renovation riads et villas Marrakech. Zellige, tadelakt, stuc, bejmat. Artisan qualifie.","tags":["Riad","Zellige","Bejmat"],"phone":"0667-890178","whatsapp":"212667890178","address":"Marrakech","years_exp":22},
+  {"name":"Construction Marrakech","service":"builder","city":"Marrakech","rating":4.7,"reviews":84,"verified":True,"bio":"Entrepreneur construction Marrakech et region. Villas, immeubles, renovation. Devis gratuit.","tags":["Villas","Immeubles","Renovation"],"phone":"0668-901289","whatsapp":"212668901289","address":"Marrakech","years_exp":18},
+  {"name":"Peintre Tadelakt Marrakech","service":"painter","city":"Marrakech","rating":4.9,"reviews":167,"verified":True,"bio":"Specialiste tadelakt et stuc marocain Marrakech. Riads, villas, hotels. Artisan certifie.","tags":["Tadelakt","Stuc","Riads"],"phone":"0669-012390","whatsapp":"212669012390","address":"Marrakech","years_exp":20},
+  {"name":"Peintre Decorateur Marrakech","service":"painter","city":"Marrakech","rating":4.7,"reviews":93,"verified":False,"bio":"Peintre decorateur Marrakech. Beton cire, moucharabieh, peinture interieure luxe.","tags":["Beton cire","Luxe","Moucharabieh"],"phone":"0661-345623","whatsapp":"212661345623","address":"Marrakech","years_exp":13},
+  {"name":"Menuisier Bois Marrakech","service":"carpenter","city":"Marrakech","rating":4.8,"reviews":77,"verified":True,"bio":"Menuisier bois artisanal Marrakech. Portes sculptees, moucharabiehs, meubles sur mesure.","tags":["Portes sculptees","Moucharabieh","Artisanal"],"phone":"0662-456734","whatsapp":"212662456734","address":"Marrakech","years_exp":19},
+  {"name":"Menuisier Aluminium Marrakech","service":"carpenter","city":"Marrakech","rating":4.6,"reviews":55,"verified":False,"bio":"Menuisier aluminium et PVC Marrakech. Fenetres, verandas, garde-corps. Devis rapide.","tags":["Aluminium","Verandas","Garde-corps"],"phone":"0663-567845","whatsapp":"212663567845","address":"Marrakech","years_exp":10},
+  # ══ FES ══════════════════════════════════════════════════════════
+  {"name":"Plombier Fes Ville","service":"plumber","city":"Fes","rating":4.7,"reviews":68,"verified":True,"bio":"Plombier Fes el Bali et Fes Jdid. Fuites, debouchage, chauffe-eau, sanitaires.","tags":["Fes el Bali","Fes Jdid","Urgence"],"phone":"0535-123401","whatsapp":"212535123401","address":"Fes","years_exp":13},
+  {"name":"Plombier Narjiss Fes","service":"plumber","city":"Fes","rating":4.8,"reviews":94,"verified":True,"bio":"Plombier Narjiss et Sahrij Gnaoua. Salle de bain, cuisine, debouchage. Devis gratuit.","tags":["Narjiss","Sahrij","Salle de bain"],"phone":"0661-456734","whatsapp":"212661456734","address":"Narjiss, Fes","years_exp":11},
+  {"name":"Plombier Urgence Fes","service":"plumber","city":"Fes","rating":4.6,"reviews":47,"verified":False,"bio":"Plombier urgence Fes. Fuites, pannes, debouchage. Disponible week-end et jours feries.","tags":["Week-end","Jours feries","Disponible"],"phone":"0662-567845","whatsapp":"212662567845","address":"Fes","years_exp":8},
+  {"name":"Electricien Fes Medina","service":"electrician","city":"Fes","rating":4.8,"reviews":86,"verified":True,"bio":"Electricien Fes medina et ville nouvelle. Tableau, installation, depannage. 24h/7j.","tags":["Medina","Tableau","24h"],"phone":"0663-678956","whatsapp":"212663678956","address":"Fes","years_exp":14},
+  {"name":"Electricien Solaire Fes","service":"electrician","city":"Fes","rating":4.7,"reviews":61,"verified":True,"bio":"Electricien et installateur solaire Fes. Panneaux photovoltaiques, chauffe-eau solaire.","tags":["Solaire","Photovoltaique","Chauffe-eau"],"phone":"0664-789067","whatsapp":"212664789067","address":"Fes","years_exp":9},
+  {"name":"Macon Renovation Fes","service":"builder","city":"Fes","rating":4.8,"reviews":112,"verified":True,"bio":"Renovation riads et maisons medina Fes. Zellige, bejmat, tadelakt. Expert patrimoine.","tags":["Riad","Zellige","Patrimoine"],"phone":"0665-890178","whatsapp":"212665890178","address":"Fes","years_exp":24},
+  {"name":"Construction Fes","service":"builder","city":"Fes","rating":4.6,"reviews":73,"verified":False,"bio":"Entrepreneur construction Fes et region. Maisons, villas, renovation. Qualite garantie.","tags":["Villas","Renovation","Qualite"],"phone":"0666-901289","whatsapp":"212666901289","address":"Fes","years_exp":17},
+  {"name":"Peintre Fes Artisan","service":"painter","city":"Fes","rating":4.9,"reviews":138,"verified":True,"bio":"Peintre artisan Fes. Tadelakt, stuc marocain, peinture traditionnelle. Expert medina.","tags":["Tadelakt","Traditionnel","Expert"],"phone":"0667-012390","whatsapp":"212667012390","address":"Fes","years_exp":21},
+  {"name":"Menuisier Bois Fes","service":"carpenter","city":"Fes","rating":4.8,"reviews":89,"verified":True,"bio":"Menuisier bois artisanal Fes. Portes cedre, moucharabiehs, meubles traditionnels.","tags":["Cedre","Moucharabieh","Traditionnel"],"phone":"0668-123401","whatsapp":"212668123401","address":"Fes","years_exp":25},
+  # ══ TANGER ═══════════════════════════════════════════════════════
+  {"name":"Plombier Tanger Malabata","service":"plumber","city":"Tanger","rating":4.7,"reviews":74,"verified":True,"bio":"Plombier Malabata et Marshan. Fuites, debouchage, chauffe-eau, salle de bain.","tags":["Malabata","Marshan","Salle de bain"],"phone":"0539-123401","whatsapp":"212539123401","address":"Malabata, Tanger","years_exp":11},
+  {"name":"Plombier Urgence Tanger","service":"plumber","city":"Tanger","rating":4.8,"reviews":98,"verified":True,"bio":"Plombier urgence Tanger 24h/7j. Intervention 20 min. Fuites, debouchage, chauffe-eau.","tags":["24h","20 min","Urgence"],"phone":"0661-678956","whatsapp":"212661678956","address":"Tanger","years_exp":14},
+  {"name":"Plombier Tanger Iberia","service":"plumber","city":"Tanger","rating":4.6,"reviews":43,"verified":False,"bio":"Plombier quartier Iberia et California Tanger. Toutes interventions plomberie. Devis gratuit.","tags":["Iberia","California","Devis"],"phone":"0662-789067","whatsapp":"212662789067","address":"Iberia, Tanger","years_exp":9},
+  {"name":"Electricien Tanger Centre","service":"electrician","city":"Tanger","rating":4.8,"reviews":91,"verified":True,"bio":"Electricien centre Tanger. Tableau, prises, interphone, camera, alarme. Certifie.","tags":["Centre","Camera","Alarme"],"phone":"0663-890178","whatsapp":"212663890178","address":"Centre, Tanger","years_exp":12},
+  {"name":"Electricien Tanger Solaire","service":"electrician","city":"Tanger","rating":4.7,"reviews":66,"verified":True,"bio":"Installateur solaire Tanger. Panneaux photovoltaiques, economies d energie garanties.","tags":["Solaire","Panneaux","Economies"],"phone":"0664-901289","whatsapp":"212664901289","address":"Tanger","years_exp":8},
+  {"name":"Macon Tanger Renovation","service":"builder","city":"Tanger","rating":4.7,"reviews":83,"verified":True,"bio":"Renovation villas et appartements Tanger. Construction, extension, carrelage, peinture.","tags":["Villas","Extension","Carrelage"],"phone":"0665-012390","whatsapp":"212665012390","address":"Tanger","years_exp":16},
+  {"name":"Peintre Tanger Pro","service":"painter","city":"Tanger","rating":4.8,"reviews":77,"verified":True,"bio":"Peintre professionnel Tanger. Interieur, exterieur, facades, enduits decoratifs.","tags":["Facades","Enduits","Pro"],"phone":"0666-123401","whatsapp":"212666123401","address":"Tanger","years_exp":13},
+  {"name":"Menuisier Aluminium Tanger","service":"carpenter","city":"Tanger","rating":4.7,"reviews":62,"verified":True,"bio":"Menuisier aluminium PVC et bois Tanger. Fenetres, verandas, store banne.","tags":["Aluminium","PVC","Store banne"],"phone":"0667-234512","whatsapp":"212667234512","address":"Tanger","years_exp":10},
+  # ══ AGADIR ════════════════════════════════════════════════════════
+  {"name":"Plombier Agadir Hay Mohammadi","service":"plumber","city":"Agadir","rating":4.7,"reviews":69,"verified":True,"bio":"Plombier Hay Mohammadi et Talborjt. Fuites, debouchage, chauffe-eau solaire, sanitaires.","tags":["Hay Mohammadi","Talborjt","Solaire"],"phone":"0528-123401","whatsapp":"212528123401","address":"Hay Mohammadi, Agadir","years_exp":12},
+  {"name":"Plombier Urgence Agadir","service":"plumber","city":"Agadir","rating":4.8,"reviews":107,"verified":True,"bio":"Plombier urgence Agadir 24h. Intervention rapide. Fuites, WC, douche, chauffe-eau.","tags":["24h","Rapide","WC"],"phone":"0661-789067","whatsapp":"212661789067","address":"Agadir","years_exp":15},
+  {"name":"Plombier Agadir Marina","service":"plumber","city":"Agadir","rating":4.6,"reviews":38,"verified":False,"bio":"Plombier Marina et Founty Agadir. Villas, appartements, residences. Devis gratuit.","tags":["Marina","Founty","Residences"],"phone":"0662-890178","whatsapp":"212662890178","address":"Marina, Agadir","years_exp":9},
+  {"name":"Electricien Agadir Pro","service":"electrician","city":"Agadir","rating":4.8,"reviews":94,"verified":True,"bio":"Electricien Agadir et Inezgane. Tableau, climatisation, solaire, domotique. Certifie.","tags":["Inezgane","Climatisation","Domotique"],"phone":"0663-901289","whatsapp":"212663901289","address":"Agadir","years_exp":14},
+  {"name":"Electricien Solaire Agadir","service":"electrician","city":"Agadir","rating":4.9,"reviews":152,"verified":True,"bio":"Specialiste solaire Agadir-Souss. Panneaux, onduleurs, batterie, autoconsommation.","tags":["Souss","Autoconsommation","Batterie"],"phone":"0664-012390","whatsapp":"212664012390","address":"Agadir","years_exp":11},
+  {"name":"Macon Agadir Construction","service":"builder","city":"Agadir","rating":4.7,"reviews":88,"verified":True,"bio":"Entrepreneur Agadir. Construction villas, hotels, immeubles. Gros oeuvre et renovation.","tags":["Villas","Hotels","Gros oeuvre"],"phone":"0665-123401","whatsapp":"212665123401","address":"Agadir","years_exp":20},
+  {"name":"Peintre Agadir Facade","service":"painter","city":"Agadir","rating":4.7,"reviews":71,"verified":True,"bio":"Peintre facade et interieur Agadir. Enduits, hydrofuge, isolation thermique par exterieur.","tags":["Facade","Hydrofuge","Isolation"],"phone":"0666-234512","whatsapp":"212666234512","address":"Agadir","years_exp":12},
+  {"name":"Menuisier Agadir Aluminium","service":"carpenter","city":"Agadir","rating":4.6,"reviews":54,"verified":False,"bio":"Menuisier aluminium Agadir. Fenetres, portes, garde-corps, pergolas sur mesure.","tags":["Pergolas","Garde-corps","Sur mesure"],"phone":"0667-345623","whatsapp":"212667345623","address":"Agadir","years_exp":9},
+  # ══ MEKNES ════════════════════════════════════════════════════════
+  {"name":"Plombier Meknes Centre","service":"plumber","city":"Meknes","rating":4.7,"reviews":61,"verified":True,"bio":"Plombier Meknes centre et Hamriya. Fuites, debouchage, chauffe-eau, salle de bain.","tags":["Centre","Hamriya","Salle de bain"],"phone":"0535-234512","whatsapp":"212535234512","address":"Meknes","years_exp":13},
+  {"name":"Electricien Meknes Pro","service":"electrician","city":"Meknes","rating":4.8,"reviews":79,"verified":True,"bio":"Electricien Meknes. Tableau electrique, climatisation, solaire, alarme. Devis gratuit.","tags":["Tableau","Solaire","Alarme"],"phone":"0661-890178","whatsapp":"212661890178","address":"Meknes","years_exp":11},
+  {"name":"Macon Renovation Meknes","service":"builder","city":"Meknes","rating":4.7,"reviews":84,"verified":True,"bio":"Renovation maisons et riads Meknes. Zellige, tadelakt, renovation complete.","tags":["Riad","Zellige","Renovation"],"phone":"0662-901289","whatsapp":"212662901289","address":"Meknes","years_exp":18},
+  {"name":"Peintre Meknes Artisan","service":"painter","city":"Meknes","rating":4.8,"reviews":93,"verified":True,"bio":"Peintre artisan Meknes. Tadelakt, stuc, peinture traditionnelle et moderne.","tags":["Tadelakt","Stuc","Traditionnel"],"phone":"0663-012390","whatsapp":"212663012390","address":"Meknes","years_exp":16},
+  {"name":"Menuisier Meknes Bois","service":"carpenter","city":"Meknes","rating":4.7,"reviews":67,"verified":False,"bio":"Menuisier bois Meknes. Portes, fenetres, cuisines, meubles sur mesure.","tags":["Bois","Cuisine","Sur mesure"],"phone":"0664-123401","whatsapp":"212664123401","address":"Meknes","years_exp":14},
+  # ══ OUJDA ═════════════════════════════════════════════════════════
+  {"name":"Plombier Oujda Centre","service":"plumber","city":"Oujda","rating":4.6,"reviews":52,"verified":True,"bio":"Plombier Oujda centre. Fuites, debouchage, chauffe-eau, installation sanitaires.","tags":["Centre","Fuites","Chauffe-eau"],"phone":"0536-123401","whatsapp":"212536123401","address":"Oujda","years_exp":10},
+  {"name":"Electricien Oujda Pro","service":"electrician","city":"Oujda","rating":4.7,"reviews":68,"verified":True,"bio":"Electricien Oujda et region. Tableau, installation, solaire, climatisation.","tags":["Tableau","Solaire","Climatisation"],"phone":"0661-901289","whatsapp":"212661901289","address":"Oujda","years_exp":12},
+  {"name":"Macon Oujda Construction","service":"builder","city":"Oujda","rating":4.6,"reviews":71,"verified":True,"bio":"Entrepreneur construction Oujda-Oriental. Villas, renovation, carrelage, finitions.","tags":["Oriental","Villas","Finitions"],"phone":"0662-012390","whatsapp":"212662012390","address":"Oujda","years_exp":16},
+  {"name":"Peintre Oujda","service":"painter","city":"Oujda","rating":4.7,"reviews":58,"verified":False,"bio":"Peintre Oujda. Interieur, exterieur, facade, tadelakt. Devis gratuit sur place.","tags":["Facade","Tadelakt","Devis"],"phone":"0663-123401","whatsapp":"212663123401","address":"Oujda","years_exp":11},
+  # ══ AUTRES VILLES ═════════════════════════════════════════════════
+  {"name":"Plombier Nador","service":"plumber","city":"Nador","rating":4.6,"reviews":44,"verified":True,"bio":"Plombier Nador et Selouane. Fuites, debouchage, chauffe-eau, salle de bain.","tags":["Nador","Selouane","Urgent"],"phone":"0536-234512","whatsapp":"212536234512","address":"Nador","years_exp":9},
+  {"name":"Electricien Nador","service":"electrician","city":"Nador","rating":4.7,"reviews":57,"verified":True,"bio":"Electricien Nador. Tableau, installation, depannage, solaire. Intervention rapide.","tags":["Tableau","Solaire","Rapide"],"phone":"0661-012390","whatsapp":"212661012390","address":"Nador","years_exp":11},
+  {"name":"Macon Nador","service":"builder","city":"Nador","rating":4.6,"reviews":62,"verified":False,"bio":"Macon Nador et region. Construction, renovation, carrelage, peinture. Devis gratuit.","tags":["Construction","Renovation","Carrelage"],"phone":"0662-123401","whatsapp":"212662123401","address":"Nador","years_exp":13},
+  {"name":"Plombier Tetouan","service":"plumber","city":"Tetouan","rating":4.7,"reviews":59,"verified":True,"bio":"Plombier Tetouan et Martil. Fuites, debouchage, chauffe-eau, salle de bain complete.","tags":["Tetouan","Martil","Complet"],"phone":"0539-345623","whatsapp":"212539345623","address":"Tetouan","years_exp":12},
+  {"name":"Electricien Tetouan","service":"electrician","city":"Tetouan","rating":4.7,"reviews":64,"verified":True,"bio":"Electricien Tetouan. Tableau, installation, climatisation, solaire. Devis gratuit.","tags":["Tableau","Climatisation","Solaire"],"phone":"0661-345634","whatsapp":"212661345634","address":"Tetouan","years_exp":10},
+  {"name":"Macon Renovation Tetouan","service":"builder","city":"Tetouan","rating":4.8,"reviews":78,"verified":True,"bio":"Renovation maisons Tetouan et region. Construction, extension, finitions. Expert local.","tags":["Extension","Finitions","Expert"],"phone":"0662-456745","whatsapp":"212662456745","address":"Tetouan","years_exp":17},
+  {"name":"Peintre Tetouan","service":"painter","city":"Tetouan","rating":4.7,"reviews":52,"verified":False,"bio":"Peintre Tetouan. Interieur, facade, tadelakt, stuc. Artisan qualifie.","tags":["Facade","Tadelakt","Qualifie"],"phone":"0663-567856","whatsapp":"212663567856","address":"Tetouan","years_exp":13},
+  {"name":"Plombier Kenitra","service":"plumber","city":"Kenitra","rating":4.7,"reviews":63,"verified":True,"bio":"Plombier Kenitra. Fuites, debouchage, chauffe-eau, sanitaires. Intervention rapide.","tags":["Kenitra","Fuites","Rapide"],"phone":"0537-123401","whatsapp":"212537123401","address":"Kenitra","years_exp":11},
+  {"name":"Electricien Kenitra","service":"electrician","city":"Kenitra","rating":4.6,"reviews":48,"verified":False,"bio":"Electricien Kenitra et Sale. Tableau, installation, depannage. Tarifs competitifs.","tags":["Sale","Tableau","Competitif"],"phone":"0661-678967","whatsapp":"212661678967","address":"Kenitra","years_exp":9},
+  {"name":"Plombier Sale Tabriquet","service":"plumber","city":"Sale","rating":4.7,"reviews":67,"verified":True,"bio":"Plombier Sale Tabriquet et Bettana. Fuites, debouchage, chauffe-eau. Devis gratuit.","tags":["Tabriquet","Bettana","Devis"],"phone":"0537-234512","whatsapp":"212537234512","address":"Sale","years_exp":12},
+  {"name":"Electricien Sale","service":"electrician","city":"Sale","rating":4.7,"reviews":54,"verified":True,"bio":"Electricien Sale. Tableau, installation, climatisation, solaire. Certifie.","tags":["Tableau","Climatisation","Certifie"],"phone":"0661-789078","whatsapp":"212661789078","address":"Sale","years_exp":10},
+  {"name":"Macon Sale","service":"builder","city":"Sale","rating":4.6,"reviews":61,"verified":False,"bio":"Macon Sale et environs. Renovation, construction, carrelage, peinture.","tags":["Renovation","Carrelage","Peinture"],"phone":"0662-890189","whatsapp":"212662890189","address":"Sale","years_exp":14},
+  {"name":"Plombier El Jadida","service":"plumber","city":"El Jadida","rating":4.7,"reviews":49,"verified":True,"bio":"Plombier El Jadida et Azemmour. Fuites, debouchage, chauffe-eau. Rapide.","tags":["El Jadida","Azemmour","Rapide"],"phone":"0523-123401","whatsapp":"212523123401","address":"El Jadida","years_exp":11},
+  {"name":"Electricien El Jadida","service":"electrician","city":"El Jadida","rating":4.6,"reviews":43,"verified":False,"bio":"Electricien El Jadida. Tableau, installation, solaire. Devis gratuit.","tags":["Tableau","Solaire","Devis"],"phone":"0661-901290","whatsapp":"212661901290","address":"El Jadida","years_exp":9},
+  {"name":"Plombier Safi","service":"plumber","city":"Safi","rating":4.6,"reviews":38,"verified":True,"bio":"Plombier Safi. Fuites, debouchage, chauffe-eau, sanitaires. Devis gratuit.","tags":["Safi","Fuites","Devis"],"phone":"0524-456734","whatsapp":"212524456734","address":"Safi","years_exp":10},
+  {"name":"Electricien Safi","service":"electrician","city":"Safi","rating":4.7,"reviews":44,"verified":True,"bio":"Electricien Safi. Tableau, installation, solaire, climatisation.","tags":["Tableau","Solaire","Climatisation"],"phone":"0661-012401","whatsapp":"212661012401","address":"Safi","years_exp":11},
+  {"name":"Plombier Beni Mellal","service":"plumber","city":"Beni Mellal","rating":4.6,"reviews":41,"verified":True,"bio":"Plombier Beni Mellal. Fuites, debouchage, chauffe-eau. Intervention rapide.","tags":["Beni Mellal","Fuites","Rapide"],"phone":"0523-234512","whatsapp":"212523234512","address":"Beni Mellal","years_exp":11},
+  {"name":"Electricien Beni Mellal","service":"electrician","city":"Beni Mellal","rating":4.7,"reviews":52,"verified":True,"bio":"Electricien Beni Mellal. Tableau, installation, solaire. Certifie.","tags":["Tableau","Solaire","Certifie"],"phone":"0661-123412","whatsapp":"212661123412","address":"Beni Mellal","years_exp":12},
+  {"name":"Macon Beni Mellal","service":"builder","city":"Beni Mellal","rating":4.6,"reviews":58,"verified":False,"bio":"Macon Beni Mellal. Construction, renovation, carrelage. Devis gratuit.","tags":["Construction","Carrelage","Devis"],"phone":"0662-234523","whatsapp":"212662234523","address":"Beni Mellal","years_exp":15},
+  {"name":"Plombier Al Hoceima","service":"plumber","city":"Al Hoceima","rating":4.6,"reviews":38,"verified":True,"bio":"Plombier Al Hoceima. Fuites, debouchage, chauffe-eau, salle de bain.","tags":["Urgent","Fuites","Salle de bain"],"phone":"0539-456734","whatsapp":"212539456734","address":"Al Hoceima","years_exp":10},
+  {"name":"Electricien Al Hoceima","service":"electrician","city":"Al Hoceima","rating":4.7,"reviews":47,"verified":True,"bio":"Electricien Al Hoceima. Tableau, installation, solaire. Intervention rapide.","tags":["Tableau","Solaire","Rapide"],"phone":"0661-345645","whatsapp":"212661345645","address":"Al Hoceima","years_exp":9},
+  {"name":"Plombier Chefchaouen","service":"plumber","city":"Chefchaouen","rating":4.7,"reviews":34,"verified":True,"bio":"Plombier Chefchaouen. Fuites, debouchage, chauffe-eau. Artisan local qualifie.","tags":["Local","Qualifie","Artisan"],"phone":"0539-567845","whatsapp":"212539567845","address":"Chefchaouen","years_exp":12},
+  {"name":"Macon Chefchaouen","service":"builder","city":"Chefchaouen","rating":4.8,"reviews":42,"verified":True,"bio":"Macon Chefchaouen. Renovation maisons traditionnelles, pierre, zellige. Expert local.","tags":["Pierre","Zellige","Traditionnel"],"phone":"0661-456756","whatsapp":"212661456756","address":"Chefchaouen","years_exp":18},
+  {"name":"Plombier Ouarzazate","service":"plumber","city":"Ouarzazate","rating":4.7,"reviews":33,"verified":True,"bio":"Plombier Ouarzazate. Fuites, chauffe-eau solaire, sanitaires. Expert region.","tags":["Solaire","Expert","Region"],"phone":"0524-234512","whatsapp":"212524234512","address":"Ouarzazate","years_exp":12},
+  {"name":"Electricien Ouarzazate","service":"electrician","city":"Ouarzazate","rating":4.8,"reviews":41,"verified":True,"bio":"Electricien Ouarzazate. Solaire, tableau, climatisation. Hotels et villas.","tags":["Hotels","Villas","Solaire"],"phone":"0661-567867","whatsapp":"212661567867","address":"Ouarzazate","years_exp":13},
+  {"name":"Macon Ouarzazate","service":"builder","city":"Ouarzazate","rating":4.7,"reviews":47,"verified":True,"bio":"Macon Ouarzazate. Construction kasbahs, villas, renovation. Artisan qualifie.","tags":["Kasbahs","Villas","Artisan"],"phone":"0662-678978","whatsapp":"212662678978","address":"Ouarzazate","years_exp":19},
+  {"name":"Plombier Essaouira","service":"plumber","city":"Essaouira","rating":4.7,"reviews":36,"verified":True,"bio":"Plombier Essaouira. Fuites, debouchage, chauffe-eau. Riad et villas.","tags":["Riad","Villas","Fuites"],"phone":"0524-345623","whatsapp":"212524345623","address":"Essaouira","years_exp":11},
+  {"name":"Macon Renovation Essaouira","service":"builder","city":"Essaouira","rating":4.8,"reviews":53,"verified":True,"bio":"Renovation riads Essaouira. Pierre bleue, bois thuya, tadelakt. Expert patrimoine.","tags":["Riad","Thuya","Pierre bleue"],"phone":"0661-789089","whatsapp":"212661789089","address":"Essaouira","years_exp":20},
+  {"name":"Plombier Laayoune","service":"plumber","city":"Laayoune","rating":4.6,"reviews":29,"verified":True,"bio":"Plombier Laayoune. Fuites, debouchage, chauffe-eau, sanitaires. Devis gratuit.","tags":["Laayoune","Fuites","Devis"],"phone":"0528-678956","whatsapp":"212528678956","address":"Laayoune","years_exp":10},
+  {"name":"Electricien Laayoune","service":"electrician","city":"Laayoune","rating":4.7,"reviews":36,"verified":True,"bio":"Electricien Laayoune. Tableau, installation, solaire, climatisation.","tags":["Solaire","Tableau","Climatisation"],"phone":"0661-890190","whatsapp":"212661890190","address":"Laayoune","years_exp":11},
+  {"name":"Macon Laayoune","service":"builder","city":"Laayoune","rating":4.6,"reviews":31,"verified":False,"bio":"Macon Laayoune. Construction, renovation, carrelage. Devis gratuit.","tags":["Construction","Renovation","Carrelage"],"phone":"0662-901201","whatsapp":"212662901201","address":"Laayoune","years_exp":13},
+  {"name":"Plombier Dakhla","service":"plumber","city":"Dakhla","rating":4.6,"reviews":22,"verified":True,"bio":"Plombier Dakhla. Fuites, debouchage, chauffe-eau. Intervention rapide.","tags":["Dakhla","Fuites","Rapide"],"phone":"0528-789067","whatsapp":"212528789067","address":"Dakhla","years_exp":8},
+  {"name":"Electricien Dakhla","service":"electrician","city":"Dakhla","rating":4.7,"reviews":27,"verified":True,"bio":"Electricien Dakhla. Tableau, installation, solaire. Devis gratuit.","tags":["Solaire","Tableau","Devis"],"phone":"0661-012312","whatsapp":"212661012312","address":"Dakhla","years_exp":9},
+  {"name":"Plombier Guelmim","service":"plumber","city":"Guelmim","rating":4.5,"reviews":18,"verified":True,"bio":"Plombier Guelmim. Fuites, debouchage, chauffe-eau, sanitaires.","tags":["Guelmim","Fuites","Sanitaires"],"phone":"0528-890178","whatsapp":"212528890178","address":"Guelmim","years_exp":9},
+  {"name":"Electricien Guelmim","service":"electrician","city":"Guelmim","rating":4.6,"reviews":24,"verified":False,"bio":"Electricien Guelmim. Tableau, installation, solaire.","tags":["Tableau","Solaire","Installation"],"phone":"0661-123423","whatsapp":"212661123423","address":"Guelmim","years_exp":8},
+  {"name":"Plombier Tiznit","service":"plumber","city":"Tiznit","rating":4.6,"reviews":22,"verified":True,"bio":"Plombier Tiznit. Fuites, chauffe-eau solaire, sanitaires. Expert local.","tags":["Solaire","Expert","Local"],"phone":"0528-567845","whatsapp":"212528567845","address":"Tiznit","years_exp":10},
+  {"name":"Electricien Tiznit","service":"electrician","city":"Tiznit","rating":4.7,"reviews":27,"verified":False,"bio":"Electricien Tiznit. Tableau, solaire, installation. Devis gratuit.","tags":["Tableau","Solaire","Devis"],"phone":"0661-234534","whatsapp":"212661234534","address":"Tiznit","years_exp":9},
+  {"name":"Plombier Taroudannt","service":"plumber","city":"Taroudannt","rating":4.6,"reviews":27,"verified":True,"bio":"Plombier Taroudannt. Fuites, chauffe-eau solaire, sanitaires. Devis gratuit.","tags":["Solaire","Fuites","Devis"],"phone":"0528-456734","whatsapp":"212528456734","address":"Taroudannt","years_exp":10},
+  {"name":"Electricien Taroudannt","service":"electrician","city":"Taroudannt","rating":4.7,"reviews":32,"verified":False,"bio":"Electricien Taroudannt. Tableau, installation, solaire. Tarifs competitifs.","tags":["Tableau","Solaire","Competitif"],"phone":"0661-345645","whatsapp":"212661345645","address":"Taroudannt","years_exp":9},
+  {"name":"Plombier Errachidia","service":"plumber","city":"Errachidia","rating":4.6,"reviews":24,"verified":True,"bio":"Plombier Errachidia. Fuites, chauffe-eau, sanitaires. Expert region.","tags":["Expert","Fuites","Region"],"phone":"0535-345623","whatsapp":"212535345623","address":"Errachidia","years_exp":11},
+  {"name":"Electricien Errachidia","service":"electrician","city":"Errachidia","rating":4.6,"reviews":29,"verified":False,"bio":"Electricien Errachidia. Tableau, solaire, installation. Devis gratuit.","tags":["Solaire","Tableau","Devis"],"phone":"0661-456756","whatsapp":"212661456756","address":"Errachidia","years_exp":10},
+  {"name":"Plombier Settat","service":"plumber","city":"Settat","rating":4.6,"reviews":33,"verified":True,"bio":"Plombier Settat. Fuites, debouchage, chauffe-eau, sanitaires.","tags":["Settat","Fuites","Sanitaires"],"phone":"0523-345623","whatsapp":"212523345623","address":"Settat","years_exp":9},
+  {"name":"Electricien Settat","service":"electrician","city":"Settat","rating":4.6,"reviews":39,"verified":False,"bio":"Electricien Settat. Tableau, installation, solaire. Devis gratuit.","tags":["Tableau","Solaire","Devis"],"phone":"0661-567867","whatsapp":"212661567867","address":"Settat","years_exp":10},
+  {"name":"Plombier Taza","service":"plumber","city":"Taza","rating":4.5,"reviews":28,"verified":True,"bio":"Plombier Taza. Fuites, debouchage, chauffe-eau. Artisan local.","tags":["Taza","Local","Fuites"],"phone":"0535-456734","whatsapp":"212535456734","address":"Taza","years_exp":10},
+  {"name":"Plombier Larache","service":"plumber","city":"Larache","rating":4.6,"reviews":31,"verified":True,"bio":"Plombier Larache. Fuites, debouchage, chauffe-eau. Devis gratuit.","tags":["Larache","Fuites","Devis"],"phone":"0539-678956","whatsapp":"212539678956","address":"Larache","years_exp":10},
+  {"name":"Plombier Berkane","service":"plumber","city":"Berkane","rating":4.6,"reviews":26,"verified":True,"bio":"Plombier Berkane. Fuites, chauffe-eau, sanitaires. Intervention rapide.","tags":["Berkane","Fuites","Rapide"],"phone":"0536-345623","whatsapp":"212536345623","address":"Berkane","years_exp":9},
+
+  # ══ CASABLANCA — Techniciens Climatisation ══════════════════════════════
+  {"name":"Clim Expert Casa","service":"ac_tech","city":"Casablanca","rating":4.8,"reviews":93,"verified":True,"bio":"Technicien climatisation Casablanca. Installation, entretien, depannage toutes marques. Devis gratuit.","tags":["Toutes marques","Entretien","Depannage"],"phone":"0661-910010","whatsapp":"212661910010","address":"Casablanca","years_exp":12},
+  {"name":"Froid & Confort Casa","service":"ac_tech","city":"Casablanca","rating":4.7,"reviews":67,"verified":True,"bio":"Installation climatisation split, cassette, gainable. Recharge gaz, entretien annuel Casablanca.","tags":["Split","Gainable","Recharge gaz"],"phone":"0662-910011","whatsapp":"212662910011","address":"Casablanca","years_exp":9},
+  {"name":"Clim Urgence 24h Casa","service":"ac_tech","city":"Casablanca","rating":4.9,"reviews":148,"verified":True,"bio":"Depannage climatisation urgence 24h/7j Casablanca. Toutes marques. Intervention rapide garantie.","tags":["Urgence 24h","Rapide","Toutes marques"],"phone":"0663-910012","whatsapp":"212663910012","address":"Grand Casablanca","years_exp":14},
+  {"name":"Clim Agdal Rabat","service":"ac_tech","city":"Rabat","rating":4.8,"reviews":78,"verified":True,"bio":"Technicien clim Agdal et Hay Riad. Installation Daikin, Mitsubishi, Samsung. Contrat entretien.","tags":["Daikin","Mitsubishi","Contrat entretien"],"phone":"0664-910013","whatsapp":"212664910013","address":"Agdal, Rabat","years_exp":10},
+  {"name":"Froid Service Rabat","service":"ac_tech","city":"Rabat","rating":4.7,"reviews":52,"verified":False,"bio":"Climatisation et refrigeration Rabat. Installation, depannage, recharge. Tarifs competitifs.","tags":["Refrigeration","Recharge","Competitif"],"phone":"0665-910014","whatsapp":"212665910014","address":"Rabat","years_exp":8},
+  {"name":"Clim Marrakech Expert","service":"ac_tech","city":"Marrakech","rating":4.9,"reviews":121,"verified":True,"bio":"Specialiste climatisation riads, hotels et villas Marrakech. Installation, entretien, depannage express.","tags":["Riads","Hotels","Express"],"phone":"0666-910015","whatsapp":"212666910015","address":"Gueliz, Marrakech","years_exp":13},
+  {"name":"Clim Nord Tanger","service":"ac_tech","city":"Tanger","rating":4.7,"reviews":59,"verified":True,"bio":"Technicien climatisation Tanger et region. Installation, maintenance, recharge gaz. Disponible 7j/7.","tags":["7j/7","Maintenance","Nord Maroc"],"phone":"0668-910017","whatsapp":"212668910017","address":"Tanger","years_exp":9},
+  {"name":"Clim Agadir Souss","service":"ac_tech","city":"Agadir","rating":4.8,"reviews":63,"verified":True,"bio":"Technicien clim Agadir. Pompe a chaleur, solaire thermique, climatisation. Expertise region Souss.","tags":["Pompe a chaleur","Solaire","Souss"],"phone":"0669-910018","whatsapp":"212669910018","address":"Agadir","years_exp":11},
+
+  # ══ Serruriers ══════════════════════════════════════════════════════════
+  {"name":"Serrurier Urgence Casa","service":"locksmith","city":"Casablanca","rating":4.9,"reviews":204,"verified":True,"bio":"Serrurier urgence Casablanca. Ouverture de porte, changement serrure, blindage. Intervention 15 min.","tags":["Urgence","15 min","Blindage"],"phone":"0661-920020","whatsapp":"212661920020","address":"Casablanca, toutes zones","years_exp":15},
+  {"name":"Securite Casa Serrure","service":"locksmith","city":"Casablanca","rating":4.7,"reviews":83,"verified":True,"bio":"Serrurier Casablanca. Serrures multipoints, coffre-forts, alarmes, interphones. Devis gratuit.","tags":["Multipoints","Coffre","Alarme"],"phone":"0662-920021","whatsapp":"212662920021","address":"Casablanca","years_exp":12},
+  {"name":"Serrurier Express Maarif","service":"locksmith","city":"Casablanca","rating":4.6,"reviews":57,"verified":False,"bio":"Serrurier Maarif et Racine. Ouverture sans casse, remplacement, renforcement porte blindee.","tags":["Sans casse","Maarif","Porte blindee"],"phone":"0663-920022","whatsapp":"212663920022","address":"Maarif, Casablanca","years_exp":8},
+  {"name":"Serrurier Rabat Express","service":"locksmith","city":"Rabat","rating":4.8,"reviews":96,"verified":True,"bio":"Serrurier Rabat 24h/7j. Depannage, serrures securite, coffre-forts. Intervention rapide.","tags":["24h","Coffre-fort","Securite"],"phone":"0664-920023","whatsapp":"212664920023","address":"Rabat","years_exp":13},
+  {"name":"Serrurier Marrakech","service":"locksmith","city":"Marrakech","rating":4.7,"reviews":62,"verified":True,"bio":"Serrurier Marrakech. Riads, villas, hotels. Serrures decoratives, multipoints, alarmes.","tags":["Riads","Hotels","Decoratives"],"phone":"0665-920024","whatsapp":"212665920024","address":"Medina, Marrakech","years_exp":10},
+  {"name":"Serrurier Tanger 24h","service":"locksmith","city":"Tanger","rating":4.7,"reviews":48,"verified":True,"bio":"Serrurier Tanger. Ouverture de porte urgence, serrures, blindage. Disponible 24h/7j.","tags":["Urgence","Blindage","24h"],"phone":"0666-920025","whatsapp":"212666920025","address":"Tanger","years_exp":9},
+
+  # ══ Nettoyage & Menage ══════════════════════════════════════════════════
+  {"name":"Nettoyage Pro Casa","service":"cleaner","city":"Casablanca","rating":4.8,"reviews":117,"verified":True,"bio":"Service nettoyage professionnel Casablanca. Appartements, bureaux, fin de chantier. Equipe formee.","tags":["Bureaux","Fin chantier","Equipe"],"phone":"0661-930030","whatsapp":"212661930030","address":"Casablanca","years_exp":7},
+  {"name":"Menage Express Casa","service":"cleaner","city":"Casablanca","rating":4.7,"reviews":88,"verified":False,"bio":"Aide menagere et nettoyage Casablanca. Regulier ou ponctuel. Produits fournis. Personnel qualifie.","tags":["Regulier","Produits fournis","Qualifie"],"phone":"0662-930031","whatsapp":"212662930031","address":"Grand Casablanca","years_exp":5},
+  {"name":"Clean & Shine Maroc","service":"cleaner","city":"Casablanca","rating":4.9,"reviews":176,"verified":True,"bio":"Societe de nettoyage Casablanca. Vitres, moquettes, apres sinistre. Devis gratuit. Intervention rapide.","tags":["Vitres","Moquettes","Sinistre"],"phone":"0663-930032","whatsapp":"212663930032","address":"Casablanca","years_exp":10},
+  {"name":"Service Menage Rabat","service":"cleaner","city":"Rabat","rating":4.8,"reviews":94,"verified":True,"bio":"Nettoyage et menage Rabat. Particuliers et professionnels. Flexible, discret, fiable.","tags":["Discret","Flexible","Professionnel"],"phone":"0664-930033","whatsapp":"212664930033","address":"Rabat","years_exp":6},
+  {"name":"Menage Marrakech Riads","service":"cleaner","city":"Marrakech","rating":4.9,"reviews":132,"verified":True,"bio":"Nettoyage riads et maisons de charme Marrakech. Service premium. Personnel forme et de confiance.","tags":["Riads","Premium","Personnel forme"],"phone":"0665-930034","whatsapp":"212665930034","address":"Medina, Marrakech","years_exp":8},
+  {"name":"Nettoyage Agadir","service":"cleaner","city":"Agadir","rating":4.7,"reviews":61,"verified":True,"bio":"Nettoyage villas et residences Agadir. Fin de sejour, entretien regulier. Devis gratuit.","tags":["Villas","Fin de sejour","Regulier"],"phone":"0666-930035","whatsapp":"212666930035","address":"Agadir","years_exp":5},
+
+  # ══ Jardiniers & Paysagistes ════════════════════════════════════════════
+  {"name":"Jardinier Paysagiste Casa","service":"gardener","city":"Casablanca","rating":4.8,"reviews":74,"verified":True,"bio":"Jardinier paysagiste Casablanca. Creation et entretien jardins, terrasses, gazons, haies, irrigation.","tags":["Paysagisme","Irrigation","Haies"],"phone":"0661-940040","whatsapp":"212661940040","address":"Casablanca","years_exp":11},
+  {"name":"Vert & Nature Casa","service":"gardener","city":"Casablanca","rating":4.6,"reviews":48,"verified":False,"bio":"Entretien jardins et espaces verts Casablanca. Taille, tonte, plantation, traitement arbres.","tags":["Taille","Tonte","Traitement"],"phone":"0662-940041","whatsapp":"212662940041","address":"Casablanca","years_exp":7},
+  {"name":"Paysagiste Souissi Rabat","service":"gardener","city":"Rabat","rating":4.9,"reviews":109,"verified":True,"bio":"Paysagiste Souissi et Hay Riad. Jardins mediterraneens, potagers, bassins, eclairage exterieur.","tags":["Bassin","Potager","Eclairage ext."],"phone":"0663-940042","whatsapp":"212663940042","address":"Souissi, Rabat","years_exp":15},
+  {"name":"Jardinier Marrakech","service":"gardener","city":"Marrakech","rating":4.8,"reviews":87,"verified":True,"bio":"Jardinier riads et villas Marrakech. Palmiers, plantes locales, jardins zen, arrosage automatique.","tags":["Palmiers","Zen","Arrosage auto"],"phone":"0664-940043","whatsapp":"212664940043","address":"Palmeraie, Marrakech","years_exp":12},
+  {"name":"Espaces Verts Agadir","service":"gardener","city":"Agadir","rating":4.7,"reviews":55,"verified":False,"bio":"Jardinier Agadir et region Souss. Entretien, creation, plantation, arrosage automatique. Devis gratuit.","tags":["Souss","Plantation","Arrosage"],"phone":"0665-940044","whatsapp":"212665940044","address":"Agadir","years_exp":9},
+  {"name":"Jardinier Tanger","service":"gardener","city":"Tanger","rating":4.7,"reviews":42,"verified":True,"bio":"Jardinier paysagiste Tanger. Entretien jardins, taille palmiers, espaces verts residences.","tags":["Palmiers","Residences","Taille"],"phone":"0666-940045","whatsapp":"212666940045","address":"Tanger","years_exp":8},
+
+  # ══ Soudeurs & Ferronniers ══════════════════════════════════════════════
+  {"name":"Soudeur Ferronnerie Casa","service":"welder","city":"Casablanca","rating":4.8,"reviews":68,"verified":True,"bio":"Soudeur ferronnerie Casablanca. Portails, grilles, garde-corps, pergolas, escaliers metalliques. Sur mesure.","tags":["Portails","Garde-corps","Pergolas"],"phone":"0661-950050","whatsapp":"212661950050","address":"Casablanca","years_exp":14},
+  {"name":"Metal & Forge Casa","service":"welder","city":"Casablanca","rating":4.7,"reviews":52,"verified":False,"bio":"Soudure MIG/TIG Casablanca. Acier, inox, aluminium. Reparation et fabrication sur mesure. Devis gratuit.","tags":["MIG/TIG","Inox","Aluminium"],"phone":"0662-950051","whatsapp":"212662950051","address":"Casablanca","years_exp":10},
+  {"name":"Soudeur Tanger","service":"welder","city":"Tanger","rating":4.7,"reviews":43,"verified":True,"bio":"Soudeur Tanger. Portails automatiques, clotures, structures metalliques. Devis gratuit rapide.","tags":["Portails auto","Clotures","Structures"],"phone":"0663-950052","whatsapp":"212663950052","address":"Tanger","years_exp":11},
+  {"name":"Ferronnerie Agadir","service":"welder","city":"Agadir","rating":4.8,"reviews":57,"verified":True,"bio":"Ferronnerie et soudure Agadir. Portails, verandas, garde-corps, mobilier de jardin metallique.","tags":["Verandas","Mobilier","Sur mesure"],"phone":"0664-950053","whatsapp":"212664950053","address":"Agadir","years_exp":12},
+  {"name":"Soudeur Marrakech","service":"welder","city":"Marrakech","rating":4.6,"reviews":38,"verified":False,"bio":"Soudeur ferronnerie Marrakech. Portails riad, grilles decoratives marocaines, escaliers fer forge.","tags":["Riad","Fer forge","Decoratif"],"phone":"0665-950054","whatsapp":"212665950054","address":"Marrakech","years_exp":9},
+  {"name":"Soudeur Rabat","service":"welder","city":"Rabat","rating":4.7,"reviews":46,"verified":True,"bio":"Ferronnerie et soudure Rabat. Portails, grilles de securite, escaliers, mobilier urbain.","tags":["Securite","Portails","Mobilier"],"phone":"0666-950055","whatsapp":"212666950055","address":"Rabat","years_exp":11},
+
+  # ══ Fes — nouvelles categories ══════════════════════════════════════════
+  {"name":"Clim Expert Fes","service":"ac_tech","city":"Fes","rating":4.8,"reviews":61,"verified":True,"bio":"Technicien climatisation Fes. Installation, depannage, entretien. Toutes marques, devis gratuit.","tags":["Toutes marques","Entretien","Devis"],"phone":"0661-960060","whatsapp":"212661960060","address":"Fes","years_exp":10},
+  {"name":"Serrurier Fes 24h","service":"locksmith","city":"Fes","rating":4.7,"reviews":48,"verified":True,"bio":"Serrurier Fes medina et ville nouvelle. Ouverture porte, serrures, blindage. Intervention rapide.","tags":["Medina","Blindage","Rapide"],"phone":"0662-960061","whatsapp":"212662960061","address":"Fes","years_exp":12},
+  {"name":"Nettoyage Fes Pro","service":"cleaner","city":"Fes","rating":4.7,"reviews":54,"verified":True,"bio":"Nettoyage maisons, riads et bureaux Fes. Service regulier ou ponctuel. Personnel qualifie.","tags":["Riads","Bureaux","Regulier"],"phone":"0663-960062","whatsapp":"212663960062","address":"Fes","years_exp":7},
+  {"name":"Jardinier Fes Riad","service":"gardener","city":"Fes","rating":4.8,"reviews":39,"verified":False,"bio":"Jardinier paysagiste Fes. Patios de riads, jardins andalous, plantation, entretien.","tags":["Riad","Andalou","Patio"],"phone":"0664-960063","whatsapp":"212664960063","address":"Fes","years_exp":9},
+  {"name":"Soudeur Ferronnerie Fes","service":"welder","city":"Fes","rating":4.7,"reviews":44,"verified":True,"bio":"Ferronnerie artisanale Fes. Portails, grilles traditionnelles marocaines, rampes, clotures.","tags":["Artisanal","Portails","Traditionnel"],"phone":"0665-960064","whatsapp":"212665960064","address":"Fes","years_exp":13},
+  {"name":"Carreleur Zellige Fes","service":"tiler","city":"Fes","rating":4.9,"reviews":87,"verified":True,"bio":"Maitre carreleur zellige et bejmat Fes. Expert patrimoine marocain. Restauration riads, hammams.","tags":["Zellige","Bejmat","Restauration"],"phone":"0666-960065","whatsapp":"212666960065","address":"Fes","years_exp":22},
+
+  # ══ Meknes — nouvelles categories ════════════════════════════════════════
+  {"name":"Clim Meknes Service","service":"ac_tech","city":"Meknes","rating":4.7,"reviews":43,"verified":True,"bio":"Technicien climatisation Meknes. Installation split, gainable, cassette. Entretien et recharge.","tags":["Split","Gainable","Recharge"],"phone":"0661-970070","whatsapp":"212661970070","address":"Meknes","years_exp":9},
+  {"name":"Serrurier Meknes","service":"locksmith","city":"Meknes","rating":4.7,"reviews":37,"verified":True,"bio":"Serrurier Meknes. Ouverture, serrures multipoints, coffre-forts, alarmes. Devis gratuit.","tags":["Multipoints","Coffre","Alarme"],"phone":"0662-970071","whatsapp":"212662970071","address":"Meknes","years_exp":10},
+  {"name":"Nettoyage Meknes","service":"cleaner","city":"Meknes","rating":4.6,"reviews":41,"verified":False,"bio":"Service de menage et nettoyage Meknes. Appartements, bureaux, fin de chantier.","tags":["Appartements","Bureaux","Chantier"],"phone":"0663-970072","whatsapp":"212663970072","address":"Meknes","years_exp":6},
+  {"name":"Jardinier Meknes","service":"gardener","city":"Meknes","rating":4.7,"reviews":32,"verified":True,"bio":"Jardinier paysagiste Meknes. Creation et entretien jardins, haies, gazons, arrosage automatique.","tags":["Paysagisme","Gazon","Arrosage"],"phone":"0664-970073","whatsapp":"212664970073","address":"Meknes","years_exp":8},
+  {"name":"Soudeur Meknes","service":"welder","city":"Meknes","rating":4.6,"reviews":29,"verified":False,"bio":"Soudeur ferronnerie Meknes. Portails, clotures, garde-corps, pergolas metalliques sur mesure.","tags":["Portails","Pergolas","Sur mesure"],"phone":"0665-970074","whatsapp":"212665970074","address":"Meknes","years_exp":10},
+  {"name":"Carreleur Meknes","service":"tiler","city":"Meknes","rating":4.7,"reviews":53,"verified":True,"bio":"Carreleur Meknes. Zellige, carrelage moderne, gres cerame, bejmat. Cuisine, salle de bain, terrasse.","tags":["Gres cerame","Zellige","Terrasse"],"phone":"0666-970075","whatsapp":"212666970075","address":"Meknes","years_exp":14},
+
+  # ══ Oujda — nouvelles categories ══════════════════════════════════════════
+  {"name":"Clim Oujda Expert","service":"ac_tech","city":"Oujda","rating":4.7,"reviews":38,"verified":True,"bio":"Technicien clim Oujda et Oriental. Installation, depannage toutes marques, recharge gaz.","tags":["Oriental","Depannage","Recharge"],"phone":"0661-980080","whatsapp":"212661980080","address":"Oujda","years_exp":8},
+  {"name":"Serrurier Oujda","service":"locksmith","city":"Oujda","rating":4.6,"reviews":31,"verified":True,"bio":"Serrurier Oujda. Ouverture sans degat, remplacement serrure, blindage porte. Disponible 24h.","tags":["Sans degat","Blindage","24h"],"phone":"0662-980081","whatsapp":"212662980081","address":"Oujda","years_exp":9},
+  {"name":"Nettoyage Oujda","service":"cleaner","city":"Oujda","rating":4.6,"reviews":28,"verified":False,"bio":"Nettoyage maisons et commerces Oujda. Service ponctuel ou regulier. Equipe serieuse.","tags":["Commerces","Ponctuel","Serieux"],"phone":"0663-980082","whatsapp":"212663980082","address":"Oujda","years_exp":5},
+  {"name":"Soudeur Oujda","service":"welder","city":"Oujda","rating":4.6,"reviews":24,"verified":True,"bio":"Ferronnerie et soudure Oujda. Portails, grilles, garde-corps, structures acier. Devis gratuit.","tags":["Acier","Grilles","Garde-corps"],"phone":"0664-980083","whatsapp":"212664980083","address":"Oujda","years_exp":11},
+  {"name":"Carreleur Oujda","service":"tiler","city":"Oujda","rating":4.6,"reviews":34,"verified":True,"bio":"Carreleur Oujda. Pose carrelage, faience, zellige. Salle de bain, cuisine, terrasse. Devis gratuit.","tags":["Faience","Cuisine","Devis"],"phone":"0665-980084","whatsapp":"212665980084","address":"Oujda","years_exp":10},
+
+  # ══ Tetouan — nouvelles categories ════════════════════════════════════════
+  {"name":"Clim Tetouan","service":"ac_tech","city":"Tetouan","rating":4.7,"reviews":35,"verified":True,"bio":"Technicien climatisation Tetouan et M'diq. Installation, entretien, depannage. Toutes marques.","tags":["M'diq","Toutes marques","Entretien"],"phone":"0661-990090","whatsapp":"212661990090","address":"Tetouan","years_exp":8},
+  {"name":"Serrurier Tetouan","service":"locksmith","city":"Tetouan","rating":4.7,"reviews":27,"verified":True,"bio":"Serrurier Tetouan. Ouverture de porte, serrures securite, blindage. Intervention rapide.","tags":["Securite","Blindage","Rapide"],"phone":"0662-990091","whatsapp":"212662990091","address":"Tetouan","years_exp":9},
+  {"name":"Nettoyage Tetouan","service":"cleaner","city":"Tetouan","rating":4.6,"reviews":22,"verified":False,"bio":"Nettoyage maisons et appartements Tetouan. Service regulier ou ponctuel. Personnel de confiance.","tags":["Confiance","Regulier","Appartements"],"phone":"0663-990092","whatsapp":"212663990092","address":"Tetouan","years_exp":5},
+  {"name":"Soudeur Tetouan","service":"welder","city":"Tetouan","rating":4.6,"reviews":21,"verified":True,"bio":"Soudeur Tetouan. Portails, clotures, grilles decoratives. Travaux en acier et fer forge.","tags":["Fer forge","Decoratif","Clotures"],"phone":"0664-990093","whatsapp":"212664990093","address":"Tetouan","years_exp":9},
+  {"name":"Carreleur Tetouan","service":"tiler","city":"Tetouan","rating":4.7,"reviews":38,"verified":True,"bio":"Carreleur Tetouan. Pose zellige, carrelage et faience. Salle de bain, cuisine. Devis gratuit.","tags":["Zellige","Faience","Devis"],"phone":"0665-990094","whatsapp":"212665990094","address":"Tetouan","years_exp":11},
+
+  # ══ Kenitra — nouvelles categories ════════════════════════════════════════
+  {"name":"Clim Kenitra Pro","service":"ac_tech","city":"Kenitra","rating":4.7,"reviews":41,"verified":True,"bio":"Technicien climatisation Kenitra et Sale. Installation, depannage, maintenance. Certifie.","tags":["Sale","Maintenance","Certifie"],"phone":"0661-995095","whatsapp":"212661995095","address":"Kenitra","years_exp":9},
+  {"name":"Serrurier Kenitra","service":"locksmith","city":"Kenitra","rating":4.6,"reviews":33,"verified":False,"bio":"Serrurier Kenitra. Ouverture porte, remplacement serrure, blindage. Tarifs competitifs.","tags":["Competitif","Blindage","Remplacement"],"phone":"0662-995096","whatsapp":"212662995096","address":"Kenitra","years_exp":8},
+  {"name":"Nettoyage Kenitra","service":"cleaner","city":"Kenitra","rating":4.7,"reviews":31,"verified":True,"bio":"Service nettoyage Kenitra. Maisons, bureaux, commerces. Personnel forme. Produits eco.","tags":["Eco","Bureaux","Forme"],"phone":"0663-995097","whatsapp":"212663995097","address":"Kenitra","years_exp":6},
+  {"name":"Soudeur Kenitra","service":"welder","city":"Kenitra","rating":4.6,"reviews":26,"verified":True,"bio":"Ferronnerie Kenitra. Portails, grilles de securite, escaliers metalliques. Sur mesure.","tags":["Securite","Escaliers","Sur mesure"],"phone":"0664-995098","whatsapp":"212664995098","address":"Kenitra","years_exp":10},
+  {"name":"Carreleur Kenitra","service":"tiler","city":"Kenitra","rating":4.7,"reviews":44,"verified":True,"bio":"Carreleur Kenitra. Pose carrelage, zellige, gres cerame. Salle de bain, cuisine, exterieur.","tags":["Exterieur","Gres cerame","Zellige"],"phone":"0665-995099","whatsapp":"212665995099","address":"Kenitra","years_exp":12},
+
+  # ══ Carreleurs Casa, Rabat, Marrakech (category tiler — major cities) ════
+  {"name":"Carreleur Zellige Casa","service":"tiler","city":"Casablanca","rating":4.8,"reviews":96,"verified":True,"bio":"Maitre carreleur Casablanca. Zellige, gres cerame, marbre, bejmat. Salle de bain et cuisine cle en main.","tags":["Marbre","Zellige","Cle en main"],"phone":"0661-910100","whatsapp":"212661910100","address":"Casablanca","years_exp":16},
+  {"name":"Carreleur Modern Casa","service":"tiler","city":"Casablanca","rating":4.7,"reviews":71,"verified":False,"bio":"Carreleur Casablanca. Grand format, effet beton, microciment. Appartements et villas haut de gamme.","tags":["Grand format","Beton","Microciment"],"phone":"0662-910101","whatsapp":"212662910101","address":"Casablanca","years_exp":11},
+  {"name":"Carreleur Agdal Rabat","service":"tiler","city":"Rabat","rating":4.8,"reviews":78,"verified":True,"bio":"Carreleur Agdal et Hay Riad. Zellige, faience, gres, marbre. Cuisine, salle de bain, terrasse.","tags":["Agdal","Hay Riad","Marbre"],"phone":"0663-910102","whatsapp":"212663910102","address":"Agdal, Rabat","years_exp":13},
+  {"name":"Zelligueur Marrakech","service":"tiler","city":"Marrakech","rating":4.9,"reviews":134,"verified":True,"bio":"Maitre zelligueur Marrakech. Zellige traditionnel et moderne. Riads, hammams, villas. Artisan certifie.","tags":["Zellige trad.","Hammam","Artisan"],"phone":"0664-910103","whatsapp":"212664910103","address":"Medina, Marrakech","years_exp":25},
+  {"name":"Carreleur Tanger","service":"tiler","city":"Tanger","rating":4.7,"reviews":57,"verified":True,"bio":"Carreleur Tanger. Grand format, zellige, gres cerame. Villas et appartements. Devis gratuit.","tags":["Grand format","Villas","Devis"],"phone":"0665-910104","whatsapp":"212665910104","address":"Tanger","years_exp":10},
+  {"name":"Carreleur Agadir","service":"tiler","city":"Agadir","rating":4.7,"reviews":48,"verified":False,"bio":"Carreleur Agadir. Zellige, faience, gres cerame. Salle de bain, piscine, terrasse bord de mer.","tags":["Piscine","Bord de mer","Faience"],"phone":"0666-910105","whatsapp":"212666910105","address":"Agadir","years_exp":9},
+
 ]
 
 def seed_db():
@@ -154,6 +358,68 @@ def serialize(w):
 @app.get("/")
 def root(): return {"message": "Snay3i.ma API — صنايعي.ما"}
 
+# ── CATEGORIES ──────────────────────────────────────────────────────────────
+CATEGORY_META = {
+  "plumber":     {"label": "Plombier",       "ar": "سبّاك",    "emoji": "🔧"},
+  "electrician": {"label": "Électricien",    "ar": "كهربائي",  "emoji": "⚡"},
+  "builder":     {"label": "Maçon",          "ar": "بنّاء",    "emoji": "🧱"},
+  "handyman":    {"label": "Bricoleur",      "ar": "مصلح",     "emoji": "🔨"},
+  "painter":     {"label": "Peintre",        "ar": "نقّاش",    "emoji": "🎨"},
+  "carpenter":   {"label": "Menuisier",      "ar": "نجّار",    "emoji": "🪚"},
+  "tiler":       {"label": "Carreleur",      "ar": "بلاّط",    "emoji": "🏛️"},
+  "ac_tech":     {"label": "Climatisation",  "ar": "تكييف",    "emoji": "❄️"},
+  "locksmith":   {"label": "Serrurier",      "ar": "قفّال",    "emoji": "🔑"},
+  "cleaner":     {"label": "Ménage",         "ar": "تنظيف",    "emoji": "🧹"},
+  "gardener":    {"label": "Jardinier",      "ar": "بستاني",   "emoji": "🌿"},
+  "welder":      {"label": "Soudeur",        "ar": "لحّام",    "emoji": "🔥"},
+}
+
+@app.get("/categories")
+def get_categories(db: Session = Depends(get_db)):
+    from sqlalchemy import func
+    counts = dict(db.query(Worker.service, func.count(Worker.id))
+                    .group_by(Worker.service).all())
+    return [
+        {"id": sid, "count": counts.get(sid, 0), **meta}
+        for sid, meta in CATEGORY_META.items()
+    ]
+
+# ── SEARCH ──────────────────────────────────────────────────────────────────
+@app.get("/search", response_model=list[WorkerOut])
+def search_workers(
+    q: Optional[str] = None,
+    city: Optional[str] = None,
+    service: Optional[str] = None,
+    verified: Optional[bool] = None,
+    min_rating: Optional[float] = None,
+    db: Session = Depends(get_db)
+):
+    query = db.query(Worker)
+    if q:
+        like = f"%{q}%"
+        query = query.filter(
+            Worker.name.ilike(like) |
+            Worker.bio.ilike(like) |
+            Worker.tags.ilike(like) |
+            Worker.address.ilike(like) |
+            Worker.city.ilike(like)
+        )
+    if city and city.lower() not in ("toutes", "all", ""):
+        query = query.filter(Worker.city.ilike(city))
+    if service and service.lower() not in ("all", ""):
+        query = query.filter(Worker.service.ilike(service))
+    if verified is not None:
+        query = query.filter(Worker.verified == verified)
+    if min_rating is not None:
+        query = query.filter(Worker.rating >= min_rating)
+    return [serialize(w) for w in query.order_by(Worker.rating.desc()).all()]
+
+@app.get("/worker/{wid}", response_model=WorkerOut)
+def get_worker_by_id(wid: int, db: Session = Depends(get_db)):
+    w = db.query(Worker).filter(Worker.id == wid).first()
+    if not w: raise HTTPException(404, "Worker not found")
+    return serialize(w)
+
 @app.get("/workers", response_model=list[WorkerOut])
 def get_all(city: Optional[str] = None, db: Session = Depends(get_db)):
     q = db.query(Worker)
@@ -164,9 +430,7 @@ def get_all(city: Optional[str] = None, db: Session = Depends(get_db)):
 def get_by_service(service: str, city: Optional[str] = None, db: Session = Depends(get_db)):
     q = db.query(Worker).filter(Worker.service.ilike(service))
     if city: q = q.filter(Worker.city.ilike(city))
-    workers = q.all()
-    if not workers: raise HTTPException(404, f"No traders for: {service}")
-    return [serialize(w) for w in workers]
+    return [serialize(w) for w in q.all()]  # returns [] instead of 404 when empty
 
 @app.post("/workers", response_model=WorkerOut, status_code=201)
 def create_worker(data: WorkerCreate, db: Session = Depends(get_db)):
@@ -221,3 +485,114 @@ def send_message(data: MessageIn, db: Session = Depends(get_db)):
     )
     db.add(msg); db.commit(); db.refresh(msg)
     return msg
+
+# ── REVIEWS ──────────────────────────────────────────────────────
+class Review(Base):
+    __tablename__ = "reviews"
+    id = Column(Integer, primary_key=True, index=True)
+    worker_id = Column(Integer, nullable=False)
+    author = Column(String, nullable=False)
+    rating = Column(Integer, nullable=False)
+    comment = Column(String, nullable=False)
+    created_at = Column(String, default=lambda: datetime.utcnow().isoformat())
+
+class ReviewIn(BaseModel):
+    worker_id: int
+    author: str
+    rating: int
+    comment: str
+
+class ReviewOut(BaseModel):
+    id: int
+    worker_id: int
+    author: str
+    rating: int
+    comment: str
+    created_at: str
+    class Config: from_attributes = True
+
+@app.get("/reviews/{worker_id}", response_model=list[ReviewOut])
+def get_reviews(worker_id: int, db: Session = Depends(get_db)):
+    return db.query(Review).filter(Review.worker_id == worker_id).order_by(Review.id.desc()).all()
+
+@app.post("/reviews", response_model=ReviewOut, status_code=201)
+def add_review(data: ReviewIn, db: Session = Depends(get_db)):
+    review = Review(**data.dict())
+    db.add(review)
+    db.commit()
+    db.refresh(review)
+    return review
+
+
+# ══ AI CHAT REPLY ═════════════════════════════════════════════════════════════
+class AIReplyIn(BaseModel):
+    worker_id: int
+    messages: list[dict]  # [{"role": "user"|"assistant", "content": "..."}]
+
+FALLBACK_REPLIES = [
+    "Bonjour ! Je vous répondrai dès que possible. N'hésitez pas à m'appeler directement.",
+    "Merci de me contacter. Je reviens vers vous très vite !",
+    "Bonjour, je suis disponible. Appelez-moi pour plus de détails.",
+]
+
+@app.post("/ai-reply")
+def ai_reply(data: AIReplyIn, db: Session = Depends(get_db)):
+    import random
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if not api_key:
+        return {"text": random.choice(FALLBACK_REPLIES), "source": "fallback"}
+
+    w = db.query(Worker).filter(Worker.id == data.worker_id).first()
+    if not w:
+        raise HTTPException(404, "Worker not found")
+
+    label = CATEGORY_META.get(w.service, {}).get("label", w.service)
+    tags_str = ", ".join(json.loads(w.tags)) if w.tags else ""
+
+    system = f"""Tu es {w.name}, artisan {label} professionnel à {w.city}, Maroc.
+Tu as {w.years_exp} ans d'expérience. Tes spécialités: {tags_str}.
+{w.bio}
+
+Instructions:
+- Réponds dans la même langue que le client (français → français, arabe/darija → arabe ou darija).
+- Sois chaleureux et direct, comme un vrai artisan marocain: "Pas de problème !", "Je m'en occupe !", "Inch'allah ça ira."
+- Maximum 2 phrases. Sois concis et utile.
+- Pour un devis: propose toujours de venir voir sur place gratuitement.
+- Pour une urgence: rassure et propose d'intervenir rapidement.
+- Si le client décrit un problème, pose une question ciblée pour mieux comprendre.
+- N'invente jamais de prix — dis que le devis se fait sur place.
+- N'utilise jamais le mot "IA", "robot" ou "intelligence artificielle"."""
+
+    # Sanitise and validate messages
+    msgs = [
+        m for m in data.messages
+        if isinstance(m, dict)
+        and m.get("role") in ("user", "assistant")
+        and str(m.get("content", "")).strip()
+    ]
+
+    # Collapse consecutive same-role messages (keep last), then ensure starts with "user"
+    cleaned: list[dict] = []
+    for m in msgs:
+        if cleaned and cleaned[-1]["role"] == m["role"]:
+            cleaned[-1] = m
+        else:
+            cleaned.append({"role": m["role"], "content": str(m["content"])[:1000]})
+    while cleaned and cleaned[0]["role"] != "user":
+        cleaned.pop(0)
+
+    if not cleaned:
+        return {"text": "Bonjour ! Comment puis-je vous aider ?", "source": "fallback"}
+
+    try:
+        from anthropic import Anthropic
+        client_ai = Anthropic(api_key=api_key)
+        response = client_ai.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=180,
+            system=system,
+            messages=cleaned,
+        )
+        return {"text": response.content[0].text.strip(), "source": "ai"}
+    except Exception:
+        return {"text": random.choice(FALLBACK_REPLIES), "source": "fallback"}

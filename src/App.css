@@ -158,6 +158,10 @@ body{
   color:var(--muted);cursor:pointer;transition:all .15s;
 }
 .dist-chip-sm:hover{border-color:var(--terra);color:var(--terra);}
+.dist-chip-sm.active{
+  background:var(--terra);border-color:var(--terra);
+  color:#fff;font-weight:700;
+}
 
 .loc-err{
   font-size:12px;color:#C0392B;margin-top:10px;
