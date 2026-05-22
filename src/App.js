@@ -1,6 +1,4 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
 import "./App.css";
 
 const API_BASE = "https://snay3i-backend.onrender.com";
@@ -871,6 +869,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}){
   };
 
   const addUserMarker = (map,pos) => {
+    const L=window.L; if(!L) return;
     if(userMkRef.current) map.removeLayer(userMkRef.current);
     const icon = L.divIcon({
       className:"",
@@ -883,6 +882,7 @@ function MapModal({workers, onClose, userLoc, activeCategory}){
   };
 
   const plotMarkers = (map,workerList,currentFilter) => {
+    const L=window.L; if(!L) return;
     layersRef.current.forEach(m=>map.removeLayer(m));
     layersRef.current=[];
     const filtered = currentFilter==="all"
@@ -929,20 +929,36 @@ function MapModal({workers, onClose, userLoc, activeCategory}){
 
   useEffect(()=>{
     if(!mapRef.current||mapInst.current) return;
-    const map=L.map(mapRef.current,{
-      center: myPos?[myPos.lat,myPos.lng]:[29.5,-7.5],
-      zoom: myPos?10:5,
-      zoomControl:false, attributionControl:false,
-    });
-    L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-      {subdomains:"abcd",maxZoom:19}
-    ).addTo(map);
-    L.control.zoom({position:"topright"}).addTo(map);
-    mapInst.current=map;
-    plotMarkers(map,workers,filter);
-    if(myPos) addUserMarker(map,myPos);
-    return()=>{ map.remove(); mapInst.current=null; };
+
+    const initMap = (L) => {
+      if(!mapRef.current||mapInst.current) return;
+      const map=L.map(mapRef.current,{
+        center: myPos?[myPos.lat,myPos.lng]:[29.5,-7.5],
+        zoom: myPos?10:5,
+        zoomControl:false, attributionControl:false,
+      });
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+        {subdomains:"abcd",maxZoom:19}
+      ).addTo(map);
+      L.control.zoom({position:"topright"}).addTo(map);
+      mapInst.current=map;
+      plotMarkers(map,workers,filter);
+      if(myPos) addUserMarker(map,myPos);
+    };
+
+    // Load Leaflet from CDN (no npm package needed)
+    if(window.L){ initMap(window.L); return; }
+    const link=document.createElement("link");
+    link.rel="stylesheet";
+    link.href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+    document.head.appendChild(link);
+    const script=document.createElement("script");
+    script.src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+    script.onload=()=>initMap(window.L);
+    document.head.appendChild(script);
+
+    return()=>{ if(mapInst.current){mapInst.current.remove();mapInst.current=null;} };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
