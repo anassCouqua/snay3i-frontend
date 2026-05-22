@@ -852,7 +852,7 @@ const SVC_COLOR = {
   cleaner:"#047857", gardener:"#15803D", welder:"#92400E",
 };
 
-function MapModal({workers, onClose, userLoc, activeCategory}){
+function MapModal({workers, onClose, userLoc, activeCategory, activeCity}){
   const mapRef      = useRef(null);
   const mapInst     = useRef(null);
   const layersRef   = useRef([]);
@@ -866,6 +866,23 @@ function MapModal({workers, onClose, userLoc, activeCategory}){
   const dominant = ws => {
     const c={}; ws.forEach(w=>{c[w.service]=(c[w.service]||0)+1;});
     return Object.entries(c).sort((a,b)=>b[1]-a[1])[0]?.[0]||"plumber";
+  };
+
+  // Auto-fit map to show all visible markers
+  const fitToMarkers = (map) => {
+    const L=window.L; if(!L||layersRef.current.length===0) return;
+    try{
+      const bounds=L.latLngBounds(layersRef.current.map(m=>m.getLatLng()));
+      map.fitBounds(bounds,{padding:[60,60],maxZoom:12,animate:true,duration:0.6});
+    }catch(e){}
+  };
+
+  // Initial center: city if selected, user location, or full Morocco
+  const getInitialView = () => {
+    if(myPos) return {center:[myPos.lat,myPos.lng], zoom:11};
+    if(activeCity && activeCity!=="Toutes" && MAP_PLOT[activeCity])
+      return {center:MAP_PLOT[activeCity], zoom:11};
+    return {center:[29.5,-7.5], zoom:5};
   };
 
   const addUserMarker = (map,pos) => {
@@ -900,19 +917,30 @@ function MapModal({workers, onClose, userLoc, activeCategory}){
         className:"",
         html:`<div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;">
           <div style="
+            position:relative;
             width:${sz}px;height:${sz}px;border-radius:50%;
             background:${color};border:3px solid #fff;
             box-shadow:0 4px 18px rgba(0,0,0,.3);
             display:flex;align-items:center;justify-content:center;
-            color:#fff;font-weight:800;font-size:${count>1?Math.min(16,10+count):19}px;
-            font-family:system-ui,sans-serif;
-          ">${count>1?count:catEmoji(svc)}</div>
-          ${count>1?`<div style="
-            margin-top:2px;background:rgba(13,27,42,.75);backdrop-filter:blur(4px);
+            font-size:${sz>48?22:19}px;
+          ">
+            ${catEmoji(svc)}
+            ${count>1?`<div style="
+              position:absolute;top:-5px;right:-5px;
+              background:#C4622D;color:#fff;
+              font-size:10px;font-weight:800;
+              min-width:18px;height:18px;border-radius:9px;padding:0 4px;
+              border:2px solid #fff;
+              display:flex;align-items:center;justify-content:center;
+              font-family:system-ui,sans-serif;
+            ">${count}</div>`:""}
+          </div>
+          <div style="
+            margin-top:3px;background:rgba(13,27,42,.75);backdrop-filter:blur(4px);
             color:#fff;font-size:9px;font-weight:700;padding:2px 7px;
             border-radius:10px;white-space:nowrap;max-width:80px;
             overflow:hidden;text-overflow:ellipsis;
-          ">${city}</div>`:""}
+          ">${city}</div>
         </div>`,
         iconSize:[sz, count>1?sz+22:sz],
         iconAnchor:[sz/2, count>1?(sz+22)/2:sz/2],
@@ -932,9 +960,9 @@ function MapModal({workers, onClose, userLoc, activeCategory}){
 
     const initMap = (L) => {
       if(!mapRef.current||mapInst.current) return;
+      const {center,zoom}=getInitialView();
       const map=L.map(mapRef.current,{
-        center: myPos?[myPos.lat,myPos.lng]:[29.5,-7.5],
-        zoom: myPos?10:5,
+        center, zoom,
         zoomControl:false, attributionControl:false,
       });
       L.tileLayer(
@@ -944,6 +972,10 @@ function MapModal({workers, onClose, userLoc, activeCategory}){
       L.control.zoom({position:"topright"}).addTo(map);
       mapInst.current=map;
       plotMarkers(map,workers,filter);
+      // If no specific city/location, auto-fit to all markers
+      if(!myPos && (!activeCity||activeCity==="Toutes")){
+        setTimeout(()=>fitToMarkers(map),300);
+      }
       if(myPos) addUserMarker(map,myPos);
     };
 
@@ -964,7 +996,10 @@ function MapModal({workers, onClose, userLoc, activeCategory}){
 
   const handleFilter=f=>{
     setFilter(f); setSelectedWorker(null); setCityPanel(null);
-    if(mapInst.current) plotMarkers(mapInst.current,workers,f);
+    if(mapInst.current){
+      plotMarkers(mapInst.current,workers,f);
+      setTimeout(()=>fitToMarkers(mapInst.current),100);
+    }
   };
 
   const handleLocate=()=>{
@@ -1430,7 +1465,7 @@ export default function App(){
     });
 
   if(showRegister) return <RegisterPage onBack={()=>setShowRegister(false)} lang={lang}/>;
-  if(showMap) return <MapModal workers={workers} onClose={()=>setShowMap(false)} userLoc={userLoc} activeCategory={category}/>;
+  if(showMap) return <MapModal workers={workers} onClose={()=>setShowMap(false)} userLoc={userLoc} activeCategory={category} activeCity={city}/>;
 
   return(
     <div className="app" dir={lang==="ar"?"rtl":"ltr"}>
