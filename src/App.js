@@ -1547,6 +1547,8 @@ export default function App(){
   const [query,setQuery]=useState("");
   const [city,setCity]=useState("Toutes");
   const [category,setCategory]=useState("all");
+  const [pendingService,setPendingService]=useState("all");
+  const [pendingCity,setPendingCity]=useState("Toutes");
   const [workers,setWorkers]=useState([]);
   const [loading,setLoading]=useState(false);
   const [error,setError]=useState("");
@@ -1583,12 +1585,14 @@ export default function App(){
     finally{setLoading(false);}
   },[]);
 
-  // Single debounced effect — text queries wait 350ms, category/city are immediate
-  useEffect(()=>{
-    const delay=query.trim()?350:0;
-    const t=setTimeout(()=>fetchWorkers(category,city,query),delay);
-    return()=>clearTimeout(t);
-  },[category,city,query,fetchWorkers]);
+  // Initial load only
+  useEffect(()=>{fetchWorkers("all","Toutes","");},[fetchWorkers]);
+
+  const handleSearch=()=>{
+    setCategory(pendingService);
+    setCity(pendingCity);
+    fetchWorkers(pendingService,pendingCity,"");
+  };
 
   const handleLocate=()=>{
     if(!navigator.geolocation){setLocErr("GPS non supporté");return;}
@@ -1674,23 +1678,56 @@ export default function App(){
 
           {/* SEARCH CARD */}
           <div className="search-card">
-            <div className="srow">
-              <div className="sicon orange">🔍</div>
-              <input className="sinput" type="text"
-                placeholder={lang==="fr"?"Quel service cherchez-vous ?":"ما هي الخدمة التي تبحث عنها؟"}
-                value={query} onChange={e=>setQuery(e.target.value)}/>
+            {/* Service — horizontal icon scroll */}
+            <div style={{paddingBottom:12}}>
+              <p style={{fontSize:11,fontWeight:700,color:"rgba(255,255,255,0.5)",letterSpacing:1,textTransform:"uppercase",marginBottom:10}}>
+                {lang==="fr"?"Quel service ?":"أي خدمة؟"}
+              </p>
+              <div style={{display:"flex",gap:8,overflowX:"auto",paddingBottom:4}}>
+                {CATEGORIES.map(cat=>(
+                  <button key={cat.id}
+                    onClick={()=>setPendingService(cat.id)}
+                    style={{
+                      display:"flex",flexDirection:"column",alignItems:"center",
+                      gap:4,padding:"10px 14px",borderRadius:14,border:"none",
+                      background:pendingService===cat.id?"var(--terra)":"rgba(255,255,255,0.08)",
+                      cursor:"pointer",flexShrink:0,transition:"all .15s",
+                    }}>
+                    <span style={{fontSize:22}}>{cat.emoji}</span>
+                    <span style={{fontSize:10,fontWeight:700,color:pendingService===cat.id?"#fff":"rgba(255,255,255,0.7)",whiteSpace:"nowrap"}}>
+                      {lang==="fr"?cat.label:cat.ar}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
-            <div className="srow">
-              <div className="sicon teal">📍</div>
-              <select className="scity" value={city} onChange={e=>setCity(e.target.value)}>
-                {CITIES.map(c=><option key={c}>{c}</option>)}
-              </select>
-              <button
-                className={`locate-btn${locating?" spin":""}${userLoc?" located":""}`}
-                onClick={handleLocate} title="Me localiser">
-                {locating?"⌛":userLoc?"✅":"🎯"}
+
+            <div style={{height:1,background:"rgba(255,255,255,0.1)",margin:"0 0 12px"}}/>
+
+            {/* City + Search button */}
+            <div style={{display:"flex",gap:10,alignItems:"center"}}>
+              <div style={{display:"flex",alignItems:"center",gap:8,flex:1,background:"rgba(255,255,255,0.08)",borderRadius:12,padding:"10px 14px"}}>
+                <span style={{fontSize:16}}>📍</span>
+                <select className="scity" value={pendingCity} onChange={e=>setPendingCity(e.target.value)}
+                  style={{flex:1,background:"transparent",border:"none",color:"#fff",fontSize:14,fontWeight:500,outline:"none",cursor:"pointer"}}>
+                  {CITIES.map(c=><option key={c} value={c} style={{background:"#0D1B2A",color:"#fff"}}>{c}</option>)}
+                </select>
+                <button className={`locate-btn${locating?" spin":""}${userLoc?" located":""}`}
+                  onClick={handleLocate} title="Me localiser" style={{flexShrink:0}}>
+                  {locating?"⌛":userLoc?"✅":"🎯"}
+                </button>
+              </div>
+              <button onClick={handleSearch}
+                style={{
+                  background:"var(--terra)",border:"none",color:"#fff",
+                  fontWeight:800,fontSize:14,padding:"10px 22px",
+                  borderRadius:12,cursor:"pointer",flexShrink:0,
+                  whiteSpace:"nowrap",transition:"background .15s",
+                }}>
+                {lang==="fr"?"Rechercher →":"بحث →"}
               </button>
             </div>
+          </div>
             <div className="srow srow-dist">
               <div className="sicon navy">📏</div>
               <span className="dist-label">{lang==="fr"?"Distance":"المسافة"}</span>
