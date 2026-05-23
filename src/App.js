@@ -272,7 +272,15 @@ function ContactModal({worker, onClose}){
 // ── WORKER CARD ──────────────────────────────────────────────────
 function WorkerCard({worker,index,userLoc}){
   const [bg,tc]=avatarColor(worker.name);
-  const [faved,setFaved]=useState(false);
+  const storageKey=`snay3i_fav_${worker.id}`;
+  const [faved,setFaved]=useState(()=>{
+    try{return localStorage.getItem(storageKey)==="1";}catch{return false;}
+  });
+  const toggleFav=e=>{
+    e.stopPropagation();
+    const next=!faved; setFaved(next);
+    try{next?localStorage.setItem(storageKey,"1"):localStorage.removeItem(storageKey);}catch{}
+  };
   const [chat,setChat]=useState(false);
   const [profile,setProfile]=useState(false);
   const [modal,setModal]=useState(false);
@@ -355,7 +363,7 @@ function WorkerCard({worker,index,userLoc}){
             ✉️
           </button>
 
-          <button className={`btn-fav${faved?" faved":""}`} onClick={e=>{e.stopPropagation();setFaved(!faved);}}>
+          <button className={`btn-fav${faved?" faved":""}`} onClick={toggleFav}>
             {faved?"♥":"♡"}
           </button>
         </div>
@@ -578,6 +586,160 @@ const SERVICES_LIST = [
   { id: "gardener",    label: "Jardinier",     ar: "بستاني",   emoji: "🌿" },
   { id: "welder",      label: "Soudeur",       ar: "لحّام",    emoji: "🔥" },
 ];
+
+// ── LEGAL MODAL ────────────────────────────────────────────────────
+const LEGAL_CONTENT = {
+  about:{
+    title:"À propos de Snay3i.ma",
+    body:`Snay3i.ma est une plateforme marocaine de mise en relation entre particuliers et artisans professionnels.
+
+Notre mission : rendre accessible à tous les Marocains un artisan de confiance, rapidement et gratuitement.
+
+Fondée en 2025, Snay3i.ma couvre plus de 30 villes au Maroc et propose des artisans vérifiés dans 13 corps de métier : plomberie, électricité, maçonnerie, menuiserie, peinture, carrelage, climatisation, serrurerie, ménage, jardinage, soudure et plus encore.
+
+La plateforme est entièrement gratuite, aussi bien pour les clients que pour les artisans.
+
+🇲🇦 Fait avec fierté pour le Maroc.`
+  },
+  legal:{
+    title:"Mentions légales",
+    body:`ÉDITEUR DU SITE
+Nom : Anass Couqua
+Domicile : Londres, Royaume-Uni
+Email : a.couqua@gmail.com
+WhatsApp : +44 7999 393 290
+
+Le site snay3i.ma est exploité à titre personnel. Il n'est pas encore rattaché à une entité juridique enregistrée.
+
+HÉBERGEMENT
+Frontend : Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, États-Unis
+Backend : Render Services Inc., San Francisco, CA, États-Unis
+
+PROPRIÉTÉ INTELLECTUELLE
+L'ensemble du contenu (textes, logos, interface, code) est la propriété exclusive d'Anass Couqua. Toute reproduction sans autorisation écrite est interdite.
+
+RESPONSABILITÉ
+Snay3i.ma est une plateforme de mise en relation. Elle ne saurait être tenue responsable des prestations réalisées par les artisans référencés.`
+  },
+  terms:{
+    title:"Conditions Générales d'Utilisation",
+    body:`Dernière mise à jour : mai 2025
+
+1. OBJET
+Les présentes CGU régissent l'utilisation de snay3i.ma, plateforme de mise en relation entre clients et artisans au Maroc.
+
+2. ACCÈS AU SERVICE
+Le service est accessible gratuitement. Snay3i.ma se réserve le droit de modifier ou d'interrompre le service à tout moment.
+
+3. INSCRIPTION DES ARTISANS
+L'inscription est libre et gratuite. L'artisan certifie que ses informations sont exactes. Snay3i.ma peut supprimer tout profil contenant des informations fausses.
+
+4. RESPONSABILITÉ
+Snay3i.ma est un intermédiaire de mise en relation uniquement. Elle décline toute responsabilité quant à la qualité des prestations ou aux litiges entre clients et artisans.
+
+5. PROPRIÉTÉ INTELLECTUELLE
+Le contenu du site est protégé. Toute reproduction non autorisée est interdite.
+
+6. DROIT APPLICABLE
+Les présentes CGU sont soumises au droit marocain.
+
+Contact : a.couqua@gmail.com`
+  },
+  privacy:{
+    title:"Politique de Confidentialité",
+    body:`Dernière mise à jour : mai 2025
+
+1. DONNÉES COLLECTÉES
+
+Pour les visiteurs : Aucune donnée personnelle n'est collectée. Pas de cookies publicitaires.
+
+Pour les artisans inscrits :
+— Nom complet
+— Numéro de téléphone et WhatsApp
+— Ville et adresse
+— Métier, description, années d'expérience
+
+Ces données sont publiques et visibles par tous les visiteurs.
+
+2. UTILISATION
+Les données sont utilisées uniquement pour afficher le profil de l'artisan. Elles ne sont ni vendues ni partagées à des fins commerciales.
+
+3. VOS DROITS
+Droit d'accès, rectification et suppression : a.couqua@gmail.com
+
+4. COOKIES
+Uniquement des cookies techniques nécessaires au fonctionnement. Pas de tracking publicitaire.
+
+5. HÉBERGEMENT
+Données hébergées sur Render (USA), certifié SOC 2 Type II.
+
+Contact : a.couqua@gmail.com`
+  },
+  contact:{
+    title:"Nous contacter",
+    body:`FONDATEUR
+Anass Couqua — Londres, Royaume-Uni
+
+EMAIL
+a.couqua@gmail.com
+Réponse sous 24-48h ouvrables
+
+WHATSAPP
++44 7999 393 290
+
+ARTISANS — Modifier ou supprimer votre profil
+Envoyez votre nom et votre ville par email ou WhatsApp.
+
+CLIENTS — Signaler un problème
+Email : a.couqua@gmail.com
+
+PARTENARIATS & MÉDIAS
+a.couqua@gmail.com
+
+🇲🇦 Snay3i.ma — Fait avec fierté pour le Maroc`
+  }
+};
+
+function LegalModal({page, onClose}){
+  const content = LEGAL_CONTENT[page];
+  if(!content) return null;
+  return(
+    <div style={{
+      position:"fixed",inset:0,zIndex:3000,
+      background:"rgba(13,27,42,0.7)",
+      display:"flex",alignItems:"flex-end",justifyContent:"center",
+      backdropFilter:"blur(4px)",
+    }} onClick={onClose}>
+      <div style={{
+        background:"var(--white)",borderRadius:"24px 24px 0 0",
+        width:"100%",maxWidth:680,maxHeight:"85vh",
+        display:"flex",flexDirection:"column",
+        boxShadow:"0 -8px 40px rgba(0,0,0,0.2)",
+      }} onClick={e=>e.stopPropagation()}>
+        <div style={{
+          padding:"20px 24px 16px",
+          borderBottom:"1px solid var(--border)",
+          display:"flex",alignItems:"center",justifyContent:"space-between",
+          flexShrink:0,
+        }}>
+          <h2 style={{fontSize:17,fontWeight:800,color:"var(--ink)",margin:0}}>{content.title}</h2>
+          <button onClick={onClose} style={{
+            background:"var(--cream)",border:"none",width:32,height:32,
+            borderRadius:"50%",cursor:"pointer",fontSize:16,color:"var(--muted)",
+            display:"flex",alignItems:"center",justifyContent:"center",
+          }}>✕</button>
+        </div>
+        <div style={{
+          overflowY:"auto",padding:"20px 24px 40px",
+          fontSize:14,lineHeight:1.75,color:"var(--muted)",
+          whiteSpace:"pre-wrap",
+        }}>
+          {content.body}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function RegisterPage({ onBack, lang }) {
   const [step, setStep] = useState(1);
@@ -1397,6 +1559,7 @@ export default function App(){
   const [lang,setLang]=useState("fr");
   const [showMap,setShowMap]=useState(false);
   const [showRegister,setShowRegister]=useState(false);
+  const [legalPage,setLegalPage]=useState(null);
 
   const fetchWorkers=useCallback(async(svc,ct,q)=>{
     setLoading(true);setError("");
@@ -1647,14 +1810,16 @@ export default function App(){
         <div className="footer">
           <span>Snay3i.ma • صنايعي.ما</span>
           <div style={{display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap",marginTop:8}}>
-            <a href="/legal.html#about" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>À propos</a>
-            <a href="/legal.html#privacy" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Confidentialité</a>
-            <a href="/legal.html#terms" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>CGU</a>
-            <a href="/legal.html#contact" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Contact</a>
+            <button onClick={()=>setLegalPage("about")} style={{background:"none",border:"none",color:"var(--muted)",fontSize:12,cursor:"pointer",padding:0}}>À propos</button>
+            <button onClick={()=>setLegalPage("privacy")} style={{background:"none",border:"none",color:"var(--muted)",fontSize:12,cursor:"pointer",padding:0}}>Confidentialité</button>
+            <button onClick={()=>setLegalPage("terms")} style={{background:"none",border:"none",color:"var(--muted)",fontSize:12,cursor:"pointer",padding:0}}>CGU</button>
+            <button onClick={()=>setLegalPage("legal")} style={{background:"none",border:"none",color:"var(--muted)",fontSize:12,cursor:"pointer",padding:0}}>Mentions légales</button>
+            <button onClick={()=>setLegalPage("contact")} style={{background:"none",border:"none",color:"var(--muted)",fontSize:12,cursor:"pointer",padding:0}}>Contact</button>
           </div>
           <span style={{fontSize:11,color:"var(--muted)",marginTop:4}}>🇲🇦 Fait avec fierté au Maroc</span>
         </div>
       </main>
+      {legalPage&&<LegalModal page={legalPage} onClose={()=>setLegalPage(null)}/>}
     </div>
   );
 }
