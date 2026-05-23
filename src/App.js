@@ -1723,7 +1723,10 @@ export default function App(){
           </div>
           <div className="srow join-row" onClick={()=>setShowRegister(true)}>
             <div className="sicon" style={{background:"rgba(196,98,45,0.12)"}}>🛠️</div>
-            <span style={{flex:1,fontSize:13,fontWeight:600,color:"var(--ink)"}}>{lang==="fr"?"Vous êtes artisan ?":"أنت معلم؟"}</span>
+            <div style={{flex:1}}>
+              <div style={{fontSize:13,fontWeight:700,color:"var(--ink)"}}>{lang==="fr"?"Vous êtes Snay3i ?":"أنت صنايعي؟"}</div>
+              <div style={{fontSize:11,color:"var(--muted)",marginTop:2}}>{lang==="fr"?"Rejoignez gratuitement":"انضم مجاناً"}</div>
+            </div>
             <button style={{background:"#C4622D",color:"#fff",border:"none",borderRadius:20,padding:"6px 14px",fontSize:12,fontWeight:700,cursor:"pointer"}}>{lang==="fr"?"Rejoindre →":"انضم →"}</button>
           </div>
           {locErr&&<p className="loc-err">{locErr}</p>}
