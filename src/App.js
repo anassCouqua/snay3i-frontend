@@ -1680,32 +1680,20 @@ export default function App(){
           <div className="search-card">
             <div style={{display:"flex",gap:10,marginBottom:10}}>
               <div style={{flex:1,display:"flex",alignItems:"center",gap:10,background:"#F5F0EB",borderRadius:12,padding:"12px 16px"}}>
-                <span style={{fontSize:18}}>{CATEGORIES.find(c=>c.id===pendingService)?.emoji||"🏠"}</span>
                 <select value={pendingService} onChange={e=>setPendingService(e.target.value)}
                   style={{flex:1,background:"transparent",border:"none",fontSize:14,fontWeight:600,color:"var(--ink)",outline:"none",cursor:"pointer"}}>
                   {CATEGORIES.map(c=>(<option key={c.id} value={c.id}>{c.emoji} {lang==="fr"?c.label:c.ar}</option>))}
                 </select>
               </div>
               <div style={{flex:1,display:"flex",alignItems:"center",gap:10,background:"#F5F0EB",borderRadius:12,padding:"12px 16px"}}>
-                <span style={{fontSize:18}}>📍</span>
+                <span style={{fontSize:16}}>📍</span>
                 <select className="scity" value={pendingCity} onChange={e=>setPendingCity(e.target.value)}
                   style={{flex:1,background:"transparent",border:"none",fontSize:14,fontWeight:600,color:"var(--ink)",outline:"none",cursor:"pointer"}}>
                   {CITIES.map(c=><option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
             </div>
-            <div style={{display:"flex",gap:10}}>
-              <button onClick={handleSearch}
-                style={{flex:1,background:"var(--terra)",border:"none",color:"#fff",fontWeight:800,fontSize:15,padding:"13px",borderRadius:12,cursor:"pointer"}}>
-                🔍 {lang==="fr"?"Rechercher":"بحث"}
-              </button>
-              <button className={`locate-btn${locating?" spin":""}${userLoc?" located":""}`}
-                onClick={handleLocate} title="Me localiser"
-                style={{width:48,height:48,borderRadius:12,fontSize:20,background:"#F5F0EB",border:"none",cursor:"pointer"}}>
-                {locating?"⌛":userLoc?"✅":"🎯"}
-              </button>
-            </div>
-            <div className="srow srow-dist" style={{marginTop:10}}>
+            <div className="srow srow-dist" style={{marginBottom:10}}>
               <div className="sicon navy">📏</div>
               <span className="dist-label">{lang==="fr"?"Distance":"المسافة"}</span>
               <div className="dist-chips-row">
@@ -1720,6 +1708,17 @@ export default function App(){
                   </button>
                 ))}
               </div>
+            </div>
+            <div style={{display:"flex",gap:10,marginTop:10}}>
+              <button onClick={handleSearch}
+                style={{flex:1,background:"var(--terra)",border:"none",color:"#fff",fontWeight:800,fontSize:15,padding:"13px",borderRadius:12,cursor:"pointer"}}>
+                🔍 {lang==="fr"?"Rechercher":"بحث"}
+              </button>
+              <button className={`locate-btn${locating?" spin":""}${userLoc?" located":""}`}
+                onClick={handleLocate} title="Me localiser"
+                style={{width:48,height:48,borderRadius:12,fontSize:20,background:"#F5F0EB",border:"none",cursor:"pointer"}}>
+                {locating?"⌛":userLoc?"✅":"🎯"}
+              </button>
             </div>
           </div>
           <div className="srow join-row" onClick={()=>setShowRegister(true)}>
