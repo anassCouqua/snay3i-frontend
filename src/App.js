@@ -1727,7 +1727,6 @@ export default function App(){
                 {lang==="fr"?"Rechercher →":"بحث →"}
               </button>
             </div>
-          </div>
             <div className="srow srow-dist">
               <div className="sicon navy">📏</div>
               <span className="dist-label">{lang==="fr"?"Distance":"المسافة"}</span>
