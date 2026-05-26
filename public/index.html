@@ -1,45 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="icon" href="%PUBLIC_URL%/logo.png" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <meta name="theme-color" content="#0D1B2A" />
 
-      git add .
-git commit -m "Update title and branding"
-git push
-    -->
-    <title>Snay3i.ma • صنايعي • Vos experts à portée de main</title>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BEPVHCQ23E"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BEPVHCQ23E');
+    </script>
+
+    <!-- SEO -->
+    <title>Snay3i.ma • صنايعي • Trouvez votre artisan au Maroc</title>
+    <meta name="description" content="Trouvez un plombier, électricien, maçon, menuisier ou tout autre artisan vérifié près de chez vous. 158 maalems disponibles dans 30+ villes du Maroc. Gratuit et sans intermédiaire." />
+    <meta name="keywords" content="artisan maroc, plombier casablanca, electricien rabat, macon marrakech, menuisier, peintre, serrurier, climatisation maroc, maalem, صنايعي, معلم, سبّاك, كهربائي, الدار البيضاء, الرباط, مراكش" />
+    <meta name="author" content="Snay3i.ma" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://snay3i.ma" />
+
+    <!-- Open Graph (Facebook, WhatsApp) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://snay3i.ma" />
+    <meta property="og:title" content="Snay3i.ma — Vos experts à portée de main 🇲🇦" />
+    <meta property="og:description" content="Plateforme marocaine d'artisans vérifiés. Plombiers, électriciens, maçons, menuisiers et plus — dans 30+ villes. Gratuit, sans intermédiaire." />
+    <meta property="og:image" content="https://snay3i.ma/logo.png" />
+    <meta property="og:locale" content="fr_MA" />
+    <meta property="og:locale:alternate" content="ar_MA" />
+    <meta property="og:site_name" content="Snay3i.ma" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Snay3i.ma — Trouvez votre artisan au Maroc" />
+    <meta name="twitter:description" content="158 maalems vérifiés dans 30+ villes. Plombiers, électriciens, maçons et plus." />
+    <meta name="twitter:image" content="https://snay3i.ma/logo.png" />
+
+    <!-- PWA -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- Structured Data (Google Rich Results) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Snay3i.ma",
+      "url": "https://snay3i.ma",
+      "description": "Plateforme marocaine de mise en relation avec des artisans vérifiés",
+      "inLanguage": ["fr", "ar"],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://snay3i.ma/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>Vous devez activer JavaScript pour utiliser Snay3i.ma.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-    
   </body>
 </html>
