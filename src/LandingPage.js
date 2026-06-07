@@ -3,32 +3,61 @@ import React, { useState, useEffect } from 'react';
 const API_BASE = 'https://snay3i-backend.onrender.com';
 
 const SERVICE_MAP = {
-  plombier: { id: 'plumber', label: 'Plombier', ar: 'سبّاك', emoji: '🔧' },
-  electricien: { id: 'electrician', label: 'Electricien', ar: 'كهربائي', emoji: '⚡' },
-  macon: { id: 'builder', label: 'Macon', ar: 'بنّاء', emoji: '🧱' },
-  bricoleur: { id: 'handyman', label: 'Bricoleur', ar: 'مصلح', emoji: '🔨' },
-  peintre: { id: 'painter', label: 'Peintre', ar: 'نقّاش', emoji: '🎨' },
-  menuisier: { id: 'carpenter', label: 'Menuisier', ar: 'نجّار', emoji: '🪚' },
-  carreleur: { id: 'tiler', label: 'Carreleur', ar: 'بلاّط', emoji: '🏛️' },
-  climatisation: { id: 'ac_tech', label: 'Climatisation', ar: 'تكييف', emoji: '❄️' },
-  serrurier: { id: 'locksmith', label: 'Serrurier', ar: 'قفّال', emoji: '🔑' },
-  menage: { id: 'cleaner', label: 'Menage', ar: 'تنظيف', emoji: '🧹' },
-  jardinier: { id: 'gardener', label: 'Jardinier', ar: 'بستاني', emoji: '🌿' },
-  soudeur: { id: 'welder', label: 'Soudeur', ar: 'لحّام', emoji: '🔥' },
+  plombier:      { id:'plumber',       label:'Plombier',      ar:'سبّاك',    emoji:'🔧', desc:'Fuites, débouchage, chauffe-eau, sanitaires' },
+  electricien:   { id:'electrician',   label:'Électricien',   ar:'كهربائي',  emoji:'⚡', desc:'Tableau électrique, installations, dépannage' },
+  macon:         { id:'builder',       label:'Maçon',         ar:'بنّاء',    emoji:'🧱', desc:'Construction, rénovation, enduit, ravalement' },
+  bricoleur:     { id:'handyman',      label:'Bricoleur',     ar:'مصلح',    emoji:'🔨', desc:'Montage, petits travaux, réparations diverses' },
+  peintre:       { id:'painter',       label:'Peintre',       ar:'نقّاش',   emoji:'🎨', desc:'Intérieur, extérieur, tadelakt, badigeon' },
+  menuisier:     { id:'carpenter',     label:'Menuisier',     ar:'نجّار',   emoji:'🪚', desc:'Portes, fenêtres, placards, cuisine sur mesure' },
+  carreleur:     { id:'tiler',         label:'Carreleur',     ar:'بلاّط',   emoji:'🏛️', desc:'Zellige, grès cérame, salle de bain, terrasse' },
+  climatisation: { id:'ac_tech',       label:'Climatisation', ar:'تكييف',   emoji:'❄️', desc:'Installation, entretien, recharge, dépannage' },
+  serrurier:     { id:'locksmith',     label:'Serrurier',     ar:'قفّال',   emoji:'🔑', desc:'Ouverture porte, blindage, serrures multipoints' },
+  menage:        { id:'cleaner',       label:'Ménage',        ar:'تنظيف',   emoji:'🧹', desc:'Maisons, bureaux, fin de chantier, vitres' },
+  jardinier:     { id:'gardener',      label:'Jardinier',     ar:'بستاني',  emoji:'🌿', desc:'Création jardins, entretien, arrosage automatique' },
+  soudeur:       { id:'welder',        label:'Soudeur',       ar:'لحّام',   emoji:'🔥', desc:'Portails, grilles, garde-corps, ferronnerie' },
 };
 
 const CITY_MAP = {
-  casablanca:'Casablanca',rabat:'Rabat',marrakech:'Marrakech',fes:'Fes',
-  tanger:'Tanger',agadir:'Agadir',meknes:'Meknes',oujda:'Oujda',
-  nador:'Nador',tetouan:'Tetouan',sale:'Sale',kenitra:'Kenitra',
-  'al-hoceima':'Al Hoceima',chefchaouen:'Chefchaouen',larache:'Larache',
-  'el-jadida':'El Jadida',safi:'Safi',essaouira:'Essaouira',settat:'Settat',
-  mohammedia:'Mohammedia','beni-mellal':'Beni Mellal',khouribga:'Khouribga',
-  ouarzazate:'Ouarzazate',errachidia:'Errachidia',taza:'Taza',berkane:'Berkane',
-  taroudannt:'Taroudannt',tiznit:'Tiznit',guelmim:'Guelmim',laayoune:'Laayoune',
-  dakhla:'Dakhla',temara:'Temara','tan-tan':'Tan-Tan','sidi-kacem':'Sidi Kacem',
+  casablanca:'Casablanca', rabat:'Rabat', marrakech:'Marrakech', fes:'Fes',
+  tanger:'Tanger', agadir:'Agadir', meknes:'Meknes', oujda:'Oujda',
+  nador:'Nador', tetouan:'Tetouan', sale:'Sale', kenitra:'Kenitra',
+  'al-hoceima':'Al Hoceima', chefchaouen:'Chefchaouen', larache:'Larache',
+  'el-jadida':'El Jadida', safi:'Safi', essaouira:'Essaouira', settat:'Settat',
+  mohammedia:'Mohammedia', 'beni-mellal':'Beni Mellal', khouribga:'Khouribga',
+  ouarzazate:'Ouarzazate', errachidia:'Errachidia', taza:'Taza', berkane:'Berkane',
+  taroudannt:'Taroudannt', tiznit:'Tiznit', guelmim:'Guelmim', laayoune:'Laayoune',
+  dakhla:'Dakhla', temara:'Temara', 'tan-tan':'Tan-Tan', 'sidi-kacem':'Sidi Kacem',
   khemisset:'Khemisset',
 };
+
+const NEARBY = {
+  casablanca:['mohammedia','rabat','settat'],
+  rabat:['sale','temara','kenitra'],
+  marrakech:['casablanca','agadir','essaouira'],
+  tanger:['tetouan','chefchaouen','larache'],
+  agadir:['marrakech','tiznit','guelmim'],
+  fes:['meknes','taza','sefrou'],
+  meknes:['fes','rabat','khemisset'],
+  oujda:['nador','berkane','taza'],
+};
+
+function setMeta(name, content) {
+  let el = document.querySelector(`meta[name="${name}"]`);
+  if (!el) { el = document.createElement('meta'); el.name = name; document.head.appendChild(el); }
+  el.setAttribute('content', content);
+}
+
+function setOG(prop, content) {
+  let el = document.querySelector(`meta[property="${prop}"]`);
+  if (!el) { el = document.createElement('meta'); el.setAttribute('property', prop); document.head.appendChild(el); }
+  el.setAttribute('content', content);
+}
+
+function injectSchema(data) {
+  let el = document.getElementById('ld-json-landing');
+  if (!el) { el = document.createElement('script'); el.id = 'ld-json-landing'; el.type = 'application/ld+json'; document.head.appendChild(el); }
+  el.textContent = JSON.stringify(data);
+}
 
 export default function LandingPage({ serviceSlug, citySlug }) {
   const [workers, setWorkers] = useState([]);
@@ -38,64 +67,242 @@ export default function LandingPage({ serviceSlug, citySlug }) {
 
   useEffect(() => {
     if (!svc || !city) return;
-    document.title = svc.label + ' ' + city + ' — Snay3i.ma | Artisan verifie au Maroc';
-    fetch(API_BASE + '/search?service=' + svc.id + '&city=' + encodeURIComponent(city))
+
+    const title = `${svc.label} ${city} — Trouvez un ${svc.label} pas cher | Snay3i.ma`;
+    const desc = `Trouvez un ${svc.label.toLowerCase()} vérifié à ${city} sur Snay3i.ma. Professionnels disponibles, appelez directement sans intermédiaire. Devis gratuit 🇲🇦`;
+    document.title = title;
+    setMeta('description', desc);
+    setMeta('keywords', `${svc.label.toLowerCase()} ${city.toLowerCase()}, ${svc.ar} ${city}, artisan ${city.toLowerCase()}, maalem ${city.toLowerCase()}, ${svc.label.toLowerCase()} maroc`);
+    setOG('og:title', title);
+    setOG('og:description', desc);
+    setOG('og:url', `https://snay3i.ma/artisan/${serviceSlug}/${citySlug}`);
+
+    // FAQ + Service Schema
+    injectSchema([
+      {
+        "@context":"https://schema.org",
+        "@type":"Service",
+        "name":`${svc.label} à ${city}`,
+        "description":`${svc.desc} à ${city}. Trouvez un professionnel vérifié sur Snay3i.ma.`,
+        "provider":{"@type":"Organization","name":"Snay3i.ma","url":"https://snay3i.ma"},
+        "areaServed":{"@type":"City","name":city,"addressCountry":"MA"},
+        "serviceType":svc.label
+      },
+      {
+        "@context":"https://schema.org",
+        "@type":"FAQPage",
+        "mainEntity":[
+          {"@type":"Question","name":`Quel est le tarif d'un ${svc.label.toLowerCase()} à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Les tarifs varient selon l'intervention. Contactez nos ${svc.label.toLowerCase()}s à ${city} pour un devis gratuit sans engagement.`}},
+          {"@type":"Question","name":`Y a-t-il des ${svc.label.toLowerCase()}s disponibles 24h/24 à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Oui, plusieurs professionnels sur Snay3i.ma proposent des interventions d'urgence 24h/24 à ${city}.`}},
+          {"@type":"Question","name":`Comment trouver un ${svc.label.toLowerCase()} fiable à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Sur Snay3i.ma, tous les ${svc.label.toLowerCase()}s à ${city} sont vérifiés et notés par leurs clients. Consultez les avis avant d'appeler.`}},
+          {"@type":"Question","name":`Comment contacter un ${svc.label.toLowerCase()} à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Cliquez sur le profil du ${svc.label.toLowerCase()} sur Snay3i.ma puis appelez directement ou envoyez un WhatsApp. Aucun intermédiaire.`}},
+        ]
+      }
+    ]);
+
+    fetch(`${API_BASE}/search?service=${svc.id}&city=${encodeURIComponent(city)}`)
       .then(r => r.json())
       .then(d => { setWorkers(Array.isArray(d) ? d : []); setLoading(false); })
       .catch(() => setLoading(false));
-  }, [svc, city]);
+  }, [svc, city, serviceSlug, citySlug]);
 
   if (!svc || !city) return (
-    <div style={{textAlign:'center',padding:60}}>
-      <h1>Page introuvable</h1>
-      <a href="/">Retour a Snay3i.ma</a>
+    <div style={{textAlign:'center',padding:60,fontFamily:'system-ui,sans-serif'}}>
+      <h1 style={{color:'#0D1B2A'}}>Page introuvable</h1>
+      <a href="/" style={{color:'#C4622D',fontWeight:700}}>← Retour à Snay3i.ma</a>
     </div>
   );
 
+  const nearby = (NEARBY[citySlug] || []).slice(0,3);
+  const otherServices = Object.entries(SERVICE_MAP).filter(([k])=>k!==serviceSlug).slice(0,4);
+
   return (
     <div style={{fontFamily:'system-ui,sans-serif',background:'#FAF6EF',minHeight:'100vh'}}>
-      <div style={{background:'#0D1B2A',padding:'16px 24px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-        <a href="/"><img src="/logo.png" alt="Snay3i.ma" style={{height:44}}/></a>
-        <a href="/" style={{color:'#D4A843',fontWeight:700,fontSize:14,textDecoration:'none'}}>Voir tous les artisans</a>
+
+      {/* Header */}
+      <div style={{background:'#0D1B2A',padding:'14px 24px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <a href="/" style={{textDecoration:'none',display:'flex',alignItems:'center',gap:10}}>
+          <img src="/logo.png" alt="Snay3i.ma" style={{height:40,objectFit:'contain'}}/>
+        </a>
+        <a href="/" style={{color:'#D4A843',fontWeight:700,fontSize:13,textDecoration:'none'}}>Voir tous les artisans →</a>
       </div>
-      <div style={{background:'#0D1B2A',padding:'48px 24px',textAlign:'center'}}>
-        <div style={{fontSize:48}}>{svc.emoji}</div>
-        <h1 style={{fontSize:32,fontWeight:800,color:'#fff',margin:'12px 0 8px'}}>{svc.label} a {city}</h1>
-        <p style={{color:'rgba(255,255,255,0.7)',fontSize:16,margin:0}}>Trouvez un artisan verifie — gratuitement</p>
+
+      {/* Breadcrumb */}
+      <div style={{background:'#F0EAE0',padding:'8px 24px',fontSize:12,color:'#7A7065'}}>
+        <a href="/" style={{color:'#C4622D',textDecoration:'none'}}>Snay3i.ma</a>
+        {' › '}
+        <a href={`/artisan/${serviceSlug}/casablanca`} style={{color:'#C4622D',textDecoration:'none'}}>{svc.label}</a>
+        {' › '}
+        <span style={{color:'#0D1B2A',fontWeight:600}}>{city}</span>
       </div>
+
+      {/* Hero */}
+      <div style={{background:'linear-gradient(135deg,#0D1B2A 0%,#1A2E42 100%)',padding:'40px 24px',textAlign:'center'}}>
+        <div style={{fontSize:52,marginBottom:10}}>{svc.emoji}</div>
+        <h1 style={{fontSize:28,fontWeight:800,color:'#fff',margin:'0 0 8px',lineHeight:1.3}}>
+          {svc.label} à {city}
+        </h1>
+        <p style={{color:'rgba(255,255,255,0.75)',fontSize:15,margin:'0 0 6px'}}>
+          {svc.desc} — Trouvez votre expert maintenant
+        </p>
+        <p style={{color:'#D4A843',fontSize:13,margin:0}}>{svc.ar} • {city} • 🇲🇦 Gratuit & sans intermédiaire</p>
+      </div>
+
+      {/* Stats */}
+      <div style={{background:'#C4622D',padding:'10px 24px',display:'flex',justifyContent:'center',gap:28,flexWrap:'wrap'}}>
+        {[
+          {n:loading?'..':workers.length, l:`${svc.label}s trouvés`},
+          {n:'100%', l:'Gratuit'},
+          {n:'⭐', l:'Vérifiés'},
+          {n:'Direct', l:'Sans intermédiaire'},
+        ].map(s=>(
+          <div key={s.l} style={{textAlign:'center',color:'#fff'}}>
+            <div style={{fontSize:18,fontWeight:800}}>{s.n}</div>
+            <div style={{fontSize:10,opacity:0.9}}>{s.l}</div>
+          </div>
+        ))}
+      </div>
+
       <div style={{maxWidth:720,margin:'0 auto',padding:'24px 16px'}}>
+
+        {/* H2: Results */}
         <h2 style={{fontSize:18,fontWeight:700,color:'#0D1B2A',marginBottom:16}}>
-          {svc.emoji} {workers.length} {svc.label}s trouves a {city}
+          {svc.emoji} {svc.label}s disponibles à {city}
         </h2>
+
         {loading ? (
-          <p style={{textAlign:'center',color:'#7A7065'}}>Chargement...</p>
+          <div style={{textAlign:'center',padding:40,color:'#7A7065'}}>Chargement...</div>
+        ) : workers.length === 0 ? (
+          <div style={{textAlign:'center',padding:40,background:'#fff',borderRadius:16,border:'1.5px solid #E8E0D4'}}>
+            <p style={{color:'#7A7065',marginBottom:16}}>Aucun résultat trouvé pour le moment.</p>
+            <a href="/" style={{background:'#C4622D',color:'#fff',padding:'12px 24px',borderRadius:24,textDecoration:'none',fontWeight:700}}>Voir tous les artisans →</a>
+          </div>
         ) : workers.map((w,i) => (
-          <div key={i} style={{background:'#fff',borderRadius:16,padding:20,marginBottom:14,border:'1.5px solid #E8E0D4'}}>
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
-              <div>
-                <span style={{fontWeight:700,color:'#0D1B2A',fontSize:15}}>{w.name}</span>
-                {w.verified && <span style={{marginLeft:8,background:'#D8F5E4',color:'#1A6B3A',fontSize:10,fontWeight:700,padding:'2px 8px',borderRadius:20}}>Verifie</span>}
-                <div style={{fontSize:12,color:'#7A7065',marginTop:4}}>{w.city} • {w.years_exp} ans exp.</div>
+          <div key={i} style={{background:'#fff',borderRadius:16,padding:20,marginBottom:12,border:'1.5px solid #E8E0D4',boxShadow:'0 2px 8px rgba(0,0,0,0.05)'}}>
+            <div style={{display:'flex',alignItems:'center',gap:14,marginBottom:10}}>
+              <div style={{width:46,height:46,borderRadius:12,background:'#0D1B2A',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,fontWeight:700,flexShrink:0}}>
+                {w.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase()}
               </div>
-              <div style={{textAlign:'center'}}>
-                <div style={{fontWeight:700,color:'#D4A843'}}>{w.rating} ★</div>
-                <div style={{fontSize:11,color:'#7A7065'}}>{w.reviews} avis</div>
+              <div style={{flex:1}}>
+                <div style={{display:'flex',alignItems:'center',gap:6,flexWrap:'wrap'}}>
+                  <span style={{fontWeight:700,color:'#0D1B2A',fontSize:15}}>{w.name}</span>
+                  {w.verified&&<span style={{background:'#D8F5E4',color:'#1A6B3A',fontSize:10,fontWeight:700,padding:'2px 7px',borderRadius:20}}>✓ Vérifié</span>}
+                </div>
+                <div style={{fontSize:12,color:'#7A7065',marginTop:3}}>📍 {w.city} • {w.years_exp} ans exp.</div>
+              </div>
+              <div style={{textAlign:'center',flexShrink:0}}>
+                <div style={{fontWeight:700,color:'#D4A843',fontSize:16}}>{w.rating}★</div>
+                <div style={{fontSize:10,color:'#7A7065'}}>{w.reviews} avis</div>
               </div>
             </div>
-            <p style={{fontSize:13,color:'#7A7065',marginBottom:14}}>{w.bio}</p>
+            {w.bio && <p style={{fontSize:13,color:'#7A7065',lineHeight:1.6,margin:'0 0 12px'}}>{w.bio}</p>}
             <div style={{display:'flex',gap:8}}>
-              <a href={'tel:'+w.phone} style={{flex:1,background:'#EAF4FB',color:'#0F5248',border:'1.5px solid #D5E8F5',borderRadius:10,padding:10,textAlign:'center',textDecoration:'none',fontWeight:700}}>Appeler</a>
-              <a href={'https://wa.me/'+(w.whatsapp||'').replace(/\D/g,'')} style={{flex:1,background:'#F0FBF0',color:'#1A6B3A',border:'1.5px solid #C8E6C0',borderRadius:10,padding:10,textAlign:'center',textDecoration:'none',fontWeight:700}}>WhatsApp</a>
+              <a href={`tel:${w.phone}`} style={{flex:1,background:'#EAF4FB',color:'#0F5248',border:'1.5px solid #D5E8F5',borderRadius:10,padding:'10px',textAlign:'center',textDecoration:'none',fontWeight:700,fontSize:13}}>📞 Appeler</a>
+              <a href={`https://wa.me/${(w.whatsapp||'').replace(/\D/g,'')}`} target="_blank" rel="noopener noreferrer" style={{flex:1,background:'#F0FBF0',color:'#1A6B3A',border:'1.5px solid #C8E6C0',borderRadius:10,padding:'10px',textAlign:'center',textDecoration:'none',fontWeight:700,fontSize:13}}>💬 WhatsApp</a>
             </div>
           </div>
         ))}
-        <div style={{background:'#0D1B2A',borderRadius:20,padding:32,textAlign:'center',marginTop:24}}>
-          <h3 style={{color:'#fff',fontSize:18,fontWeight:700,marginBottom:8}}>Vous etes {svc.label} a {city}?</h3>
-          <p style={{color:'rgba(255,255,255,0.6)',fontSize:13,marginBottom:20}}>Rejoignez Snay3i.ma gratuitement</p>
-          <a href="/" style={{background:'#C4622D',color:'#fff',padding:'14px 32px',borderRadius:24,textDecoration:'none',fontWeight:800}}>Creer mon profil gratuit</a>
+
+        {/* H2: Why Snay3i */}
+        <div style={{background:'#fff',borderRadius:16,padding:24,marginTop:20,border:'1.5px solid #E8E0D4'}}>
+          <h2 style={{fontSize:16,fontWeight:700,color:'#0D1B2A',marginBottom:12}}>
+            Pourquoi choisir Snay3i.ma pour trouver un {svc.label.toLowerCase()} à {city}?
+          </h2>
+          {[
+            ['✅','Gratuit et sans commission','Aucun frais caché, aucune commission. Contactez directement l\'artisan.'],
+            ['⭐','Artisans vérifiés et notés','Chaque professionnel est évalué par ses clients. Lisez les avis avant d\'appeler.'],
+            ['⚡','Intervention rapide','Nos '+svc.label.toLowerCase()+'s à '+city+' sont disponibles rapidement, parfois en urgence 24h.'],
+            ['🇲🇦','Réseau marocain','Plus de 900 maalems dans 35 villes du Maroc. Bilingue français et arabe.'],
+          ].map(([icon,title,text])=>(
+            <div key={title} style={{display:'flex',gap:12,marginBottom:12}}>
+              <span style={{fontSize:20,flexShrink:0}}>{icon}</span>
+              <div>
+                <div style={{fontWeight:700,color:'#0D1B2A',fontSize:13,marginBottom:2}}>{title}</div>
+                <div style={{color:'#7A7065',fontSize:12,lineHeight:1.5}}>{text}</div>
+              </div>
+            </div>
+          ))}
         </div>
-        <div style={{textAlign:'center',marginTop:24,paddingBottom:32}}>
-          <a href="/" style={{color:'#C4622D',fontWeight:700,textDecoration:'none'}}>Retour a Snay3i.ma</a>
+
+        {/* H2: SEO text */}
+        <div style={{background:'#fff',borderRadius:16,padding:24,marginTop:12,border:'1.5px solid #E8E0D4'}}>
+          <h2 style={{fontSize:16,fontWeight:700,color:'#0D1B2A',marginBottom:10}}>
+            {svc.label} à {city} — Tout ce que vous devez savoir
+          </h2>
+          <p style={{fontSize:13,color:'#7A7065',lineHeight:1.8,margin:0}}>
+            Snay3i.ma est la plateforme marocaine de référence pour trouver un {svc.label.toLowerCase()} qualifié à {city}.
+            Que vous ayez besoin de {svc.desc.toLowerCase()}, nos professionnels à {city} sont disponibles rapidement.
+            Tous nos {svc.label.toLowerCase()}s sont vérifiés, notés par leurs clients, et contactables directement par téléphone ou WhatsApp.
+            Gratuit pour les clients, sans intermédiaire, sans commission.
+          </p>
+        </div>
+
+        {/* FAQ */}
+        <div style={{background:'#fff',borderRadius:16,padding:24,marginTop:12,border:'1.5px solid #E8E0D4'}}>
+          <h2 style={{fontSize:16,fontWeight:700,color:'#0D1B2A',marginBottom:16}}>
+            ❓ FAQ — {svc.label} à {city}
+          </h2>
+          {[
+            [`Quel est le tarif d'un ${svc.label.toLowerCase()} à ${city}?`, `Les tarifs varient selon l'intervention et le professionnel. Demandez un devis gratuit directement sur Snay3i.ma.`],
+            [`Y a-t-il des ${svc.label.toLowerCase()}s disponibles 24h/24 à ${city}?`, `Oui, plusieurs professionnels sur Snay3i.ma proposent des interventions d'urgence 24h/24 à ${city}.`],
+            [`Comment trouver un ${svc.label.toLowerCase()} fiable à ${city}?`, `Consultez les avis clients et les notes des artisans sur Snay3i.ma avant d'appeler.`],
+            [`Comment contacter un ${svc.label.toLowerCase()} sur Snay3i.ma?`, `Cliquez sur un profil puis appelez directement ou envoyez un WhatsApp. Aucun intermédiaire.`],
+          ].map(([q,a],i)=>(
+            <div key={i} style={{borderBottom:i<3?'1px solid #F0EAE0':'none',paddingBottom:12,marginBottom:12}}>
+              <div style={{fontWeight:700,color:'#0D1B2A',fontSize:13,marginBottom:4}}>Q: {q}</div>
+              <div style={{color:'#7A7065',fontSize:12,lineHeight:1.6}}>→ {a}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Internal links: other services in same city */}
+        <div style={{background:'#fff',borderRadius:16,padding:24,marginTop:12,border:'1.5px solid #E8E0D4'}}>
+          <h2 style={{fontSize:14,fontWeight:700,color:'#0D1B2A',marginBottom:12}}>
+            Autres artisans disponibles à {city}
+          </h2>
+          <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+            {otherServices.map(([slug,s])=>(
+              <a key={slug} href={`/artisan/${slug}/${citySlug}`} style={{background:'#F5EFE8',color:'#C4622D',padding:'6px 14px',borderRadius:20,textDecoration:'none',fontSize:12,fontWeight:600}}>
+                {s.emoji} {s.label} {city}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Internal links: same service in nearby cities */}
+        {nearby.length>0 && (
+          <div style={{background:'#fff',borderRadius:16,padding:24,marginTop:12,border:'1.5px solid #E8E0D4'}}>
+            <h2 style={{fontSize:14,fontWeight:700,color:'#0D1B2A',marginBottom:12}}>
+              {svc.label}s dans les villes proches
+            </h2>
+            <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+              {nearby.map(slug=>(
+                <a key={slug} href={`/artisan/${serviceSlug}/${slug}`} style={{background:'#F5EFE8',color:'#C4622D',padding:'6px 14px',borderRadius:20,textDecoration:'none',fontSize:12,fontWeight:600}}>
+                  {svc.emoji} {svc.label} {CITY_MAP[slug]||slug}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* CTA */}
+        <div style={{background:'#0D1B2A',borderRadius:20,padding:28,textAlign:'center',marginTop:16}}>
+          <div style={{fontSize:32,marginBottom:8}}>{svc.emoji}</div>
+          <h3 style={{color:'#fff',fontSize:16,fontWeight:700,margin:'0 0 6px'}}>
+            Vous êtes {svc.label.toLowerCase()} à {city}?
+          </h3>
+          <p style={{color:'rgba(255,255,255,0.6)',fontSize:12,margin:'0 0 16px'}}>
+            Rejoignez +900 professionnels sur Snay3i.ma — gratuit et sans commission
+          </p>
+          <a href="/" style={{background:'#C4622D',color:'#fff',padding:'12px 28px',borderRadius:24,textDecoration:'none',fontWeight:800,fontSize:14}}>
+            Créer mon profil gratuit →
+          </a>
+        </div>
+
+        <div style={{textAlign:'center',marginTop:20,paddingBottom:32}}>
+          <a href="/" style={{color:'#C4622D',fontWeight:700,textDecoration:'none',fontSize:13}}>
+            ← Retour à Snay3i.ma — Tous les artisans du Maroc 🇲🇦
+          </a>
         </div>
       </div>
     </div>
