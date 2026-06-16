@@ -1840,5 +1840,17 @@ export default function App(){
       </main>
       {legalPage&&<LegalModal page={legalPage} onClose={()=>setLegalPage(null)}/>}
     </div>
+
+      {/* Footer nav */}
+      <div style={{background:'#0D1B2A',padding:'20px 24px',textAlign:'center',marginTop:40}}>
+        <div style={{display:'flex',justifyContent:'center',gap:20,flexWrap:'wrap',marginBottom:10}}>
+          <a href="/blog" style={{color:'rgba(255,255,255,0.6)',fontSize:12,textDecoration:'none'}}>Blog</a>
+          <a href="/about" style={{color:'rgba(255,255,255,0.6)',fontSize:12,textDecoration:'none'}}>À propos</a>
+          <a href="/contact" style={{color:'rgba(255,255,255,0.6)',fontSize:12,textDecoration:'none'}}>Contact</a>
+          <a href="/privacy" style={{color:'rgba(255,255,255,0.6)',fontSize:12,textDecoration:'none'}}>Confidentialité</a>
+          <a href="/terms" style={{color:'rgba(255,255,255,0.6)',fontSize:12,textDecoration:'none'}}>CGU</a>
+        </div>
+        <p style={{color:'rgba(255,255,255,0.3)',fontSize:11,margin:0}}>© 2026 Snay3i.ma — contact@snay3i.ma</p>
+      </div>
   );
 }
