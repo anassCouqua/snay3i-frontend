@@ -1829,11 +1829,11 @@ export default function App(){
         <div className="footer">
           <span>Snay3i.ma • صنايعي.ما</span>
           <div style={{display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap",marginTop:8}}>
-            <button onClick={()=>setLegalPage("about")} style={{background:"none",border:"none",color:"var(--muted)",fontSize:12,cursor:"pointer",padding:0}}>À propos</button>
-            <button onClick={()=>setLegalPage("privacy")} style={{background:"none",border:"none",color:"var(--muted)",fontSize:12,cursor:"pointer",padding:0}}>Confidentialité</button>
-            <button onClick={()=>setLegalPage("terms")} style={{background:"none",border:"none",color:"var(--muted)",fontSize:12,cursor:"pointer",padding:0}}>CGU</button>
-            <button onClick={()=>setLegalPage("legal")} style={{background:"none",border:"none",color:"var(--muted)",fontSize:12,cursor:"pointer",padding:0}}>Mentions légales</button>
-            <button onClick={()=>setLegalPage("contact")} style={{background:"none",border:"none",color:"var(--muted)",fontSize:12,cursor:"pointer",padding:0}}>Contact</button>
+            <a href="/about" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>À propos</a>
+            <a href="/blog" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Blog</a>
+            <a href="/privacy" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Confidentialité</a>
+            <a href="/terms" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>CGU</a>
+            <a href="/contact" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Contact</a>
           </div>
           <span style={{fontSize:11,color:"var(--muted)",marginTop:4}}>🇲🇦 Fait avec fierté au Maroc</span>
         </div>
