@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import LandingPage from './LandingPage';
 import Blog from './Blog';
+import { AboutPage, ContactPage, PrivacyPage, TermsPage } from './Pages';
 import reportWebVitals from './reportWebVitals';
 
 function Router() {
@@ -21,10 +22,12 @@ function Router() {
     return <Blog articleSlug={articleMatch[1]} />;
   }
 
-  // /blog
-  if (path === '/blog' || path === '/blog/') {
-    return <Blog />;
-  }
+  // Static pages
+  if (path === '/blog' || path === '/blog/') return <Blog />;
+  if (path === '/about' || path === '/about/') return <AboutPage />;
+  if (path === '/contact' || path === '/contact/') return <ContactPage />;
+  if (path === '/privacy' || path === '/privacy/') return <PrivacyPage />;
+  if (path === '/terms' || path === '/terms/') return <TermsPage />;
 
   return <App />;
 }
