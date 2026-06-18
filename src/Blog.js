@@ -1,5 +1,16 @@
 import React, { useEffect } from 'react';
 
+
+function setCanonical(url) {
+  let link = document.querySelector('link[rel="canonical"]');
+  if (!link) {
+    link = document.createElement('link');
+    link.rel = 'canonical';
+    document.head.appendChild(link);
+  }
+  link.setAttribute('href', url);
+}
+
 const AUTHOR = 'Anass Couqua';
 const AUTHOR_TITLE = 'Fondateur de Snay3i.ma | Expert en services artisanaux au Maroc';
 
@@ -1433,6 +1444,7 @@ function ArticlePage({ slug }) {
     document.title = `${article.title} | Blog Snay3i.ma`;
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute('content', article.description);
+    setCanonical(`https://snay3i.ma/blog/${article.slug}`);
 
     // Article Schema for Google
     let script = document.getElementById('ld-article');
@@ -1578,6 +1590,7 @@ export default function Blog({ articleSlug }) {
       document.title = 'Blog Snay3i.ma — Conseils artisans au Maroc | Guide 2026';
       const meta = document.querySelector('meta[name="description"]');
       if (meta) meta.setAttribute('content', 'Blog Snay3i.ma: guides et conseils pour trouver les meilleurs artisans au Maroc. Plombier, électricien, maçon, carreleur, menuisier — tarifs, conseils et astuces par Anass Couqua, fondateur de Snay3i.ma.');
+      setCanonical('https://snay3i.ma/blog');
     }
   }, [articleSlug]);
 

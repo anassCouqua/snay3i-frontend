@@ -2,6 +2,17 @@ import React, { useState, useEffect } from 'react';
 
 const API_BASE = 'https://snay3i-backend.onrender.com';
 
+function setCanonical(url) {
+  let link = document.querySelector('link[rel="canonical"]');
+  if (!link) {
+    link = document.createElement('link');
+    link.rel = 'canonical';
+    document.head.appendChild(link);
+  }
+  link.setAttribute('href', url);
+}
+
+
 const SERVICE_MAP = {
   plombier:      { id:'plumber',       label:'Plombier',      ar:'سبّاك',    emoji:'🔧', desc:'Fuites, débouchage, chauffe-eau, sanitaires' },
   electricien:   { id:'electrician',   label:'Électricien',   ar:'كهربائي',  emoji:'⚡', desc:'Tableau électrique, installations, dépannage' },
@@ -72,6 +83,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
     const desc = `Trouvez un ${svc.label.toLowerCase()} vérifié à ${city} sur Snay3i.ma. Professionnels disponibles, appelez directement sans intermédiaire. Devis gratuit 🇲🇦`;
     document.title = title;
     setMeta('description', desc);
+    setCanonical(`https://snay3i.ma/artisan/${serviceSlug}/${citySlug}`);
     setMeta('keywords', `${svc.label.toLowerCase()} ${city.toLowerCase()}, ${svc.ar} ${city}, artisan ${city.toLowerCase()}, maalem ${city.toLowerCase()}, ${svc.label.toLowerCase()} maroc`);
     setOG('og:title', title);
     setOG('og:description', desc);

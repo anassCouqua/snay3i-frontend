@@ -1,5 +1,16 @@
 import React, { useEffect } from 'react';
 
+function setCanonical(url) {
+  let link = document.querySelector('link[rel="canonical"]');
+  if (!link) {
+    link = document.createElement('link');
+    link.rel = 'canonical';
+    document.head.appendChild(link);
+  }
+  link.setAttribute('href', url);
+}
+
+
 const HEADER = () => (
   <div style={{background:'#0D1B2A',padding:'14px 24px',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:8}}>
     <a href="/"><img src="/logo.png" alt="Snay3i.ma" style={{height:40,objectFit:'contain'}}/></a>
@@ -50,6 +61,7 @@ export function AboutPage() {
     document.title = 'À propos de Snay3i.ma — Le réseau des artisans marocains';
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute('content', 'Snay3i.ma est la plateforme marocaine qui connecte les clients avec des artisans vérifiés dans 35 villes du Maroc. Notre mission: rendre l\'accès aux services à domicile simple, rapide et gratuit.');
+    setCanonical('https://snay3i.ma/about');
   }, []);
 
   return (
@@ -145,6 +157,7 @@ export function ContactPage() {
     document.title = 'Contact Snay3i.ma — Nous contacter';
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute('content', 'Contactez l\'équipe Snay3i.ma. Email, WhatsApp ou réseaux sociaux — nous sommes là pour vous aider.');
+    setCanonical('https://snay3i.ma/contact');
   }, []);
 
   return (
@@ -207,6 +220,7 @@ export function PrivacyPage() {
     document.title = 'Politique de confidentialité — Snay3i.ma';
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute('content', 'Politique de confidentialité de Snay3i.ma. Comment nous collectons, utilisons et protégeons vos données personnelles.');
+    setCanonical('https://snay3i.ma/privacy');
   }, []);
 
   return (
@@ -244,6 +258,7 @@ export function TermsPage() {
     document.title = 'Conditions d\'utilisation — Snay3i.ma';
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute('content', 'Conditions générales d\'utilisation de Snay3i.ma. Règles d\'utilisation de la plateforme pour les clients et les artisans.');
+    setCanonical('https://snay3i.ma/terms');
   }, []);
 
   return (
