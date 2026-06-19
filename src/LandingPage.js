@@ -2,6 +2,16 @@ import React, { useState, useEffect } from 'react';
 
 const API_BASE = 'https://snay3i-backend.onrender.com';
 
+function trackEvent(action, service, city) {
+  if (window.gtag) {
+    window.gtag('event', action, {
+      'event_category': 'engagement',
+      'event_label': `${service}_${city}`,
+    });
+  }
+}
+
+
 function setCanonical(url) {
   let link = document.querySelector('link[rel="canonical"]');
   if (!link) {
@@ -209,8 +219,8 @@ export default function LandingPage({ serviceSlug, citySlug }) {
             </div>
             {w.bio && <p style={{fontSize:13,color:'#7A7065',lineHeight:1.6,margin:'0 0 12px'}}>{w.bio}</p>}
             <div style={{display:'flex',gap:8}}>
-              <a href={`tel:${w.phone}`} style={{flex:1,background:'#EAF4FB',color:'#0F5248',border:'1.5px solid #D5E8F5',borderRadius:10,padding:'10px',textAlign:'center',textDecoration:'none',fontWeight:700,fontSize:13}}>📞 Appeler</a>
-              <a href={`https://wa.me/${(w.whatsapp||'').replace(/\D/g,'')}`} target="_blank" rel="noopener noreferrer" style={{flex:1,background:'#F0FBF0',color:'#1A6B3A',border:'1.5px solid #C8E6C0',borderRadius:10,padding:'10px',textAlign:'center',textDecoration:'none',fontWeight:700,fontSize:13}}>💬 WhatsApp</a>
+              <a onClick={()=>trackEvent('call_click', serviceSlug, citySlug)} href={`tel:${w.phone}`} style={{flex:1,background:'#EAF4FB',color:'#0F5248',border:'1.5px solid #D5E8F5',borderRadius:10,padding:'10px',textAlign:'center',textDecoration:'none',fontWeight:700,fontSize:13}}>📞 Appeler</a>
+              <a onClick={()=>trackEvent('whatsapp_click', serviceSlug, citySlug)} href={`https://wa.me/${(w.whatsapp||'').replace(/\D/g,'')}`} target="_blank" rel="noopener noreferrer" style={{flex:1,background:'#F0FBF0',color:'#1A6B3A',border:'1.5px solid #C8E6C0',borderRadius:10,padding:'10px',textAlign:'center',textDecoration:'none',fontWeight:700,fontSize:13}}>💬 WhatsApp</a>
             </div>
           </div>
         ))}
