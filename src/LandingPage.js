@@ -24,19 +24,21 @@ function setCanonical(url) {
 
 
 const SERVICE_MAP = {
-  plombier:      { id:'plumber',       label:'Plombier',      ar:'سبّاك',    emoji:'🔧', desc:'Fuites, débouchage, chauffe-eau, sanitaires' },
-  electricien:   { id:'electrician',   label:'Électricien',   ar:'كهربائي',  emoji:'⚡', desc:'Tableau électrique, installations, dépannage' },
-  macon:         { id:'builder',       label:'Maçon',         ar:'بنّاء',    emoji:'🧱', desc:'Construction, rénovation, enduit, ravalement' },
-  bricoleur:     { id:'handyman',      label:'Bricoleur',     ar:'مصلح',    emoji:'🔨', desc:'Montage, petits travaux, réparations diverses' },
-  peintre:       { id:'painter',       label:'Peintre',       ar:'نقّاش',   emoji:'🎨', desc:'Intérieur, extérieur, tadelakt, badigeon' },
-  menuisier:     { id:'carpenter',     label:'Menuisier',     ar:'نجّار',   emoji:'🪚', desc:'Portes, fenêtres, placards, cuisine sur mesure' },
-  carreleur:     { id:'tiler',         label:'Carreleur',     ar:'بلاّط',   emoji:'🏛️', desc:'Zellige, grès cérame, salle de bain, terrasse' },
-  climatisation: { id:'ac_tech',       label:'Climatisation', ar:'تكييف',   emoji:'❄️', desc:'Installation, entretien, recharge, dépannage' },
-  serrurier:     { id:'locksmith',     label:'Serrurier',     ar:'قفّال',   emoji:'🔑', desc:'Ouverture porte, blindage, serrures multipoints' },
-  menage:        { id:'cleaner',       label:'Ménage',        ar:'تنظيف',   emoji:'🧹', desc:'Maisons, bureaux, fin de chantier, vitres' },
-  jardinier:     { id:'gardener',      label:'Jardinier',     ar:'بستاني',  emoji:'🌿', desc:'Création jardins, entretien, arrosage automatique' },
-  soudeur:       { id:'welder',        label:'Soudeur',       ar:'لحّام',   emoji:'🔥', desc:'Portails, grilles, garde-corps, ferronnerie' },
+  plombier:      { id:'plumber',       label:'Plombier',      ar:'سبّاك',    emoji:'🔧', desc:'Fuites, débouchage, chauffe-eau, sanitaires', pro:'plombier', proPlural:'plombiers' },
+  electricien:   { id:'electrician',   label:'Électricien',   ar:'كهربائي',  emoji:'⚡', desc:'Tableau électrique, installations, dépannage', pro:'électricien', proPlural:'électriciens' },
+  macon:         { id:'builder',       label:'Maçon',         ar:'بنّاء',    emoji:'🧱', desc:'Construction, rénovation, enduit, ravalement', pro:'maçon', proPlural:'maçons' },
+  bricoleur:     { id:'handyman',      label:'Bricoleur',     ar:'مصلح',    emoji:'🔨', desc:'Montage, petits travaux, réparations diverses', pro:'bricoleur', proPlural:'bricoleurs' },
+  peintre:       { id:'painter',       label:'Peintre',       ar:'نقّاش',   emoji:'🎨', desc:'Intérieur, extérieur, tadelakt, badigeon', pro:'peintre', proPlural:'peintres' },
+  menuisier:     { id:'carpenter',     label:'Menuisier',     ar:'نجّار',   emoji:'🪚', desc:'Portes, fenêtres, placards, cuisine sur mesure', pro:'menuisier', proPlural:'menuisiers' },
+  carreleur:     { id:'tiler',         label:'Carreleur',     ar:'بلاّط',   emoji:'🏛️', desc:'Zellige, grès cérame, salle de bain, terrasse', pro:'carreleur', proPlural:'carreleurs' },
+  climatisation: { id:'ac_tech',       label:'Climatisation', ar:'تكييف',   emoji:'❄️', desc:'Installation, entretien, recharge, dépannage', pro:'technicien climatisation', proPlural:'techniciens climatisation' },
+  serrurier:     { id:'locksmith',     label:'Serrurier',     ar:'قفّال',   emoji:'🔑', desc:'Ouverture porte, blindage, serrures multipoints', pro:'serrurier', proPlural:'serruriers' },
+  menage:        { id:'cleaner',       label:'Ménage',        ar:'تنظيف',   emoji:'🧹', desc:'Maisons, bureaux, fin de chantier, vitres', pro:'agent de ménage', proPlural:'agents de ménage' },
+  jardinier:     { id:'gardener',      label:'Jardinier',     ar:'بستاني',  emoji:'🌿', desc:'Création jardins, entretien, arrosage automatique', pro:'jardinier', proPlural:'jardiniers' },
+  soudeur:       { id:'welder',        label:'Soudeur',       ar:'لحّام',   emoji:'🔥', desc:'Portails, grilles, garde-corps, ferronnerie', pro:'soudeur', proPlural:'soudeurs' },
 };
+
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
 const CITY_MAP = {
   casablanca:'Casablanca', rabat:'Rabat', marrakech:'Marrakech', fes:'Fes',
@@ -89,8 +91,8 @@ export default function LandingPage({ serviceSlug, citySlug }) {
   useEffect(() => {
     if (!svc || !city) return;
 
-    const title = `${svc.label} ${city} — Trouvez un ${svc.label} pas cher | Snay3i.ma`;
-    const desc = `Trouvez un ${svc.label.toLowerCase()} vérifié à ${city} sur Snay3i.ma. Professionnels disponibles, appelez directement sans intermédiaire. Devis gratuit 🇲🇦`;
+    const title = `${svc.label} ${city} — Trouvez un ${svc.pro} pas cher | Snay3i.ma`;
+    const desc = `Trouvez un ${svc.pro} vérifié à ${city} sur Snay3i.ma. Professionnels disponibles, appelez directement sans intermédiaire. Devis gratuit 🇲🇦`;
     document.title = title;
     setMeta('description', desc);
     setCanonical(`https://snay3i.ma/artisan/${serviceSlug}/${citySlug}`);
@@ -114,10 +116,10 @@ export default function LandingPage({ serviceSlug, citySlug }) {
         "@context":"https://schema.org",
         "@type":"FAQPage",
         "mainEntity":[
-          {"@type":"Question","name":`Quel est le tarif d'un ${svc.label.toLowerCase()} à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Les tarifs varient selon l'intervention. Contactez nos ${svc.label.toLowerCase()}s à ${city} pour un devis gratuit sans engagement.`}},
-          {"@type":"Question","name":`Y a-t-il des ${svc.label.toLowerCase()}s disponibles 24h/24 à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Oui, plusieurs professionnels sur Snay3i.ma proposent des interventions d'urgence 24h/24 à ${city}.`}},
-          {"@type":"Question","name":`Comment trouver un ${svc.label.toLowerCase()} fiable à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Sur Snay3i.ma, tous les ${svc.label.toLowerCase()}s à ${city} sont vérifiés et notés par leurs clients. Consultez les avis avant d'appeler.`}},
-          {"@type":"Question","name":`Comment contacter un ${svc.label.toLowerCase()} à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Cliquez sur le profil du ${svc.label.toLowerCase()} sur Snay3i.ma puis appelez directement ou envoyez un WhatsApp. Aucun intermédiaire.`}},
+          {"@type":"Question","name":`Quel est le tarif d'un ${svc.pro} à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Les tarifs varient selon l'intervention. Contactez nos ${svc.proPlural} à ${city} pour un devis gratuit sans engagement.`}},
+          {"@type":"Question","name":`Y a-t-il des ${svc.proPlural} disponibles 24h/24 à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Oui, plusieurs professionnels sur Snay3i.ma proposent des interventions d'urgence 24h/24 à ${city}.`}},
+          {"@type":"Question","name":`Comment trouver un ${svc.pro} fiable à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Sur Snay3i.ma, tous les ${svc.proPlural} à ${city} sont vérifiés et notés par leurs clients. Consultez les avis avant d'appeler.`}},
+          {"@type":"Question","name":`Comment contacter un ${svc.pro} à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Cliquez sur le profil du ${svc.pro} sur Snay3i.ma puis appelez directement ou envoyez un WhatsApp. Aucun intermédiaire.`}},
         ]
       }
     ]);
@@ -173,7 +175,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
       {/* Stats */}
       <div style={{background:'#C4622D',padding:'10px 24px',display:'flex',justifyContent:'center',gap:28,flexWrap:'wrap'}}>
         {[
-          {n:loading?'..':workers.length, l:`${svc.label}s trouvés`},
+          {n:loading?'..':workers.length, l:`${svc.proPlural} trouvés`},
           {n:'100%', l:'Gratuit'},
           {n:'⭐', l:'Vérifiés'},
           {n:'Direct', l:'Sans intermédiaire'},
@@ -189,7 +191,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
 
         {/* H2: Results */}
         <h2 style={{fontSize:18,fontWeight:700,color:'#0D1B2A',marginBottom:16}}>
-          {svc.emoji} {svc.label}s disponibles à {city}
+          {svc.emoji} {cap(svc.proPlural)} disponibles à {city}
         </h2>
 
         {loading ? (
@@ -228,12 +230,12 @@ export default function LandingPage({ serviceSlug, citySlug }) {
         {/* H2: Why Snay3i */}
         <div style={{background:'#fff',borderRadius:16,padding:24,marginTop:20,border:'1.5px solid #E8E0D4'}}>
           <h2 style={{fontSize:16,fontWeight:700,color:'#0D1B2A',marginBottom:12}}>
-            Pourquoi choisir Snay3i.ma pour trouver un {svc.label.toLowerCase()} à {city}?
+            Pourquoi choisir Snay3i.ma pour trouver un {svc.pro} à {city}?
           </h2>
           {[
             ['✅','Gratuit et sans commission','Aucun frais caché, aucune commission. Contactez directement l\'artisan.'],
             ['⭐','Artisans vérifiés et notés','Chaque professionnel est évalué par ses clients. Lisez les avis avant d\'appeler.'],
-            ['⚡','Intervention rapide','Nos '+svc.label.toLowerCase()+'s à '+city+' sont disponibles rapidement, parfois en urgence 24h.'],
+            ['⚡','Intervention rapide','Nos '+svc.proPlural+' à '+city+' sont disponibles rapidement, parfois en urgence 24h.'],
             ['🇲🇦','Réseau marocain','Plus de 900 maalems dans 35 villes du Maroc. Bilingue français et arabe.'],
           ].map(([icon,title,text])=>(
             <div key={title} style={{display:'flex',gap:12,marginBottom:12}}>
@@ -252,9 +254,9 @@ export default function LandingPage({ serviceSlug, citySlug }) {
             {svc.label} à {city} — Tout ce que vous devez savoir
           </h2>
           <p style={{fontSize:13,color:'#7A7065',lineHeight:1.8,margin:0}}>
-            Snay3i.ma est la plateforme marocaine de référence pour trouver un {svc.label.toLowerCase()} qualifié à {city}.
+            Snay3i.ma est la plateforme marocaine de référence pour trouver un {svc.pro} qualifié à {city}.
             Que vous ayez besoin de {svc.desc.toLowerCase()}, nos professionnels à {city} sont disponibles rapidement.
-            Tous nos {svc.label.toLowerCase()}s sont vérifiés, notés par leurs clients, et contactables directement par téléphone ou WhatsApp.
+            Tous nos {svc.proPlural} sont vérifiés, notés par leurs clients, et contactables directement par téléphone ou WhatsApp.
             Gratuit pour les clients, sans intermédiaire, sans commission.
           </p>
         </div>
@@ -265,10 +267,10 @@ export default function LandingPage({ serviceSlug, citySlug }) {
             ❓ FAQ — {svc.label} à {city}
           </h2>
           {[
-            [`Quel est le tarif d'un ${svc.label.toLowerCase()} à ${city}?`, `Les tarifs varient selon l'intervention et le professionnel. Demandez un devis gratuit directement sur Snay3i.ma.`],
-            [`Y a-t-il des ${svc.label.toLowerCase()}s disponibles 24h/24 à ${city}?`, `Oui, plusieurs professionnels sur Snay3i.ma proposent des interventions d'urgence 24h/24 à ${city}.`],
-            [`Comment trouver un ${svc.label.toLowerCase()} fiable à ${city}?`, `Consultez les avis clients et les notes des artisans sur Snay3i.ma avant d'appeler.`],
-            [`Comment contacter un ${svc.label.toLowerCase()} sur Snay3i.ma?`, `Cliquez sur un profil puis appelez directement ou envoyez un WhatsApp. Aucun intermédiaire.`],
+            [`Quel est le tarif d'un ${svc.pro} à ${city}?`, `Les tarifs varient selon l'intervention et le professionnel. Demandez un devis gratuit directement sur Snay3i.ma.`],
+            [`Y a-t-il des ${svc.proPlural} disponibles 24h/24 à ${city}?`, `Oui, plusieurs professionnels sur Snay3i.ma proposent des interventions d'urgence 24h/24 à ${city}.`],
+            [`Comment trouver un ${svc.pro} fiable à ${city}?`, `Consultez les avis clients et les notes des artisans sur Snay3i.ma avant d'appeler.`],
+            [`Comment contacter un ${svc.pro} sur Snay3i.ma?`, `Cliquez sur un profil puis appelez directement ou envoyez un WhatsApp. Aucun intermédiaire.`],
           ].map(([q,a],i)=>(
             <div key={i} style={{borderBottom:i<3?'1px solid #F0EAE0':'none',paddingBottom:12,marginBottom:12}}>
               <div style={{fontWeight:700,color:'#0D1B2A',fontSize:13,marginBottom:4}}>Q: {q}</div>
@@ -295,7 +297,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
         {nearby.length>0 && (
           <div style={{background:'#fff',borderRadius:16,padding:24,marginTop:12,border:'1.5px solid #E8E0D4'}}>
             <h2 style={{fontSize:14,fontWeight:700,color:'#0D1B2A',marginBottom:12}}>
-              {svc.label}s dans les villes proches
+              {cap(svc.proPlural)} dans les villes proches
             </h2>
             <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
               {nearby.map(slug=>(
@@ -311,7 +313,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
         <div style={{background:'#0D1B2A',borderRadius:20,padding:28,textAlign:'center',marginTop:16}}>
           <div style={{fontSize:32,marginBottom:8}}>{svc.emoji}</div>
           <h3 style={{color:'#fff',fontSize:16,fontWeight:700,margin:'0 0 6px'}}>
-            Vous êtes {svc.label.toLowerCase()} à {city}?
+            Vous êtes {svc.pro} à {city}?
           </h3>
           <p style={{color:'rgba(255,255,255,0.6)',fontSize:12,margin:'0 0 16px'}}>
             Rejoignez +900 professionnels sur Snay3i.ma — gratuit et sans commission
