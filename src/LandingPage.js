@@ -126,7 +126,12 @@ export default function LandingPage({ serviceSlug, citySlug }) {
 
     fetch(`${API_BASE}/search?service=${svc.id}&city=${encodeURIComponent(city)}`)
       .then(r => r.json())
-      .then(d => { setWorkers(Array.isArray(d) ? d : []); setLoading(false); })
+      .then(d => {
+        const list = Array.isArray(d) ? d : [];
+        setWorkers(list);
+        setLoading(false);
+        setMeta('robots', list.length === 0 ? 'noindex, follow' : 'index, follow');
+      })
       .catch(() => setLoading(false));
   }, [svc, city, serviceSlug, citySlug]);
 
@@ -198,7 +203,8 @@ export default function LandingPage({ serviceSlug, citySlug }) {
           <div style={{textAlign:'center',padding:40,color:'#7A7065'}}>Chargement...</div>
         ) : workers.length === 0 ? (
           <div style={{textAlign:'center',padding:40,background:'#fff',borderRadius:16,border:'1.5px solid #E8E0D4'}}>
-            <p style={{color:'#7A7065',marginBottom:16}}>Aucun résultat trouvé pour le moment.</p>
+            <p style={{color:'#7A7065',marginBottom:8,fontWeight:700}}>Aucun professionnel inscrit ici pour le moment.</p>
+            <p style={{color:'#7A7065',marginBottom:16,fontSize:13}}>Soyez parmi les premiers artisans de cette ville sur Snay3i.ma.</p>
             <a href="/" style={{background:'#C4622D',color:'#fff',padding:'12px 24px',borderRadius:24,textDecoration:'none',fontWeight:700}}>Voir tous les artisans →</a>
           </div>
         ) : workers.map((w,i) => (
