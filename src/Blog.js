@@ -82,7 +82,7 @@ Snay3i.ma est la plateforme marocaine qui vous connecte avec des plombiers véri
 4. Consultez les profils avec leurs avis et leur expérience
 5. Appelez directement ou envoyez un WhatsApp
 
-Avec plus de 900 artisans dans 35 villes du Maroc, vous trouverez rapidement le bon professionnel — sans intermédiaire et sans commission.
+Avec plus de 100 artisans dans 21 villes du Maroc, vous trouverez rapidement le bon professionnel — sans intermédiaire et sans commission.
 
 ## Les questions à poser avant de faire appel à un plombier
 
@@ -205,7 +205,7 @@ Sur Snay3i.ma, trouvez des électriciens vérifiés dans votre ville. Chaque pro
 - La disponibilité (urgence ou non)
 - La localisation exacte
 
-Casablanca, Rabat, Marrakech, Tanger, Agadir, Fès — plus de 900 artisans dans 35 villes du Maroc.
+Casablanca, Rabat, Marrakech, Tanger, Agadir, Fès — plus de 100 artisans dans 21 villes du Maroc.
 
 ## Questions fréquentes sur les électriciens au Maroc
 
@@ -457,7 +457,7 @@ Un bon carreleur peut vous expliquer la différence entre les colles, comment pr
 
 ## Trouver votre carreleur sur Snay3i.ma
 
-Sur Snay3i.ma, trouvez des carreleurs vérifiés dans toutes les villes du Maroc. Consultez leurs avis, regardez leurs photos de réalisations et contactez-les directement. Casablanca, Rabat, Marrakech, Fès, Tanger, Agadir — plus de 900 artisans disponibles.
+Sur Snay3i.ma, trouvez des carreleurs vérifiés dans toutes les villes du Maroc. Consultez leurs avis, regardez leurs photos de réalisations et contactez-les directement. Casablanca, Rabat, Marrakech, Fès, Tanger, Agadir — plus de 100 artisans disponibles.
 
 ## Conclusion
 
@@ -572,7 +572,7 @@ Le choix d'un bon carreleur au Maroc est crucial pour la beauté et la durabilit
 4. شوف البروفايلات والتقييمات
 5. تصل مباشرة بالهاتف أو واتساب
 
-بلا وسيط، بلا عمولة، مجاناً للكل. أكثر من 900 معلم في 35 مدينة من طنجة لالعيون.
+بلا وسيط، بلا عمولة، مجاناً للكل. أكثر من 100 معلم في 21 مدينة فالمغرب.
 
 ## خلاصة
 
@@ -743,7 +743,7 @@ Ces tarifs incluent la main d'œuvre mais généralement pas les matériaux.
 
 ## Trouver votre peintre sur Snay3i.ma
 
-Snay3i.ma vous connecte avec les meilleurs peintres vérifiés dans votre ville au Maroc. Consultez les profils, regardez les avis et appelez directement. De Tanger à Dakhla, plus de 900 artisans disponibles.
+Snay3i.ma vous connecte avec les meilleurs peintres vérifiés dans votre ville au Maroc. Consultez les profils, regardez les avis et appelez directement. De Tanger à Dakhla, plus de 100 artisans disponibles.
 
 ## Conclusion
 
@@ -1420,7 +1420,7 @@ La préparation hivernale est cruciale au Maroc, surtout dans les régions qui r
 | Jardin | Jardinier (جارديني) | Mensuel ou bi-mensuel |
 | Peinture extérieure | Peintre (صبّاغ) | Tous les 5-7 ans |
 
-Trouvez tous ces artisans sur Snay3i.ma — plus de 900 professionnels vérifiés dans 35 villes du Maroc.
+Trouvez tous ces artisans sur Snay3i.ma — plus de 100 professionnels vérifiés dans 21 villes du Maroc.
 
 ## Les coûts d'entretien préventif vs réparatifs
 
@@ -1559,7 +1559,7 @@ function ArticlePage({ slug }) {
         {/* CTA */}
         <div style={{background:'#0D1B2A',borderRadius:16,padding:24,textAlign:'center',marginTop:16}}>
           <p style={{color:'#fff',fontWeight:700,fontSize:16,margin:'0 0 8px'}}>Trouvez votre artisan maintenant 🇲🇦</p>
-          <p style={{color:'rgba(255,255,255,0.6)',fontSize:13,margin:'0 0 16px'}}>+900 maalems vérifiés dans 35 villes du Maroc</p>
+          <p style={{color:'rgba(255,255,255,0.6)',fontSize:13,margin:'0 0 16px'}}>+100 artisans vérifiés dans 21 villes du Maroc</p>
           <a href="/" style={{background:'#C4622D',color:'#fff',padding:'12px 28px',borderRadius:24,textDecoration:'none',fontWeight:800,fontSize:14}}>Voir les artisans →</a>
         </div>
 

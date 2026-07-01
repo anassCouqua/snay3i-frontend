@@ -242,7 +242,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
             ['✅','Gratuit et sans commission','Aucun frais caché, aucune commission. Contactez directement l\'artisan.'],
             ['⭐','Artisans vérifiés et notés','Chaque professionnel est évalué par ses clients. Lisez les avis avant d\'appeler.'],
             ['⚡','Intervention rapide','Nos '+svc.proPlural+' à '+city+' sont disponibles rapidement, parfois en urgence 24h.'],
-            ['🇲🇦','Réseau marocain','Plus de 900 maalems dans 35 villes du Maroc. Bilingue français et arabe.'],
+            ['🇲🇦','Réseau marocain','Plus de 100 artisans dans 21 villes du Maroc. Bilingue français et arabe.'],
           ].map(([icon,title,text])=>(
             <div key={title} style={{display:'flex',gap:12,marginBottom:12}}>
               <span style={{fontSize:20,flexShrink:0}}>{icon}</span>
@@ -322,7 +322,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
             Vous êtes {svc.pro} à {city}?
           </h3>
           <p style={{color:'rgba(255,255,255,0.6)',fontSize:12,margin:'0 0 16px'}}>
-            Rejoignez +900 professionnels sur Snay3i.ma — gratuit et sans commission
+            Rejoignez +100 professionnels sur Snay3i.ma — gratuit et sans commission
           </p>
           <a href="/" style={{background:'#C4622D',color:'#fff',padding:'12px 28px',borderRadius:24,textDecoration:'none',fontWeight:800,fontSize:14}}>
             Créer mon profil gratuit →
