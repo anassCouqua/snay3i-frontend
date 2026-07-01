@@ -151,7 +151,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
       {/* Header */}
       <div style={{background:'#0D1B2A',padding:'14px 24px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
         <a href="/" style={{textDecoration:'none',display:'flex',alignItems:'center',gap:10}}>
-          <img src="/logo.png" alt="Snay3i.ma" style={{height:40,objectFit:'contain'}}/>
+          <picture><source srcSet="/logo.webp" type="image/webp"/><img src="/logo.png" alt="Snay3i.ma" width="40" height="40" style={{height:40,objectFit:'contain'}}/></picture>
         </a>
         <a href="/" style={{color:'#D4A843',fontWeight:700,fontSize:13,textDecoration:'none'}}>Voir tous les artisans →</a>
       </div>

@@ -1659,7 +1659,7 @@ export default function App(){
           {/* TOP BAR */}
           <div className="topbar">
             <div className="brand">
-              <img src="/logo.png" alt="Snay3i.ma" width="48" height="48" style={{height:48,objectFit:"contain"}}/>
+              <picture><source srcSet="/logo.webp" type="image/webp"/><img src="/logo.png" alt="Snay3i.ma" width="48" height="48" style={{height:48,objectFit:"contain"}}/></picture>
             </div>
             <button className="lang-btn" onClick={()=>setLang(l=>l==="fr"?"ar":"fr")}>
               {lang==="fr"?"عربي":"FR"}

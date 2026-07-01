@@ -1478,7 +1478,7 @@ function ArticlePage({ slug }) {
     <div style={{fontFamily:'system-ui,sans-serif',background:'#FAF6EF',minHeight:'100vh'}}>
       {/* Header */}
       <div style={{background:'#0D1B2A',padding:'14px 24px',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:8}}>
-        <a href="/"><img src="/logo.png" alt="Snay3i.ma" style={{height:40,objectFit:'contain'}}/></a>
+        <a href="/"><picture><source srcSet="/logo.webp" type="image/webp"/><img src="/logo.png" alt="Snay3i.ma" width="40" height="40" style={{height:40,objectFit:'contain'}}/></picture></a>
         <div style={{display:'flex',gap:14,alignItems:'center',flexWrap:'wrap'}}>
           <a href="/blog" style={{color:'rgba(255,255,255,0.7)',fontSize:13,textDecoration:'none',fontWeight:600}}>Blog</a>
           <a href="/about" style={{color:'rgba(255,255,255,0.7)',fontSize:13,textDecoration:'none',fontWeight:600}}>À propos</a>
@@ -1600,7 +1600,7 @@ export default function Blog({ articleSlug }) {
     <div style={{fontFamily:'system-ui,sans-serif',background:'#FAF6EF',minHeight:'100vh'}}>
       {/* Header */}
       <div style={{background:'#0D1B2A',padding:'14px 24px',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:8}}>
-        <a href="/"><img src="/logo.png" alt="Snay3i.ma" style={{height:40,objectFit:'contain'}}/></a>
+        <a href="/"><picture><source srcSet="/logo.webp" type="image/webp"/><img src="/logo.png" alt="Snay3i.ma" width="40" height="40" style={{height:40,objectFit:'contain'}}/></picture></a>
         <div style={{display:'flex',gap:14,alignItems:'center',flexWrap:'wrap'}}>
           <a href="/blog" style={{color:'#D4A843',fontSize:13,textDecoration:'none',fontWeight:700}}>Blog</a>
           <a href="/about" style={{color:'rgba(255,255,255,0.7)',fontSize:13,textDecoration:'none',fontWeight:600}}>À propos</a>
