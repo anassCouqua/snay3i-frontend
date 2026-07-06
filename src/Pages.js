@@ -28,7 +28,7 @@ const FOOTER = () => (
     <div style={{maxWidth:760,margin:'0 auto',display:'flex',flexWrap:'wrap',gap:24,justifyContent:'space-between'}}>
       <div>
         <img src="/logo.png" alt="Snay3i.ma" style={{height:36,marginBottom:12}}/>
-        <p style={{color:'rgba(255,255,255,0.5)',fontSize:12,margin:0,maxWidth:240}}>Le réseau des artisans marocains vérifiés. +100 artisans dans 21 villes. 🇲🇦</p>
+        <p style={{color:'rgba(255,255,255,0.5)',fontSize:12,margin:0,maxWidth:240}}>Le réseau des artisans marocains vérifiés. +200 artisans dans 21 villes. 🇲🇦</p>
       </div>
       <div style={{display:'flex',gap:32,flexWrap:'wrap'}}>
         <div>
@@ -143,7 +143,7 @@ export function AboutPage() {
         {/* CTA */}
         <div style={{background:'#0D1B2A',borderRadius:16,padding:28,textAlign:'center'}}>
           <h3 style={{color:'#fff',fontSize:18,fontWeight:700,margin:'0 0 8px'}}>Vous êtes artisan au Maroc?</h3>
-          <p style={{color:'rgba(255,255,255,0.6)',fontSize:13,margin:'0 0 16px'}}>Rejoignez +100 professionnels sur Snay3i.ma — gratuit et sans commission</p>
+          <p style={{color:'rgba(255,255,255,0.6)',fontSize:13,margin:'0 0 16px'}}>Rejoignez +200 professionnels sur Snay3i.ma — gratuit et sans commission</p>
           <a href="/" style={{background:'#C4622D',color:'#fff',padding:'12px 28px',borderRadius:24,textDecoration:'none',fontWeight:800,fontSize:14}}>Créer mon profil gratuit →</a>
         </div>
       </div>

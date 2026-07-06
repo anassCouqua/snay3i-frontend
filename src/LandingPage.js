@@ -322,7 +322,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
             Vous êtes {svc.pro} à {city}?
           </h3>
           <p style={{color:'rgba(255,255,255,0.6)',fontSize:12,margin:'0 0 16px'}}>
-            Rejoignez +100 professionnels sur Snay3i.ma — gratuit et sans commission
+            Rejoignez +200 professionnels sur Snay3i.ma — gratuit et sans commission
           </p>
           <a href="/" style={{background:'#C4622D',color:'#fff',padding:'12px 28px',borderRadius:24,textDecoration:'none',fontWeight:800,fontSize:14}}>
             Créer mon profil gratuit →

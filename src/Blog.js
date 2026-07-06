@@ -1559,7 +1559,7 @@ function ArticlePage({ slug }) {
         {/* CTA */}
         <div style={{background:'#0D1B2A',borderRadius:16,padding:24,textAlign:'center',marginTop:16}}>
           <p style={{color:'#fff',fontWeight:700,fontSize:16,margin:'0 0 8px'}}>Trouvez votre artisan maintenant 🇲🇦</p>
-          <p style={{color:'rgba(255,255,255,0.6)',fontSize:13,margin:'0 0 16px'}}>+100 artisans vérifiés dans 21 villes du Maroc</p>
+          <p style={{color:'rgba(255,255,255,0.6)',fontSize:13,margin:'0 0 16px'}}>+200 artisans vérifiés dans 21 villes du Maroc</p>
           <a href="/" style={{background:'#C4622D',color:'#fff',padding:'12px 28px',borderRadius:24,textDecoration:'none',fontWeight:800,fontSize:14}}>Voir les artisans →</a>
         </div>
 
