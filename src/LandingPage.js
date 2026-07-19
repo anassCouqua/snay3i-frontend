@@ -50,7 +50,7 @@ const CITY_MAP = {
   ouarzazate:'Ouarzazate', errachidia:'Errachidia', taza:'Taza', berkane:'Berkane',
   taroudannt:'Taroudannt', tiznit:'Tiznit', guelmim:'Guelmim', laayoune:'Laayoune',
   dakhla:'Dakhla', temara:'Temara', 'tan-tan':'Tan-Tan', 'sidi-kacem':'Sidi Kacem',
-  khemisset:'Khemisset',
+  khemisset:'Khemisset', khenifra:'Khenifra', martil:'Martil', bouskoura:'Bouskoura', 'el-aioun':'El Aioun',
 };
 
 const NEARBY = {
