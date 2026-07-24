@@ -2566,6 +2566,373 @@ Artisans spécialisés dans le métal et les installations industrielles.
 Plombiers, électriciens, maçons, peintres, serruriers, carreleurs et ferronniersà Tanger — consultez les avis et appelez directement. 🇲🇦
     `
   },
+,
+
+  {
+    slug: 'electricien-urgence-casablanca',
+    title: 'Électricien urgence Casablanca 24h/24 — Que faire en cas de panne?',
+    titleAr: 'تريسيان طوارئ الدار البيضاء 24 ساعة',
+    description: 'Panne électrique urgente à Casablanca? Guide complet: quoi faire immédiatement, comment trouver un électricien urgentiste et combien ça coûte la nuit.',
+    category: 'Urgence',
+    emoji: '🚨',
+    date: '19 Juillet 2026',
+    readTime: '6 min',
+    content: `
+## Panne électrique à Casablanca: les premières minutes sont cruciales
+
+Il est 23h, votre quartier d'Ain Sebaa s'est plongé dans le noir, ou pire — une odeur de brûlé vient de votre tableau électrique. Que faites-vous?
+
+Les 5 premières minutes comptent énormément dans une urgence électrique. Ce guide vous donne exactement quoi faire, dans quel ordre.
+
+## Étape 1: Distinguer panne générale et panne chez vous (2 minutes)
+
+Avant tout, regardez par la fenêtre. Si tout votre immeuble ou votre rue est dans le noir, c'est une coupure ONEE (Office National de l'Electricité). Dans ce cas, inutile d'appeler un électricien — appelez le **0537-66-80-80** (numéro ONEE pour Casablanca) pour signaler la coupure.
+
+Si vous seul êtes dans le noir, c'est un problème interne à votre installation. Là, il faut agir.
+
+## Étape 2: Allez au tableau électrique (2 minutes)
+
+Prenez une lampe de poche (ou utilisez celle de votre téléphone) et allez vérifier votre tableau électrique. Cherchez:
+
+**Un disjoncteur en position basse:** Relevez-le. S'il remonte et reste, le problème était ponctuel (surcharge temporaire). S'il saute immédiatement à nouveau, n'insistez pas — appellez un électricien.
+
+**Un différentiel déclenché:** Le différentiel (souvent un gros interrupteur en haut du tableau) peut se déclencher quand il détecte un défaut d'isolement. Relevez-le. S'il saute immédiatement, il y a probablement un appareil défectueux branché — débranchez tous vos appareils un par un pour trouver le coupable.
+
+**Une odeur de brûlé au tableau:** N'y touchez pas. Appelez immédiatement un électricien et, si l'odeur est forte, les pompiers (15).
+
+## Étape 3: Sécurisez la situation (5 minutes)
+
+En attendant l'électricien:
+- Débranchez les appareils sensibles (TV, ordinateurs, électroménager)
+- Si vous avez un chauffe-eau électrique, coupez son disjoncteur dédié
+- Évitez d'utiliser des multiprises dans les zones touchées
+- N'intervenez jamais vous-même sur un tableau sous tension
+
+## Tarifs urgence électricien Casablanca nuit 2026
+
+**Tarif de nuit (22h-7h):**
+- Déplacement urgence: 200-400 MAD
+- Intervention simple (remplacement disjoncteur): 400-700 MAD total
+- Intervention complexe (recherche défaut): 700-1500 MAD
+
+**Tarif jour (7h-20h):**
+- Déplacement: 100-200 MAD
+- Intervention simple: 250-500 MAD total
+- Intervention complexe: 500-1200 MAD
+
+La majoration nuit est réelle et normale. Un électricien qui intervient à minuit mérite sa majoration. En revanche, une majoration de plus de 100% est abusive.
+
+## Les pannes électriques les plus fréquentes à Casablanca la nuit
+
+**Court-circuit après la pluie:** Casa peut recevoir des pluies intenses. L'eau qui s'infiltre dans des prises extérieures ou mal étanches provoque des courts-circuits nocturnes.
+
+**Surcharge climatiseur:** En été, l'allumage simultané de tous les climatiseurs d'un appartement peut faire sauter le disjoncteur général.
+
+**Défaillance chauffe-eau:** Le chauffe-eau qui chauffe toute la nuit peut avoir sa résistance qui grille — panne souvent constatée le matin mais qui commence la nuit.
+
+**Rongeurs dans les gaines:** Dans les bâtiments anciens de Casa, les rongeurs peuvent ronger les gaines et provoquer des courts-circuits.
+
+## Comment trouver un électricien urgentiste fiable à Casablanca
+
+Sur Snay3i.ma, cherchez "Électricien" à Casablanca et filtrez par disponibilité immédiate. Chaque profil indique si l'artisan fait des urgences et ses horaires de disponibilité. Appelez directement — pas d'intermédiaire, pas de centrale d'appel. 🇲🇦
+    `
+  },
+  {
+    slug: 'electricien-professionnel-casablanca',
+    title: 'Électricien professionnel Casablanca — Comment reconnaître un vrai pro?',
+    titleAr: 'تريسيان محترف فالدار البيضاء',
+    description: 'Comment identifier un électricien vraiment professionnel à Casablanca? Les signes qui ne mentent pas, les questions à poser et où les trouver.',
+    category: 'Électricité',
+    emoji: '⚡',
+    date: '19 Juillet 2026',
+    readTime: '7 min',
+    content: `
+## Le mot "professionnel" ne veut rien dire seul
+
+Tout le monde se dit "professionnel" à Casablanca. Sur Facebook, sur les affiches, dans les SMS publicitaires — chaque électricien est "professionnel, certifié, expérimenté". Comment distinguer le vrai du faux?
+
+Voici les marqueurs concrets d'un électricien vraiment professionnel à Casablanca.
+
+## Marqueur 1: Il utilise un testeur de tension systématiquement
+
+Un électricien professionnel ne touche jamais un fil sans avoir d'abord vérifié s'il est sous tension avec un testeur. C'est un réflexe de sécurité de base. Si vous voyez votre électricien travailler directement sur des fils sans sortir son testeur, c'est un signal d'alarme — soit par incompétence, soit par précipitation dangereuse.
+
+## Marqueur 2: Il coupe le disjoncteur AVANT d'intervenir
+
+Cela semble évident, mais vous seriez surpris du nombre "d'électriciens" casablancais qui travaillent sous tension parce que "c'est plus rapide". Un professionnel sérieux coupe toujours l'alimentation au tableau avant d'intervenir, même pour changer une simple prise.
+
+## Marqueur 3: Il évalue avant de chiffrer
+
+Un vrai professionnel regarde, vérifie, pose des questions avant de donner un prix. Celui qui donne un devis au téléphone sans voir le travail (pour des travaux importants) ou qui arrive et chiffre en 30 secondes sans examination fait probablement des prix approximatifs qui vont évoluer en cours de chantier.
+
+## Marqueur 4: Il explique ce qu'il fait
+
+La pédagogie est un signe de maîtrise. Un électricien qui sait ce qu'il fait peut expliquer simplement pourquoi il fait tel choix technique. Celui qui est vague ou évasif quand vous posez des questions techniques maîtrise peut-être moins qu'il ne le prétend.
+
+## Marqueur 5: Son matériel est de qualité et bien entretenu
+
+Regardez sa trousse à outils. Tournevis isolés en bon état, pince-coupante correcte, multimètre calibré, fil de qualité — le matériel d'un professionnel reflète sa façon de travailler. Un électricien avec du matériel bricolé, des fils récupérés et un multimètre cassé ne vous donnera pas un travail professionnel.
+
+## Marqueur 6: Il respecte les normes d'installation
+
+En France, les normes électriques sont la NF C 15-100. Au Maroc, les normes NM 14-5-100 s'en inspirent largement. Un électricien professionnel les connaît et les respecte:
+- Câbles de couleurs standards (phase/neutre/terre)
+- Disjoncteurs de taille correcte pour chaque circuit
+- Protection différentielle 30mA pour les salles de bain
+- Circuit dédié pour les gros appareils (chauffe-eau, four, climatisation)
+
+## Les faux professionnels les plus courants à Casablanca
+
+**L'apprenti qui travaille seul:** Il a fait quelques mois d'apprentissage et se présente comme électricien. Compétent pour les tâches simples, dangereux pour les installations complexes.
+
+**Le bricoleur multiservice:** Il fait "tout" — plomberie, électricité, carrelage. La polyvalence excessive cache souvent une maîtrise superficielle de chaque métier.
+
+**Le sous-traitant de centrale d'appel:** Vous appelez un numéro "urgence électricien Casa" et on vous envoie n'importe quel artisan disponible, sans vérification de compétence. La centrale prend 30-40% de commission.
+
+## Questions techniques pour tester un électricien
+
+Posez-lui ces questions simples:
+
+**"Quelle section de fil pour un circuit cuisine?"** → Réponse attendue: 2.5mm² pour les prises, 4mm² pour le four.
+
+**"Faut-il un disjoncteur différentiel pour la salle de bain?"** → Réponse attendue: Oui, 30mA obligatoire.
+
+**"C'est quoi la différence entre un disjoncteur et un différentiel?"** → Le disjoncteur protège contre les surcharges et courts-circuits. Le différentiel protège les personnes contre les chocs électriques.
+
+Si l'électricien répond clairement, il sait ce qu'il fait. S'il hésite ou donne des réponses vagues, cherchez quelqu'un d'autre.
+
+## Trouver un électricien professionnel à Casablanca sur Snay3i.ma
+
+Sur Snay3i.ma, les avis clients révèlent rapidement si un électricien est vraiment professionnel. Un artisan avec 50 avis positifs sur des travaux variés est une garantie bien plus solide que n'importe quel titre auto-déclaré. 🇲🇦
+    `
+  },
+  {
+    slug: 'serrurier-marrakech-guide',
+    title: 'Serrurier à Marrakech — Guide complet 2026 (Médina et Guéliz)',
+    titleAr: 'قفّال فمراكش — دليل كامل 2026',
+    description: 'Trouver un bon serrurier à Marrakech. Spécificités de la médina, prix 2026 et comment éviter les arnaques dans la ville ocre.',
+    category: 'Marrakech',
+    emoji: '🏙️',
+    date: '19 Juillet 2026',
+    readTime: '6 min',
+    content: `
+## Marrakech et la serrurerie: des défis uniques
+
+Marrakech est une ville particulière pour la serrurerie — et pour plusieurs raisons qui ne sont pas évidentes au premier abord. La ville combine une médina centenaire avec des serrures traditionnelles en bois et fer forgé, des riads rénovés avec des systèmes de sécurité modernes, et des quartiers résidentiels récents avec de la serrurerie standard.
+
+Cette diversité crée un marché de la serrurerie fascinant mais complexe.
+
+## Les types de serrures à Marrakech
+
+**Les serrures de médina traditionnelles:**
+Dans la vieille médina, de nombreuses portes ont encore des serrures en bois sculpté ou en fer forgé artisanal. Ces serrures sont uniques — souvent fabriquées par des artisans locaux spécifiques — et ne se remplacent pas avec des pièces standard. Si votre riad a ce type de serrure, cherchez un serrurier qui connaît le patrimoine artisanal marrakchi.
+
+**Les serrures de riads rénovés:**
+Les riads transformés en maisons d'hôtes ou en résidences de luxe ont souvent des systèmes de sécurité modernes — serrures multipoints européennes, digicode, serrures connectées. Pour ces systèmes, il vous faut un serrurier formé aux marques correspondantes.
+
+**Les serrures des quartiers modernes (Guéliz, Hivernage, Ménara):**
+Serrures standard qu'on trouve partout au Maroc. Le marché est plus concurrentiel et les prix plus prévisibles.
+
+## Prix d'un serrurier à Marrakech en 2026
+
+Marrakech a une particularité: la forte présence de touristes et d'étrangers crée une tendance à la surfacturation. Un serrurier peut vous présenter deux grilles de prix — une pour les locaux et une pour les "étrangers".
+
+**Tarifs raisonnables à Marrakech:**
+- Ouverture porte standard (journée): 200-400 MAD
+- Ouverture porte blindée: 400-800 MAD
+- Remplacement serrure standard: 300-600 MAD + matériel
+- Remplacement cylindre: 200-400 MAD + cylindre
+- Urgence nuit: +50-100% sur tarif journée
+
+**Signes d'une surfacturation:**
+- Tarif dépassant 600 MAD pour une ouverture simple en journée
+- Refus de donner un prix par téléphone
+- Acceptation immédiate sans demander à voir la serrure
+
+## Spécificités par quartier
+
+**Médina (Jemaa el-Fna, Mouassine, Bab Doukkala):**
+Artisans locaux souvent basés dans des petites boutiques. Bonne connaissance des serrures traditionnelles. Prix généralement corrects pour les locaux mais attention à la négociation si vous êtes perçu comme étranger.
+
+**Guéliz et Hivernage:**
+Quartiers modernes avec serrureries bien équipées. Personnel souvent francophone. Tarifs standardisés et transparents.
+
+**Daoudiat et Targa:**
+Zones résidentielles avec des serruriers locaux moins connus mais souvent compétents et abordables.
+
+**Palmeraie:**
+Villas de luxe avec systèmes de sécurité haut de gamme. Cherchez des serruriers spécialisés qui travaillent avec les marques européennes (Mul-T-Lock, Abloy, etc.).
+
+## Comment éviter les arnaques à Marrakech
+
+**Vérifiez sur Snay3i.ma avant d'appeler:** Les avis clients casablancais et marrakchis sont généralement honnêtes. Un serrurier bien noté à Marrakech l'est pour de bonnes raisons.
+
+**Demandez le prix en MAD, pas autrement:** Si un serrurier commence à parler en euros ou en dollars, c'est un mauvais signe pour vos tarifs.
+
+**Appelez un serrurier recommandé par votre gardien ou riad:** La recommandation locale reste le meilleur filtre.
+
+## Trouver votre serrurier à Marrakech sur Snay3i.ma
+
+Serruriers vérifiés dans tous les quartiers de Marrakech — médina, Guéliz, Hivernage, Palmeraie. Avis clients authentiques. 🇲🇦
+    `
+  },
+  {
+    slug: 'plombier-marrakech-guide',
+    title: 'Plombier à Marrakech — Guide complet 2026 (Médina, Guéliz, Palmeraie)',
+    titleAr: 'سبّاك فمراكش — دليل كامل 2026',
+    description: 'Tout sur les plombiers à Marrakech en 2026. Spécificités des riads, prix par quartier et comment trouver le bon artisan dans la ville ocre.',
+    category: 'Marrakech',
+    emoji: '🔧',
+    date: '19 Juillet 2026',
+    readTime: '7 min',
+    content: `
+## La plomberie à Marrakech: entre tradition et modernité
+
+Marrakech est probablement la ville marocaine où la plomberie est la plus complexe et diversifiée. D'un côté, la médina millénaire avec ses canalisations ancestrales, ses fontaines traditionnelles et ses hammams historiques. De l'autre, des riads ultra-luxueux avec des installations thermiques et hydrauliques dignes des meilleurs hôtels 5 étoiles. Et entre les deux, des centaines de milliers de logements ordinaires avec des problèmes de plomberie très ordinaires.
+
+## Les défis spécifiques de la plomberie à Marrakech
+
+**La chaleur extrême:**
+Marrakech peut atteindre 45-47°C en été. Cette chaleur dilate les canalisations, fait sécher les joints plus vite, et accélère l'entartrage des robinets et chauffe-eaux. Un bon plombier marrakchi utilise des matériaux adaptés à ces températures extrêmes.
+
+**L'eau calcaire:**
+L'eau de Marrakech est particulièrement calcaire. Le calcaire bouche les pommeaux de douche, encrasse les chauffe-eaux et détériore les robinetteries prématurément. Prévoir un adoucisseur d'eau est souvent conseillé dans les nouvelles installations.
+
+**Les canalisations de la médina:**
+Dans certaines parties de la vieille médina, les canalisations datent de plusieurs siècles. Un plombier qui intervient dans un riad de la médina doit avoir l'expérience des "surprises" — canalisations introuvables sur plan, matériaux de pipe insolites, contraintes architecturales historiques.
+
+**Les riads et leur plomberie complexe:**
+Un riad rénové en maison d'hôtes peut avoir: un hammam, une piscine, une fontaine centrale, un système de chauffage par le sol, plusieurs salles de bain aux finitions luxueuses. Cette plomberie nécessite un artisan senior avec une expérience réelle du haut de gamme.
+
+## Prix d'un plombier à Marrakech en 2026
+
+Les prix à Marrakech varient beaucoup selon le quartier et le type de logement:
+
+**Médina (riad standard ou traditionnel):**
+- Intervention simple: 200-400 MAD
+- Problème dans les canalisations anciennes: 400-1500 MAD (imprévus fréquents)
+- Rénovation salle de bain riad: 15000-60000 MAD selon standing
+
+**Guéliz, Ménara, Targa (appartements standard):**
+- Intervention standard: 200-350 MAD
+- Urgence: 400-600 MAD
+- Réfection salle de bain: 12000-30000 MAD
+
+**Palmeraie et villas de luxe:**
+- Intervention: 400-800 MAD (standard élevé attendu)
+- Projets de villa complète: 50000-200000 MAD
+
+## Les problèmes de plomberie les plus courants à Marrakech
+
+**Chauffe-eau encrassé:**
+Le calcaire de Marrakech bouche les résistances des chauffe-eaux électriques en 2-3 ans. Un détartrage annuel prolonge significativement leur durée de vie.
+
+**Robinets qui gouettent:**
+L'eau calcaire détériore les joints de robinet plus vite qu'ailleurs. Prévoyez de changer les joints tous les 2-3 ans dans les robinets utilisés quotidiennement.
+
+**Canalisations bouchées:**
+La combinaison de calcaire et d'usage intensif (surtout dans les maisons d'hôtes) bouche régulièrement les canalisations. Un débouchage à haute pression annuel est recommandé.
+
+**Fuite terrasse:**
+L'étanchéité des terrasses est souvent défaillante à Marrakech. Les dilatations thermiques extrêmes (40°C de différence entre hiver et été) fissurent les membranes d'étanchéité. Ces fuites sont souvent lentes mais détruisent progressivement le plafond en dessous.
+
+## Comment choisir son plombier à Marrakech selon son logement
+
+**Pour un appartement standard:** N'importe quel plombier avec de bons avis fera l'affaire. Priorité à la disponibilité et au prix.
+
+**Pour un riad en médina:** Cherchez un plombier qui a déjà travaillé dans des riads. Demandez explicitement des références de riads rénovés.
+
+**Pour un riad de luxe ou une villa Palmeraie:** Investissez dans un plombier senior ou une petite entreprise de plomberie. Le niveau d'exigence est différent et un artisan peu expérimenté peut abîmer des installations coûteuses.
+
+## Trouver votre plombier à Marrakech sur Snay3i.ma
+
+Plombiers vérifiés dans tous les quartiers de Marrakech. Consultez les spécialités et les avis avant de choisir. 🇲🇦
+    `
+  },
+  {
+    slug: 'climatisation-oujda-guide',
+    title: 'Climatisation à Oujda — Installation, entretien et techniciens 2026',
+    titleAr: 'التكييف بوجدة — تركيب وصيانة وتقنيين 2026',
+    description: 'Guide complet climatisation à Oujda. Installation, entretien, prix et comment trouver un technicien clim fiable dans la capitale de l'Oriental.',
+    category: 'Climatisation',
+    emoji: '❄️',
+    date: '19 Juillet 2026',
+    readTime: '6 min',
+    content: `
+## Oujda et la climatisation: une nécessité absolue
+
+Oujda, capitale de la région de l'Oriental, est l'une des villes marocaines les plus chaudes en été. Les températures dépassent régulièrement 40°C entre juin et septembre, et le vent chaud venant des plaines algériennes peut rendre les nuits étouffantes.
+
+Dans ce contexte, la climatisation n'est pas un luxe à Oujda — c'est devenue une nécessité pour beaucoup de foyers.
+
+## Pourquoi Oujda a des spécificités en matière de climatisation
+
+**La chaleur sèche de l'intérieur:**
+Contrairement à Casablanca ou Tanger où la mer tempère les températures, Oujda a un climat continental avec des écarts thermiques importants. Les climatiseurs y travaillent plus dur en été et moins en hiver, ce qui influence le choix de la puissance et de la technologie.
+
+**La proximité de l'Algérie:**
+Certains composants et marques disponibles à Oujda viennent du marché algérien. Les techniciens oujdis sont souvent familiers avec des marques moins connues au Maroc occidental (Condor, Eniem...) en plus des standards marocains (Gree, Samsung, Midea...).
+
+**Le réseau électrique:**
+Oujda a parfois des variations de tension en été quand tout le monde allume les clims simultanément. Un bon technicien vous conseillera peut-être l'installation d'un stabilisateur de tension pour protéger votre investissement.
+
+## Les marques de climatisation disponibles à Oujda
+
+**Les incontournables:**
+- **Gree:** Leader en Afrique du Nord, très disponible à Oujda, excellent SAV
+- **Samsung:** Réputé pour la fiabilité, service après-vente présent à Oujda
+- **Midea:** Bon rapport qualité-prix, très populaire dans la classe moyenne oujdie
+
+**Les marques premium:**
+- **Daikin:** L'investissement le plus sûr pour un usage intensif oujdi. Plus cher mais dure 12-15 ans sans problème.
+- **Mitsubishi Electric:** Excellent pour les chaleurs extrêmes, technologie inverter très efficace.
+
+**Marques à vérifier:**
+- Certaines marques sans SAV à Oujda peuvent vous laisser sans solution si une pièce casse. Vérifiez qu'il y a un technicien agréé dans la ville.
+
+## Prix installation climatisation à Oujda 2026
+
+**Achat + installation (split standard):**
+- Split 9000 BTU (chambre 12m²): 4500-7000 MAD
+- Split 12000 BTU (salon 20m²): 5500-9000 MAD
+- Split 18000 BTU (grand salon 35m²): 7000-13000 MAD
+- Split 24000 BTU (très grand espace): 9000-16000 MAD
+
+**Main d'œuvre installation seulement:**
+- Split simple (intérieur + extérieur): 700-1400 MAD
+- Multi-split (par tête supplémentaire): +400-700 MAD
+
+**Entretien annuel:**
+- Nettoyage + vérification: 300-500 MAD
+- Recharge gaz (par kg): 200-400 MAD
+
+## L'entretien: crucial à Oujda
+
+Les étés oujdis font travailler les climatiseurs 8-10 heures par jour pendant 4 mois. Sans entretien régulier, la durée de vie d'un climatiseur tombe à 5-7 ans au lieu de 12-15 ans.
+
+**L'entretien annuel indispensable comprend:**
+- Nettoyage complet des filtres (à faire soi-même tous les 2 mois)
+- Nettoyage de l'évaporateur intérieur à haute pression
+- Nettoyage du condenseur extérieur
+- Vérification du niveau de gaz frigorigène
+- Contrôle des connexions électriques
+- Vérification de la pression de fonctionnement
+
+**Quand faire l'entretien?** Idéalement en avril-mai, avant les premières chaleurs. Un climatiseur entretenu juste avant l'été fonctionne mieux et consomme moins d'électricité.
+
+## Comment trouver un bon technicien clim à Oujda
+
+**Vérifiez qu'il connaît votre marque:** Les techniciens sont souvent spécialisés. Un technicien Gree n'est pas forcément à l'aise avec un Daikin — les systèmes sont différents.
+
+**Demandez s'il a la recharge gaz:** Tous les techniciens ne sont pas équipés pour recharger le gaz frigorigène. C'est un équipement coûteux (bouteilles de gaz R32 ou R410A, manomètre) que les professionnels sérieux possèdent.
+
+**Méfiez-vous des diagnostics "gaz vide":** La recharge de gaz est facturée cher et certains techniciens l'ajoutent systématiquement sans vérification sérieuse. Un technicien honnête vérifie d'abord s'il y a une fuite avant de recharger.
+
+## Trouver votre technicien climatisation à Oujda sur Snay3i.ma
+
+Snay3i.ma référence des techniciens climatisation vérifiés à Oujda. Consultez les avis et appelez directement. 🇲🇦
+    `
+  },
 
 ];
 
