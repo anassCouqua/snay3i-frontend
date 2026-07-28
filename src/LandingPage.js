@@ -59,7 +59,7 @@ const NEARBY = {
   marrakech:['casablanca','agadir','essaouira'],
   tanger:['tetouan','chefchaouen','larache'],
   agadir:['marrakech','tiznit','guelmim'],
-  fes:['meknes','taza','sefrou'],
+  fes:['meknes','taza','ifrane'],
   meknes:['fes','rabat','khemisset'],
   oujda:['nador','berkane','taza'],
 };
