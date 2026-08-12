@@ -1573,12 +1573,20 @@ export default function App(){
   const [showRegister,setShowRegister]=useState(false);
   const [legalPage,setLegalPage]=useState(null);
 
+  const CITY_NORMALIZE = {
+    "Fès":"Fes","Meknès":"Meknes","Kénitra":"Kenitra","Salé":"Sale",
+    "Tétouan":"Tetouan","Témara":"Temara","Béni Mellal":"Beni Mellal",
+    "Khénifra":"Khenifra","Laâyoune":"Laayoune","Saïdia":"Saidia",
+    "Fkih Ben Salah":"Fes","Martil":"Martil","M\'diq":"Mdiq",
+    "Sidi Kacem":"Sidi-Kacem","Ouazzane":"Ouazzane",
+  };
   const fetchWorkers=useCallback(async(svc,ct,q)=>{
     setLoading(true);setError("");
     try{
       const p=new URLSearchParams();
       if(q&&q.trim())p.set("q",q.trim());
-      if(ct&&ct!=="Toutes")p.set("city",ct);
+      const ctNorm = CITY_NORMALIZE[ct] || ct;
+      if(ct&&ct!=="Toutes")p.set("city",ctNorm);
       if(svc&&svc!=="all")p.set("service",svc);
       let res=await fetch(`${API_BASE}/search?${p}`);
       // Fallback to original endpoint if /search fails or backend not updated
