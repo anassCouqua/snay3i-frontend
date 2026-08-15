@@ -1,0 +1,42 @@
+name: Fix Blog Syntax
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-blog-syntax.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fix malformed Blog.js string and verify build
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('src/Blog.js')
+          s = p.read_text(encoding='utf-8')
+          old = "title: 'Serrurier autour de moi au Maroc — Porte bloquée: guide d'urgence',"
+          new = 'title: "Serrurier autour de moi au Maroc — Porte bloquée: guide d\'urgence",'
+          if old not in s:
+              raise SystemExit('Expected malformed Blog.js title was not found')
+          p.write_text(s.replace(old, new, 1), encoding='utf-8')
+          PY
+
+          npm ci --no-audit --no-fund
+          npm run build
+
+      - name: Commit corrected Blog.js
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/Blog.js
+          git commit -m 'fix: correct malformed serrurier article title'
+          git push
