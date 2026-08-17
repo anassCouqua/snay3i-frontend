@@ -5,6 +5,7 @@ const file = path.join(process.cwd(), 'src', 'Blog.js');
 let content = fs.readFileSync(file, 'utf8');
 
 const replacements = [
+  ["**Les fuites d'eau font partie des problèmes de plomberie couramment rencontrés dans les logements.", "Les fuites d'eau font partie des problèmes de plomberie couramment rencontrés dans les logements."],
   ["Les fuites d'eau** représentent 40% des demandes sur Snay3i.ma.", "Les fuites d'eau font partie des problèmes de plomberie couramment rencontrés dans les logements."],
   ["Un plombier expérimenté peut diagnostiquer et réparer en moins d'une heure dans la plupart des cas.", "La durée du diagnostic et de la réparation dépend de la cause de la panne, de son accessibilité et des pièces nécessaires."],
   ["Les prix à Casablanca et Rabat sont généralement 15-25% plus élevés qu'en province.", "Les tarifs peuvent varier sensiblement selon la ville, le quartier, l'urgence, les matériaux et la complexité des travaux."],
@@ -13,6 +14,7 @@ const replacements = [
   ["Sur Snay3i.ma, chaque profil indique clairement la disponibilité de l'artisan.", "Lorsque la disponibilité est renseignée sur un profil, utilisez-la comme un point à vérifier avant de confirmer le rendez-vous."],
   ["Snay3i.ma est la plateforme marocaine qui vous connecte avec des plombiers vérifiés dans votre ville.", "Snay3i.ma permet de consulter des profils de plombiers disponibles dans votre ville."],
   ["Sur Snay3i.ma, tous les plombiers sont évalués par leurs clients réels. Un artisan avec de mauvaises pratiques ne peut pas se maintenir longtemps sur notre plateforme.", "Les avis, lorsqu'ils sont disponibles sur un profil, peuvent compléter votre propre vérification du professionnel."],
+  ["Un artisan avec de mauvaises pratiques ne peut pas se maintenir longtemps sur notre plateforme.", "Les informations et avis disponibles peuvent compléter votre propre vérification du professionnel."],
   ["Sur Snay3i.ma, trouvez des plombiers vérifiés dans votre ville.", "Sur Snay3i.ma, consultez les profils de plombiers disponibles dans votre ville."],
   ["Sur Snay3i.ma, trouvez des électriciens vérifiés dans votre ville.", "Sur Snay3i.ma, consultez les profils d'électriciens disponibles dans votre ville."],
   ["Casablanca, Rabat, Marrakech, Tanger, Agadir, Fès — plus de 100 artisans dans 21 villes du Maroc.", "Les disponibilités varient selon les professionnels référencés et les villes proposées sur la plateforme."],
