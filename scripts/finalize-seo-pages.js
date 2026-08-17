@@ -22,14 +22,29 @@ const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((entr
   return entry.isDirectory() ? walk(full) : [full];
 });
 
-for (const file of walk(seoDir).filter((f) => f.endsWith('.html'))) {
+const bootstrap = [
+  mainCss ? `<link rel="stylesheet" href="/static/css/${mainCss}">` : '',
+  `<script defer src="/static/js/${mainJs}"></script>`
+].join('');
+
+const copyRecursive = (src, dest) => {
+  fs.mkdirSync(dest, { recursive: true });
+  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+    const from = path.join(src, entry.name);
+    const to = path.join(dest, entry.name);
+    if (entry.isDirectory()) copyRecursive(from, to);
+    else fs.copyFileSync(from, to);
+  }
+};
+
+const seoFiles = walk(seoDir).filter((f) => f.endsWith('.html'));
+for (const file of seoFiles) {
   let html = fs.readFileSync(file, 'utf8');
-  const bootstrap = [
-    mainCss ? `<link rel="stylesheet" href="/static/css/${mainCss}">` : '',
-    `<script defer src="/static/js/${mainJs}"></script>`
-  ].join('');
   html = html.replace('</head>', `${bootstrap}</head>`);
   fs.writeFileSync(file, html, 'utf8');
 }
 
-console.log(`Finalized ${walk(seoDir).filter((f) => f.endsWith('.html')).length} crawlable pages with the production React bundle`);
+// Publish the finalized pages at their real canonical URL paths.
+copyRecursive(seoDir, buildDir);
+
+console.log(`Finalized ${seoFiles.length} crawlable pages and exposed them at canonical public routes`);
