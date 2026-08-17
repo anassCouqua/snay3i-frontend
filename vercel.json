@@ -1,12 +1,15 @@
 {
-  "rewrites": [
-    { "source": "/artisan/:service/:city", "destination": "/artisan/:service/:city/index.html" },
-    { "source": "/blog/:slug", "destination": "/blog/:slug/index.html" },
-    { "source": "/blog", "destination": "/blog/index.html" },
-    { "source": "/about", "destination": "/about/index.html" },
-    { "source": "/contact", "destination": "/contact/index.html" },
-    { "source": "/privacy", "destination": "/privacy/index.html" },
-    { "source": "/terms", "destination": "/terms/index.html" }
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "routes": [
+    { "src": "/artisan/([^/]+)/([^/]+)/?$", "dest": "/artisan/$1/$2/index.html" },
+    { "src": "/blog/([^/]+)/?$", "dest": "/blog/$1/index.html" },
+    { "src": "/blog/?$", "dest": "/blog/index.html" },
+    { "src": "/about/?$", "dest": "/about/index.html" },
+    { "src": "/contact/?$", "dest": "/contact/index.html" },
+    { "src": "/privacy/?$", "dest": "/privacy/index.html" },
+    { "src": "/terms/?$", "dest": "/terms/index.html" },
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/index.html" }
   ],
   "headers": [
     {
