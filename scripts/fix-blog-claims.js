@@ -29,7 +29,6 @@ const replacements = [
   [/Ne jamais payer plus de 30% à l'avance pour les gros travaux\\. Échelonnez: 30% démarrage, 40% mi-travaux, 30% réception\\./g, 'Évitez de payer la totalité avant le début des travaux et définissez des paiements liés à l’avancement et au devis.'],
   [/Un électricien travaillant principalement dans le Maarif ou Anfa facturera 30-40% de plus qu'un électricien de Hay Mohammadi pour le même travail\\./g, 'Le quartier peut influencer les frais de déplacement et le prix global, mais comparez toujours des devis portant sur une prestation réellement comparable.'],
   [/Une panne en pleine nuit à Casablanca peut coûter 2 à 3 fois le tarif normal\\./g, 'Une intervention urgente, de nuit ou le week-end peut être facturée davantage ; demandez le tarif d’urgence avant le déplacement lorsqu’il est possible de le faire.'],
-  [/Un enduit proposé à 30 MAD\\/m² alors que le marché est à 70-100 MAD cache forcément quelque chose — épaisseur insuffisante, matériaux de mauvaise qualité, ou le prix ne comprend pas la main d'œuvre\\./g, 'Un prix très inférieur à d’autres devis mérite des explications : vérifiez la surface, les matériaux, l’épaisseur, la préparation et ce qui est inclus dans la main-d’œuvre.'],
   [/Le "paiement total à l'avance": Ne jamais payer plus de 30% à l'avance pour les gros travaux\\. Échelonnez: 30% démarrage, 40% mi-travaux, 30% réception\\./g, 'Le « paiement total à l’avance » mérite de la prudence. Pour les gros travaux, définissez les paiements selon l’avancement réel et les conditions du devis.'],
   [/Sur Snay3i\\.ma, trouvez des carreleurs vérifiés dans toutes les villes du Maroc\\./g, 'Sur Snay3i.ma, consultez les profils de carreleurs disponibles dans les villes proposées.'],
   [/plus de 100 artisans disponibles\\./g, 'les disponibilités dépendent des professionnels référencés.'],
@@ -40,8 +39,9 @@ const replacements = [
   [/Sur Snay3i\\.ma, chaque profil indique clairement la disponibilité de l'artisan\\./g, 'Lorsque la disponibilité est renseignée sur un profil, utilisez-la comme un point à vérifier avant de confirmer le rendez-vous.'],
   [/Snay3i\\.ma est la plateforme marocaine qui vous connecte avec des plombiers vérifiés dans votre ville\\./g, 'Snay3i.ma permet de consulter des profils de plombiers disponibles dans votre ville.'],
   [/Sur Snay3i\\.ma, tous les plombiers sont évalués par leurs clients réels\\. Un artisan avec de mauvaises pratiques ne peut pas se maintenir longtemps sur notre plateforme\\./g, 'Les avis, lorsqu’ils sont disponibles sur un profil, peuvent compléter votre propre vérification du professionnel.'],
-  [/Snay3i\\.ma vous connecte avec des plombiers vérifiés dans votre ville\\./g, 'Snay3i.ma permet de consulter des profils de plombiers disponibles dans votre ville.'],
+  [/Sur Snay3i\\.ma, trouvez des plombiers vérifiés dans votre ville\\./g, 'Sur Snay3i.ma, consultez les profils de plombiers disponibles dans votre ville.'],
   [/Sur Snay3i\\.ma, trouvez des électriciens vérifiés dans votre ville\\./g, 'Sur Snay3i.ma, consultez les profils d’électriciens disponibles dans votre ville.'],
+  [/Un enduit proposé à 30 MAD[^\\n]*cache forcément quelque chose[^\\n]*\\./g, 'Un prix très inférieur à d’autres devis mérite des explications : vérifiez la surface, les matériaux, la préparation et ce qui est inclus dans la main-d’œuvre.']
 ];
 
 for (const [pattern, replacement] of replacements) {
