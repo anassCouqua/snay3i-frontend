@@ -44,7 +44,34 @@ for (const file of seoFiles) {
   fs.writeFileSync(file, html, 'utf8');
 }
 
-// Publish the finalized pages at their real canonical URL paths.
+// Keep the nested canonical tree for debugging/backward compatibility.
 copyRecursive(seoDir, buildDir);
 
-console.log(`Finalized ${seoFiles.length} crawlable pages and exposed them at canonical public routes`);
+// Also publish flat HTML artifacts. This avoids directory-index resolution differences
+// across CRA/Vercel routing and lets clean SEO URLs map to explicit static files.
+for (const file of seoFiles) {
+  const relative = path.relative(seoDir, file).split(path.sep).join('/');
+  if (!relative.endsWith('/index.html')) continue;
+
+  const routeParts = relative.split('/');
+  routeParts.pop(); // index.html
+
+  let flatName;
+  if (routeParts.length === 0) {
+    flatName = 'home.html';
+  } else if (routeParts[0] === 'artisan' && routeParts.length === 3) {
+    flatName = `artisan-${routeParts[1]}-${routeParts[2]}.html`;
+  } else if (routeParts[0] === 'blog' && routeParts.length === 1) {
+    flatName = 'blog.html';
+  } else if (routeParts[0] === 'blog' && routeParts.length === 2) {
+    flatName = `blog-${routeParts[1]}.html`;
+  } else if (routeParts.length === 1) {
+    flatName = `${routeParts[0]}.html`;
+  } else {
+    continue;
+  }
+
+  fs.copyFileSync(file, path.join(buildDir, flatName));
+}
+
+console.log(`Finalized ${seoFiles.length} crawlable pages and exposed canonical plus flat static artifacts`);
