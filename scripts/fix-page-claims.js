@@ -17,6 +17,9 @@ const replacements = [
   ['Une question, un problème ou une suggestion? Notre équipe vous répond dans les 24 heures.', 'Une question, un problème ou une suggestion? Contactez-nous et nous vous répondrons dès que possible.'],
   ['Nous traiterons votre demande dans les 24 heures.', 'Nous traiterons votre demande dans les meilleurs délais.'],
   ['35 villes au Maroc: Casablanca, Rabat, Marrakech, Tanger, Agadir, Fès, Meknès, Oujda et bien plus — de Tanger à Dakhla.', 'Les villes disponibles évoluent avec les professionnels référencés. Consultez les résultats par ville directement sur la plateforme.'],
+  ['notre plateforme disponible sur snay3i.ma et nos applications mobiles.', 'notre plateforme disponible sur snay3i.ma.'],
+  ['- Afficher des publicités pertinentes via Google AdSense', '- Afficher, le cas échéant, des publicités pertinentes via les services publicitaires Google une fois activés sur la plateforme'],
+  ['Une question, un problème ou une suggestion? Notre équipe vous répond dans les 24 heures.', 'Une question, un problème ou une suggestion? Contactez-nous et nous vous répondrons dès que possible.'],
 ];
 
 for (const [from, to] of replacements) {
