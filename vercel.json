@@ -10,37 +10,30 @@
     },
     {
       "source": "/about",
-      "has": [{"type":"header","key":"user-agent","value":"(Googlebot|AdsBot-Google|Mediapartners-Google|bingbot|Slurp|DuckDuckBot)"}],
       "destination": "/seo/about/index.html"
     },
     {
       "source": "/contact",
-      "has": [{"type":"header","key":"user-agent","value":"(Googlebot|AdsBot-Google|Mediapartners-Google|bingbot|Slurp|DuckDuckBot)"}],
       "destination": "/seo/contact/index.html"
     },
     {
       "source": "/privacy",
-      "has": [{"type":"header","key":"user-agent","value":"(Googlebot|AdsBot-Google|Mediapartners-Google|bingbot|Slurp|DuckDuckBot)"}],
       "destination": "/seo/privacy/index.html"
     },
     {
       "source": "/terms",
-      "has": [{"type":"header","key":"user-agent","value":"(Googlebot|AdsBot-Google|Mediapartners-Google|bingbot|Slurp|DuckDuckBot)"}],
       "destination": "/seo/terms/index.html"
     },
     {
       "source": "/blog",
-      "has": [{"type":"header","key":"user-agent","value":"(Googlebot|AdsBot-Google|Mediapartners-Google|bingbot|Slurp|DuckDuckBot)"}],
       "destination": "/seo/blog/index.html"
     },
     {
       "source": "/blog/:slug",
-      "has": [{"type":"header","key":"user-agent","value":"(Googlebot|AdsBot-Google|Mediapartners-Google|bingbot|Slurp|DuckDuckBot)"}],
       "destination": "/seo/blog/:slug/index.html"
     },
     {
       "source": "/artisan/:service/:city",
-      "has": [{"type":"header","key":"user-agent","value":"(Googlebot|AdsBot-Google|Mediapartners-Google|bingbot|Slurp|DuckDuckBot)"}],
       "destination": "/seo/artisan/:service/:city/index.html"
     },
     {
