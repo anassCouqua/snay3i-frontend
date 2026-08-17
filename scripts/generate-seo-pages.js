@@ -79,6 +79,14 @@ write('terms', page({
   links: [{ href: '/terms', self: true }, ...common]
 }));
 
+write('blog', page({
+  title: 'Blog Snay3i.ma — Guides pratiques pour les travaux au Maroc',
+  description: 'Guides pratiques pour choisir un artisan, préparer des travaux et comprendre les prestations courantes au Maroc.',
+  heading: 'Guides pratiques pour les travaux et services au Maroc',
+  body: '<section><h2>Nos sujets</h2><p>Le blog couvre notamment la plomberie, l’électricité, la rénovation, le carrelage, la peinture, la menuiserie, la climatisation, la serrurerie, la maçonnerie, le jardinage et l’entretien de la maison.</p><p>Chaque guide vise à aider le lecteur à préparer sa demande, poser les bonnes questions et vérifier les informations utiles avant une prestation.</p></section>',
+  links: [{ href: '/blog', self: true }, { href: '/blog/trouver-bon-plombier-maroc', label: 'Trouver un bon plombier au Maroc' }, { href: '/blog/tarif-electricien-maroc-2026', label: 'Tarif électricien Maroc 2026' }, ...common]
+}));
+
 const cities = {
   casablanca: 'Casablanca', rabat: 'Rabat', marrakech: 'Marrakech', tanger: 'Tanger', fes: 'Fès', agadir: 'Agadir'
 };
