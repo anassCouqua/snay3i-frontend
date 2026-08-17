@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.join(process.cwd(), 'public', 'seo');
+const blogSourcePath = path.join(process.cwd(), 'src', 'Blog.js');
 
 const esc = (value) => String(value)
   .replace(/&/g, '&amp;')
@@ -10,7 +11,64 @@ const esc = (value) => String(value)
   .replace(/"/g, '&quot;')
   .replace(/'/g, '&#39;');
 
-const page = ({ title, description, heading, body, links = [] }) => `<!doctype html>
+const markdownToHtml = (markdown) => {
+  const lines = String(markdown || '').trim().split(/\r?\n/);
+  const html = [];
+  let listOpen = false;
+
+  const closeList = () => {
+    if (listOpen) {
+      html.push('</ul>');
+      listOpen = false;
+    }
+  };
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) {
+      closeList();
+      continue;
+    }
+
+    if (line.startsWith('## ')) {
+      closeList();
+      html.push(`<h2>${esc(line.slice(3))}</h2>`);
+      continue;
+    }
+
+    if (line.startsWith('- ')) {
+      if (!listOpen) {
+        html.push('<ul>');
+        listOpen = true;
+      }
+      const item = esc(line.slice(2)).replace(/\\*\\*(.+?)\\*\\*/g, '<strong>$1</strong>');
+      html.push(`<li>${item}</li>`);
+      continue;
+    }
+
+    closeList();
+    const paragraph = esc(line)
+      .replace(/\\*\\*(.+?)\\*\\*/g, '<strong>$1</strong>');
+    html.push(`<p>${paragraph}</p>`);
+  }
+
+  closeList();
+  return html.join('');
+};
+
+const extractArticles = () => {
+  if (!fs.existsSync(blogSourcePath)) return [];
+  const source = fs.readFileSync(blogSourcePath, 'utf8');
+  const articles = [];
+  const re = /slug:\s*'([^']+)'[\s\S]*?title:\s*'([^']+)'[\s\S]*?description:\s*'([^']*)'[\s\S]*?content:\s*`([\s\S]*?)`\s*\n\s*}/g;
+  let match;
+  while ((match = re.exec(source))) {
+    articles.push({ slug: match[1], title: match[2], description: match[3], content: match[4] });
+  }
+  return articles;
+};
+
+const page = ({ title, description, heading, body, links = [], article = false }) => `<!doctype html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
@@ -27,11 +85,12 @@ main{max-width:900px;margin:auto;padding:44px 22px}section{background:#fff;borde
 h1{font-size:34px;line-height:1.2;margin:0 0 12px}h2{font-size:21px;color:#0d1b2a}a{color:#b34f24}
 .meta{color:#6f6a64;font-size:14px}.cta{display:inline-block;background:#c4622d;color:#fff!important;padding:11px 18px;border-radius:999px;text-decoration:none;font-weight:700}
 ul{padding-left:22px}
+.article p,.article li{font-size:17px}.article h2{margin-top:30px}
 </style>
 </head>
 <body>
 <header><nav><a href="/">Accueil</a><a href="/blog">Blog</a><a href="/about">À propos</a><a href="/contact">Contact</a><a href="/privacy">Confidentialité</a><a href="/terms">CGU</a></nav></header>
-<main><section><p class="meta">Snay3i.ma • Guide et information</p><h1>${esc(heading)}</h1><p>${esc(description)}</p></section>${body}<section><h2>Snay3i.ma</h2><p>Snay3i.ma est une plateforme marocaine qui aide les particuliers à rechercher des professionnels pour les travaux et services à domicile. Les informations affichées dépendent des données disponibles sur chaque profil.</p><p>Avant toute prestation, vérifiez directement avec le professionnel les tarifs, les disponibilités, la nature du travail et les éventuels frais.</p>${links.filter(l => !l.self).map(l => `<p><a href="${esc(l.href)}">${esc(l.label)}</a></p>`).join('')}</section></main>
+<main>${article ? '' : '<section><p class="meta">Snay3i.ma • Guide et information</p><h1>' + esc(heading) + '</h1><p>' + esc(description) + '</p></section>'}${body}<section><h2>Snay3i.ma</h2><p>Snay3i.ma est une plateforme marocaine qui aide les particuliers à rechercher des professionnels pour les travaux et services à domicile. Les informations affichées dépendent des données disponibles sur chaque profil.</p><p>Avant toute prestation, vérifiez directement avec le professionnel les tarifs, les disponibilités, la nature du travail et les éventuels frais.</p>${links.filter(l => !l.self).map(l => `<p><a href="${esc(l.href)}">${esc(l.label)}</a></p>`).join('')}</section></main>
 <footer><div style="max-width:900px;margin:auto">© 2026 Snay3i.ma · <a href="/privacy">Confidentialité</a> · <a href="/terms">CGU</a> · <a href="/contact">Contact</a></div></footer>
 </body></html>`;
 
@@ -88,51 +147,54 @@ write('blog', page({
 }));
 
 const cities = {
-  casablanca: 'Casablanca', rabat: 'Rabat', marrakech: 'Marrakech', tanger: 'Tanger', fes: 'Fès', agadir: 'Agadir'
+  casablanca: { name: 'Casablanca', context: 'Dans une grande agglomération, comparez les délais de déplacement et confirmez l’adresse ou le quartier avant le rendez-vous. Pour les immeubles, précisez l’étage, l’ascenseur et les règles d’accès lorsqu’elles peuvent modifier la durée de l’intervention.' },
+  rabat: { name: 'Rabat', context: 'Pour une intervention à Rabat, précisez le quartier et l’accès au logement ou au local. Pour les travaux planifiés, demandez un devis qui sépare la main-d’œuvre, les fournitures et les éventuels frais de déplacement.' },
+  marrakech: { name: 'Marrakech', context: 'À Marrakech, certains logements, riads ou zones touristiques peuvent avoir des contraintes d’accès particulières. Décrivez les conditions d’accès et le type de bâtiment avant de confirmer la prestation.' },
+  tanger: { name: 'Tanger', context: 'À Tanger, la proximité du professionnel peut être utile pour les dépannages rapides. Pour un chantier, clarifiez l’accès, le stationnement et les horaires d’intervention afin d’éviter les malentendus.' },
+  fes: { name: 'Fès', context: 'À Fès, précisez si l’intervention concerne un logement moderne, une maison ancienne ou une zone à accès limité. Les contraintes d’accès peuvent influencer le temps nécessaire et le transport du matériel.' },
+  agadir: { name: 'Agadir', context: 'À Agadir, indiquez clairement le type de logement ou de local et la nature de l’intervention. Pour les travaux extérieurs ou les équipements techniques, partagez les informations utiles avant le déplacement.' }
 };
+
 const services = {
-  plombier: 'Plombier', electricien: 'Électricien', macon: 'Maçon', bricoleur: 'Bricoleur', peintre: 'Peintre', menuisier: 'Menuisier', carreleur: 'Carreleur', climatisation: 'Climatisation', serrurier: 'Serrurier', menage: 'Ménage', jardinier: 'Jardinier', soudeur: 'Soudeur'
+  plombier: { name: 'Plombier', situations: 'fuite, évier ou WC bouché, robinetterie, chauffe-eau ou installation sanitaire', checklist: ['Décrire la panne et son emplacement', 'Indiquer si l’eau doit être coupée', 'Demander si un diagnostic sur place est nécessaire', 'Clarifier la main-d’œuvre, les pièces et le déplacement'] },
+  electricien: { name: 'Électricien', situations: 'panne, prise, éclairage, tableau, circuit dédié ou rénovation électrique', checklist: ['Décrire les symptômes avant l’intervention', 'Préciser si le disjoncteur déclenche', 'Demander ce qui sera testé ou remplacé', 'Vérifier les mesures de sécurité et les conditions du devis'] },
+  macon: { name: 'Maçon', situations: 'cloison, réparation, dalle, mur, ouverture ou travaux de structure', checklist: ['Décrire les dimensions approximatives', 'Préciser les matériaux existants', 'Demander les étapes prévues', 'Clarifier matériaux, main-d’œuvre, évacuation et délai'] },
+  bricoleur: { name: 'Bricoleur', situations: 'petites réparations, montage, fixation, entretien ou travaux variés', checklist: ['Lister les tâches à réaliser', 'Partager des photos lorsque cela aide au diagnostic', 'Préciser le matériel déjà disponible', 'Demander si les fournitures sont incluses'] },
+  peintre: { name: 'Peintre', situations: 'peinture intérieure, façade, préparation des murs et finitions', checklist: ['Indiquer les pièces et surfaces concernées', 'Préciser l’état des murs', 'Choisir le niveau de finition souhaité', 'Séparer préparation, peinture et fournitures dans le devis'] },
+  menuisier: { name: 'Menuisier', situations: 'portes, placards, cuisine, meubles sur mesure ou réparations', checklist: ['Fournir les dimensions disponibles', 'Décrire l’usage et les contraintes', 'Comparer matériaux et finitions', 'Demander un détail des fournitures et de la pose'] },
+  carreleur: { name: 'Carreleur', situations: 'sols, murs, salle de bain, cuisine ou rénovation de surfaces', checklist: ['Mesurer approximativement la surface', 'Préciser le type de support', 'Décrire le carrelage envisagé', 'Demander le détail de la préparation, pose et joints'] },
+  climatisation: { name: 'Climatisation', situations: 'installation, entretien, nettoyage, diagnostic ou remplacement d’équipement', checklist: ['Préciser la pièce et sa taille approximative', 'Indiquer l’équipement existant s’il y en a un', 'Demander les contraintes d’installation', 'Clarifier entretien, déplacement et fournitures'] },
+  serrurier: { name: 'Serrurier', situations: 'porte bloquée, clé perdue, serrure, cylindre ou sécurisation', checklist: ['Décrire la situation sans masquer l’urgence réelle', 'Demander si une ouverture non destructive est possible', 'Clarifier déplacement et pièces éventuelles', 'Vérifier le fonctionnement de la serrure avant de terminer'] },
+  menage: { name: 'Ménage', situations: 'entretien régulier, nettoyage ponctuel, état des lieux ou remise en état', checklist: ['Préciser la surface et le nombre de pièces', 'Lister les tâches attendues', 'Indiquer les produits ou équipements disponibles', 'Clarifier la durée, la fréquence et les fournitures'] },
+  jardinier: { name: 'Jardinier', situations: 'entretien, taille, arrosage, plantation ou aménagement extérieur', checklist: ['Décrire la surface et les plantes concernées', 'Partager des photos du jardin', 'Préciser les déchets ou évacuations à prévoir', 'Demander un détail entre entretien et fournitures'] },
+  soudeur: { name: 'Soudeur', situations: 'réparation métallique, portail, garde-corps, structure ou fabrication sur mesure', checklist: ['Décrire le métal et les dimensions', 'Préciser si la pièce doit être fabriquée ou réparée', 'Indiquer les contraintes de sécurité ou d’accès', 'Demander le détail du matériau, de la fabrication et de la pose'] }
 };
 
 for (const [serviceSlug, service] of Object.entries(services)) {
   for (const [citySlug, city] of Object.entries(cities)) {
     const route = `artisan/${serviceSlug}/${citySlug}`;
+    const checklistHtml = service.checklist.map(item => `<li>${esc(item)}</li>`).join('');
     write(route, page({
-      title: `${service} à ${city} — Snay3i.ma`,
-      description: `Recherchez des ${service.toLowerCase()} et professionnels pour vos besoins à ${city}. Consultez les informations disponibles et contactez directement les professionnels référencés sur Snay3i.ma.`,
-      heading: `${service} à ${city}`,
-      body: `<section><h2>Comment rechercher un ${service.toLowerCase()} à ${city} ?</h2><p>Commencez par consulter les profils disponibles pour ${city}, vérifiez les compétences indiquées et prenez contact pour décrire votre besoin.</p><ul><li>Décrivez précisément les travaux ou la panne.</li><li>Demandez un devis et clarifiez les frais de déplacement ou de matériel.</li><li>Vérifiez les disponibilités et les conditions avant le début du travail.</li></ul></section>`,
+      title: `${service.name} à ${city.name} — Snay3i.ma`,
+      description: `Guide pratique pour rechercher un ${service.name.toLowerCase()} à ${city.name}, comparer les informations disponibles et préparer une demande de devis.`,
+      heading: `${service.name} à ${city.name}`,
+      body: `<section><h2>Pour quels besoins contacter un ${service.name.toLowerCase()} ?</h2><p>À ${city.name}, les demandes peuvent concerner notamment : ${esc(service.situations)}. La bonne description du besoin aide le professionnel à comprendre la situation avant de se déplacer.</p><p>${esc(city.context)}</p></section><section><h2>Préparer votre demande</h2><p>Avant de contacter un professionnel, réunissez les informations simples qui permettent de comparer les réponses. ${esc(service.name)} peut avoir besoin de photos, de dimensions, de références d’équipement ou d’informations sur l’accès au logement selon la nature du travail.</p><ul>${checklistHtml}</ul></section><section><h2>Comparer les réponses</h2><p>Ne comparez pas uniquement un prix annoncé rapidement. Vérifiez ce qui est inclus, les fournitures, le déplacement, la préparation, le délai et les conditions de paiement. Pour un travail plus important, demandez un devis suffisamment détaillé pour comparer le même périmètre entre plusieurs professionnels.</p><p>Les informations affichées sur Snay3i.ma dépendent des données disponibles sur chaque profil. Avant de confirmer une prestation, vérifiez directement avec le professionnel ses disponibilités, ses tarifs et la nature exacte du travail.</p></section>`,
       links: [{ href: `/artisan/${serviceSlug}/${citySlug}`, self: true }, { href: '/blog', label: 'Lire les guides pratiques' }, { href: '/contact', label: 'Contacter Snay3i.ma' }]
     }));
   }
 }
 
-const articles = [
-  ['trouver-bon-plombier-maroc','Comment trouver un bon plombier au Maroc','Conseils pratiques pour comparer des profils, décrire une panne, demander un devis et vérifier les informations avant une intervention de plomberie.'],
-  ['tarif-electricien-maroc-2026','Tarif électricien Maroc 2026','Guide pour comprendre les facteurs qui influencent le prix d’une intervention électrique au Maroc et préparer une demande de devis précise.'],
-  ['renovation-maison-maroc-guide','Guide de rénovation maison au Maroc','Les principales étapes d’une rénovation : diagnostic, budget, ordre des travaux, choix des professionnels et suivi du chantier.'],
-  ['choisir-carreleur-maroc','Comment choisir un carreleur au Maroc','Points à vérifier avant de choisir un carreleur : préparation du support, matériaux, finition, métrés et devis.'],
-  ['trouver-snay3i-maroc-darija','Comment trouver un professionnel au Maroc en Darija','Vocabulaire et conseils simples pour expliquer un besoin de travaux et comparer les informations d’un professionnel.'],
-  ['urgence-plomberie-casablanca','Urgence plomberie à Casablanca : les premiers réflexes','Gestes de première urgence, informations à préparer et points à vérifier avant de faire intervenir un plombier.'],
-  ['peintre-maison-maroc-conseils','Choisir un peintre pour sa maison au Maroc','Préparation des surfaces, choix de peinture, estimation des quantités et questions à poser avant le chantier.'],
-  ['menuisier-cuisine-maroc','Menuisier cuisine au Maroc : préparer son projet','Mesures, matériaux, rangements, finitions et devis : les éléments utiles avant de lancer une cuisine sur mesure.'],
-  ['climatisation-maroc-installation','Climatisation au Maroc : installation et entretien','Conseils pour choisir une solution adaptée, préparer l’installation et organiser l’entretien d’un climatiseur.'],
-  ['serrurier-urgence-maroc','Serrurier au Maroc : gérer une urgence','Que faire en cas de clé perdue, serrure bloquée ou porte coincée, et comment demander une intervention clairement.'],
-  ['macon-construction-maroc','Maçon au Maroc : préparer des travaux de construction','Les points essentiels à clarifier avant des travaux de maçonnerie : périmètre, matériaux, étapes, délais et devis.'],
-  ['jardinier-paysagiste-maroc','Jardinier et paysagiste au Maroc : organiser son projet','Comment décrire un besoin d’entretien ou d’aménagement extérieur et comparer les prestations proposées.'],
-  ['artisan-marrakech-guide','Trouver un artisan à Marrakech : guide pratique','Méthode pour rechercher un professionnel à Marrakech, vérifier les informations utiles et préparer une demande de devis.'],
-  ['electricien-casablanca-guide','Électricien à Casablanca : points à vérifier','Conseils de sécurité et questions utiles pour choisir un professionnel de l’électricité à Casablanca.'],
-  ['entretien-maison-maroc-checklist','Entretien de la maison au Maroc : checklist','Une checklist pratique pour anticiper plomberie, électricité, peinture, climatisation et petits travaux au fil de l’année.']
-];
-
-for (const [slug, title, description] of articles) {
-  write(`blog/${slug}`, page({
-    title: `${title} — Snay3i.ma`,
-    description,
-    heading: title,
-    body: `<section><h2>Ce guide en pratique</h2><p>${esc(description)}</p><p>Avant une intervention, décrivez votre besoin, demandez les éléments importants du devis et vérifiez directement avec le professionnel les conditions de la prestation.</p></section>`,
-    links: [{ href: `/blog/${slug}`, self: true }, { href: '/blog', label: 'Retour au blog' }, ...common]
+const articles = extractArticles();
+for (const article of articles) {
+  const body = `<article class="article"><section><p class="meta">Guide Snay3i.ma • contenu pratique</p><h1>${esc(article.title)}</h1><p>${esc(article.description)}</p></section><section>${markdownToHtml(article.content)}</section><section><h2>À retenir</h2><p>Avant de réserver une prestation, décrivez clairement votre besoin, comparez les informations disponibles et confirmez directement avec le professionnel le périmètre, le tarif, les délais et les éventuels frais.</p></section></article>`;
+  write(`blog/${article.slug}`, page({
+    title: `${article.title} — Snay3i.ma`,
+    description: article.description,
+    heading: article.title,
+    body,
+    article: true,
+    links: [{ href: `/blog/${article.slug}`, self: true }, { href: '/blog', label: 'Retour au blog' }, ...common]
   }));
 }
 
-console.log('Crawlable SEO pages generated');
+console.log(`Crawlable SEO pages generated: ${articles.length} blog articles + ${Object.keys(services).length * Object.keys(cities).length} service/city pages + core pages`);
