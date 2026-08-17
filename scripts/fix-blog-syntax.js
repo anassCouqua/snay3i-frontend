@@ -55,6 +55,22 @@ const blogClaims = [
   ['أكثر من 100 معلم في 21 مدينة فالمغرب.', 'مهنيون وصنايعية متوفرون حسب المدينة والخدمة المعروضة على المنصة.'],
   ['على Snay3i.ma، كل صنايعي عندو تقييمات من زبائن حقيقيين.', 'على Snay3i.ma، شوف المعلومات والتقييمات المتوفرة فكل بروفايل قبل ما تتاصل بالمهني.'],
   ['هاد الخطوات الأربعة كافية باش تلقى أحسن صنايعي فمدينتك.', 'هاد الخطوات كيساعدوك تقارن وتختار الصنايعي اللي مناسب للحاجة ديالك فمدينتك.'],
+
+  // Factual/editorial accuracy pass: remove unsupported local-market generalisations.
+  ['Casablanca et Rabat affichent des tarifs 20-30% plus élevés que les villes moyennes. Dans les quartiers résidentiels haut de gamme comme Anfa ou Agdal, comptez encore 10-15% de plus.', "Les tarifs varient selon la ville, le quartier, l'urgence, les matériaux, l'expérience et la complexité du chantier. Demandez plusieurs devis comparables avant de conclure."],
+  ['Une intervention d\'urgence la nuit ou le week-end coûte entre 50% et 100% de plus qu\'une intervention normale. C\'est le prix de la disponibilité immédiate.', "Une intervention d'urgence peut être majorée, mais la hausse dépend du professionnel et des conditions convenues. Demandez le tarif ou l'estimation avant le déplacement."],
+  ['Un électricien certifié avec 15 ans d\'expérience facture plus cher mais offre de bien meilleures garanties qu\'un débutant.', "L'expérience peut influencer le tarif et la capacité à traiter certains chantiers. Vérifiez surtout l'expérience pertinente, les références et les conditions proposées."],
+  ['Casablanca, Rabat, Marrakech, Tanger, Agadir, Fès — plus de 100 artisans dans 21 villes du Maroc.', "Casablanca, Rabat, Marrakech, Tanger, Agadir, Fès et d'autres villes selon les professionnels référencés."],
+  ["**Faut-il un permis pour les travaux électriques?** Pour les gros travaux, un permis est requis auprès de la municipalité. Votre électricien doit vous en informer.", "**Faut-il une autorisation pour des travaux?** Cela dépend de la nature du chantier et des règles d'urbanisme applicables. Au Maroc, les demandes d'autorisations territoriales sont centralisées via le guichet national Rokhas; pour un projet important ou une modification du bâti, vérifiez la procédure avant de commencer."],
+  ["**## Les tarifs d'un électricien au Maroc en 2026**", "**## Les tarifs d'un électricien au Maroc en 2026**\n\n*Les montants ci-dessous sont des repères indicatifs, non des tarifs officiels. Le prix réel dépend du chantier, du déplacement, des matériaux et du professionnel. Comparez des devis décrivant exactement les mêmes travaux.*"],
+  ["**## Tableau des tarifs par type d'intervention**", "**## Tableau des tarifs par type d'intervention**\n\n*Repères indicatifs: demandez un devis écrit et vérifiez si les matériaux, le déplacement et la main-d'œuvre sont inclus.*"],
+  ["Pour les gros travaux, un permis est requis auprès de la municipalité.", "Pour certains travaux de construction, de rénovation ou de modification du bâti, une autorisation peut être nécessaire. Vérifiez les règles d'urbanisme applicables à votre commune avant le chantier."],
+  ['La cuisine ouverte sur le séjour est très demandée dans les appartements modernes de Casablanca et Rabat.', "La cuisine ouverte est une option courante dans certains projets résidentiels contemporains, mais le choix dépend de la configuration, des usages et du budget."],
+  ["Les panneaux solaires connaissent un essor important, surtout à Agadir et Marrakech où l'ensoleillement est exceptionnel.", "Les panneaux solaires peuvent être pertinents pour certains logements, selon l'ensoleillement local, la consommation et le type d'installation. Une étude du site est préférable avant de budgéter."],
+  ['Le Maroc offre une richesse unique en termes de carrelage, mélangeant traditions ancestrales et matériaux modernes:', 'Le marché marocain propose des solutions traditionnelles et modernes, avec des matériaux et techniques adaptés à différents usages:'],
+  ['Au Maroc, comme partout, il existe malheureusement des arnaqueurs dans le secteur de la plomberie.', 'Comme pour tout service à domicile, restez vigilant face aux devis incomplets, aux changements de prix non annoncés ou aux demandes de paiement inhabituelles.'],
+  ['Une fuite dans un mur peut pourrir la structure.', 'Une fuite dans un mur peut provoquer des dommages aux matériaux et favoriser l’humidité; une évaluation rapide permet de limiter les dégâts.'],
+  ['Un robinet qui fuit peut gaspiller jusqu\'à 150 litres d\'eau par jour.', 'La quantité d\'eau perdue par un robinet qui fuit dépend fortement du débit et de la durée de la fuite; corrigez rapidement la fuite pour limiter le gaspillage.'],
 ];
 
 let blogContent = fs.readFileSync(file, 'utf8');
@@ -63,5 +79,24 @@ for (const [from, to] of blogClaims) {
     blogContent = blogContent.split(from).join(to);
   }
 }
+
+// Add one concise Morocco-specific source note to electrical guidance when the target section exists.
+const electricalSourceNote = "\n\n**Repère officiel:** les installations électriques basse tension au Maroc sont encadrées par des normes marocaines publiées par l'IMANOR, notamment la NM 06.1.100 et les normes associées de protection et de vérification. Pour un chantier présentant un enjeu de sécurité, demandez à un professionnel de vérifier la conformité de l'installation.\n";
+if (!blogContent.includes("**Repère officiel:** les installations électriques basse tension au Maroc")) {
+  blogContent = blogContent.replace(
+    "## Les risques d'un mauvais électricien\n",
+    electricalSourceNote + "\n## Les risques d'un mauvais électricien\n"
+  );
+}
+
+// Add a consumer-rights reminder to articles that recommend quotes, prices or guarantees.
+const consumerNote = "\n\n**Bon réflexe consommateur:** au Maroc, la loi n°31-08 encadre la protection du consommateur et le droit à une information claire et objective avant la conclusion d'un contrat. Demandez que le prix, les conditions de vente et toute garantie proposée soient clairement indiqués.\n";
+if (!blogContent.includes("**Bon réflexe consommateur:** au Maroc, la loi n°31-08")) {
+  blogContent = blogContent.replace(
+    "## Les erreurs à éviter avec un maçon\n",
+    consumerNote + "\n## Les erreurs à éviter avec un maçon\n"
+  );
+}
+
 fs.writeFileSync(file, blogContent, 'utf8');
 console.log('Blog editorial cleanup applied');
