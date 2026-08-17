@@ -6,7 +6,7 @@ let content = fs.readFileSync(file, 'utf8');
 
 const replacements = [
   ['Le réseau des artisans marocains vérifiés. +200 artisans dans 21 villes. 🇲🇦', 'Le réseau des professionnels référencés au Maroc. Consultez les profils et contactez directement les professionnels disponibles. 🇲🇦'],
-  ["Snay3i.ma est la plateforme marocaine qui connecte les clients avec des artisans vérifiés dans 35 villes du Maroc. Notre mission: rendre l\\'accès aux services à domicile simple, rapide et gratuit.", "Snay3i.ma est une plateforme marocaine qui connecte les clients avec des artisans et professionnels locaux. Notre mission: rendre l'accès aux services à domicile simple, pratique et accessible."],
+  ["Snay3i.ma est la plateforme marocaine qui connecte les clients avec des artisans vérifiés dans 35 villes du Maroc. Notre mission: rendre l\\'accès aux services à domicile simple, rapide et gratuit.", "Snay3i.ma est une plateforme marocaine qui connecte les clients avec des artisans et professionnels locaux. Notre mission: rendre l\\'accès aux services à domicile simple, pratique et accessible."],
   ['directement les clients avec des artisans vérifiés — sans intermédiaire, sans commission, sans complications.', 'directement les clients avec des professionnels locaux — sans intermédiaire, sans commission, sans complications.'],
   ["{n:'100+',l:'Maalems vérifiés'}", "{n:'Profils',l:'Professionnels référencés'}"],
   ["{n:'35',l:'Villes couvertes'}", "{n:'Plusieurs',l:'Villes proposées'}"],
