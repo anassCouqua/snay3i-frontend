@@ -47,8 +47,7 @@ const markdownToHtml = (markdown) => {
     }
 
     closeList();
-    const paragraph = esc(line)
-      .replace(/\\*\\*(.+?)\\*\\*/g, '<strong>$1</strong>');
+    const paragraph = esc(line).replace(/\\*\\*(.+?)\\*\\*/g, '<strong>$1</strong>');
     html.push(`<p>${paragraph}</p>`);
   }
 
@@ -56,14 +55,25 @@ const markdownToHtml = (markdown) => {
   return html.join('');
 };
 
+const unescapeJsString = (value) => String(value)
+  .replace(/\\'/g, "'")
+  .replace(/\\"/g, '"')
+  .replace(/\\n/g, '\n')
+  .replace(/\\\\/g, '\\');
+
 const extractArticles = () => {
   if (!fs.existsSync(blogSourcePath)) return [];
   const source = fs.readFileSync(blogSourcePath, 'utf8');
   const articles = [];
-  const re = /slug:\s*'([^']+)'[\s\S]*?title:\s*'([^']+)'[\s\S]*?description:\s*'([^']*)'[\s\S]*?content:\s*`([\s\S]*?)`\s*\n\s*}/g;
+  const re = /slug:\s*'([^']+)'[\s\S]*?title:\s*'((?:\\.|[^'])*)'[\s\S]*?description:\s*'((?:\\.|[^'])*)'[\s\S]*?content:\s*`([\s\S]*?)`\s*\n\s*}/g;
   let match;
   while ((match = re.exec(source))) {
-    articles.push({ slug: match[1], title: match[2], description: match[3], content: match[4] });
+    articles.push({
+      slug: match[1],
+      title: unescapeJsString(match[2]),
+      description: unescapeJsString(match[3]),
+      content: match[4]
+    });
   }
   return articles;
 };
