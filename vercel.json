@@ -10,31 +10,31 @@
     },
     {
       "source": "/about",
-      "destination": "/seo/about/index.html"
+      "destination": "/about/index.html"
     },
     {
       "source": "/contact",
-      "destination": "/seo/contact/index.html"
+      "destination": "/contact/index.html"
     },
     {
       "source": "/privacy",
-      "destination": "/seo/privacy/index.html"
+      "destination": "/privacy/index.html"
     },
     {
       "source": "/terms",
-      "destination": "/seo/terms/index.html"
+      "destination": "/terms/index.html"
     },
     {
       "source": "/blog",
-      "destination": "/seo/blog/index.html"
+      "destination": "/blog/index.html"
     },
     {
       "source": "/blog/:slug",
-      "destination": "/seo/blog/:slug/index.html"
+      "destination": "/blog/:slug/index.html"
     },
     {
       "source": "/artisan/:service/:city",
-      "destination": "/seo/artisan/:service/:city/index.html"
+      "destination": "/artisan/:service/:city/index.html"
     },
     {
       "source": "/(.*)",
