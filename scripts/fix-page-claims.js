@@ -26,5 +26,14 @@ for (const [from, to] of replacements) {
   content = content.split(from).join(to);
 }
 
+const googleCookieDisclosure = 'Les fournisseurs tiers, y compris Google, utilisent des cookies pour diffuser des annonces en fonction des visites antérieures d\'un utilisateur sur notre site ou sur d\'autres sites. L\'utilisation de cookies publicitaires par Google permet à Google et à ses partenaires de diffuser des annonces à nos utilisateurs en fonction de leurs visites sur nos sites et/ou d\'autres sites sur Internet. Les utilisateurs peuvent désactiver la publicité personnalisée dans les paramètres des annonces Google.';
+
+if (!content.includes("Les fournisseurs tiers, y compris Google, utilisent des cookies pour diffuser des annonces")) {
+  content = content.replace(
+    '- Afficher, le cas échéant, des publicités pertinentes via les services publicitaires Google une fois activés sur la plateforme\\n\\nVous pouvez désactiver les cookies',
+    '- Afficher, le cas échéant, des publicités pertinentes via les services publicitaires Google une fois activés sur la plateforme\\n\\n' + googleCookieDisclosure + '\\n\\nVous pouvez désactiver les cookies'
+  );
+}
+
 fs.writeFileSync(file, content, 'utf8');
 console.log('Public page claim cleanup applied');
