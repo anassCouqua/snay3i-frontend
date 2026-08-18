@@ -50,13 +50,19 @@ if (fs.existsSync(blogRoot)) {
   }
 }
 
-// Remove unsupported directory-style trust claims from any generated public HTML.
+// Remove unsupported or overly strong claims from generated public HTML.
 const trustReplacements = [
   [/plateforme marocaine qui vous connecte avec des plombiers vérifiés dans votre ville/gi, 'plateforme marocaine qui aide à rechercher des plombiers dans votre ville'],
   [/trouvez des électriciens vérifiés dans votre ville/gi, 'recherchez des électriciens dans votre ville'],
+  [/électriciens vérifiés/gi, 'électriciens présents sur la plateforme'],
+  [/electriciens vérifiés/gi, 'electriciens présents sur la plateforme'],
   [/tous les plombiers sont évalués par leurs clients réels/gi, 'les profils peuvent afficher les avis disponibles sur la plateforme'],
   [/tous nos artisans sont vérifiés et évalués par leurs clients/gi, 'consultez les informations disponibles sur les professionnels présents sur la plateforme'],
-  [/artisans vérifiés/gi, 'professionnels présents sur la plateforme']
+  [/artisans vérifiés/gi, 'professionnels présents sur la plateforme'],
+  [/prix réels/gi, 'prix indicatifs'],
+  [/prix réel/gi, 'prix indicatif'],
+  [/qui est souvent aussi le plus disponible et le moins cher en frais de déplacement/gi, 'qui peut réduire les frais de déplacement selon sa disponibilité et sa localisation'],
+  [/la géolocalisation vous montre l’électricien le plus proche/gi, 'la plateforme peut afficher des professionnels selon la ville et les informations disponibles']
 ];
 
 for (const file of walk(root)) {
