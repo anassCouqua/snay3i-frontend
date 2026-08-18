@@ -7,8 +7,6 @@ const BASE = 'https://snay3i.ma';
 
 if (!fs.existsSync(root)) throw new Error('SEO source directory is missing');
 
-// Keep the publisher-facing editorial set deliberately small and strong.
-// Service/city SEO pages remain untouched.
 const INDEXABLE_BLOG_SLUGS = new Set([
   'trouver-bon-plombier-maroc',
   'tarif-electricien-maroc-2026',
@@ -20,15 +18,31 @@ const INDEXABLE_BLOG_SLUGS = new Set([
   'macon-construction-maroc',
 ]);
 
+const INDEXABLE_SERVICE_CITY_ROUTES = new Set([
+  '/artisan/plombier/casablanca',
+  '/artisan/plombier/rabat',
+  '/artisan/electricien/casablanca',
+  '/artisan/electricien/rabat',
+  '/artisan/macon/casablanca',
+  '/artisan/peintre/casablanca',
+  '/artisan/menuisier/casablanca',
+  '/artisan/climatisation/casablanca',
+  '/artisan/serrurier/casablanca',
+  '/artisan/carreleur/casablanca',
+]);
+
 const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
   const full = path.join(dir, entry.name);
   return entry.isDirectory() ? walk(full) : [full];
 });
 
-const setBlogRobots = (file, indexable) => {
+const setRobots = (file, desired) => {
   let html = fs.readFileSync(file, 'utf8');
-  const desired = indexable ? 'index,follow' : 'noindex,follow';
-  html = html.replace(/<meta name="robots" content="[^"]*">/i, `<meta name="robots" content="${desired}">`);
+  if (/<meta name="robots" content="[^"]*">/i.test(html)) {
+    html = html.replace(/<meta name="robots" content="[^"]*">/i, `<meta name="robots" content="${desired}">`);
+  } else {
+    html = html.replace('</head>', `<meta name="robots" content="${desired}">\n</head>`);
+  }
   fs.writeFileSync(file, html, 'utf8');
 };
 
@@ -40,12 +54,16 @@ for (const file of walk(root).filter((f) => f.endsWith('/index.html') || path.ba
     ? '/'
     : `/${relative.slice(0, -'/index.html'.length)}`;
 
-  // Curate the editorial index. Weak blog variants stay crawlable through links,
-  // but are not presented as publisher-facing indexable pages.
   if (route.startsWith('/blog/')) {
     const slug = route.slice('/blog/'.length);
     const indexable = INDEXABLE_BLOG_SLUGS.has(slug);
-    setBlogRobots(file, indexable);
+    setRobots(file, indexable ? 'index,follow' : 'noindex,follow');
+    if (!indexable) continue;
+  }
+
+  if (route.startsWith('/artisan/')) {
+    const indexable = INDEXABLE_SERVICE_CITY_ROUTES.has(route);
+    setRobots(file, indexable ? 'index,follow' : 'noindex,follow');
     if (!indexable) continue;
   }
 
