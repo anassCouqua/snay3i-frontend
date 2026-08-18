@@ -8,7 +8,11 @@
     { "src": "/contact/?$", "dest": "/contact/index.html" },
     { "src": "/privacy/?$", "dest": "/privacy/index.html" },
     { "src": "/terms/?$", "dest": "/terms/index.html" },
-    { "handle": "filesystem" }
+    { "handle": "filesystem" },
+    { "src": "/artisan/.*", "status": 404 },
+    { "src": "/blog/.*", "status": 404 },
+    { "src": "/(about|contact|privacy|terms)/?.*", "status": 404 },
+    { "src": "/.*", "dest": "/index.html" }
   ],
   "headers": [
     {
