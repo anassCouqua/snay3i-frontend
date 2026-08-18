@@ -7,7 +7,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^13.5.0",
-    "mapbox-gl": "^3.23.0",
+    "mapbox-gl": "^3.23.5",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-scripts": "5.0.1",
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "node scripts/fix-blog-syntax.js && node scripts/fix-page-claims.js && node scripts/fix-remaining-claims.js && node scripts/fix-blog-claims.js && node scripts/fix-blog-markdown.js && node scripts/fix-blog-author.js && node scripts/generate-seo-pages.js && node scripts/generate-priority-pages.js && node scripts/optimize-plumbing-growth.js && node scripts/optimize-locksmith-kenitra.js && node scripts/optimize-serrurier-casablanca.js && node scripts/enrich-seo-internal-links.js && node scripts/enrich-blog-priority-links.js && node scripts/expose-seo-routes.js && node scripts/generate-sitemap.js && node scripts/optimize-seo-snippets.js && node scripts/add-seo-structured-data.js && node scripts/build-seo-api.js",
+    "prebuild": "node scripts/fix-blog-syntax.js && node scripts/fix-page-claims.js && node scripts/fix-remaining-claims.js && node scripts/fix-blog-claims.js && node scripts/fix-blog-markdown.js && node scripts/fix-blog-author.js && node scripts/generate-seo-pages.js && node scripts/upgrade-adsense-trust.js && node scripts/generate-priority-pages.js && node scripts/optimize-plumbing-growth.js && node scripts/optimize-locksmith-kenitra.js && node scripts/optimize-serrurier-casablanca.js && node scripts/enrich-seo-internal-links.js && node scripts/enrich-blog-priority-links.js && node scripts/expose-seo-routes.js && node scripts/generate-sitemap.js && node scripts/optimize-seo-snippets.js && node scripts/add-seo-structured-data.js && node scripts/build-seo-api.js",
     "build": "react-scripts build && node scripts/finalize-seo-pages.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
