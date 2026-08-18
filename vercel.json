@@ -1,5 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "routes": [
+    { "src": "/artisan/([^/]+)/([^/]+)/?$", "dest": "/artisan/$1/$2/index.html" },
+    { "src": "/blog/([^/]+)/?$", "dest": "/blog/$1/index.html" },
+    { "src": "/blog/?$", "dest": "/blog/index.html" },
+    { "src": "/about/?$", "dest": "/about/index.html" },
+    { "src": "/contact/?$", "dest": "/contact/index.html" },
+    { "src": "/privacy/?$", "dest": "/privacy/index.html" },
+    { "src": "/terms/?$", "dest": "/terms/index.html" },
+    { "handle": "filesystem" }
+  ],
   "headers": [
     {
       "source": "/static/(.*)",
