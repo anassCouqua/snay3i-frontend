@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "node scripts/fix-blog-syntax.js && node scripts/fix-page-claims.js && node scripts/fix-remaining-claims.js && node scripts/fix-blog-claims.js && node scripts/fix-blog-markdown.js && node scripts/fix-blog-author.js && node scripts/generate-seo-pages.js && node scripts/generate-priority-pages.js && node scripts/expose-seo-routes.js && node scripts/generate-sitemap.js && node scripts/build-seo-api.js",
+    "prebuild": "node scripts/fix-blog-syntax.js && node scripts/fix-page-claims.js && node scripts/fix-remaining-claims.js && node scripts/fix-blog-claims.js && node scripts/fix-blog-markdown.js && node scripts/fix-blog-author.js && node scripts/generate-seo-pages.js && node scripts/generate-priority-pages.js && node scripts/enrich-seo-internal-links.js && node scripts/expose-seo-routes.js && node scripts/generate-sitemap.js && node scripts/build-seo-api.js",
     "build": "react-scripts build && node scripts/finalize-seo-pages.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
