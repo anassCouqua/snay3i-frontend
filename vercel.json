@@ -1,13 +1,13 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "routes": [
-    { "src": "/artisan/([^/]+)/([^/]+)/?$", "dest": "/api/seo?route=/artisan/$1/$2" },
-    { "src": "/blog/([^/]+)/?$", "dest": "/api/seo?route=/blog/$1" },
-    { "src": "/blog/?$", "dest": "/api/seo?route=/blog" },
-    { "src": "/about/?$", "dest": "/api/seo?route=/about" },
-    { "src": "/contact/?$", "dest": "/api/seo?route=/contact" },
-    { "src": "/privacy/?$", "dest": "/api/seo?route=/privacy" },
-    { "src": "/terms/?$", "dest": "/api/seo?route=/terms" },
+    { "src": "/artisan/([^/]+)/([^/]+)/?$", "dest": "/api/seo/$1/$2" },
+    { "src": "/blog/([^/]+)/?$", "dest": "/api/seo/blog/$1" },
+    { "src": "/blog/?$", "dest": "/api/seo/blog" },
+    { "src": "/about/?$", "dest": "/api/seo/about" },
+    { "src": "/contact/?$", "dest": "/api/seo/contact" },
+    { "src": "/privacy/?$", "dest": "/api/seo/privacy" },
+    { "src": "/terms/?$", "dest": "/api/seo/terms" },
     { "handle": "filesystem" },
     { "src": "/.*", "dest": "/index.html" }
   ],
