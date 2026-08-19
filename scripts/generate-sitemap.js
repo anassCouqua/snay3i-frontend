@@ -7,13 +7,14 @@ const BASE = 'https://snay3i.ma';
 
 if (!fs.existsSync(root)) throw new Error('SEO source directory is missing');
 
+// Only publish strong, coherent editorial guides as indexable.
+// Weak or mismatched legacy articles remain accessible but are noindex,follow.
 const INDEXABLE_BLOG_SLUGS = new Set([
   'trouver-bon-plombier-maroc',
   'tarif-electricien-maroc-2026',
   'renovation-maison-maroc-guide',
   'climatisation-maroc-installation',
   'serrurier-autour-de-moi-maroc',
-  'entretien-maison-maroc-checklist',
   'choisir-carreleur-maroc',
   'macon-construction-maroc',
 ]);
