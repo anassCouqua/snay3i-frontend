@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import './adsenseTrustGuard';
 import App from './App';
 import LandingPage from './LandingPage';
 import Blog from './Blog';
