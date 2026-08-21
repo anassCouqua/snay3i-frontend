@@ -15,27 +15,16 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "node scripts/fix-blog-syntax.js && node scripts/fix-page-claims.js && node scripts/fix-remaining-claims.js && node scripts/fix-blog-claims.js && node scripts/fix-blog-markdown.js && node scripts/fix-blog-author.js && node scripts/fix-legacy-blog-claims.js && node scripts/adsense-site-hardening.js && node scripts/generate-seo-pages.js && node scripts/enrich-about.js && node scripts/harden-adsense-editorial.js && node scripts/fix-blog-quality.js && node scripts/adsense-flagship-guides.js && node scripts/upgrade-adsense-trust.js && node scripts/add-adsense-tag.js && node scripts/generate-priority-pages.js && node scripts/optimize-plumbing-growth.js && node scripts/optimize-locksmith-kenitra.js && node scripts/optimize-serrurier-casablanca.js && node scripts/enrich-seo-internal-links.js && node scripts/enrich-blog-priority-links.js && node scripts/expose-seo-routes.js && node scripts/adsense-site-hardening.js && node scripts/generate-sitemap.js && node scripts/optimize-seo-snippets.js && node scripts/add-seo-structured-data.js && node scripts/build-seo-api.js && node scripts/final-adsense-cleanup.js && node scripts/fix-landingpage-claims.js",
+    "prebuild": "node scripts/fix-blog-syntax.js && node scripts/fix-page-claims.js && node scripts/fix-remaining-claims.js && node scripts/fix-blog-claims.js && node scripts/fix-blog-markdown.js && node scripts/fix-blog-author.js && node scripts/fix-legacy-blog-claims.js && node scripts/fix-legacy-trust-claims.js && node scripts/adsense-site-hardening.js && node scripts/generate-seo-pages.js && node scripts/enrich-about.js && node scripts/harden-adsense-editorial.js && node scripts/fix-blog-quality.js && node scripts/adsense-flagship-guides.js && node scripts/upgrade-adsense-trust.js && node scripts/add-adsense-tag.js && node scripts/generate-priority-pages.js && node scripts/optimize-plumbing-growth.js && node scripts/optimize-locksmith-kenitra.js && node scripts/optimize-serrurier-casablanca.js && node scripts/enrich-seo-internal-links.js && node scripts/enrich-blog-priority-links.js && node scripts/expose-seo-routes.js && node scripts/adsense-site-hardening.js && node scripts/generate-sitemap.js && node scripts/optimize-seo-snippets.js && node scripts/add-seo-structured-data.js && node scripts/build-seo-api.js && node scripts/final-adsense-cleanup.js && node scripts/fix-landingpage-claims.js",
     "build": "react-scripts build && node scripts/finalize-seo-pages.js && node scripts/verify-publisher-output.js",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "eject"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": ["react-app", "react-app/jest"]
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "production": [">0.2%", "not dead", "op_mini all"],
+    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
   }
 }
