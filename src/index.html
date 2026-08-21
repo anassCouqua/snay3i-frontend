@@ -9,18 +9,31 @@
     <!-- Google Search Console -->
     <meta name="google-site-verification" content="U3e1upKhsdaJnKAxcfK024YUs2zS5xl1IQTXiHNjG74" />
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BEPVHCQ23E"></script>
+    <!-- Google Consent Mode: deny storage before consent is known. The Google CMP can update this signal after the user makes a choice. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        analytics_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        functionality_storage: 'granted',
+        security_storage: 'granted',
+        wait_for_update: 500
+      });
       gtag('js', new Date());
-      gtag('config', 'G-BEPVHCQ23E');
+    </script>
+
+    <!-- Google Analytics: loaded with Consent Mode defaults above. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BEPVHCQ23E"></script>
+    <script>
+      gtag('config', 'G-BEPVHCQ23E', { anonymize_ip: true });
     </script>
 
     <!-- SEO -->
     <title>Snay3i.ma • صنايعي • Trouvez votre artisan au Maroc</title>
-    <meta name="description" content="Trouvez un plombier, électricien, maçon, menuisier ou tout autre artisan vérifié près de chez vous. 158 maalems disponibles dans 30+ villes du Maroc. Gratuit et sans intermédiaire." />
+    <meta name="description" content="Trouvez un plombier, électricien, maçon, menuisier ou tout autre artisan près de chez vous. Comparez les profils et contactez directement les professionnels." />
     <meta name="keywords" content="artisan maroc, plombier casablanca, electricien rabat, macon marrakech, menuisier, peintre, serrurier, climatisation maroc, maalem, صنايعي, معلم, سبّاك, كهربائي, الدار البيضاء, الرباط, مراكش" />
     <meta name="author" content="Snay3i.ma" />
     <meta name="robots" content="index, follow" />
@@ -29,8 +42,8 @@
     <!-- Open Graph (Facebook, WhatsApp) -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://snay3i.ma" />
-    <meta property="og:title" content="Snay3i.ma — Vos experts à portée de main 🇲🇦" />
-    <meta property="og:description" content="Plateforme marocaine d'artisans vérifiés. Plombiers, électriciens, maçons, menuisiers et plus — dans 30+ villes. Gratuit, sans intermédiaire." />
+    <meta property="og:title" content="Snay3i.ma — Trouvez votre artisan au Maroc 🇲🇦" />
+    <meta property="og:description" content="Trouvez des plombiers, électriciens, maçons, menuisiers et autres professionnels au Maroc. Consultez les profils et contactez directement les artisans." />
     <meta property="og:image" content="https://snay3i.ma/logo.png" />
     <meta property="og:locale" content="fr_MA" />
     <meta property="og:locale:alternate" content="ar_MA" />
@@ -39,7 +52,7 @@
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Snay3i.ma — Trouvez votre artisan au Maroc" />
-    <meta name="twitter:description" content="158 maalems vérifiés dans 30+ villes. Plombiers, électriciens, maçons et plus." />
+    <meta name="twitter:description" content="Trouvez un professionnel pour vos travaux au Maroc et contactez-le directement." />
     <meta name="twitter:image" content="https://snay3i.ma/logo.png" />
 
     <!-- PWA -->
@@ -53,7 +66,7 @@
       "@type": "WebSite",
       "name": "Snay3i.ma",
       "url": "https://snay3i.ma",
-      "description": "Plateforme marocaine de mise en relation avec des artisans vérifiés",
+      "description": "Plateforme marocaine de mise en relation avec des artisans et professionnels locaux",
       "inLanguage": ["fr", "ar"],
       "potentialAction": {
         "@type": "SearchAction",
