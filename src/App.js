@@ -1580,13 +1580,7 @@ export default function App(){
     "Fkih Ben Salah":"Fes","Martil":"Martil","M\'diq":"Mdiq",
     "Sidi Kacem":"Sidi-Kacem","Ouazzane":"Ouazzane",
   };
-  const CITY_NORMALIZE = {
-    "Fès":"Fes","Meknès":"Meknes","Kénitra":"Kenitra","Salé":"Sale",
-    "Tétouan":"Tetouan","Témara":"Temara","Béni Mellal":"Beni Mellal",
-    "Khénifra":"Khenifra","Laâyoune":"Laayoune","Saïdia":"Saidia",
-    "Fkih Ben Salah":"Fes","Martil":"Martil","M\'diq":"Mdiq",
-    "Sidi Kacem":"Sidi-Kacem","Ouazzane":"Ouazzane",
-  };
+  
   const fetchWorkers=useCallback(async(svc,ct,q)=>{
     setLoading(true);setError("");
     try{
