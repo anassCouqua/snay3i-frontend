@@ -212,6 +212,10 @@ Un électricien professionnel:
 
 Repère officiel: les installations électriques basse tension au Maroc sont encadrées par des normes marocaines publiées par l'IMANOR, notamment la NM 06.1.100 et les normes associées de protection et de vérification. Pour un chantier présentant un enjeu de sécurité, demandez à un professionnel de vérifier la conformité de l'installation.
 
+
+
+Repère officiel: les installations électriques basse tension au Maroc sont encadrées par des normes marocaines publiées par l'IMANOR, notamment la NM 06.1.100 et les normes associées de protection et de vérification. Pour un chantier présentant un enjeu de sécurité, demandez à un professionnel de vérifier la conformité de l'installation.
+
 ## Les risques d'un mauvais électricien
 
 L'électricité est dangereuse. Un travail mal fait peut causer:
@@ -404,11 +408,11 @@ Faire appel à un seul artisan "tout-faire": En dehors du cas du bricoleur pour 
 
 Le blanc et les tons naturels dominent les intérieurs marocains modernes. Les zellige, le tadelakt et le bois naturel restent très populaires.
 
-La cuisine ouverte sur le séjour est très demandée dans les appartements modernes de Casablanca et Rabat.
+La cuisine ouverte est une option courante dans certains projets résidentiels contemporains, mais le choix dépend de la configuration, des usages et du budget.
 
 La salle de bain italienne (douche à l'italienne, double vasque) est le must-have des rénovations haut de gamme.
 
-Les panneaux solaires connaissent un essor important, surtout à Agadir et Marrakech où l'ensoleillement est exceptionnel.
+Les panneaux solaires peuvent être pertinents pour certains logements, selon l'ensoleillement local, la consommation et le type d'installation. Une étude du site est préférable avant de budgéter.
 
 ## Conclusion
 
@@ -1220,11 +1224,15 @@ Démolition:
 
 Bon réflexe consommateur: au Maroc, la loi n°31-08 encadre la protection du consommateur et le droit à une information claire et objective avant la conclusion d'un contrat. Demandez que le prix, les conditions de vente et toute garantie proposée soient clairement indiqués.
 
+
+
+Bon réflexe consommateur: au Maroc, la loi n°31-08 encadre la protection du consommateur et le droit à une information claire et objective avant la conclusion d'un contrat. Demandez que le prix, les conditions de vente et toute garantie proposée soient clairement indiqués.
+
 ## Les erreurs à éviter avec un maçon
 
 Ne commencez jamais sans permis de construire pour les travaux qui l'exigent. Le maçon doit vous avertir des démarches nécessaires.
 
-Ne payez pas tout à l'avance. Un acompte de 30% au démarrage, 40% à mi-travaux, 30% à la réception finale.
+Évitez de tout payer à l'avance. Convenez de paiements par étapes et conditionnez le solde à la réception des travaux prévue au devis.
 
 Précisez toujours les matériaux dans le devis. La différence entre un ciment de qualité et un ciment bon marché peut être énorme sur la durabilité.
 
