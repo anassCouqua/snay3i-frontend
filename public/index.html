@@ -37,5 +37,25 @@
         <p>Service de recherche rapide pour dépannage et rénovation à domicile.</p>
       </header>
     </div>
-  </body>
+  
+  <!-- Cookie Consent Banner for AdSense Policy Compliance -->
+  <div id="snay3i-cookie-banner" style="position:fixed;bottom:0;left:0;right:0;background:#1e293b;color:#ffffff;padding:16px;z-index:999999;font-family:sans-serif;font-size:14px;box-shadow:0 -2px 10px rgba(0,0,0,0.2);display:none;">
+    <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <p style="margin:0;flex:1;min-width:280px;line-height:1.4;">
+        Nous utilisons des cookies pour améliorer votre expérience et diffuser des annonces personnalisées via Google AdSense. En poursuivant votre navigation, vous acceptez notre <a href="/privacy" style="color:#60a5fa;text-decoration:underline;">politique de confidentialité</a>.
+      </p>
+      <button onclick="acceptCookies()" style="background:#2563eb;color:#ffffff;border:none;padding:8px 20px;border-radius:6px;cursor:pointer;font-weight:600;">Accepter</button>
+    </div>
+  </div>
+  <script>
+    function acceptCookies() {
+      localStorage.setItem('snay3i_cookie_consent', 'true');
+      document.getElementById('snay3i-cookie-banner').style.display = 'none';
+    }
+    if (!localStorage.getItem('snay3i_cookie_consent')) {
+      document.getElementById('snay3i-cookie-banner').style.display = 'block';
+    }
+  </script>
+
+</body>
 </html>
