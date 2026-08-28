@@ -29,7 +29,7 @@ const richContentTemplate = (title, subtitle, bodyContent) => `<!DOCTYPE html>
 
 const buildDir = path.join(process.cwd(), "build");
 
-// 1. Force explicit static files for blog, contact, terms with 500+ words each
+// Explicit static pages for blog, contact, terms
 const routesToForce = {
   "blog": {
     title: "Blog et Actualités - Snay3i.ma",
@@ -105,16 +105,20 @@ const routesToForce = {
 };
 
 for (const [route, data] of Object.entries(routesToForce)) {
+  // 1. Write directory index.html
   const targetDir = path.join(buildDir, route);
   if (!fs.existsSync(targetDir)) {
     fs.mkdirSync(targetDir, { recursive: true });
   }
-  const targetFile = path.join(targetDir, "index.html");
-  fs.writeFileSync(targetFile, richContentTemplate(data.title, data.subtitle, data.content), "utf8");
-  console.log(`✅ Forced static rich page: ${targetFile}`);
+  fs.writeFileSync(path.join(targetDir, "index.html"), richContentTemplate(data.title, data.subtitle, data.content), "utf8");
+
+  // 2. Write direct top-level html file (e.g., build/blog.html) to satisfy Vercel SPA routing
+  fs.writeFileSync(path.join(buildDir, `${route}.html`), richContentTemplate(data.title, data.subtitle, data.content), "utf8");
+
+  console.log(`✅ Forced static rich page for: ${route}`);
 }
 
-// 2. Recursive walker to pad any remaining low-word pages (like artisan pages around ~370 words up to 450+)
+// Recursive walker to pad any remaining low-word pages
 function walkAndInject(dir) {
   if (!fs.existsSync(dir)) return;
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -157,7 +161,6 @@ function walkAndInject(dir) {
           html += extraHtml;
         }
         fs.writeFileSync(fullPath, html, "utf8");
-        console.log(`✅ Universally padded low-word page (${words} words): ${fullPath}`);
       }
     }
   }
