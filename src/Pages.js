@@ -28,7 +28,7 @@ const FOOTER = () => (
     <div style={{maxWidth:760,margin:'0 auto',display:'flex',flexWrap:'wrap',gap:24,justifyContent:'space-between'}}>
       <div>
         <img src="/logo.png" alt="Snay3i.ma" style={{height:36,marginBottom:12}}/>
-        <p style={{color:'rgba(255,255,255,0.5)',fontSize:12,margin:0,maxWidth:240}}>Le réseau des artisans marocains vérifiés. +200 artisans dans 21 villes. 🇲🇦</p>
+        <p style={{color:'rgba(255,255,255,0.5)',fontSize:12,margin:0,maxWidth:240}}>Le réseau des professionnels référencés au Maroc. Consultez les profils et contactez directement les professionnels disponibles. 🇲🇦</p>
       </div>
       <div style={{display:'flex',gap:32,flexWrap:'wrap'}}>
         <div>
@@ -60,7 +60,7 @@ export function AboutPage() {
   useEffect(() => {
     document.title = 'À propos de Snay3i.ma — Le réseau des artisans marocains';
     const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute('content', 'Snay3i.ma est la plateforme marocaine qui connecte les clients avec des artisans vérifiés dans 35 villes du Maroc. Notre mission: rendre l\'accès aux services à domicile simple, rapide et gratuit.');
+    if (meta) meta.setAttribute('content', 'Snay3i.ma est une plateforme marocaine qui connecte les clients avec des artisans et professionnels locaux. Notre mission: rendre l\'accès aux services à domicile simple, pratique et accessible.');
     setCanonical('https://snay3i.ma/about');
   }, []);
 
@@ -74,7 +74,7 @@ export function AboutPage() {
           <div style={{fontSize:48,marginBottom:12}}>🇲🇦</div>
           <h1 style={{fontSize:32,fontWeight:800,color:'#0D1B2A',margin:'0 0 12px'}}>À propos de Snay3i.ma</h1>
           <p style={{color:'#7A7065',fontSize:16,lineHeight:1.7,maxWidth:560,margin:'0 auto'}}>
-            La plateforme marocaine qui connecte les clients avec des artisans de confiance partout au Maroc.
+            Une plateforme marocaine qui aide les particuliers à rechercher des professionnels pour leurs travaux et services à domicile.
           </p>
         </div>
 
@@ -87,17 +87,17 @@ export function AboutPage() {
           </p>
           <p style={{color:'#5A5050',fontSize:15,lineHeight:1.8,margin:0}}>
             Notre mission est de changer ça. Nous avons créé une plateforme simple, gratuite et accessible qui connecte 
-            directement les clients avec des artisans vérifiés — sans intermédiaire, sans commission, sans complications.
+            directement les clients avec des professionnels locaux — sans intermédiaire, sans commission, sans complications.
           </p>
         </div>
 
         {/* Stats */}
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:12,marginBottom:16}}>
           {[
-            {n:'100+',l:'Maalems vérifiés'},
-            {n:'35',l:'Villes couvertes'},
+            {n:'Profils',l:'Professionnels référencés'},
+            {n:'Plusieurs',l:'Villes proposées'},
             {n:'12',l:'Catégories de services'},
-            {n:'100%',l:'Gratuit pour tous'},
+            {n:'Simple',l:'Recherche gratuite'},
           ].map(s=>(
             <div key={s.l} style={{background:'#fff',borderRadius:16,padding:20,textAlign:'center',border:'1.5px solid #E8E0D4'}}>
               <div style={{fontSize:28,fontWeight:800,color:'#C4622D',marginBottom:4}}>{s.n}</div>
@@ -115,9 +115,7 @@ export function AboutPage() {
             un terme que tout Marocain connaît et utilise au quotidien.
           </p>
           <p style={{color:'#5A5050',fontSize:15,lineHeight:1.8,margin:0}}>
-            Aujourd'hui, Snay3i.ma référence plus de 100 professionnels dans 21 villes du Maroc, 
-            de Tanger à Dakhla. La plateforme est disponible en français et en arabe, 
-            avec une application iOS et Android pour encore plus de facilité.
+            Aujourd'hui, Snay3i.ma référence des professionnels dans plusieurs villes du Maroc, avec des informations en français et en arabe pour faciliter la recherche et la prise de contact.
           </p>
         </div>
 
@@ -125,9 +123,9 @@ export function AboutPage() {
         <div style={{background:'#fff',borderRadius:16,padding:28,marginBottom:16,border:'1.5px solid #E8E0D4'}}>
           <h2 style={{fontSize:20,fontWeight:700,color:'#0D1B2A',marginBottom:16}}>💡 Nos valeurs</h2>
           {[
-            ['🤝','Confiance','Tous nos artisans sont vérifiés et notés par leurs clients. Consultez les avis avant d\'appeler.'],
-            ['💰','Gratuité','Snay3i.ma est et restera gratuit pour les clients et les artisans. Sans commission, sans abonnement.'],
-            ['⚡','Rapidité','Trouvez votre artisan en moins de 30 secondes. Appelez directement, intervenez rapidement.'],
+            ['🤝','Confiance','Consultez les informations disponibles sur chaque profil et les avis lorsqu\'ils sont proposés avant de contacter un professionnel.'],
+            ['💰','Gratuité','La recherche sur Snay3i.ma est proposée sans frais pour les visiteurs. Les conditions applicables à une prestation sont convenues directement avec le professionnel.'],
+            ['⚡','Rapidité','Recherchez par service et par ville, puis contactez directement le professionnel qui correspond à votre besoin.'],
             ['🇲🇦','Marocanité','Une plateforme 100% marocaine, bilingue français-arabe, adaptée aux réalités locales.'],
           ].map(([icon,title,text])=>(
             <div key={title} style={{display:'flex',gap:14,marginBottom:16,paddingBottom:16,borderBottom:'1px solid #F5EFE8'}}>
@@ -143,7 +141,7 @@ export function AboutPage() {
         {/* CTA */}
         <div style={{background:'#0D1B2A',borderRadius:16,padding:28,textAlign:'center'}}>
           <h3 style={{color:'#fff',fontSize:18,fontWeight:700,margin:'0 0 8px'}}>Vous êtes artisan au Maroc?</h3>
-          <p style={{color:'rgba(255,255,255,0.6)',fontSize:13,margin:'0 0 16px'}}>Rejoignez +200 professionnels sur Snay3i.ma — gratuit et sans commission</p>
+          <p style={{color:'rgba(255,255,255,0.6)',fontSize:13,margin:'0 0 16px'}}>Rejoignez la communauté de professionnels sur Snay3i.ma — gratuit et sans commission</p>
           <a href="/" style={{background:'#C4622D',color:'#fff',padding:'12px 28px',borderRadius:24,textDecoration:'none',fontWeight:800,fontSize:14}}>Créer mon profil gratuit →</a>
         </div>
       </div>
@@ -165,7 +163,7 @@ export function ContactPage() {
       <HEADER />
       <div style={{maxWidth:680,margin:'0 auto',padding:'40px 16px'}}>
         <h1 style={{fontSize:30,fontWeight:800,color:'#0D1B2A',margin:'0 0 8px'}}>📬 Contactez-nous</h1>
-        <p style={{color:'#7A7065',fontSize:15,margin:'0 0 28px'}}>Une question, un problème ou une suggestion? Notre équipe vous répond dans les 24 heures.</p>
+        <p style={{color:'#7A7065',fontSize:15,margin:'0 0 28px'}}>Une question, un problème ou une suggestion? Contactez-nous et nous vous répondrons dès que possible.</p>
 
         {/* Contact cards */}
         <div style={{display:'grid',gap:12,marginBottom:24}}>
@@ -192,10 +190,10 @@ export function ContactPage() {
         <div style={{background:'#fff',borderRadius:16,padding:24,border:'1.5px solid #E8E0D4',marginBottom:16}}>
           <h2 style={{fontSize:17,fontWeight:700,color:'#0D1B2A',marginBottom:16}}>Questions fréquentes</h2>
           {[
-            ['Comment signaler un problème avec un artisan?','Envoyez-nous un email à contact@snay3i.ma avec le nom de l\'artisan et la description du problème. Nous traiterons votre demande dans les 24 heures.'],
+            ['Comment signaler un problème avec un artisan?','Envoyez-nous un email à contact@snay3i.ma avec le nom de l\'artisan et la description du problème. Nous traiterons votre demande dans les meilleurs délais.'],
             ['Comment ajouter mon profil d\'artisan?','Rendez-vous sur snay3i.ma et cliquez sur "Rejoindre" — c\'est gratuit et prend moins de 2 minutes.'],
             ['Snay3i.ma est-il gratuit?','Oui, totalement gratuit pour les clients et les artisans. Pas de commission, pas d\'abonnement.'],
-            ['Dans quelles villes êtes-vous disponibles?','35 villes au Maroc: Casablanca, Rabat, Marrakech, Tanger, Agadir, Fès, Meknès, Oujda et bien plus — de Tanger à Dakhla.'],
+            ['Dans quelles villes êtes-vous disponibles?','Les villes disponibles évoluent avec les professionnels référencés. Consultez les résultats par ville directement sur la plateforme.'],
           ].map(([q,a],i)=>(
             <div key={i} style={{borderBottom:i<3?'1px solid #F5EFE8':'none',paddingBottom:12,marginBottom:12}}>
               <div style={{fontWeight:700,color:'#0D1B2A',fontSize:13,marginBottom:4}}>❓ {q}</div>
@@ -231,11 +229,11 @@ export function PrivacyPage() {
         <p style={{color:'#7A7065',fontSize:13,margin:'0 0 28px'}}>Dernière mise à jour: 16 Juin 2026</p>
 
         {[
-          ['1. Introduction',`Snay3i.ma ("nous", "notre", "la plateforme") s'engage à protéger la vie privée de ses utilisateurs. Cette politique de confidentialité explique comment nous collectons, utilisons, divulguons et protégeons vos informations lorsque vous utilisez notre plateforme disponible sur snay3i.ma et nos applications mobiles.`],
+          ['1. Introduction',`Snay3i.ma ("nous", "notre", "la plateforme") s'engage à protéger la vie privée de ses utilisateurs. Cette politique de confidentialité explique comment nous collectons, utilisons, divulguons et protégeons vos informations lorsque vous utilisez notre plateforme disponible sur snay3i.ma.`],
           ['2. Informations que nous collectons',`Nous collectons les informations suivantes:\n\n- Informations de contact: nom, adresse email, numéro de téléphone (pour les artisans inscrits)\n- Informations de localisation: ville et région pour vous connecter aux artisans proches\n- Données d'utilisation: pages visitées, recherches effectuées, artisans consultés\n- Informations techniques: adresse IP, type de navigateur, appareil utilisé\n- Avis et évaluations: commentaires et notes que vous laissez sur les artisans`],
           ['3. Comment nous utilisons vos informations',`Nous utilisons vos informations pour:\n\n- Vous connecter avec des artisans dans votre ville\n- Améliorer notre plateforme et nos services\n- Vous envoyer des notifications importantes sur votre compte\n- Analyser l'utilisation de la plateforme pour l'améliorer\n- Respecter nos obligations légales`],
           ['4. Partage des informations',`Nous ne vendons jamais vos données personnelles à des tiers. Nous pouvons partager vos informations dans les cas suivants:\n\n- Avec les artisans: quand vous les contactez, votre nom et votre numéro peuvent être partagés\n- Avec nos prestataires: hébergement, analyse (Google Analytics)\n- En cas d'obligation légale: si requis par la loi marocaine ou internationale`],
-          ['5. Cookies et technologies de suivi',`Snay3i.ma utilise des cookies et des technologies similaires pour:\n\n- Mémoriser vos préférences (langue, ville)\n- Analyser le trafic via Google Analytics\n- Afficher des publicités pertinentes via Google AdSense\n\nVous pouvez désactiver les cookies dans les paramètres de votre navigateur.`],
+          ['5. Cookies et technologies de suivi',`Snay3i.ma utilise des cookies et des technologies similaires pour:\n\n- Mémoriser vos préférences (langue, ville)\n- Analyser le trafic via Google Analytics\n- Afficher, le cas échéant, des publicités pertinentes via les services publicitaires Google une fois activés sur la plateforme\n\nLes fournisseurs tiers, y compris Google, utilisent des cookies pour diffuser des annonces en fonction des visites antérieures d'un utilisateur sur notre site ou sur d'autres sites. L'utilisation de cookies publicitaires par Google permet à Google et à ses partenaires de diffuser des annonces à nos utilisateurs en fonction de leurs visites sur nos sites et/ou d'autres sites sur Internet. Les utilisateurs peuvent désactiver la publicité personnalisée dans les paramètres des annonces Google.\n\nVous pouvez désactiver les cookies dans les paramètres de votre navigateur.`],
           ['6. Sécurité des données',`Nous mettons en œuvre des mesures de sécurité appropriées pour protéger vos données:\n\n- Connexion HTTPS sécurisée sur tout le site\n- Accès restreint aux données personnelles\n- Surveillance régulière de nos systèmes\n\nCependant, aucun système n'est totalement infaillible. Nous vous encourageons à utiliser des mots de passe forts.`],
           ['7. Vos droits',`Conformément à la loi marocaine 09-08 sur la protection des données, vous avez le droit de:\n\n- Accéder à vos données personnelles\n- Corriger des informations inexactes\n- Supprimer votre compte et vos données\n- Vous opposer au traitement de vos données\n\nPour exercer ces droits, contactez-nous à contact@snay3i.ma`],
           ['8. Conservation des données',`Nous conservons vos données tant que votre compte est actif. Si vous supprimez votre compte, nous supprimons vos données dans un délai de 30 jours, sauf obligation légale de conservation.`],

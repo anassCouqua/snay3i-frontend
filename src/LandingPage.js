@@ -92,7 +92,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
     if (!svc || !city) return;
 
     const title = `${svc.label} ${city} — Trouvez un ${svc.pro} pas cher | Snay3i.ma`;
-    const desc = `Trouvez un ${svc.pro} vérifié à ${city} sur Snay3i.ma. Professionnels disponibles, appelez directement sans intermédiaire. Devis gratuit 🇲🇦`;
+    const desc = `Recherchez un ${svc.pro} à ${city} sur Snay3i.ma. Consultez les informations disponibles et contactez directement le professionnel pour préciser votre besoin et demander un devis. 🇲🇦`;
     document.title = title;
     setMeta('description', desc);
     setCanonical(`https://snay3i.ma/artisan/${serviceSlug}/${citySlug}`);
@@ -107,7 +107,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
         "@context":"https://schema.org",
         "@type":"Service",
         "name":`${svc.label} à ${city}`,
-        "description":`${svc.desc} à ${city}. Trouvez un professionnel vérifié sur Snay3i.ma.`,
+        "description":`${svc.desc} à ${city}. Consultez les informations disponibles sur les profils et contactez directement le professionnel.`,
         "provider":{"@type":"Organization","name":"Snay3i.ma","url":"https://snay3i.ma"},
         "areaServed":{"@type":"City","name":city,"addressCountry":"MA"},
         "serviceType":svc.label
@@ -117,8 +117,8 @@ export default function LandingPage({ serviceSlug, citySlug }) {
         "@type":"FAQPage",
         "mainEntity":[
           {"@type":"Question","name":`Quel est le tarif d'un ${svc.pro} à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Les tarifs varient selon l'intervention. Contactez nos ${svc.proPlural} à ${city} pour un devis gratuit sans engagement.`}},
-          {"@type":"Question","name":`Y a-t-il des ${svc.proPlural} disponibles 24h/24 à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Oui, plusieurs professionnels sur Snay3i.ma proposent des interventions d'urgence 24h/24 à ${city}.`}},
-          {"@type":"Question","name":`Comment trouver un ${svc.pro} fiable à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Sur Snay3i.ma, tous les ${svc.proPlural} à ${city} sont vérifiés et notés par leurs clients. Consultez les avis avant d'appeler.`}},
+          {"@type":"Question","name":`Y a-t-il des ${svc.proPlural} dont les horaires peuvent varier selon le professionnel à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`La disponibilité dépend de chaque professionnel. Vérifiez directement les horaires et les conditions d'intervention avant de vous déplacer ou de demander un rendez-vous.`}},
+          {"@type":"Question","name":`Comment trouver un ${svc.pro} fiable à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Consultez les informations réellement affichées sur chaque profil et posez vos questions au professionnel avant de confirmer la prestation.`}},
           {"@type":"Question","name":`Comment contacter un ${svc.pro} à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Cliquez sur le profil du ${svc.pro} sur Snay3i.ma puis appelez directement ou envoyez un WhatsApp. Aucun intermédiaire.`}},
         ]
       }
@@ -240,9 +240,9 @@ export default function LandingPage({ serviceSlug, citySlug }) {
           </h2>
           {[
             ['✅','Gratuit et sans commission','Aucun frais caché, aucune commission. Contactez directement l\'artisan.'],
-            ['⭐','Artisans vérifiés et notés','Chaque professionnel est évalué par ses clients. Lisez les avis avant d\'appeler.'],
-            ['⚡','Intervention rapide','Nos '+svc.proPlural+' à '+city+' sont disponibles rapidement, parfois en urgence 24h.'],
-            ['🇲🇦','Réseau marocain','Plus de 100 artisans dans 21 villes du Maroc. Bilingue français et arabe.'],
+            ['⭐','Professionnels référencés et notés','Les informations disponibles sur chaque profil peuvent vous aider à comparer les professionnels avant de les contacter.'],
+            ['⚡','Contact direct','Nos '+svc.proPlural+' à '+city+' sont dont la disponibilité dépend du professionnel et du type d’intervention.'],
+            ['🇲🇦','Réseau marocain','Plus de 100 artisans dans plusieurs villes du Maroc. Bilingue français et arabe.'],
           ].map(([icon,title,text])=>(
             <div key={title} style={{display:'flex',gap:12,marginBottom:12}}>
               <span style={{fontSize:20,flexShrink:0}}>{icon}</span>
@@ -263,7 +263,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
             Snay3i.ma est la plateforme marocaine de référence pour trouver un {svc.pro} qualifié à {city}.
             Que vous ayez besoin de {svc.desc.toLowerCase()}, nos professionnels à {city} sont disponibles rapidement.
             Tous nos {svc.proPlural} sont vérifiés, notés par leurs clients, et contactables directement par téléphone ou WhatsApp.
-            Gratuit pour les clients, sans intermédiaire, sans commission.
+            La mise en relation et les conditions éventuelles doivent être vérifiées sur la plateforme et avec le professionnel.
           </p>
         </div>
 
@@ -274,7 +274,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
           </h2>
           {[
             [`Quel est le tarif d'un ${svc.pro} à ${city}?`, `Les tarifs varient selon l'intervention et le professionnel. Demandez un devis gratuit directement sur Snay3i.ma.`],
-            [`Y a-t-il des ${svc.proPlural} disponibles 24h/24 à ${city}?`, `Oui, plusieurs professionnels sur Snay3i.ma proposent des interventions d'urgence 24h/24 à ${city}.`],
+            [`Y a-t-il des ${svc.proPlural} dont les horaires peuvent varier selon le professionnel à ${city}?`, `La disponibilité dépend de chaque professionnel. Vérifiez directement les horaires et les conditions d'intervention avant de vous déplacer ou de demander un rendez-vous.`],
             [`Comment trouver un ${svc.pro} fiable à ${city}?`, `Consultez les avis clients et les notes des artisans sur Snay3i.ma avant d'appeler.`],
             [`Comment contacter un ${svc.pro} sur Snay3i.ma?`, `Cliquez sur un profil puis appelez directement ou envoyez un WhatsApp. Aucun intermédiaire.`],
           ].map(([q,a],i)=>(
@@ -322,7 +322,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
             Vous êtes {svc.pro} à {city}?
           </h3>
           <p style={{color:'rgba(255,255,255,0.6)',fontSize:12,margin:'0 0 16px'}}>
-            Rejoignez +200 professionnels sur Snay3i.ma — gratuit et sans commission
+            Rejoignez professionnels référencés sur Snay3i.ma — gratuit et sans commission
           </p>
           <a href="/" style={{background:'#C4622D',color:'#fff',padding:'12px 28px',borderRadius:24,textDecoration:'none',fontWeight:800,fontSize:14}}>
             Créer mon profil gratuit →

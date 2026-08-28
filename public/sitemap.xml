@@ -1,41 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://snay3i.ma/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://snay3i.ma/about</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://snay3i.ma/contact</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://snay3i.ma/privacy</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
-  <url><loc>https://snay3i.ma/terms</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
-  <url><loc>https://snay3i.ma/blog</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://snay3i.ma/guides/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://snay3i.ma/editorial-policy.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://snay3i.ma/blog/trouver-bon-plombier-maroc</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://snay3i.ma/blog/tarif-electricien-maroc-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://snay3i.ma/blog/renovation-maison-maroc-guide</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://snay3i.ma/blog/climatisation-maroc-installation</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://snay3i.ma/blog/serrurier-autour-de-moi-maroc</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://snay3i.ma/blog/entretien-maison-maroc-checklist</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://snay3i.ma/blog/choisir-carreleur-maroc</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://snay3i.ma/blog/macon-construction-maroc</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://snay3i.ma/guides/comment-choisir-artisan-maroc.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://snay3i.ma/guides/comparer-devis-artisan-maroc.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://snay3i.ma/guides/questions-avant-travaux-maroc.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://snay3i.ma/guides/fuite-eau-maison-maroc.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://snay3i.ma/guides/electricite-maison-maroc.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://snay3i.ma/guides/peinture-maison-maroc.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://snay3i.ma/guides/humidite-moisissure-maison-maroc.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://snay3i.ma/guides/renovation-budget-maroc.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://snay3i.ma/guides/recevoir-artisan-maison.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://snay3i.ma/guides/checklist-fin-travaux.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://snay3i.ma/artisan/plombier/casablanca</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://snay3i.ma/artisan/plombier/rabat</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://snay3i.ma/about</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://snay3i.ma/artisan/carreleur/casablanca</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://snay3i.ma/artisan/climatisation/casablanca</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://snay3i.ma/artisan/electricien/casablanca</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://snay3i.ma/artisan/electricien/rabat</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://snay3i.ma/artisan/macon/casablanca</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://snay3i.ma/artisan/peintre/casablanca</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://snay3i.ma/artisan/menuisier/casablanca</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://snay3i.ma/artisan/climatisation/casablanca</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://snay3i.ma/artisan/peintre/casablanca</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://snay3i.ma/artisan/plombier/casablanca</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://snay3i.ma/artisan/plombier/rabat</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://snay3i.ma/artisan/serrurier/casablanca</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://snay3i.ma/artisan/carreleur/casablanca</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://snay3i.ma/artisan/serrurier/rabat</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://snay3i.ma/artisan/peintre/marrakech</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://snay3i.ma/blog</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://snay3i.ma/blog/choisir-carreleur-maroc</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://snay3i.ma/blog/climatisation-maroc-installation</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://snay3i.ma/blog/macon-construction-maroc</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://snay3i.ma/blog/serrurier-autour-de-moi-maroc</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://snay3i.ma/blog/tarif-electricien-maroc-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://snay3i.ma/blog/trouver-bon-plombier-maroc</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://snay3i.ma/contact</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://snay3i.ma/privacy</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://snay3i.ma/terms</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
 </urlset>

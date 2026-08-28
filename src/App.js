@@ -6,6 +6,15 @@ function trackEvent(action, label) {
     window.gtag('event', action, { 'event_category': 'engagement', 'event_label': label });
   }
 }
+function trackLeadEvent(method, label) {
+  if (window.gtag) {
+    window.gtag('event', 'lead_conversion', {
+      event_category: 'lead',
+      event_label: label,
+      lead_method: method,
+    });
+  }
+}
 
 
 const API_BASE = "https://snay3i-backend.onrender.com";
@@ -244,10 +253,10 @@ function ContactModal({worker, onClose}){
           </div>
           <div className="modal-section">
             <h4 className="modal-section-title">Contact • تواصل</h4>
-            <a onClick={()=>trackEvent('call_click','card_'+worker.service)} className="contact-btn phone" href={`tel:${worker.phone}`}>
+            <a onClick={() => { trackEvent('call_click','card_'+worker.service); trackLeadEvent('call','card_'+worker.service); }} className="contact-btn phone" href={`tel:${worker.phone}`} >
               <span>📞</span><span>{worker.phone}</span>
             </a>
-            <a onClick={()=>trackEvent('whatsapp_click','card_'+worker.service)} className="contact-btn whatsapp" href={`https://wa.me/${(worker.whatsapp||"").replace(/\D/g,"")}`} target="_blank" rel="noreferrer">
+            <a onClick={() => { trackEvent('whatsapp_click','card_'+worker.service); trackLeadEvent('whatsapp','card_'+worker.service); }} className="contact-btn whatsapp" href={`https://wa.me/${(worker.whatsapp||"").replace(/\D/g,"")}`} target="_blank" rel="noreferrer">
               <span>💬</span><span>WhatsApp • واتساب</span>
             </a>
           </div>
@@ -268,7 +277,7 @@ function ContactModal({worker, onClose}){
           <div className="modal-price-row">
             <span className="modal-price">Devis gratuit</span>
             <Stars rating={worker.rating}/>
-            <span className="modal-reviews">{worker.reviews} avis</span>
+            <span className="modal-reviews">{worker.reviews > 0 ? `${worker.reviews} avis` : "Aucun avis pour le moment"}</span>
           </div>
         </div>
       </div>
@@ -331,14 +340,14 @@ function WorkerCard({worker,index,userLoc}){
           <div className="ping"><div className="ping-core"/><div className="ping-ring"/></div>
           <span className="card-city">{worker.city}</span>
           {dist&&<span className="dist-chip">📍 {dist}</span>}
-          <span className="avail">🟢 Disponible</span>
+          <span className="avail">🟡 Disponibilité à confirmer</span>
         </div>
 
         <p className="card-bio">{worker.bio}</p>
 
         <div className="card-rating-row">
           <Stars rating={worker.rating}/>
-          <span className="card-reviews">{worker.reviews} avis • {worker.years_exp} ans exp.</span>
+          <span className="card-reviews">{worker.reviews > 0 ? `${worker.reviews} avis` : "Aucun avis pour le moment"} • {worker.years_exp} ans exp.</span>
         </div>
 
         <div className="card-tags">
@@ -602,7 +611,7 @@ const LEGAL_CONTENT = {
 
 Notre mission : rendre accessible à tous les Marocains un artisan de confiance, rapidement et gratuitement.
 
-Fondée en 2025, Snay3i.ma couvre plus de 30 villes au Maroc et propose des artisans vérifiés dans 13 corps de métier : plomberie, électricité, maçonnerie, menuiserie, peinture, carrelage, climatisation, serrurerie, ménage, jardinage, soudure et plus encore.
+Fondée en 2025, Snay3i.ma couvre plus de 30 villes au Maroc et propose des professionnels référencés dans 13 corps de métier : plomberie, électricité, maçonnerie, menuiserie, peinture, carrelage, climatisation, serrurerie, ménage, jardinage, soudure et plus encore.
 
 La plateforme est entièrement gratuite, aussi bien pour les clients que pour les artisans.
 
@@ -748,8 +757,21 @@ function LegalModal({page, onClose}){
   );
 }
 
-function RegisterPage({ onBack, lang }) {
+export function RegisterPage({ onBack, lang }) {
   const [step, setStep] = useState(1);
+  const [acquisitionSource, setAcquisitionSource] = useState('direct');
+
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const source = params.get('utm_source') || params.get('source') || 'direct';
+      const medium = params.get('utm_medium') || '';
+      const campaign = params.get('utm_campaign') || '';
+      const attribution = [source, medium, campaign].filter(Boolean).join(' / ');
+      setAcquisitionSource(attribution || 'direct');
+      sessionStorage.setItem('snay3i_acquisition_source', attribution || 'direct');
+    } catch {}
+  }, []);
   const [form, setForm] = useState({
     name: "", service: "", city: "", phone: "", whatsapp: "", address: "", bio: "", years_exp: "", tags: "", photos: []
   });
@@ -765,11 +787,15 @@ function RegisterPage({ onBack, lang }) {
     try {
       const payload = {
         ...form,
+        acquisition_source: (() => {
+          try { return sessionStorage.getItem("snay3i_acquisition_source") || acquisitionSource || "direct"; }
+          catch { return acquisitionSource || "direct"; }
+        })(),
         years_exp: parseInt(form.years_exp) || 1,
         tags: form.tags.split(",").map(t => t.trim()).filter(Boolean),
         whatsapp: form.whatsapp || form.phone,
         verified: false,
-        rating: 5.0,
+        rating: 0,
         reviews: 0,
       };
       const res = await fetch(`${API_BASE}/workers`, {
@@ -789,7 +815,7 @@ function RegisterPage({ onBack, lang }) {
     <div className="reg-success">
       <div className="reg-success-icon">🎉</div>
       <h2 className="reg-success-title">Bienvenue sur Snay3i.ma !</h2>
-      <p className="reg-success-sub">Votre profil est en ligne. Les clients peuvent maintenant vous trouver et vous contacter.</p>
+      <p className="reg-success-sub">Votre profil a été créé. Vérifiez les informations affichées et gardez-les à jour pour aider les clients à vous contacter.</p>
       <p className="reg-success-ar">مرحباً بك في صنايعي.ما — ملفك الآن متاح للعملاء</p>
       <button className="reg-btn-primary" onClick={onBack}>Voir mon profil →</button>
     </div>
@@ -822,6 +848,7 @@ function RegisterPage({ onBack, lang }) {
             <p className="reg-step-sub">
               {lang === "fr" ? "Votre identité et votre métier" : "هويتك ومهنتك"}
             </p>
+            <div style={{fontSize:11,color:'#8A8178',marginBottom:12}}>Source: {acquisitionSource === 'direct' ? 'direct' : acquisitionSource}</div>
 
             <div className="reg-field">
               <label className="reg-label">Nom complet • الاسم الكامل</label>

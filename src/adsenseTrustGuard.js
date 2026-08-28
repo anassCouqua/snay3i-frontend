@@ -8,12 +8,12 @@
  */
 (function () {
   const replacements = [
-    ["Le réseau des artisans marocains vérifiés. +200 artisans dans 21 villes. 🇲🇦", "Le réseau des artisans marocains. Découvrez les professionnels disponibles sur Snay3i.ma. 🇲🇦"],
+    ["Une plateforme marocaine pour rechercher des professionnels par métier et par ville. 🇲🇦", "Le réseau des artisans marocains. Découvrez les professionnels disponibles sur Snay3i.ma. 🇲🇦"],
     ["Le réseau des artisans marocains vérifiés", "Le réseau des artisans marocains"],
     ["tous les artisans sont vérifiés", "les informations des profils sont fournies pour vous aider à comparer les professionnels"],
     ["Tous nos artisans sont vérifiés", "Les informations de chaque profil doivent être vérifiées par le client avant intervention"],
     ["Tous les artisans sont vérifiés", "Les informations de chaque profil doivent être vérifiées par le client avant intervention"],
-    ["artisans vérifiés", "professionnels référencés"],
+    ["professionnels référencés", "professionnels référencés"],
     ["Artisans vérifiés", "Professionnels référencés"],
     ["Maalems vérifiés", "Maalems référencés"],
     ["⭐\u0022, l:\u0022Vérifiés\u0022", "⭐\u0022, l:\u0022Profils référencés\u0022"],
