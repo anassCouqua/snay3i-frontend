@@ -1,3 +1,6 @@
+const fs = require("fs");
+const path = require("path");
+
 
   // Auto-injected deep SEO editorial enhancer for AdSense compliance
   function walkAndInject(dir) {
