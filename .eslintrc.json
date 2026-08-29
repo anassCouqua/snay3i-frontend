@@ -1,0 +1,8 @@
+{
+  "rules": {
+    "no-unused-vars": "off",
+    "no-useless-escape": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "no-sparse-arrays": "off"
+  }
+}
