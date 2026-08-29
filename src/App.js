@@ -1687,7 +1687,7 @@ export default function App(){
       <ZelligeSVG id="hz"/>
 
       {/* ══ HEADER ══════════════════════════════════════════════ */}
-      <header className="header">
+      <header className="header">\n        <div className="header-zellige">\n          <svg width="100%" height="100%"><rect width="100%" height="100%" fill="url(#hz)"/></svg>\n        </div>\n        <div className="header-overlay"/>
         
 
         <div className="hcontent">
