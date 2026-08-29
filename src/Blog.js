@@ -17,6 +17,17 @@ function getArticleImage(article) {
 
 import React, { useEffect } from 'react';
 
+
+function setCanonical(url) {
+  let link = document.querySelector('link[rel="canonical"]');
+  if (!link) {
+    link = document.createElement('link');
+    link.rel = 'canonical';
+    document.head.appendChild(link);
+  }
+  link.setAttribute('href', url);
+}
+
 const AUTHOR = 'Anass Couqua';
 const AUTHOR_TITLE = 'Fondateur de Snay3i.ma | Expert en services artisanaux au Maroc';
 
@@ -33,7 +44,7 @@ const ARTICLES = [
     content: `
 ## Pourquoi est-il difficile de trouver un bon plombier au Maroc?
 
-Trouver un plombier fiable au Maroc peut être un vrai défi. Entre les artisans sans qualification, les devis excessifs et les interventions bâclées, beaucoup de Marocains se retrouvent dans des situations compliquées. En tant que fondateur de Snay3i.ma, j'ai rencontré des centaines de clients frustrés par cette problématique. Pourtant, avec les bons outils et les bonnes questions, il est tout à fait possible de trouver un plombier professionnel et honnête.
+Trouver un plombier fiable au Maroc peut être un vrai défi. Entre les artisans sans qualification, les devis excessifs et les interventions bâclées, beaucoup de Marocains se retrouvent dans des situations compliquées. Pourtant, avec les bons outils et les bonnes questions, il est tout à fait possible de trouver un plombier professionnel et honnête.
 
 ## Les critères essentiels pour choisir un plombier au Maroc
 
@@ -54,7 +65,7 @@ Certains plombiers à Casablanca ne se déplacent que dans certains quartiers. V
 
 ## Les problèmes de plomberie les plus fréquents au Maroc
 
-Au fil des années, nous avons identifié les problèmes de plomberie les plus courants signalés par nos utilisateurs:
+Voici les problèmes de plomberie les plus fréquemment rencontrés par les Marocains:
 
 **Les fuites d'eau** représentent 40% des demandes sur Snay3i.ma. Elles peuvent provenir des robinets, des joints de douche, des tuyaux sous l'évier ou des canalisations cachées dans les murs. Une fuite non traitée peut causer des dégâts considérables et augmenter votre facture d'eau.
 
@@ -88,7 +99,7 @@ Snay3i.ma est la plateforme marocaine qui vous connecte avec des plombiers véri
 4. Consultez les profils avec leurs avis et leur expérience
 5. Appelez directement ou envoyez un WhatsApp
 
-Avec plus de 900 artisans dans 35 villes du Maroc, vous trouverez rapidement le bon professionnel — sans intermédiaire et sans commission.
+Avec plus de 100 artisans dans 21 villes du Maroc, vous trouverez rapidement le bon professionnel — sans intermédiaire et sans commission.
 
 ## Les questions à poser avant de faire appel à un plombier
 
@@ -136,7 +147,7 @@ Trouver un bon plombier au Maroc n'est plus une mission impossible grâce aux pl
     content: `
 ## Les tarifs d'un électricien au Maroc en 2026
 
-Connaître les tarifs d'un électricien avant de l'appeler vous permettra d'éviter les mauvaises surprises et de négocier en toute connaissance de cause. En tant que fondateur de Snay3i.ma, j'ai compilé des centaines de devis réels pour vous donner une vision précise du marché marocain.
+Connaître les tarifs d'un électricien avant de l'appeler vous permettra d'éviter les mauvaises surprises et de négocier en toute connaissance de cause.
 
 ## Pourquoi les prix des électriciens varient-ils autant au Maroc?
 
@@ -211,7 +222,7 @@ Sur Snay3i.ma, trouvez des électriciens vérifiés dans votre ville. Chaque pro
 - La disponibilité (urgence ou non)
 - La localisation exacte
 
-Casablanca, Rabat, Marrakech, Tanger, Agadir, Fès — plus de 900 artisans dans 35 villes du Maroc.
+Casablanca, Rabat, Marrakech, Tanger, Agadir, Fès — plus de 100 artisans dans 21 villes du Maroc.
 
 ## Questions fréquentes sur les électriciens au Maroc
 
@@ -396,7 +407,7 @@ Rénover sa maison au Maroc demande de la préparation, de la patience et les bo
     content: `
 ## Le carreleur au Maroc: entre art ancestral et modernité
 
-Au Maroc, on appelle le carreleur "جلايجي" (jlayji) en darija casablancaise ou "بلاّط" (bellat) dans le nord du pays. C'est un artisan indispensable pour tout projet de construction ou de rénovation. En tant que fondateur de Snay3i.ma, j'ai travaillé avec des centaines de carreleurs à travers le Maroc et je vais vous donner les clés pour choisir le meilleur.
+Au Maroc, on appelle le carreleur "جلايجي" (jlayji) en darija casablancaise ou "بلاّط" (bellat) dans le nord du pays. C'est un artisan indispensable pour tout projet de construction ou de rénovation. Voici les clés pour choisir le meilleur carreleur pour votre projet.
 
 ## Les types de carrelage disponibles au Maroc
 
@@ -463,7 +474,7 @@ Un bon carreleur peut vous expliquer la différence entre les colles, comment pr
 
 ## Trouver votre carreleur sur Snay3i.ma
 
-Sur Snay3i.ma, trouvez des carreleurs vérifiés dans toutes les villes du Maroc. Consultez leurs avis, regardez leurs photos de réalisations et contactez-les directement. Casablanca, Rabat, Marrakech, Fès, Tanger, Agadir — plus de 900 artisans disponibles.
+Sur Snay3i.ma, trouvez des carreleurs vérifiés dans toutes les villes du Maroc. Consultez leurs avis, regardez leurs photos de réalisations et contactez-les directement. Casablanca, Rabat, Marrakech, Fès, Tanger, Agadir — plus de 100 artisans disponibles.
 
 ## Conclusion
 
@@ -482,7 +493,7 @@ Le choix d'un bon carreleur au Maroc est crucial pour la beauté et la durabilit
     content: `
 ## كيفاش تلقى صنايعي مزيان فالمغرب؟
 
-واحد من أكبر المشاكل لي كيواجهوها المغاربة هي إيجاد صنايعي موثوق. سواء كنت محتاج تريسيان، سبّاك، صبّاغ، أو جلايجي، هاد الدليل غادي يساعدك تختار أحسن واحد فمدينتك. أنا كأساسي ديال Snay3i.ma، شفت الآلاف من الحالات وغادي نشارك معك الخبرة ديالي.
+واحد من أكبر المشاكل لي كيواجهوها المغاربة هي إيجاد صنايعي موثوق. سواء كنت محتاج تريسيان، سبّاك، صبّاغ، أو جلايجي، هاد الدليل غادي يساعدك تختار أحسن واحد فمدينتك.
 
 ## أنواع الصنايعية فالمغرب وأسماؤهم بالدارجة
 
@@ -578,7 +589,7 @@ Le choix d'un bon carreleur au Maroc est crucial pour la beauté et la durabilit
 4. شوف البروفايلات والتقييمات
 5. تصل مباشرة بالهاتف أو واتساب
 
-بلا وسيط، بلا عمولة، مجاناً للكل. أكثر من 900 معلم في 35 مدينة من طنجة لالعيون.
+بلا وسيط، بلا عمولة، مجاناً للكل. أكثر من 100 معلم في 21 مدينة فالمغرب.
 
 ## خلاصة
 
@@ -749,7 +760,7 @@ Ces tarifs incluent la main d'œuvre mais généralement pas les matériaux.
 
 ## Trouver votre peintre sur Snay3i.ma
 
-Snay3i.ma vous connecte avec les meilleurs peintres vérifiés dans votre ville au Maroc. Consultez les profils, regardez les avis et appelez directement. De Tanger à Dakhla, plus de 900 artisans disponibles.
+Snay3i.ma vous connecte avec les meilleurs peintres vérifiés dans votre ville au Maroc. Consultez les profils, regardez les avis et appelez directement. De Tanger à Dakhla, plus de 100 artisans disponibles.
 
 ## Conclusion
 
@@ -1426,7 +1437,7 @@ La préparation hivernale est cruciale au Maroc, surtout dans les régions qui r
 | Jardin | Jardinier (جارديني) | Mensuel ou bi-mensuel |
 | Peinture extérieure | Peintre (صبّاغ) | Tous les 5-7 ans |
 
-Trouvez tous ces artisans sur Snay3i.ma — plus de 900 professionnels vérifiés dans 35 villes du Maroc.
+Trouvez tous ces artisans sur Snay3i.ma — plus de 100 professionnels vérifiés dans 21 villes du Maroc.
 
 ## Les coûts d'entretien préventif vs réparatifs
 
@@ -1439,7 +1450,1507 @@ L'entretien préventif coûte en moyenne 3 à 5 fois moins cher que les réparat
 
 Un entretien régulier et systématique de votre maison au Maroc vous permettra d'économiser significativement sur les réparations à long terme et de préserver la valeur de votre bien. Utilisez cette checklist chaque saison, planifiez vos interventions à l'avance et faites appel aux bons professionnels via Snay3i.ma.
     `
+  },,
+
+  {
+    slug: 'plombier-autour-de-moi-pas-cher',
+    title: 'Plombier autour de moi pas cher au Maroc — Comment trouver rapidement?',
+    titleAr: 'سبّاك قريب مني برخص فالمغرب',
+    description: 'Comment trouver un plombier pas cher près de chez vous au Maroc? Guide complet avec astuces, prix et comment utiliser la géolocalisation pour trouver le bon artisan.',
+    category: 'Plomberie',
+    emoji: '🔧',
+    date: '19 Juillet 2026',
+    readTime: '7 min',
+    content: `
+## Pourquoi chercher un "plombier autour de moi"?
+
+La recherche "plombier autour de moi pas cher" est l'une des plus fréquentes au Maroc sur Google — et pour une bonne raison. Quand une fuite d'eau éclate, quand les WC débordent ou quand le chauffe-eau lâche, on a besoin d'un plombier rapide, proche et accessible. On ne veut pas attendre des heures, et on ne veut pas non plus payer une fortune.
+
+Ce guide vous explique exactement comment trouver le meilleur plombier près de chez vous au Maroc, en quelques minutes.
+
+## La géolocalisation: votre meilleur outil
+
+Quand vous cherchez un plombier à proximité, la première chose à faire est d'utiliser votre localisation GPS. Sur Snay3i.ma, vous pouvez activer votre position pour voir les plombiers les plus proches en temps réel. Cela vous évite d'appeler un artisan qui est en réalité à l'autre bout de la ville.
+
+**Comment utiliser votre position sur Snay3i.ma:**
+- Ouvrez snay3i.ma sur votre téléphone
+- Appuyez sur "Me localiser" pour activer la géolocalisation
+- Filtrez par "Plombier" dans les catégories
+- Les artisans s'affichent du plus proche au plus loin
+
+Ce système fonctionne dans 21 villes du Maroc: Casablanca, Rabat, Marrakech, Tanger, Agadir, Fès, Meknès, Oujda, Kénitra, Salé, Tétouan et plus.
+
+## Combien coûte un plombier "pas cher" au Maroc?
+
+Le terme "pas cher" est relatif, mais voici les fourchettes réalistes pour une intervention de base:
+
+**Petites réparations (150-400 MAD):**
+- Joint de robinet qui fuit: 150-250 MAD
+- Débouchage WC simple: 200-350 MAD
+- Remplacement d'un flexible: 100-200 MAD
+- Resserrage d'un raccord: 100-180 MAD
+
+**Réparations moyennes (400-1200 MAD):**
+- Remplacement d'un robinet: 300-500 MAD main d'œuvre + matériel
+- Débouchage canalisation: 300-600 MAD
+- Réparation fuite apparente: 250-500 MAD
+- Remplacement d'un siphon: 200-400 MAD
+
+**Grosses interventions (1200 MAD et plus):**
+- Fuite dans un mur: 800-3000 MAD selon l'importance
+- Remplacement chauffe-eau: 500-1000 MAD main d'œuvre + appareil
+- Réfection installation salle de bain: 5000-20000 MAD
+
+Un plombier "pas cher" ne signifie pas le moins cher du marché — cela signifie un tarif juste pour une prestation correcte. Méfiez-vous des prix anormalement bas qui cachent souvent des matériaux de mauvaise qualité ou une main d'œuvre non qualifiée.
+
+## Les 5 questions à poser avant de confirmer un plombier
+
+Avant de confirmer votre rendez-vous, posez ces questions essentielles:
+
+**Q1: Pouvez-vous donner une fourchette de prix par téléphone?**
+Un plombier sérieux peut toujours donner une estimation approximative. Celui qui refuse totalement de parler prix avant de voir le problème est souvent celui qui vous surprendra à l'arrivée.
+
+**Q2: Combien de temps pour intervenir?**
+Pour les urgences, le délai est crucial. Vérifiez si le plombier peut vraiment arriver dans le délai annoncé — demandez-lui en quelle ville il se trouve actuellement.
+
+**Q3: Utilisez-vous des pièces d'origine ou génériques?**
+Pour les robinets, chauffe-eaux et sanitaires, les pièces d'origine coûtent plus cher mais durent bien plus longtemps. Un bon plombier vous explique clairement ce qu'il utilise.
+
+**Q4: Donnez-vous une garantie sur votre travail?**
+Minimum 3 mois sur la main d'œuvre. Si le même problème revient dans cette période, le retour devrait être gratuit.
+
+**Q5: Avez-vous des avis clients que je peux consulter?**
+Sur Snay3i.ma, les avis sont visibles directement sur le profil. Un plombier avec 50 avis positifs est infiniment plus fiable qu'un inconnu sans historique.
+
+## Comparaison des prix par ville au Maroc
+
+Les tarifs varient significativement selon la ville:
+
+**Casablanca:** Tarifs les plus élevés du Maroc, environ 20-30% au-dessus de la moyenne nationale. Justifié par le coût de la vie plus élevé et la forte demande.
+
+**Rabat:** Tarifs similaires à Casablanca, légèrement inférieurs dans les quartiers périphériques comme Témara ou Salé.
+
+**Marrakech:** Forte concurrence entre plombiers locaux et ceux qui profitent du boom touristique. Négociez davantage ici.
+
+**Tanger:** Tarifs intermédiaires, mais les plombiers de qualité sont moins nombreux qu'à Casablanca.
+
+**Agadir:** Tarifs corrects, bonne disponibilité grâce au marché du tourisme qui a formé de nombreux artisans.
+
+**Fès, Meknès, Oujda:** Tarifs inférieurs d'environ 15-20% par rapport à Casablanca, avec une qualité qui peut être excellente.
+
+## Comment éviter les arnaques du "plombier pas cher"
+
+Malheureusement, certains artisans utilisent le prix bas comme appât:
+
+**L'arnaque du "diagnostic gratuit":** Le plombier arrive, diagnostique, puis annonce un prix 3 fois plus élevé qu'estimé au téléphone. Si vous refusez, il réclame quand même des frais de déplacement.
+
+**L'arnaque des pièces "hors normes":** Le plombier prétend avoir besoin de pièces spéciales très chères alors que des pièces standard feraient le même travail.
+
+**L'arnaque de l'urgence artificielle:** "Si on n'intervient pas maintenant, les dégâts vont coûter 10 fois plus cher." Cette pression psychologique vous pousse à accepter un devis sans vérifier.
+
+**Comment vous protéger:**
+- Toujours vérifier les avis sur Snay3i.ma avant d'appeler
+- Ne jamais accepter un devis verbal sans l'avoir par écrit (SMS suffit)
+- Demander une deuxième opinion pour les travaux importants
+- Ne jamais payer la totalité avant la fin des travaux
+
+## Trouver votre plombier sur Snay3i.ma
+
+Snay3i.ma vous permet de trouver un plombier vérifié près de chez vous, avec ses avis clients, son expérience et ses coordonnées directes. Dans 21 villes du Maroc, contactez directement sans intermédiaire et sans commission.
+
+Rendez-vous sur **snay3i.ma**, activez votre localisation, sélectionnez "Plombier" et trouvez le bon professionnel en quelques secondes. 🇲🇦
+    `
   },
+  {
+    slug: 'electricien-autour-de-moi-maroc',
+    title: 'Électricien autour de moi au Maroc — Trouver un pro en urgence',
+    titleAr: 'تريسيان قريب مني فالمغرب',
+    description: 'Comment trouver un électricien qualifié près de chez vous au Maroc? Guide sécurité, prix et conseils pour éviter les dangers électriques.',
+    category: 'Électricité',
+    emoji: '⚡',
+    date: '19 Juillet 2026',
+    readTime: '6 min',
+    content: `
+## L'urgence électrique: ne tardez pas
+
+Contrairement à une fuite d'eau qu'on peut temporairement contenir, une panne électrique ou un problème de câblage doit être traité immédiatement. L'électricité tue — un court-circuit peut provoquer un incendie en quelques minutes, et une installation défectueuse peut électrocuter quelqu'un sans prévenir.
+
+Quand vous cherchez un "électricien autour de moi" au Maroc, la priorité absolue n'est pas le prix, c'est la sécurité et la compétence.
+
+## Les signaux d'alarme qui nécessitent un électricien immédiatement
+
+Ne temporisez pas si vous observez l'un de ces signes:
+
+**Signes d'urgence absolue (appelez maintenant):**
+- Disjoncteur qui saute répétitivement sans raison apparente
+- Odeur de brûlé venant du tableau électrique ou d'une prise
+- Étincelles visibles sur une prise ou un interrupteur
+- Lampes qui clignotent de façon anormale dans tout l'appartement
+- Sensation de chaleur ou de légères secousses en touchant une prise
+- Prise qui noircit ou qui fond
+
+**Signes qui nécessitent une intervention rapide (dans les 24-48h):**
+- Circuit qui ne fonctionne plus malgré le disjoncteur réarmé
+- Prises qui ne délivrent plus de courant
+- Tableau électrique qui chauffe de façon anormale
+- Ampoules qui grillent trop fréquemment
+
+## Comment évaluer les compétences d'un électricien au Maroc
+
+Il est difficile pour un non-professionnel d'évaluer la compétence d'un électricien. Voici des indicateurs concrets:
+
+**Bon signe: il teste avant d'intervenir.** Un électricien compétent utilise un multimètre ou un testeur de tension avant de toucher quoi que ce soit. S'il travaille à l'aveugle sans instruments, partez.
+
+**Bon signe: il coupe le disjoncteur principal.** Tout travail électrique doit se faire hors tension. Un électricien qui travaille sur des fils sous tension est soit incompétent, soit inconscient.
+
+**Bon signe: il explique ce qu'il fait.** Les bons artisans aiment expliquer leur travail. La pédagogie est un signe de maîtrise.
+
+**Mauvais signe: il minimise le risque.** "C'est rien, ça va aller" face à un problème sérieux est un signal d'alarme. Un bon électricien prend tous les risques au sérieux.
+
+**Mauvais signe: il improvise avec du scotch ou des fils tordus.** Les raccords électriques doivent être faits avec des dominos, des cosses ou des connecteurs adaptés — jamais scotchés ou enroulés manuellement.
+
+## Prix d'un électricien au Maroc en 2026
+
+**Interventions standard:**
+- Remplacement prise ou interrupteur: 100-250 MAD
+- Recherche et réparation panne: 200-500 MAD
+- Installation luminaire: 150-350 MAD
+- Ajout d'un circuit: 500-1200 MAD
+- Remplacement tableau électrique: 2000-5000 MAD
+
+**Suppléments urgence:**
+- Intervention soir (après 20h): +30-50%
+- Intervention nuit (après 22h): +80-100%
+- Week-end: +40-70%
+
+## Ce que vous pouvez vérifier vous-même en sécurité
+
+Avant d'appeler un électricien, vérifiez ces points sans danger:
+
+1. **Réarmez le disjoncteur:** Allez au tableau électrique, cherchez le disjoncteur en position basse et relevez-le. Si ça tient, le problème était ponctuel. Si ça resaute, n'insistez pas et appelez un professionnel.
+
+2. **Identifiez le circuit affecté:** La plupart des tableaux modernes ont des étiquettes. Identifiez quel circuit est en cause pour informer l'électricien avant son arrivée.
+
+3. **Débranchez les appareils suspects:** Si la panne a coïncidé avec le branchement d'un appareil, débranchez-le. C'est peut-être l'appareil qui est défectueux, pas l'installation.
+
+## Trouver votre électricien sur Snay3i.ma
+
+Sur Snay3i.ma, activez votre géolocalisation, sélectionnez "Électricien" et trouvez un professionnel vérifié dans votre quartier. Chaque profil affiche les avis clients, l'expérience et les coordonnées pour un contact direct. Disponible dans 21 villes du Maroc. 🇲🇦
+    `
+  },
+  {
+    slug: 'serrurier-autour-de-moi-maroc',
+    title: 'Serrurier autour de moi au Maroc — Porte bloquée: guide d'urgence',
+    titleAr: 'مول السوارة قريب مني فالمغرب',
+    description: 'Porte bloquée au Maroc? Comment trouver un serrurier fiable près de chez vous rapidement, éviter les arnaques et connaître les vrais prix.',
+    category: 'Serrurerie',
+    emoji: '🔑',
+    date: '19 Juillet 2026',
+    readTime: '5 min',
+    content: `
+## Porte bloquée: gardez votre calme
+
+Se retrouver devant sa porte sans pouvoir entrer est l'une des situations les plus stressantes du quotidien. Au Maroc, cette situation est malheureusement propice aux arnaques — certains "serruriers" profitent de l'urgence pour facturer des sommes exorbitantes.
+
+Ce guide vous explique comment trouver un serrurier honnête près de chez vous, en urgence.
+
+## Avant d'appeler un serrurier: vérifications rapides
+
+**Vérification 1: Avez-vous la bonne clé?**
+Cela peut sembler évident, mais vérifiez que vous n'avez pas pris la mauvaise clé dans votre trousseau.
+
+**Vérification 2: La porte est-elle vraiment bloquée?**
+Parfois la porte coince à cause de l'humidité ou d'un gonflement du bois. Essayez de soulever légèrement la poignée tout en tournant la clé, ou d'appuyer sur la porte.
+
+**Vérification 3: Quelqu'un peut-il vous ouvrir?**
+Si vous êtes propriétaire, votre gardien a souvent un double. Si vous êtes locataire, essayez de joindre le propriétaire. Cela peut vous éviter les frais d'un serrurier.
+
+**Vérification 4: Y a-t-il une autre entrée?**
+Balcon accessible? Fenêtre ouverte? Explorez toutes les options avant de payer.
+
+## Les arnaques courantes en serrurerie au Maroc
+
+La serrurerie est le secteur avec le plus d'arnaques dans les services à domicile. Voici comment vous protéger:
+
+**L'arnaque du prix téléphonique:** Le serrurier annonce 200 MAD au téléphone, puis réclame 1500 MAD une fois la porte ouverte en prétextant que "la serrure était complexe". À ce stade, vous êtes entré et vous vous sentez obligé de payer.
+
+**L'arnaque de la "serrure abîmée":** Il ouvre la porte et vous dit que la serrure est maintenant "inutilisable" et doit être remplacée immédiatement, pour 3 fois son prix réel.
+
+**L'arnaque du faux urgentiste:** Des numéros qui ressemblent à des services locaux mais qui envoient des prestataires à l'autre bout de la ville avec des tarifs absurdes.
+
+**Comment vous protéger:**
+- Demandez un prix ferme avant l'intervention, par SMS
+- Vérifiez les avis sur Snay3i.ma avant d'appeler
+- Si le prix au téléphone était 200 MAD et qu'il réclame 1000 MAD, refusez et menacez d'appeler la police
+- Demandez une facture après intervention
+
+## Prix réels d'un serrurier au Maroc en 2026
+
+**Ouverture de porte:**
+- Serrure standard (jour): 150-300 MAD
+- Serrure standard (nuit): 300-500 MAD
+- Serrure blindée (jour): 300-600 MAD
+- Serrure blindée (nuit): 500-900 MAD
+
+**Installation:**
+- Serrure standard: 200-400 MAD + matériel
+- Serrure multipoints: 600-1200 MAD + matériel
+
+## Trouver votre serrurier sur Snay3i.ma
+
+Snay3i.ma référence des serruriers vérifiés et bien notés. Vérifiez les avis même en urgence — ça prend 30 secondes et peut vous éviter une arnaque. Disponible dans 21 villes du Maroc. 🇲🇦
+    `
+  },
+  {
+    slug: 'soudeur-autour-de-moi-maroc',
+    title: 'Soudeur / Ferronnier autour de moi au Maroc — Guide complet 2026',
+    titleAr: 'حدّاد قريب مني فالمغرب',
+    description: 'Comment trouver un bon soudeur ou ferronnier près de chez vous au Maroc. Portails, grilles, garde-corps — tout ce que vous devez savoir.',
+    category: 'Ferronnerie',
+    emoji: '🔥',
+    date: '19 Juillet 2026',
+    readTime: '6 min',
+    content: `
+## Le soudeur/ferronnier: un artisan indispensable
+
+Au Maroc, le soudeur (حدّاد en darija) est l'artisan qui travaille le métal — portails, grilles de fenêtres, garde-corps d'escaliers, clôtures, pergolas métalliques, meubles en fer forgé. C'est un métier qui combine technique de soudage et art de la ferronnerie.
+
+Quand vous cherchez un "soudeur autour de moi" au Maroc, vous cherchez probablement quelqu'un pour un projet de votre maison ou un dépannage rapide.
+
+## Les types de travaux d'un soudeur/ferronnier
+
+**Portails et clôtures:**
+Le portail est souvent le premier élément visible d'une maison. Un bon ferronnier peut créer un portail sur mesure qui correspond exactement à vos dimensions et votre style — du plus simple au plus ornemental avec des arabesques marocaines traditionnelles.
+
+**Grilles de fenêtres et de portes:**
+La sécurité est une préoccupation majeure au Maroc. Les grilles métalliques protègent les fenêtres et les entrées secondaires. Un ferronnier peut créer des grilles qui allient sécurité et esthétique.
+
+**Garde-corps et rampes d'escaliers:**
+Les garde-corps d'escaliers et de terrasses doivent être à la fois solides et esthétiques. Le fer forgé ou l'acier galvanisé sont les matériaux les plus utilisés.
+
+**Pergolas et structures métalliques:**
+De plus en plus populaires au Maroc, les pergolas métalliques permettent de créer un espace ombragé et agréable dans le jardin ou sur la terrasse.
+
+**Meubles et décoration:**
+Tables, chaises, étagères, portes décoratives — le fer forgé est très populaire dans l'esthétique marocaine contemporaine.
+
+## Comment évaluer un bon ferronnier au Maroc
+
+**Regardez ses réalisations:** Demandez des photos de travaux récents. La qualité des finitions (soudures propres, peinture antirouille, angles droits) révèle le niveau de compétence.
+
+**Vérifiez les soudures:** Une bonne soudure est propre, régulière, sans aspérités ni trous. Une mauvaise soudure s'effrite avec le temps et peut céder sous une contrainte mécanique.
+
+**Demandez quel traitement antirouille:** Le fer non traité rouille très vite au Maroc, surtout près de la côte. Un bon ferronnier utilise une peinture antirouille (minium) avant la peinture finale ou galvanise les pièces exposées.
+
+**Méfiez-vous des devis trop bas:** Une grille de fenêtre "à 200 MAD" avec du métal trop fin rouillera en 2 ans. Une bonne grille avec du métal épais et un traitement correct coûte plus cher mais dure 15-20 ans.
+
+## Prix d'un soudeur/ferronnier au Maroc en 2026
+
+**Portails:**
+- Portail simple (2 battants, 3m x 1.5m): 3000-8000 MAD
+- Portail fer forgé travaillé: 8000-20000 MAD
+- Portail coulissant motorisé: 8000-25000 MAD
+
+**Grilles de fenêtres:**
+- Grille standard (par m²): 350-600 MAD
+- Grille travaillée/ornementale: 600-1200 MAD/m²
+
+**Garde-corps:**
+- Garde-corps simple (par ml): 400-700 MAD
+- Garde-corps travaillé: 700-1500 MAD/ml
+
+**Pergolas:**
+- Structure métallique seule (par m²): 600-1200 MAD
+- Avec couverture polycarbonate: 900-1800 MAD/m²
+
+## Trouver votre soudeur sur Snay3i.ma
+
+Snay3i.ma référence des soudeurs et ferronnniers vérifiés dans les principales villes du Maroc. Consultez les photos de leurs réalisations et contactez directement le bon professionnel. 🇲🇦
+    `
+  },
+  {
+    slug: 'plombier-casablanca-pas-cher',
+    title: 'Plombier Casablanca pas cher — Les meilleurs quartier par quartier',
+    titleAr: 'سبّاك الدار البيضاء برخص',
+    description: 'Trouver un plombier pas cher à Casablanca, quartier par quartier. Prix moyens, délais d'intervention et comment trouver le meilleur rapport qualité-prix.',
+    category: 'Casablanca',
+    emoji: '🏙️',
+    date: '19 Juillet 2026',
+    readTime: '7 min',
+    content: `
+## Casablanca et la plomberie: une relation compliquée
+
+Casablanca est la plus grande ville du Maroc avec plus de 4 millions d'habitants — et paradoxalement, y trouver un bon plombier pas cher peut être un vrai parcours du combattant. La ville est immense, les plombiers sont nombreux mais la qualité est très variable, et les prix peuvent tripler selon le quartier où vous habitez.
+
+Ce guide vous aide à naviguer dans l'offre de plomberie casablancaise, quartier par quartier.
+
+## Les quartiers de Casablanca et leurs spécificités
+
+**Maarif, Bourgogne, Anfa, CIL:**
+Ces quartiers résidentiels haut de gamme ont les tarifs les plus élevés de Casa. Les plombiers qui y travaillent régulièrement savent que la clientèle est aisée et adaptent leurs prix. Comptez 20-30% de plus que la moyenne. En revanche, vous y trouverez généralement des artisans plus qualifiés.
+
+**Hay Mohammadi, Sidi Bernoussi, Ain Chock:**
+Ces quartiers populaires ont les tarifs les plus abordables de Casablanca. La concurrence y est forte et les plombiers sont nombreux. Attention à bien vérifier les avis — la qualité est plus variable.
+
+**Ain Sebaa, Sbata, Hay Hassani:**
+Quartiers intermédiaires avec des tarifs dans la moyenne casablancaise. Bonne disponibilité d'artisans et prix raisonnables.
+
+**Bouskoura, Dar Bouazza, Nouvelle Médina:**
+Zones périurbaines en expansion. Les plombiers locaux sont moins nombreux mais souvent plus disponibles et moins chers que ceux du centre-ville.
+
+## Prix réels d'un plombier à Casablanca en 2026
+
+Voici des tarifs basés sur des interventions réelles à Casablanca:
+
+**Interventions courantes:**
+- Débouchage WC (méthode manuelle): 200-350 MAD
+- Débouchage WC (haute pression): 400-700 MAD
+- Joint de robinet: 120-220 MAD
+- Remplacement joint WC: 150-300 MAD
+- Réparation fuite siphon: 150-300 MAD
+
+**Interventions moyennes:**
+- Remplacement robinet cuisine: 300-600 MAD + matériel
+- Remplacement chasse d'eau: 400-700 MAD + matériel
+- Recherche fuite mur (sans travaux): 300-500 MAD
+- Réparation fuite tuyau apparent: 250-500 MAD
+
+**Grosses interventions:**
+- Fuite dans mur (avec percement): 1000-4000 MAD selon profondeur
+- Remplacement chauffe-eau 100L: 600-900 MAD main d'œuvre + appareil
+- Pose mitigeur thermostatique: 500-900 MAD + matériel
+
+## L'astuce du "plombier de quartier"
+
+À Casablanca comme dans toutes les grandes villes, il y a deux types de plombiers:
+
+**Le plombier itinérant:** Il se déplace partout dans la ville, souvent via des plateformes ou des publicités Facebook. Il facture des frais de déplacement et ses prix sont standardisés au niveau de la ville entière.
+
+**Le plombier de quartier:** Il travaille principalement dans 2-3 quartiers autour de chez lui. Il est souvent recommandé par le bouche-à-oreille local, pas de frais de déplacement ou presque, et il peut intervenir en 20-30 minutes. C'est généralement lui le plus avantageux.
+
+Sur Snay3i.ma, vous pouvez voir la localisation exacte du plombier et calculer la distance réelle avant d'appeler.
+
+## Comment négocier avec un plombier à Casablanca
+
+La négociation est normale et acceptée au Maroc. Voici comment bien la pratiquer:
+
+**Demandez un devis global, pas à l'heure.** Le tarif horaire encourage la lenteur. Un devis global pour le travail complet vous protège.
+
+**Comparez 2-3 devis pour les gros travaux.** Pour une intervention à moins de 500 MAD, la comparaison n'est pas nécessaire. Pour 2000 MAD et plus, contactez au moins 2 artisans.
+
+**Groupez les travaux.** Si vous avez plusieurs petits problèmes, les faire en une seule intervention coûte bien moins cher que plusieurs visites.
+
+**Achetez vous-même les matériaux de base.** Les robinets, flexibles et joints vendus dans les quincailleries de Casa sont souvent 30-50% moins chers que ce que facture un plombier.
+
+## Trouver votre plombier à Casablanca sur Snay3i.ma
+
+Snay3i.ma référence les meilleurs plombiers de Casablanca avec leurs avis clients et leurs zones d'intervention. Activez votre géolocalisation pour trouver le plus proche de chez vous, vérifiez ses avis et appelez directement — sans intermédiaire, sans commission. 🇲🇦
+    `
+  },
+  {
+    slug: 'electricien-casablanca-pas-cher',
+    title: 'Électricien Casablanca pas cher — Guide prix et conseils 2026',
+    titleAr: 'تريسيان الدار البيضاء برخص 2026',
+    description: 'Prix d'un électricien à Casablanca en 2026. Comment trouver un bon électricien pas cher à Casa et éviter les mauvaises surprises.',
+    category: 'Casablanca',
+    emoji: '⚡',
+    date: '19 Juillet 2026',
+    readTime: '6 min',
+    content: `
+## Electricien à Casablanca: le marché en 2026
+
+Le marché de l'électricité résidentielle à Casablanca est l'un des plus actifs du Maroc. La ville cumule des immeubles anciens avec des installations électriques vieillissantes, de nouvelles constructions parfois bâclées, et une demande constante pour les installations solaires et la domotique. Résultat: les électriciens casablancais sont très sollicités, et les prix varient énormément.
+
+## Ce qui fait vraiment différer les prix à Casablanca
+
+**Le quartier:** Un électricien travaillant principalement dans le Maarif ou Anfa facturera 30-40% de plus qu'un électricien de Hay Mohammadi pour le même travail. Ce n'est pas forcément de l'abus — c'est le coût de la vie local.
+
+**L'urgence:** Une panne en pleine nuit à Casablanca peut coûter 2 à 3 fois le tarif normal. Anticipez les maintenances pour éviter ce surcoût.
+
+**La complexité:** Remplacer un interrupteur prend 15 minutes. Trouver une panne mystérieuse peut prendre 3 heures. La facturation doit refléter le temps réel passé.
+
+**La notoriété:** Un électricien très bien noté avec 100+ avis positifs peut facturer 20-30% de plus qu'un artisan peu connu. Souvent, cela reste un bon investissement.
+
+## Tableau des prix Casablanca 2026
+
+**Petites interventions (150-500 MAD):**
+Remplacement prise murale, interrupteur défectueux, installation d'un luminaire standard, recherche de panne simple.
+
+**Interventions moyennes (500-2000 MAD):**
+Remplacement tableau électrique partiel, ajout de prises sur un circuit existant, installation prise extérieure étanche, câblage d'une pièce supplémentaire.
+
+**Grandes interventions (2000-15000 MAD):**
+Remplacement complet du tableau, mise aux normes d'un appartement, installation solaire, mise en place d'un système domotique.
+
+## Les problèmes électriques les plus fréquents à Casablanca
+
+**Les baisses de tension:** Fréquentes dans certains quartiers, elles endommagent les appareils électroniques. Un électricien peut installer un stabilisateur de tension.
+
+**Les tableaux électriques vétustes:** Les immeubles construits avant 2000 ont souvent des tableaux avec des fusibles à la place des disjoncteurs modernes. La mise aux normes est indispensable.
+
+**Les prises sans terre:** Dans les appartements anciens, les prises n'ont pas toujours de troisième fil de terre, ce qui est dangereux pour les appareils modernes.
+
+**Les circuits surchargés:** Avec la multiplication des appareils électroménagers, les anciens circuits de 10A ou 16A ne suffisent plus. Un électricien peut ajouter des circuits dédiés.
+
+## Comment vérifier qu'un électricien casablancais est qualifié
+
+Demandez-lui ces questions techniques simples:
+
+**"Quelle est la différence entre un circuit 16A et 20A?"** Un bon électricien expliquera que 16A est pour l'éclairage standard et 20A pour les prises de puissance (cuisine, salle de bain).
+
+**"Comment vous sécurisez une intervention sous tension partielle?"** Il doit mentionner la coupure au tableau, le vérificateur de tension et le port de protections.
+
+**"Quelle coupe faut-il faire pour un chauffe-eau électrique?"** Disjoncteur bipolaire 20A dédié — c'est la réponse standard.
+
+Si l'artisan répond clairement et sans hésitation, c'est bon signe. S'il botte en touche ou semble incertain, cherchez quelqu'un d'autre.
+
+## Trouver votre électricien à Casablanca sur Snay3i.ma
+
+Snay3i.ma connecte les Casablancais avec des électriciens vérifiés dans tous les quartiers. Comparez les profils, lisez les avis et appelez directement le bon professionnel. 🇲🇦
+    `
+  },
+  {
+    slug: 'serrurier-casablanca-pas-cher',
+    title: 'Serrurier Casablanca pas cher — Tarifs et comment éviter les arnaques',
+    titleAr: 'قفّال الدار البيضاء برخص',
+    description: 'Trouver un serrurier pas cher et honnête à Casablanca. Prix réels, quartiers et comment ne pas se faire arnaquer lors d'une urgence.',
+    category: 'Casablanca',
+    emoji: '🔑',
+    date: '19 Juillet 2026',
+    readTime: '5 min',
+    content: `
+## La serrurerie à Casablanca: un secteur à hauts risques
+
+Casablanca est la ville marocaine où les arnaques à la serrurerie sont les plus fréquentes. La densité de population, le nombre d'appartements et la tendance à chercher un serrurier rapidement sur internet créent le terrain idéal pour les escrocs.
+
+Voici comment trouver un vrai serrurier pas cher à Casa.
+
+## La réalité du marché casablancais
+
+À Casablanca, vous trouverez deux catégories de serruriers:
+
+**Les artisans locaux sérieux:** Ils travaillent principalement dans leur quartier, sont recommandés par les gardiens d'immeubles et les voisins, et pratiquent des tarifs raisonnables. Ils ont souvent une boutique avec stock de serrures.
+
+**Les prestataires "urgentistes" en ligne:** Présents massivement sur les publicités Facebook et Google, ils ciblent spécifiquement les gens bloqués devant leur porte. Leurs prix sont souvent 3 à 5 fois plus élevés que les artisans locaux.
+
+## Prix normaux d'un serrurier à Casablanca
+
+**Ouverture de porte:**
+- Porte standard (journée): 200-350 MAD
+- Porte blindée (journée): 400-700 MAD
+- Urgence nuit: +100% sur le tarif journée
+
+**Installation:**
+- Serrure entrée standard: 250-500 MAD + matériel
+- Cylindre de remplacement: 150-350 MAD + cylindre
+- Serrure multipoints: 600-1200 MAD + matériel
+
+**Duplication de clés:**
+- Clé standard: 20-40 MAD
+- Clé magnétique/digitale: 50-150 MAD
+
+## Les arnaques spécifiques à Casablanca
+
+**L'arnaque du "prix affiché":** Des pancartes dans certains quartiers affichent "Serrurier 100 MAD". En réalité, le 100 MAD c'est le déplacement, l'ouverture coûte 10 fois plus.
+
+**Le serrurier "ami du gardien":** Certains gardiens d'immeubles reçoivent des commissions pour recommander des serruriers précis. Ce n'est pas systématiquement une arnaque, mais vérifiez quand même les avis en ligne.
+
+**Le faux service municipal:** Des sites web ou numéros prétendent être le "service serrurerie de la mairie de Casablanca". Il n'existe pas de tel service public.
+
+## Quartiers à Casablanca: où trouver les meilleurs prix
+
+**Maarif/Bourgogne:** Beaucoup de serruriers avec boutique. Concurrence élevée, donc prix négociables.
+
+**Hay Mohammadi/Ben M'Sick:** Tarifs les plus bas de Casablanca. Bons artisans locaux recommandés par le quartier.
+
+**Ain Chock/Ain Sebaa:** Zone industrielle avec beaucoup de quincailleries et serruriers — bonne option pour les installations et remplacements.
+
+**Centre/Médina:** Artisans traditionnels avec expertise en serrures anciennes. Moins adaptés aux serrures modernes.
+
+## Trouver votre serrurier à Casablanca sur Snay3i.ma
+
+Snay3i.ma référence des serruriers vérifiés avec avis clients à Casablanca. Consultez les notes avant d'appeler — même en urgence, ça prend 30 secondes et peut vous éviter une arnaque. 🇲🇦
+    `
+  },
+  {
+    slug: 'plombier-rabat-pas-cher',
+    title: 'Plombier Rabat pas cher — Guide quartier par quartier 2026',
+    titleAr: 'سبّاك الرباط برخص 2026',
+    description: 'Trouver un plombier pas cher à Rabat. Prix moyens par quartier, Agdal, Hassan, Hay Riad, Témara — guide complet 2026.',
+    category: 'Rabat',
+    emoji: '🏛️',
+    date: '19 Juillet 2026',
+    readTime: '6 min',
+    content: `
+## Rabat: une ville, des marchés très différents
+
+Rabat, capitale administrative du Maroc, a une particularité que peu de gens réalisent: c'est en réalité plusieurs marchés distincts pour les services à domicile. L'Agdal n'a rien à voir avec Hay Riad, et Témara est un monde à part. Comprendre ces différences vous permet de trouver un plombier pas cher même dans une ville où les prix peuvent être élevés.
+
+## Les marchés de plomberie à Rabat
+
+**Agdal et Hay Riad:**
+Les quartiers résidentiels les plus prisés de Rabat, avec une forte concentration de fonctionnaires, diplomates et cadres. Les plombiers qui y travaillent le savent et adaptent leurs prix. Comptez 20-30% de plus que la moyenne nationale. La qualité est généralement au rendez-vous.
+
+**Hassan, Océan, Médina:**
+Le centre historique et commercial de Rabat. Les plombiers y sont nombreux mais la qualité est très variable. Bonne option pour les petites interventions si vous trouvez une recommandation fiable.
+
+**Youssoufia, Akkari, Douar Doum:**
+Quartiers populaires avec les tarifs les plus abordables de Rabat-ville. Beaucoup de plombiers résidents qui connaissent bien le bâti local.
+
+**Témara:**
+Bien qu'administrativement séparée de Rabat, Témara est souvent traitée comme une extension de la capitale. Les tarifs y sont 15-20% inférieurs à Rabat-centre, avec des artisans qui couvrent toute la zone Rabat-Salé-Témara.
+
+**Salé:**
+Rive gauche du Bouregreg, souvent oubliée mais avec d'excellents plombiers à des tarifs plus accessibles que Rabat. Un plombier de Salé peut intervenir à Rabat en 20-30 minutes.
+
+## Prix des plombiers à Rabat en 2026
+
+**Petites interventions:**
+- Joint de robinet: 100-200 MAD
+- Débouchage WC simple: 200-350 MAD
+- Remplacement siphon cuisine: 150-280 MAD
+
+**Interventions courantes:**
+- Remplacement robinet: 300-550 MAD + matériel
+- Réparation fuite tuyau apparent: 250-450 MAD
+- Installation chauffe-eau 100L: 500-800 MAD main d'œuvre
+
+**Urgences (supplément 30-70%):**
+Les plombiers de Rabat-centre facturent généralement plus cher les urgences nocturnes que ceux de Témara ou Salé.
+
+## Spécificités des bâtiments rabatis
+
+Les plombiers à Rabat font face à des défis spécifiques selon le type de bâtiment:
+
+**Immeubles anciens du centre:** Canalisations en plomb parfois encore présentes (installées avant les années 1970), installations complexes, souvent sans plan.
+
+**Résidences récentes (post-2005):** Installations normalement en PVC ou PPR, plus faciles à réparer. Mais qualité des travaux de construction parfois insuffisante.
+
+**Villas des quartiers résidentiels:** Installations plus complexes avec jardins, piscines, systèmes d'arrosage. Nécessite un plombier polyvalent.
+
+**Cités de logements sociaux:** Installations standardisées, faciles à dépanner, mais souvent surexploitées avec des pannes fréquentes.
+
+## L'astuce pour économiser à Rabat
+
+Contactez des plombiers de Salé ou de Témara pour des travaux non urgents — ils peuvent souvent intervenir à Rabat à des tarifs inférieurs de 15-25%, et la qualité n'est pas moindre.
+
+## Trouver votre plombier à Rabat sur Snay3i.ma
+
+Snay3i.ma couvre Rabat, Salé et Témara avec des plombiers vérifiés dans chaque zone. Activez votre localisation pour trouver le plus proche. 🇲🇦
+    `
+  },
+  {
+    slug: 'electricien-rabat-pas-cher',
+    title: 'Électricien Rabat pas cher — Prix et guide 2026',
+    titleAr: 'تريسيان الرباط برخص 2026',
+    description: 'Trouver un électricien pas cher à Rabat en 2026. Prix réels, quartiers recommandés et comment choisir le bon professionnel.',
+    category: 'Rabat',
+    emoji: '⚡',
+    date: '19 Juillet 2026',
+    readTime: '5 min',
+    content: `
+## L'électricité à Rabat: particularités locales
+
+Rabat a une caractéristique qui influe directement sur le marché des électriciens: en tant que capitale administrative, la ville attire beaucoup de logements de standing où les exigences de qualité sont élevées. Simultanément, la densité de fonctionnaires et d'étudiants crée une demande constante pour des services abordables.
+
+## Les problèmes électriques fréquents à Rabat
+
+**Dans les immeubles anciens du centre:**
+Les bâtiments construits entre 1950 et 1980 ont souvent des tableaux électriques obsolètes, des fils en aluminium (moins conducteurs et plus fragiles que le cuivre), et des installations sans différentiel. La mise aux normes est souvent urgente mais les propriétaires repoussent à cause du coût.
+
+**Dans les résidences modernes:**
+Malgré leur construction récente, certaines résidences rabaties ont des défauts cachés — câblage insuffisamment dimensionné pour la puissance réelle utilisée, prises mal installées, disjoncteurs de mauvaise qualité. Ces défauts apparaissent souvent 3-7 ans après la livraison.
+
+**Dans les villas de l'Agdal et Hay Riad:**
+La demande en domotique, sécurité électronique et panneaux solaires est forte dans ces quartiers. Les électriciens spécialisés dans ces technologies peuvent facturer 50-100% de plus que des électriciens généralistes.
+
+## Prix d'un électricien à Rabat en 2026
+
+**Interventions standard:**
+- Dépannage simple (prise, interrupteur): 150-300 MAD
+- Recherche et réparation panne: 300-600 MAD
+- Installation luminaire: 200-400 MAD
+- Ajout circuit dédié: 700-1500 MAD
+
+**Travaux importants:**
+- Remplacement tableau complet: 2500-6000 MAD
+- Mise aux normes appartement 80m²: 5000-12000 MAD
+- Installation panneau solaire 3kWc: 25000-45000 MAD
+
+## Où trouver les meilleurs rapports qualité-prix à Rabat
+
+**Youssoufia et Akkari:** Beaucoup d'électriciens résidents qui connaissent bien le bâti local. Tarifs 15-20% inférieurs à l'Agdal pour le même travail.
+
+**Salé:** Souvent négligé, Salé a d'excellents électriciens qui couvrent aussi Rabat. Les délais d'intervention sont courts et les tarifs compétitifs.
+
+**Via Snay3i.ma:** La géolocalisation vous montre l'électricien le plus proche — qui est souvent aussi le plus disponible et le moins cher en frais de déplacement.
+
+## Trouver votre électricien à Rabat sur Snay3i.ma
+
+Electriciens vérifiés à Rabat, Salé et Témara — consultez les avis et appelez directement. 🇲🇦
+    `
+  },
+  {
+    slug: 'macon-casablanca-pas-cher',
+    title: 'Maçon Casablanca pas cher — Travaux de rénovation guide 2026',
+    titleAr: 'بنّاء الدار البيضاء برخص',
+    description: 'Trouver un maçon pas cher à Casablanca pour vos travaux de rénovation. Prix, étapes et comment superviser un chantier de maçonnerie à Casa.',
+    category: 'Casablanca',
+    emoji: '🧱',
+    date: '19 Juillet 2026',
+    readTime: '7 min',
+    content: `
+## La maçonnerie à Casablanca: un marché en pleine expansion
+
+Casablanca connaît un boom de la rénovation. Des milliers d'appartements construits dans les années 1980-2000 arrivent à l'âge où des travaux de fond sont nécessaires: fissures structurelles, humidité, cloisons vieillissantes, façades à ravaler. Simultanément, les nouvelles constructions sont souvent livrées avec des défauts qui nécessitent des corrections rapidement.
+
+Résultat: les maçons à Casablanca sont très demandés, et la qualité varie énormément.
+
+## Types de travaux de maçonnerie les plus demandés à Casablanca
+
+**Réparation de fissures:**
+Le problème le plus courant dans les immeubles casablancais. Les fissures peuvent être superficielles (esthétiques, dans l'enduit) ou structurelles (dans les murs porteurs). Un maçon expérimenté sait faire la différence et traiter chaque cas correctement.
+
+**Ravalement de façade:**
+Les façades casablancaises souffrent de l'air marin, de la pollution et du temps. Le ravalement inclut nettoyage, rebouchage, enduit et peinture façade. Pour un immeuble collectif, cela nécessite l'accord de la copropriété.
+
+**Création d'ouvertures:**
+Abattre une cloison pour créer un espace ouvert, agrandir une porte, créer une fenêtre — ces travaux nécessitent parfois un ingénieur structure si c'est un mur porteur.
+
+**Chape et sol:**
+Refaire un sol en béton avant la pose de carrelage, corriger des inégalités, imperméabiliser une terrasse — travaux fréquents dans les rénovations complètes.
+
+**Enduits intérieurs:**
+Après démolition ou travaux, les murs doivent être enduits avant peinture. La qualité de l'enduit détermine largement la qualité du rendu final.
+
+## Prix d'un maçon à Casablanca en 2026
+
+**Enduits:**
+- Enduit gouttelette (par m²): 60-100 MAD
+- Enduit lissé intérieur: 80-130 MAD
+- Enduit façade: 90-160 MAD
+
+**Réparations:**
+- Réparation fissure légère: 200-500 MAD
+- Réparation fissure structurelle: 800-3000 MAD
+- Reprise d'humidité mur: 1000-5000 MAD selon étendue
+
+**Construction/démolition:**
+- Démolition cloison (par m²): 80-150 MAD
+- Construction cloison parpaing 10cm: 250-400 MAD/m²
+- Création ouverture porte dans cloison: 1000-2500 MAD
+
+## Les arnaques courantes chez les maçons casablancais
+
+**Le maçon "généraliste universel":** Il accepte tous les travaux mais ne maîtrise rien parfaitement. Pour un enduit de qualité, il faut un plâtrier-enduiteur. Pour de la maçonnerie structurelle, un maçon spécialisé.
+
+**Le devis par m² trop bas:** Un enduit proposé à 30 MAD/m² alors que le marché est à 70-100 MAD cache forcément quelque chose — épaisseur insuffisante, matériaux de mauvaise qualité, ou le prix ne comprend pas la main d'œuvre.
+
+**Le paiement total à l'avance:** Ne jamais payer plus de 30% à l'avance pour les gros travaux. Échelonnez: 30% démarrage, 40% mi-travaux, 30% réception.
+
+**Le "on verra au fur et à mesure":** Tout doit être écrit dans le devis: surfaces, matériaux, épaisseurs, délais. Un devis vague entraîne systématiquement des "extras" non prévus.
+
+## Comment superviser un chantier de maçonnerie
+
+**Vérifiez les verticaux et les niveaux:** Empruntez un niveau à bulle et vérifiez régulièrement que les murs sont droits et les sols plats.
+
+**Contrôlez les épaisseurs d'enduit:** L'enduit intérieur doit faire 1-1.5 cm minimum. Moins, il se fissure rapidement.
+
+**Exigez que les joints de dilatation soient respectés:** Les joints de dilatation évitent que le carrelage et les enduits se soulèvent avec les variations thermiques.
+
+**Photographiez les travaux en cours:** Surtout les canalisations et fils électriques avant qu'ils soient recouverts. Ces photos sont précieuses pour les futures interventions.
+
+## Trouver votre maçon à Casablanca sur Snay3i.ma
+
+Maçons vérifiés dans tous les quartiers de Casablanca. Consultez leurs réalisations et appelez directement. 🇲🇦
+    `
+  },
+  {
+    slug: 'peintre-casablanca-prix',
+    title: 'Prix peintre Casablanca 2026 — Tarifs réels par m² et conseils',
+    titleAr: 'أسعار الصبّاغ فالدار البيضاء 2026',
+    description: 'Combien coûte un peintre à Casablanca en 2026? Tarifs par m², comparaison des techniques et comment trouver le meilleur rapport qualité-prix.',
+    category: 'Casablanca',
+    emoji: '🎨',
+    date: '19 Juillet 2026',
+    readTime: '6 min',
+    content: `
+## Les prix de la peinture à Casablanca: pourquoi tant de variation?
+
+Vous avez demandé 3 devis pour repeindre votre appartement à Casablanca et les prix vont du simple au quadruple? C'est normal — et ce guide vous explique exactement pourquoi et comment choisir.
+
+## Ce qui détermine le prix d'un peintre à Casablanca
+
+**La préparation des surfaces (30-50% du coût total):**
+Un peintre sérieux passe autant de temps à préparer qu'à peindre. Reboucher les fissures, poncer les aspérités, appliquer une sous-couche d'accrochage — c'est ce qui détermine si votre peinture tient 2 ans ou 10 ans. Un devis bas ne comprend souvent pas cette préparation.
+
+**La qualité de la peinture utilisée:**
+La différence entre une peinture d'entrée de gamme et une peinture de qualité peut représenter 50% du coût des matériaux. Demandez toujours la marque et la gamme utilisée.
+
+**Le nombre de couches:**
+Deux couches de finition sur une sous-couche est le minimum pour un résultat durable. Certains peintres bons marchés n'appliquent qu'une couche de finition — le résultat pâle et irrégulier est visible après 6 mois.
+
+**La technique:**
+La peinture au rouleau standard est la moins chère. Le pistolet donne un résultat plus uniforme mais nécessite plus de protection. Le tadelakt ou l'enduit décoratif coûtent 3 à 5 fois plus cher que la peinture standard.
+
+## Prix d'un peintre à Casablanca en 2026
+
+**Peinture intérieure standard (2 couches):**
+- Murs simples, peinture économique: 18-28 MAD/m²
+- Murs et plafond, peinture qualité: 30-50 MAD/m²
+- Peinture lavable haut de gamme: 45-70 MAD/m²
+
+**Techniques spéciales:**
+- Enduit décoratif lissé: 80-150 MAD/m²
+- Tadelakt de base: 150-280 MAD/m²
+- Tadelakt haute qualité: 280-500 MAD/m²
+- Fausse pierre ou béton ciré: 100-200 MAD/m²
+
+**Peinture extérieure façade:**
+- Peinture façade standard: 40-70 MAD/m²
+- Revêtement épais texturé: 65-110 MAD/m²
+
+**Travaux spécifiques:**
+- Peinture porte (2 faces): 180-380 MAD
+- Peinture fenêtre bois: 150-300 MAD
+- Peinture garde-corps fer: 80-150 MAD/ml
+
+## Estimez votre budget
+
+Pour un appartement type à Casablanca:
+
+**Studio (35 m²):**
+Surface murs et plafond ≈ 180 m². Budget peinture standard: 3500-5500 MAD. Peinture qualité: 6000-9000 MAD.
+
+**Appartement 2 chambres (70 m²):**
+Surface murs et plafond ≈ 350 m². Budget standard: 7000-11000 MAD. Qualité: 12000-18000 MAD.
+
+**Appartement 3 chambres (100 m²):**
+Surface murs et plafond ≈ 500 m². Budget standard: 10000-16000 MAD. Qualité: 17000-25000 MAD.
+
+Ces estimations incluent la main d'œuvre et les matériaux de base. Les techniques spéciales (tadelakt, enduits décoratifs) multiplieront ces chiffres par 3 à 5.
+
+## Comment choisir entre plusieurs devis
+
+**Le devis le plus cher n'est pas toujours le meilleur.** Et le moins cher cache souvent quelque chose. Voici comment comparer:
+
+- Demandez à chaque peintre de préciser: combien de couches, quelle peinture (marque et gamme), si la préparation des surfaces est incluse
+- Vérifiez les photos de réalisations récentes — particulièrement les angles et les plafonds
+- Demandez à voir une surface peinte par eux il y a 1-2 ans pour voir la tenue dans le temps
+
+## Trouver votre peintre à Casablanca sur Snay3i.ma
+
+Peintres professionnels vérifiés dans tous les quartiers de Casablanca. Consultez les réalisations photos et appelez directement. 🇲🇦
+    `
+  },
+  {
+    slug: 'renovation-salle-bain-maroc-prix',
+    title: 'Rénovation salle de bain au Maroc — Prix complets et étapes 2026',
+    titleAr: 'تجديد الحمّام فالمغرب — أسعار وخطوات',
+    description: 'Combien coûte la rénovation d'une salle de bain au Maroc en 2026? Guide complet des prix, artisans nécessaires et étapes dans le bon ordre.',
+    category: 'Rénovation',
+    emoji: '🚿',
+    date: '19 Juillet 2026',
+    readTime: '8 min',
+    content: `
+## La rénovation salle de bain: l'investissement qui change tout
+
+La salle de bain est la pièce qui se dégrade le plus vite dans un logement marocain — et aussi celle dont la rénovation apporte le plus de valeur ajoutée. Une salle de bain rénovée correctement dure 15-20 ans sans problème majeur. Une salle de bain bâclée commence à poser des problèmes en 2-3 ans.
+
+Ce guide vous donne tout ce qu'il faut savoir pour budgéter et réussir votre projet.
+
+## Les trois niveaux de rénovation salle de bain
+
+**Niveau 1: Rafraîchissement (3000-10000 MAD)**
+- Nouvelle peinture ou carrelage mural limité
+- Remplacement robinetterie
+- Nouveau mitigeur douche
+- Nouveau siège WC et accessoires
+- Changement de luminaire
+Sans toucher à la plomberie structurelle ni au carrelage sol
+
+**Niveau 2: Rénovation standard (15000-40000 MAD)**
+- Dépose et repose carrelage sol et mural complets
+- Remplacement sanitaires (WC, lavabo, douche ou baignoire)
+- Remplacement robinetterie complète
+- Réfection étanchéité douche
+- Nouveau meuble vasque
+- Mise aux normes électrique (prise, éclairage, ventilation)
+
+**Niveau 3: Rénovation complète haut de gamme (40000-100000 MAD)**
+- Tout le niveau 2 +
+- Douche à l'italienne (percement du sol)
+- Double vasque sur meuble suspendu
+- Paroi douche vitrée ou receveur extra-plat
+- Radiateur sèche-serviettes
+- Tadelakt sur les murs
+- Domotique (miroir LED, robinetterie thermostatique)
+
+## Les artisans nécessaires et leur rôle
+
+**Le plombier:** Intervient en premier et en dernier. Coupe l'eau, démonte les anciens sanitaires, déplace les arrivées et évacuations si nécessaire, installe les nouveaux sanitaires et la robinetterie.
+
+**Le carreleur:** Intervient après la plomberie (pour les modifications de canalisation) mais avant la pose des sanitaires. Pose l'imperméabilisation, puis le carrelage sol et mural.
+
+**L'électricien:** Intervient en parallèle du carreleur pour les points d'éclairage, la ventilation et la prise étanche. Ne jamais le faire passer après le carrelage.
+
+**Le menuisier:** Uniquement si vous avez un meuble vasque sur mesure ou un miroir avec cadre bois.
+
+**Le peintre:** En dernier, pour les zones non carrelées (plafond, demi-hauteur).
+
+## L'ordre des travaux est crucial
+
+Beaucoup de rénovations salle de bain ratées viennent d'un mauvais ordonnancement:
+
+1. Démolition (plombier + maçon si nécessaire)
+2. Plomberie: déplacements de canalisations
+3. Électricité: câblage
+4. Imperméabilisation (très important, souvent sauté!)
+5. Carrelage sol puis mural
+6. Finitions électriques (prises, interrupteurs, spots)
+7. Pose sanitaires et robinetterie (plombier)
+8. Meuble vasque et miroir (menuisier ou soi-même)
+9. Peinture plafond et zones non carrelées
+10. Accessoires et finitions
+
+## L'erreur que tout le monde fait: négliger l'imperméabilisation
+
+C'est l'étape la plus importante et la plus négligée. L'imperméabilisation sous le carrelage de douche protège contre les infiltrations. Sans elle, l'eau s'infiltre dans le sol béton, provoque de l'humidité dans les pièces en dessous et fait décoller le carrelage en 3-5 ans.
+
+Un bon carreleur applique une membrane imperméabilisante (produit Sika, Mapei ou similaire) avant de poser le carrelage dans la zone de douche. Si votre carreleur ne mentionne pas l'imperméabilisation dans son devis, demandez-lui pourquoi.
+
+## Tableau des prix par poste en 2026
+
+**Démolition et évacuation:** 1000-3000 MAD
+**Plomberie (installation complète):** 3000-8000 MAD
+**Électricité:** 1500-4000 MAD
+**Imperméabilisation:** 800-2000 MAD
+**Carrelage sol et mural (main d'œuvre):** 3000-8000 MAD selon surface et complexité
+**Sanitaires (matériel):** 3000-15000 MAD selon gamme
+**Robinetterie (matériel):** 1000-8000 MAD selon gamme
+**Meuble vasque:** 1500-10000 MAD selon qualité
+
+## Trouver vos artisans sur Snay3i.ma
+
+Snay3i.ma vous connecte avec des plombiers, carreleurs, électriciens et menuisiers vérifiés pour votre rénovation salle de bain dans 21 villes du Maroc. 🇲🇦
+    `
+  },
+  {
+    slug: 'nettoyage-maison-maroc-prix',
+    title: 'Service ménage et nettoyage maison au Maroc — Prix et guide 2026',
+    titleAr: 'خدمة نظافة الدار فالمغرب — أسعار ودليل',
+    description: 'Combien coûte un service de ménage au Maroc? Guide des prix, comment trouver une femme de ménage fiable et les différences entre les prestataires.',
+    category: 'Ménage',
+    emoji: '🧹',
+    date: '19 Juillet 2026',
+    readTime: '6 min',
+    content: `
+## Le marché du ménage au Maroc: une demande en forte hausse
+
+Le service de ménage à domicile connaît une véritable révolution au Maroc ces dernières années. De plus en plus de ménages marocains — notamment dans les grandes villes — font appel à des professionnels pour l'entretien de leur domicile. Femmes actives, personnes âgées, couples avec enfants, expatriés — tous cherchent un service de ménage fiable, régulier et abordable.
+
+Ce guide vous aide à comprendre le marché et à trouver le bon prestataire.
+
+## Les différents types de services de ménage
+
+**La femme de ménage à la journée:**
+Le modèle le plus traditionnel au Maroc. Une personne vient chez vous pour une demi-journée ou une journée complète, une ou plusieurs fois par semaine. Elle s'occupe de tout: nettoyage, repassage, parfois cuisine.
+
+**Le ménage ponctuel (ou de fond):**
+Une intervention unique ou occasionnelle, souvent plus complète et plus intensive qu'un ménage régulier. Après un déménagement, avant une réception, en fin d'année.
+
+**Le nettoyage après chantier:**
+Spécialité requérant du matériel professionnel. Enlèvement de poussière de ciment, résidus de peinture, protection plastique — travail plus exigeant facturé en conséquence.
+
+**Les sociétés de nettoyage professionnelles:**
+Pour les locaux commerciaux, les résidences de grande taille ou les chantiers importants. Personnel formé, matériel industriel, assurances.
+
+## Prix du service ménage au Maroc en 2026
+
+**Femme de ménage régulière:**
+- Demi-journée (4h): 100-180 MAD
+- Journée complète (8h): 180-320 MAD
+- Par mois (3x/semaine): 1200-2400 MAD
+
+**Ménage ponctuel:**
+- Appartement 60m²: 400-700 MAD
+- Appartement 100m²: 600-1100 MAD
+- Villa 200m²: 1200-2500 MAD
+
+**Nettoyage après chantier:**
+- Appartement 60m²: 600-1200 MAD
+- Appartement 100m²: 1000-2000 MAD
+
+**Services supplémentaires:**
+- Repassage (par kg): 20-35 MAD
+- Vitres (par m²): 15-30 MAD
+- Nettoyage four: 80-150 MAD
+
+Ces tarifs varient selon la ville — Casablanca et Rabat sont 20-30% plus chers que les villes moyennes.
+
+## Comment trouver une femme de ménage fiable au Maroc
+
+C'est la vraie difficulté — pas le prix. Voici les méthodes les plus fiables:
+
+**Via le bouche-à-oreille:** La méthode traditionnelle reste la plus sûre. Demandez à vos voisins, collègues ou amis qui leur font confiance.
+
+**Via des plateformes comme Snay3i.ma:** Les prestataires sont évalués par leurs clients précédents. Vous pouvez voir les notes, lire les commentaires et choisir en connaissance de cause.
+
+**Via des agences spécialisées:** Plus cher (commission de 20-30%) mais elles font une pré-sélection et gèrent les remplacements en cas d'absence.
+
+## Ce qu'il faut vérifier avant d'embaucher
+
+**L'expérience et les références:** Demandez toujours 2-3 contacts de clients précédents que vous pouvez appeler pour vérifier.
+
+**La présence légale:** Si vous embauchez régulièrement la même personne, vous avez des obligations légales en termes de déclaration CNSS. Pour les services ponctuels, ce n'est pas obligatoire.
+
+**La gestion des produits de nettoyage:** Certaines prestataires fournissent leurs propres produits (inclus dans le prix), d'autres utilisent les vôtres. Clarifiez ce point à l'avance.
+
+**Les horaires et la ponctualité:** Testez avec une ou deux interventions avant de vous engager sur un contrat régulier.
+
+## Trouver votre prestataire ménage sur Snay3i.ma
+
+Snay3i.ma référence des prestataires de nettoyage vérifiés dans les principales villes du Maroc. Consultez les avis et contactez directement. 🇲🇦
+    `
+  },
+  {
+    slug: 'artisan-rabat-guide-2026',
+    title: 'Guide artisans à Rabat 2026 — Tous les pros de la capitale',
+    titleAr: 'دليل الصنايعية بالرباط 2026',
+    description: 'Le guide complet des artisans à Rabat en 2026. Plombiers, électriciens, maçons, peintres, menuisiers — tout ce que vous devez savoir pour trouver le bon professionnel dans la capitale.',
+    category: 'Rabat',
+    emoji: '🏛️',
+    date: '19 Juillet 2026',
+    readTime: '8 min',
+    content: `
+## Rabat: une ville où trouver un bon artisan peut être compliqué
+
+Paradoxalement, Rabat — ville de fonctionnaires, de diplomates et de cadres — est l'une des villes marocaines où il est le plus difficile de trouver un bon artisan. Pas parce qu'ils n'existent pas, mais parce que les bons artisans sont très sollicités et bookés souvent plusieurs semaines à l'avance.
+
+Ce guide vous aide à naviguer dans le marché des artisans de la capitale.
+
+## La géographie des artisans à Rabat
+
+**Le centre-ville (Hassan, Agdal, Océan):**
+Forte demande, artisans moins nombreux que la demande. Les meilleurs sont réservés parfois 3-4 semaines à l'avance pour des travaux importants. Pour les urgences, ils dégagent une plage mais facturent une majoration.
+
+**Les quartiers populaires (Youssoufia, Akkari, Douar Doum):**
+Beaucoup d'artisans résidents qui n'ont pas de présence en ligne mais sont excellents. Le bouche-à-oreille via le gardien de votre immeuble est souvent votre meilleur outil ici.
+
+**Hay Riad et les nouvelles résidences:**
+Marché particulier dominé par des promoteurs immobiliers qui ont leurs propres réseaux d'artisans. Pour des travaux dans ces résidences récentes, les artisans qui connaissent le promoteur connaissent aussi les défauts spécifiques des constructions.
+
+**Témara:**
+Un peu négligée mais excellente base d'artisans qui couvrent aussi Rabat. Tarifs 10-20% moins chers, disponibilité souvent meilleure.
+
+## Particularités du marché rabati
+
+**Les artisans de la cour royale et des ambassades:**
+Rabat compte un nombre anormalement élevé d'artisans formés aux standards les plus élevés, ayant travaillé dans des palaces ou des ambassades. Ces artisans existent et font parfois du travail résidentiel. Ils sont chers mais la qualité est au niveau supérieur.
+
+**Le marché de la rénovation de riads:**
+Comme Marrakech, Rabat a sa médina avec ses riads. Certains artisans sont très spécialisés dans la rénovation de ces bâtisses historiques — zellige, tadelakt, plâtre ciselé, bois peint. Si vous achetez un riad, cherchez spécifiquement ces spécialistes.
+
+**Les corps de métier rares à Rabat:**
+Certains artisans sont difficiles à trouver à Rabat — jardiniers spécialisés en jardins marocains traditionnels, carreleurs experts en zellige, menuisiers traditionnels en bois de cèdre. Ces profils sont souvent basés à Fès ou Marrakech et se déplacent sur projet.
+
+## Combien payer à Rabat: grille de référence 2026
+
+**Plombier:**
+Intervention standard: 200-450 MAD
+Urgence: 400-700 MAD
+Grande réparation fuite mur: 1000-4000 MAD
+
+**Électricien:**
+Intervention dépannage: 200-500 MAD
+Remplacement tableau: 2500-6000 MAD
+Installation solaire 3kWc: 25000-50000 MAD
+
+**Maçon:**
+Enduit intérieur (m²): 80-140 MAD
+Réparation fissure: 300-1200 MAD
+Chape béton (m²): 120-200 MAD
+
+**Carreleur:**
+Pose carrelage standard (m²): 90-150 MAD
+Pose zellige: 250-450 MAD/m²
+
+**Peintre:**
+Peinture intérieure 2 couches (m²): 30-60 MAD
+Façade (m²): 45-80 MAD
+
+**Menuisier:**
+Cuisine sur mesure (ml): 2500-8000 MAD/ml selon matériau
+Porte sur mesure: 2500-6000 MAD
+
+## Comment se faire recommander un artisan à Rabat
+
+**Le gardien de votre immeuble:** Resource sous-estimée. Les gardiens connaissent souvent 3-4 artisans de confiance qu'ils ont vu travailler dans l'immeuble pendant des années.
+
+**Les groupes Facebook de quartier:** Recherchez "Hay Riad entraide", "Agdal voisinage" ou similaire. Les recommandations y sont authentiques.
+
+**Snay3i.ma:** Pour avoir accès aux avis clients vérifiés et comparer facilement plusieurs profils.
+
+## Les pièges à éviter à Rabat
+
+**Ne pas confondre disponibilité immédiate et qualité:** Un artisan disponible immédiatement à Rabat peut signifier qu'il n'est pas très demandé — et peut-être pour une bonne raison.
+
+**Méfiez-vous des "forfaits tout compris":** Les devis qui incluent matériaux + main d'œuvre sans détail sont difficiles à comparer et cachent souvent une marge confortable.
+
+## Trouver vos artisans à Rabat sur Snay3i.ma
+
+Tous les corps de métier disponibles à Rabat, Salé et Témara avec avis vérifiés. 🇲🇦
+    `
+  },
+  {
+    slug: 'artisan-tanger-guide-2026',
+    title: 'Guide artisans à Tanger 2026 — Trouver le bon professionnel',
+    titleAr: 'دليل الصنايعية بطنجة 2026',
+    description: 'Tout sur les artisans à Tanger en 2026. Plombiers, électriciens, peintres, maçons — spécificités de la ville du détroit et comment trouver les meilleurs.',
+    category: 'Tanger',
+    emoji: '🌊',
+    date: '19 Juillet 2026',
+    readTime: '7 min',
+    content: `
+## Tanger: une ville qui change à vitesse grand V
+
+Tanger est l'une des villes marocaines qui connaît la plus forte transformation depuis 2010. Le Tanger Med, les zones industrielles, l'afflux de résidents européens et marocains de la diaspora, les projets d'infrastructure gigantesques — tout cela a créé une demande massive de services artisanaux dans une ville dont les capacités locales peinent à suivre.
+
+Résultat: les artisans à Tanger sont en pénurie relative. Les bons sont bookés, les moins bons font des prix excessifs, et naviguer dans ce marché demande de l'information.
+
+## Les spécificités tanjaouies
+
+**Le "bplombi" et le "naqqach":**
+À Tanger et dans le nord du Maroc, les mots changent. Le plombier s'appelle "bplombi" (du français "plombier"), le peintre est le "naqqach" plutôt que "sabbagh". Ces différences de vocabulaire darija sont importantes si vous faites de la recherche ou de la recommandation locale.
+
+**L'influence espagnole:**
+Tanger a été sous administration internationale puis espagnole pendant des décennies. Certains quartiers anciens ont des installations qui ressemblent plus à de la construction espagnole qu'à du standard marocain — tuiles en terre cuite, plomberie en cuivre, fenêtres et portes aux proportions différentes. Cherchez des artisans qui connaissent ce patrimoine.
+
+**L'humidité et les vents:**
+La position géographique de Tanger en fait l'une des villes marocaines les plus humides et les plus ventées. Les façades s'abîment vite, la moisissure est un problème récurrent dans les logements mal ventilés, et les portails et grilles doivent être en acier galvanisé ou inox pour résister à l'air marin.
+
+**Le boom immobilier récent:**
+Des milliers de nouveaux appartements ont été construits rapidement ces 10 dernières années, parfois avec des défauts de construction. Les artisans tanjaouais ont beaucoup de travail de "correction" sur des bâtiments récents: étanchéité de terrasses mal faite, installation électrique insuffisante, carrelage posé sur chape trop humide.
+
+## Prix des artisans à Tanger en 2026
+
+**Plombier:**
+Tanger a des prix intermédiaires — plus élevés qu'Oujda ou Meknès, mais inférieurs à Casablanca.
+- Intervention standard: 200-400 MAD
+- Urgence: 400-700 MAD
+- Fuite mur: 800-3000 MAD
+
+**Électricien:**
+- Dépannage: 200-450 MAD
+- Remplacement tableau: 2200-5500 MAD
+- Installation solaire: légèrement moins cher qu'à Casablanca car concurrence plus forte
+
+**Maçon:**
+- Enduit (m²): 70-130 MAD
+- Ravalement façade: très demandé à Tanger vu les conditions climatiques
+
+**Carreleur:**
+- Carrelage standard (m²): 80-140 MAD
+
+**Soudeur/Ferronnier:**
+Secteur très actif à Tanger — portails, grilles et pergolas sont très demandés dans les nouvelles résidences.
+- Portail (3m x 1.5m): 3500-9000 MAD
+
+## Les quartiers de Tanger et leurs artisans
+
+**Malabata, Iberia, Moujahidine:**
+Quartiers résidentiels modernes avec forte demande pour artisans qualifiés. Les plus chers de Tanger.
+
+**Corniche, Rmilat:**
+Proches de la mer, forte humidité, travaux d'étanchéité et de peinture façade très fréquents.
+
+**Hay Al Hana, Jamila:**
+Quartiers populaires avec artisans locaux abordables.
+
+**Zone industrielle (Moghogha, Gzennnaya):**
+Artisans spécialisés dans le métal et les installations industrielles.
+
+## Comment trouver un bon artisan à Tanger
+
+**Via les groupes Facebook tanjaouais:** Des groupes comme "Tanger Voisins" ou "Tanger Expats" sont très actifs avec des recommandations régulières d'artisans.
+
+**Via le gardien ou le syndic:** Très efficace dans les grandes résidences des quartiers modernes.
+
+**Via Snay3i.ma:** Pour accéder aux avis vérifiés et voir rapidement qui est disponible dans votre quartier.
+
+## Trouver vos artisans à Tanger sur Snay3i.ma
+
+Plombiers, électriciens, maçons, peintres, serruriers, carreleurs et ferronniersà Tanger — consultez les avis et appelez directement. 🇲🇦
+    `
+  },
+,
+
+  {
+    slug: 'electricien-urgence-casablanca',
+    title: 'Électricien urgence Casablanca 24h/24 — Que faire en cas de panne?',
+    titleAr: 'تريسيان طوارئ الدار البيضاء 24 ساعة',
+    description: 'Panne électrique urgente à Casablanca? Guide complet: quoi faire immédiatement, comment trouver un électricien urgentiste et combien ça coûte la nuit.',
+    category: 'Urgence',
+    emoji: '🚨',
+    date: '19 Juillet 2026',
+    readTime: '6 min',
+    content: `
+## Panne électrique à Casablanca: les premières minutes sont cruciales
+
+Il est 23h, votre quartier d'Ain Sebaa s'est plongé dans le noir, ou pire — une odeur de brûlé vient de votre tableau électrique. Que faites-vous?
+
+Les 5 premières minutes comptent énormément dans une urgence électrique. Ce guide vous donne exactement quoi faire, dans quel ordre.
+
+## Étape 1: Distinguer panne générale et panne chez vous (2 minutes)
+
+Avant tout, regardez par la fenêtre. Si tout votre immeuble ou votre rue est dans le noir, c'est une coupure ONEE (Office National de l'Electricité). Dans ce cas, inutile d'appeler un électricien — appelez le **0537-66-80-80** (numéro ONEE pour Casablanca) pour signaler la coupure.
+
+Si vous seul êtes dans le noir, c'est un problème interne à votre installation. Là, il faut agir.
+
+## Étape 2: Allez au tableau électrique (2 minutes)
+
+Prenez une lampe de poche (ou utilisez celle de votre téléphone) et allez vérifier votre tableau électrique. Cherchez:
+
+**Un disjoncteur en position basse:** Relevez-le. S'il remonte et reste, le problème était ponctuel (surcharge temporaire). S'il saute immédiatement à nouveau, n'insistez pas — appellez un électricien.
+
+**Un différentiel déclenché:** Le différentiel (souvent un gros interrupteur en haut du tableau) peut se déclencher quand il détecte un défaut d'isolement. Relevez-le. S'il saute immédiatement, il y a probablement un appareil défectueux branché — débranchez tous vos appareils un par un pour trouver le coupable.
+
+**Une odeur de brûlé au tableau:** N'y touchez pas. Appelez immédiatement un électricien et, si l'odeur est forte, les pompiers (15).
+
+## Étape 3: Sécurisez la situation (5 minutes)
+
+En attendant l'électricien:
+- Débranchez les appareils sensibles (TV, ordinateurs, électroménager)
+- Si vous avez un chauffe-eau électrique, coupez son disjoncteur dédié
+- Évitez d'utiliser des multiprises dans les zones touchées
+- N'intervenez jamais vous-même sur un tableau sous tension
+
+## Tarifs urgence électricien Casablanca nuit 2026
+
+**Tarif de nuit (22h-7h):**
+- Déplacement urgence: 200-400 MAD
+- Intervention simple (remplacement disjoncteur): 400-700 MAD total
+- Intervention complexe (recherche défaut): 700-1500 MAD
+
+**Tarif jour (7h-20h):**
+- Déplacement: 100-200 MAD
+- Intervention simple: 250-500 MAD total
+- Intervention complexe: 500-1200 MAD
+
+La majoration nuit est réelle et normale. Un électricien qui intervient à minuit mérite sa majoration. En revanche, une majoration de plus de 100% est abusive.
+
+## Les pannes électriques les plus fréquentes à Casablanca la nuit
+
+**Court-circuit après la pluie:** Casa peut recevoir des pluies intenses. L'eau qui s'infiltre dans des prises extérieures ou mal étanches provoque des courts-circuits nocturnes.
+
+**Surcharge climatiseur:** En été, l'allumage simultané de tous les climatiseurs d'un appartement peut faire sauter le disjoncteur général.
+
+**Défaillance chauffe-eau:** Le chauffe-eau qui chauffe toute la nuit peut avoir sa résistance qui grille — panne souvent constatée le matin mais qui commence la nuit.
+
+**Rongeurs dans les gaines:** Dans les bâtiments anciens de Casa, les rongeurs peuvent ronger les gaines et provoquer des courts-circuits.
+
+## Comment trouver un électricien urgentiste fiable à Casablanca
+
+Sur Snay3i.ma, cherchez "Électricien" à Casablanca et filtrez par disponibilité immédiate. Chaque profil indique si l'artisan fait des urgences et ses horaires de disponibilité. Appelez directement — pas d'intermédiaire, pas de centrale d'appel. 🇲🇦
+    `
+  },
+  {
+    slug: 'electricien-professionnel-casablanca',
+    title: 'Électricien professionnel Casablanca — Comment reconnaître un vrai pro?',
+    titleAr: 'تريسيان محترف فالدار البيضاء',
+    description: 'Comment identifier un électricien vraiment professionnel à Casablanca? Les signes qui ne mentent pas, les questions à poser et où les trouver.',
+    category: 'Électricité',
+    emoji: '⚡',
+    date: '19 Juillet 2026',
+    readTime: '7 min',
+    content: `
+## Le mot "professionnel" ne veut rien dire seul
+
+Tout le monde se dit "professionnel" à Casablanca. Sur Facebook, sur les affiches, dans les SMS publicitaires — chaque électricien est "professionnel, certifié, expérimenté". Comment distinguer le vrai du faux?
+
+Voici les marqueurs concrets d'un électricien vraiment professionnel à Casablanca.
+
+## Marqueur 1: Il utilise un testeur de tension systématiquement
+
+Un électricien professionnel ne touche jamais un fil sans avoir d'abord vérifié s'il est sous tension avec un testeur. C'est un réflexe de sécurité de base. Si vous voyez votre électricien travailler directement sur des fils sans sortir son testeur, c'est un signal d'alarme — soit par incompétence, soit par précipitation dangereuse.
+
+## Marqueur 2: Il coupe le disjoncteur AVANT d'intervenir
+
+Cela semble évident, mais vous seriez surpris du nombre "d'électriciens" casablancais qui travaillent sous tension parce que "c'est plus rapide". Un professionnel sérieux coupe toujours l'alimentation au tableau avant d'intervenir, même pour changer une simple prise.
+
+## Marqueur 3: Il évalue avant de chiffrer
+
+Un vrai professionnel regarde, vérifie, pose des questions avant de donner un prix. Celui qui donne un devis au téléphone sans voir le travail (pour des travaux importants) ou qui arrive et chiffre en 30 secondes sans examination fait probablement des prix approximatifs qui vont évoluer en cours de chantier.
+
+## Marqueur 4: Il explique ce qu'il fait
+
+La pédagogie est un signe de maîtrise. Un électricien qui sait ce qu'il fait peut expliquer simplement pourquoi il fait tel choix technique. Celui qui est vague ou évasif quand vous posez des questions techniques maîtrise peut-être moins qu'il ne le prétend.
+
+## Marqueur 5: Son matériel est de qualité et bien entretenu
+
+Regardez sa trousse à outils. Tournevis isolés en bon état, pince-coupante correcte, multimètre calibré, fil de qualité — le matériel d'un professionnel reflète sa façon de travailler. Un électricien avec du matériel bricolé, des fils récupérés et un multimètre cassé ne vous donnera pas un travail professionnel.
+
+## Marqueur 6: Il respecte les normes d'installation
+
+En France, les normes électriques sont la NF C 15-100. Au Maroc, les normes NM 14-5-100 s'en inspirent largement. Un électricien professionnel les connaît et les respecte:
+- Câbles de couleurs standards (phase/neutre/terre)
+- Disjoncteurs de taille correcte pour chaque circuit
+- Protection différentielle 30mA pour les salles de bain
+- Circuit dédié pour les gros appareils (chauffe-eau, four, climatisation)
+
+## Les faux professionnels les plus courants à Casablanca
+
+**L'apprenti qui travaille seul:** Il a fait quelques mois d'apprentissage et se présente comme électricien. Compétent pour les tâches simples, dangereux pour les installations complexes.
+
+**Le bricoleur multiservice:** Il fait "tout" — plomberie, électricité, carrelage. La polyvalence excessive cache souvent une maîtrise superficielle de chaque métier.
+
+**Le sous-traitant de centrale d'appel:** Vous appelez un numéro "urgence électricien Casa" et on vous envoie n'importe quel artisan disponible, sans vérification de compétence. La centrale prend 30-40% de commission.
+
+## Questions techniques pour tester un électricien
+
+Posez-lui ces questions simples:
+
+**"Quelle section de fil pour un circuit cuisine?"** → Réponse attendue: 2.5mm² pour les prises, 4mm² pour le four.
+
+**"Faut-il un disjoncteur différentiel pour la salle de bain?"** → Réponse attendue: Oui, 30mA obligatoire.
+
+**"C'est quoi la différence entre un disjoncteur et un différentiel?"** → Le disjoncteur protège contre les surcharges et courts-circuits. Le différentiel protège les personnes contre les chocs électriques.
+
+Si l'électricien répond clairement, il sait ce qu'il fait. S'il hésite ou donne des réponses vagues, cherchez quelqu'un d'autre.
+
+## Trouver un électricien professionnel à Casablanca sur Snay3i.ma
+
+Sur Snay3i.ma, les avis clients révèlent rapidement si un électricien est vraiment professionnel. Un artisan avec 50 avis positifs sur des travaux variés est une garantie bien plus solide que n'importe quel titre auto-déclaré. 🇲🇦
+    `
+  },
+  {
+    slug: 'serrurier-marrakech-guide',
+    title: 'Serrurier à Marrakech — Guide complet 2026 (Médina et Guéliz)',
+    titleAr: 'قفّال فمراكش — دليل كامل 2026',
+    description: 'Trouver un bon serrurier à Marrakech. Spécificités de la médina, prix 2026 et comment éviter les arnaques dans la ville ocre.',
+    category: 'Marrakech',
+    emoji: '🏙️',
+    date: '19 Juillet 2026',
+    readTime: '6 min',
+    content: `
+## Marrakech et la serrurerie: des défis uniques
+
+Marrakech est une ville particulière pour la serrurerie — et pour plusieurs raisons qui ne sont pas évidentes au premier abord. La ville combine une médina centenaire avec des serrures traditionnelles en bois et fer forgé, des riads rénovés avec des systèmes de sécurité modernes, et des quartiers résidentiels récents avec de la serrurerie standard.
+
+Cette diversité crée un marché de la serrurerie fascinant mais complexe.
+
+## Les types de serrures à Marrakech
+
+**Les serrures de médina traditionnelles:**
+Dans la vieille médina, de nombreuses portes ont encore des serrures en bois sculpté ou en fer forgé artisanal. Ces serrures sont uniques — souvent fabriquées par des artisans locaux spécifiques — et ne se remplacent pas avec des pièces standard. Si votre riad a ce type de serrure, cherchez un serrurier qui connaît le patrimoine artisanal marrakchi.
+
+**Les serrures de riads rénovés:**
+Les riads transformés en maisons d'hôtes ou en résidences de luxe ont souvent des systèmes de sécurité modernes — serrures multipoints européennes, digicode, serrures connectées. Pour ces systèmes, il vous faut un serrurier formé aux marques correspondantes.
+
+**Les serrures des quartiers modernes (Guéliz, Hivernage, Ménara):**
+Serrures standard qu'on trouve partout au Maroc. Le marché est plus concurrentiel et les prix plus prévisibles.
+
+## Prix d'un serrurier à Marrakech en 2026
+
+Marrakech a une particularité: la forte présence de touristes et d'étrangers crée une tendance à la surfacturation. Un serrurier peut vous présenter deux grilles de prix — une pour les locaux et une pour les "étrangers".
+
+**Tarifs raisonnables à Marrakech:**
+- Ouverture porte standard (journée): 200-400 MAD
+- Ouverture porte blindée: 400-800 MAD
+- Remplacement serrure standard: 300-600 MAD + matériel
+- Remplacement cylindre: 200-400 MAD + cylindre
+- Urgence nuit: +50-100% sur tarif journée
+
+**Signes d'une surfacturation:**
+- Tarif dépassant 600 MAD pour une ouverture simple en journée
+- Refus de donner un prix par téléphone
+- Acceptation immédiate sans demander à voir la serrure
+
+## Spécificités par quartier
+
+**Médina (Jemaa el-Fna, Mouassine, Bab Doukkala):**
+Artisans locaux souvent basés dans des petites boutiques. Bonne connaissance des serrures traditionnelles. Prix généralement corrects pour les locaux mais attention à la négociation si vous êtes perçu comme étranger.
+
+**Guéliz et Hivernage:**
+Quartiers modernes avec serrureries bien équipées. Personnel souvent francophone. Tarifs standardisés et transparents.
+
+**Daoudiat et Targa:**
+Zones résidentielles avec des serruriers locaux moins connus mais souvent compétents et abordables.
+
+**Palmeraie:**
+Villas de luxe avec systèmes de sécurité haut de gamme. Cherchez des serruriers spécialisés qui travaillent avec les marques européennes (Mul-T-Lock, Abloy, etc.).
+
+## Comment éviter les arnaques à Marrakech
+
+**Vérifiez sur Snay3i.ma avant d'appeler:** Les avis clients casablancais et marrakchis sont généralement honnêtes. Un serrurier bien noté à Marrakech l'est pour de bonnes raisons.
+
+**Demandez le prix en MAD, pas autrement:** Si un serrurier commence à parler en euros ou en dollars, c'est un mauvais signe pour vos tarifs.
+
+**Appelez un serrurier recommandé par votre gardien ou riad:** La recommandation locale reste le meilleur filtre.
+
+## Trouver votre serrurier à Marrakech sur Snay3i.ma
+
+Serruriers vérifiés dans tous les quartiers de Marrakech — médina, Guéliz, Hivernage, Palmeraie. Avis clients authentiques. 🇲🇦
+    `
+  },
+  {
+    slug: 'plombier-marrakech-guide',
+    title: 'Plombier à Marrakech — Guide complet 2026 (Médina, Guéliz, Palmeraie)',
+    titleAr: 'سبّاك فمراكش — دليل كامل 2026',
+    description: 'Tout sur les plombiers à Marrakech en 2026. Spécificités des riads, prix par quartier et comment trouver le bon artisan dans la ville ocre.',
+    category: 'Marrakech',
+    emoji: '🔧',
+    date: '19 Juillet 2026',
+    readTime: '7 min',
+    content: `
+## La plomberie à Marrakech: entre tradition et modernité
+
+Marrakech est probablement la ville marocaine où la plomberie est la plus complexe et diversifiée. D'un côté, la médina millénaire avec ses canalisations ancestrales, ses fontaines traditionnelles et ses hammams historiques. De l'autre, des riads ultra-luxueux avec des installations thermiques et hydrauliques dignes des meilleurs hôtels 5 étoiles. Et entre les deux, des centaines de milliers de logements ordinaires avec des problèmes de plomberie très ordinaires.
+
+## Les défis spécifiques de la plomberie à Marrakech
+
+**La chaleur extrême:**
+Marrakech peut atteindre 45-47°C en été. Cette chaleur dilate les canalisations, fait sécher les joints plus vite, et accélère l'entartrage des robinets et chauffe-eaux. Un bon plombier marrakchi utilise des matériaux adaptés à ces températures extrêmes.
+
+**L'eau calcaire:**
+L'eau de Marrakech est particulièrement calcaire. Le calcaire bouche les pommeaux de douche, encrasse les chauffe-eaux et détériore les robinetteries prématurément. Prévoir un adoucisseur d'eau est souvent conseillé dans les nouvelles installations.
+
+**Les canalisations de la médina:**
+Dans certaines parties de la vieille médina, les canalisations datent de plusieurs siècles. Un plombier qui intervient dans un riad de la médina doit avoir l'expérience des "surprises" — canalisations introuvables sur plan, matériaux de pipe insolites, contraintes architecturales historiques.
+
+**Les riads et leur plomberie complexe:**
+Un riad rénové en maison d'hôtes peut avoir: un hammam, une piscine, une fontaine centrale, un système de chauffage par le sol, plusieurs salles de bain aux finitions luxueuses. Cette plomberie nécessite un artisan senior avec une expérience réelle du haut de gamme.
+
+## Prix d'un plombier à Marrakech en 2026
+
+Les prix à Marrakech varient beaucoup selon le quartier et le type de logement:
+
+**Médina (riad standard ou traditionnel):**
+- Intervention simple: 200-400 MAD
+- Problème dans les canalisations anciennes: 400-1500 MAD (imprévus fréquents)
+- Rénovation salle de bain riad: 15000-60000 MAD selon standing
+
+**Guéliz, Ménara, Targa (appartements standard):**
+- Intervention standard: 200-350 MAD
+- Urgence: 400-600 MAD
+- Réfection salle de bain: 12000-30000 MAD
+
+**Palmeraie et villas de luxe:**
+- Intervention: 400-800 MAD (standard élevé attendu)
+- Projets de villa complète: 50000-200000 MAD
+
+## Les problèmes de plomberie les plus courants à Marrakech
+
+**Chauffe-eau encrassé:**
+Le calcaire de Marrakech bouche les résistances des chauffe-eaux électriques en 2-3 ans. Un détartrage annuel prolonge significativement leur durée de vie.
+
+**Robinets qui gouettent:**
+L'eau calcaire détériore les joints de robinet plus vite qu'ailleurs. Prévoyez de changer les joints tous les 2-3 ans dans les robinets utilisés quotidiennement.
+
+**Canalisations bouchées:**
+La combinaison de calcaire et d'usage intensif (surtout dans les maisons d'hôtes) bouche régulièrement les canalisations. Un débouchage à haute pression annuel est recommandé.
+
+**Fuite terrasse:**
+L'étanchéité des terrasses est souvent défaillante à Marrakech. Les dilatations thermiques extrêmes (40°C de différence entre hiver et été) fissurent les membranes d'étanchéité. Ces fuites sont souvent lentes mais détruisent progressivement le plafond en dessous.
+
+## Comment choisir son plombier à Marrakech selon son logement
+
+**Pour un appartement standard:** N'importe quel plombier avec de bons avis fera l'affaire. Priorité à la disponibilité et au prix.
+
+**Pour un riad en médina:** Cherchez un plombier qui a déjà travaillé dans des riads. Demandez explicitement des références de riads rénovés.
+
+**Pour un riad de luxe ou une villa Palmeraie:** Investissez dans un plombier senior ou une petite entreprise de plomberie. Le niveau d'exigence est différent et un artisan peu expérimenté peut abîmer des installations coûteuses.
+
+## Trouver votre plombier à Marrakech sur Snay3i.ma
+
+Plombiers vérifiés dans tous les quartiers de Marrakech. Consultez les spécialités et les avis avant de choisir. 🇲🇦
+    `
+  },
+  {
+    slug: 'climatisation-oujda-guide',
+    title: 'Climatisation à Oujda — Installation, entretien et techniciens 2026',
+    titleAr: 'التكييف بوجدة — تركيب وصيانة وتقنيين 2026',
+    description: 'Guide complet climatisation à Oujda. Installation, entretien, prix et comment trouver un technicien clim fiable dans la capitale de l'Oriental.',
+    category: 'Climatisation',
+    emoji: '❄️',
+    date: '19 Juillet 2026',
+    readTime: '6 min',
+    content: `
+## Oujda et la climatisation: une nécessité absolue
+
+Oujda, capitale de la région de l'Oriental, est l'une des villes marocaines les plus chaudes en été. Les températures dépassent régulièrement 40°C entre juin et septembre, et le vent chaud venant des plaines algériennes peut rendre les nuits étouffantes.
+
+Dans ce contexte, la climatisation n'est pas un luxe à Oujda — c'est devenue une nécessité pour beaucoup de foyers.
+
+## Pourquoi Oujda a des spécificités en matière de climatisation
+
+**La chaleur sèche de l'intérieur:**
+Contrairement à Casablanca ou Tanger où la mer tempère les températures, Oujda a un climat continental avec des écarts thermiques importants. Les climatiseurs y travaillent plus dur en été et moins en hiver, ce qui influence le choix de la puissance et de la technologie.
+
+**La proximité de l'Algérie:**
+Certains composants et marques disponibles à Oujda viennent du marché algérien. Les techniciens oujdis sont souvent familiers avec des marques moins connues au Maroc occidental (Condor, Eniem...) en plus des standards marocains (Gree, Samsung, Midea...).
+
+**Le réseau électrique:**
+Oujda a parfois des variations de tension en été quand tout le monde allume les clims simultanément. Un bon technicien vous conseillera peut-être l'installation d'un stabilisateur de tension pour protéger votre investissement.
+
+## Les marques de climatisation disponibles à Oujda
+
+**Les incontournables:**
+- **Gree:** Leader en Afrique du Nord, très disponible à Oujda, excellent SAV
+- **Samsung:** Réputé pour la fiabilité, service après-vente présent à Oujda
+- **Midea:** Bon rapport qualité-prix, très populaire dans la classe moyenne oujdie
+
+**Les marques premium:**
+- **Daikin:** L'investissement le plus sûr pour un usage intensif oujdi. Plus cher mais dure 12-15 ans sans problème.
+- **Mitsubishi Electric:** Excellent pour les chaleurs extrêmes, technologie inverter très efficace.
+
+**Marques à vérifier:**
+- Certaines marques sans SAV à Oujda peuvent vous laisser sans solution si une pièce casse. Vérifiez qu'il y a un technicien agréé dans la ville.
+
+## Prix installation climatisation à Oujda 2026
+
+**Achat + installation (split standard):**
+- Split 9000 BTU (chambre 12m²): 4500-7000 MAD
+- Split 12000 BTU (salon 20m²): 5500-9000 MAD
+- Split 18000 BTU (grand salon 35m²): 7000-13000 MAD
+- Split 24000 BTU (très grand espace): 9000-16000 MAD
+
+**Main d'œuvre installation seulement:**
+- Split simple (intérieur + extérieur): 700-1400 MAD
+- Multi-split (par tête supplémentaire): +400-700 MAD
+
+**Entretien annuel:**
+- Nettoyage + vérification: 300-500 MAD
+- Recharge gaz (par kg): 200-400 MAD
+
+## L'entretien: crucial à Oujda
+
+Les étés oujdis font travailler les climatiseurs 8-10 heures par jour pendant 4 mois. Sans entretien régulier, la durée de vie d'un climatiseur tombe à 5-7 ans au lieu de 12-15 ans.
+
+**L'entretien annuel indispensable comprend:**
+- Nettoyage complet des filtres (à faire soi-même tous les 2 mois)
+- Nettoyage de l'évaporateur intérieur à haute pression
+- Nettoyage du condenseur extérieur
+- Vérification du niveau de gaz frigorigène
+- Contrôle des connexions électriques
+- Vérification de la pression de fonctionnement
+
+**Quand faire l'entretien?** Idéalement en avril-mai, avant les premières chaleurs. Un climatiseur entretenu juste avant l'été fonctionne mieux et consomme moins d'électricité.
+
+## Comment trouver un bon technicien clim à Oujda
+
+**Vérifiez qu'il connaît votre marque:** Les techniciens sont souvent spécialisés. Un technicien Gree n'est pas forcément à l'aise avec un Daikin — les systèmes sont différents.
+
+**Demandez s'il a la recharge gaz:** Tous les techniciens ne sont pas équipés pour recharger le gaz frigorigène. C'est un équipement coûteux (bouteilles de gaz R32 ou R410A, manomètre) que les professionnels sérieux possèdent.
+
+**Méfiez-vous des diagnostics "gaz vide":** La recharge de gaz est facturée cher et certains techniciens l'ajoutent systématiquement sans vérification sérieuse. Un technicien honnête vérifie d'abord s'il y a une fuite avant de recharger.
+
+## Trouver votre technicien climatisation à Oujda sur Snay3i.ma
+
+Snay3i.ma référence des techniciens climatisation vérifiés à Oujda. Consultez les avis et appelez directement. 🇲🇦
+    `
+  },
+
 ];
 
 function ArticlePage({ slug }) {
@@ -1450,6 +2961,7 @@ function ArticlePage({ slug }) {
     document.title = `${article.title} | Blog Snay3i.ma`;
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute('content', article.description);
+    setCanonical(`https://snay3i.ma/blog/${article.slug}`);
 
     // Article Schema for Google
     let script = document.getElementById('ld-article');
@@ -1483,7 +2995,7 @@ function ArticlePage({ slug }) {
     <div style={{fontFamily:'system-ui,sans-serif',background:'#FAF6EF',minHeight:'100vh'}}>
       {/* Header */}
       <div style={{background:'#0D1B2A',padding:'14px 24px',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:8}}>
-        <a href="/"><img src="/logo.png" alt="Snay3i.ma" style={{height:40,objectFit:'contain'}}/></a>
+        <a href="/"><picture><source srcSet="/logo.webp" type="image/webp"/><img src="/logo.png" alt="Snay3i.ma" width="40" height="40" style={{height:40,objectFit:'contain'}}/></picture></a>
         <div style={{display:'flex',gap:14,alignItems:'center',flexWrap:'wrap'}}>
           <a href="/blog" style={{color:'rgba(255,255,255,0.7)',fontSize:13,textDecoration:'none',fontWeight:600}}>Blog</a>
           <a href="/about" style={{color:'rgba(255,255,255,0.7)',fontSize:13,textDecoration:'none',fontWeight:600}}>À propos</a>
@@ -1568,7 +3080,7 @@ function ArticlePage({ slug }) {
         {/* CTA */}
         <div style={{background:'#0D1B2A',borderRadius:16,padding:24,textAlign:'center',marginTop:16}}>
           <p style={{color:'#fff',fontWeight:700,fontSize:16,margin:'0 0 8px'}}>Trouvez votre artisan maintenant 🇲🇦</p>
-          <p style={{color:'rgba(255,255,255,0.6)',fontSize:13,margin:'0 0 16px'}}>+900 maalems vérifiés dans 35 villes du Maroc</p>
+          <p style={{color:'rgba(255,255,255,0.6)',fontSize:13,margin:'0 0 16px'}}>+200 artisans vérifiés dans 21 villes du Maroc</p>
           <a href="/" style={{background:'#C4622D',color:'#fff',padding:'12px 28px',borderRadius:24,textDecoration:'none',fontWeight:800,fontSize:14}}>Voir les artisans →</a>
         </div>
 
@@ -1599,6 +3111,7 @@ export default function Blog({ articleSlug }) {
       document.title = 'Blog Snay3i.ma — Conseils artisans au Maroc | Guide 2026';
       const meta = document.querySelector('meta[name="description"]');
       if (meta) meta.setAttribute('content', 'Blog Snay3i.ma: guides et conseils pour trouver les meilleurs artisans au Maroc. Plombier, électricien, maçon, carreleur, menuisier — tarifs, conseils et astuces par Anass Couqua, fondateur de Snay3i.ma.');
+      setCanonical('https://snay3i.ma/blog');
     }
   }, [articleSlug]);
 
@@ -1608,7 +3121,7 @@ export default function Blog({ articleSlug }) {
     <div style={{fontFamily:'system-ui,sans-serif',background:'#FAF6EF',minHeight:'100vh'}}>
       {/* Header */}
       <div style={{background:'#0D1B2A',padding:'14px 24px',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:8}}>
-        <a href="/"><img src="/logo.png" alt="Snay3i.ma" style={{height:40,objectFit:'contain'}}/></a>
+        <a href="/"><picture><source srcSet="/logo.webp" type="image/webp"/><img src="/logo.png" alt="Snay3i.ma" width="40" height="40" style={{height:40,objectFit:'contain'}}/></picture></a>
         <div style={{display:'flex',gap:14,alignItems:'center',flexWrap:'wrap'}}>
           <a href="/blog" style={{color:'#D4A843',fontSize:13,textDecoration:'none',fontWeight:700}}>Blog</a>
           <a href="/about" style={{color:'rgba(255,255,255,0.7)',fontSize:13,textDecoration:'none',fontWeight:600}}>À propos</a>
