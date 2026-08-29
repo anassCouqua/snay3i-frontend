@@ -1874,8 +1874,8 @@ export default function App(){
           <div style={{display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap",marginTop:8}}>
             <a href="/about" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>À propos</a>
             <a href="/blog" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Blog</a>
-            <a href="/privacy-policy" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Confidentialité</a>
-            <a href="/terms-of-service" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>CGU</a>
+            <a href="#" onClick={(e)=>{e.preventDefault();setLegalPage("privacy");}} style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Confidentialité</a>
+            <a href="#" onClick={(e)=>{e.preventDefault();setLegalPage("terms");}} style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>CGU</a>
             <a href="/contact" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Contact</a>
           </div>
           <span style={{fontSize:11,color:"var(--muted)",marginTop:4}}>🇲🇦 Fait avec fierté au Maroc</span>
