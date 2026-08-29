@@ -3441,8 +3441,123 @@ function ArticlePage({ slug }) {
     </div>
   );
 
-  // Render rich HTML content safely
-  return (<div dangerouslySetInnerHTML={{ __html: article.content }} />);
+  
+  const relatedArticles = ARTICLES.filter(a => a.slug !== article.slug && (a.category === article.category || a.emoji === article.emoji)).slice(0,3);
+  const otherArticles = ARTICLES.filter(a => a.slug !== article.slug).slice(0,3);
+  const showRelated = relatedArticles.length > 0 ? relatedArticles : otherArticles;
+
+  return (
+    <div style={{fontFamily:'system-ui,sans-serif',background:'#FAF6EF',minHeight:'100vh'}}>
+      {/* Header */}
+      <div style={{background:'#0D1B2A',padding:'14px 24px',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:8}}>
+        <a href="/"><picture><source srcSet="/logo.webp" type="image/webp"/><img src="/logo.png" alt="Snay3i.ma" width="40" height="40" style={{height:40,objectFit:'contain'}}/></picture></a>
+        <div style={{display:'flex',gap:14,alignItems:'center',flexWrap:'wrap'}}>
+          <a href="/blog" style={{color:'rgba(255,255,255,0.7)',fontSize:13,textDecoration:'none',fontWeight:600}}>Blog</a>
+          <a href="/about" style={{color:'rgba(255,255,255,0.7)',fontSize:13,textDecoration:'none',fontWeight:600}}>À propos</a>
+          <a href="/contact" style={{color:'rgba(255,255,255,0.7)',fontSize:13,textDecoration:'none',fontWeight:600}}>Contact</a>
+          <a href="/" style={{background:'#C4622D',color:'#fff',padding:'8px 16px',borderRadius:20,fontSize:13,textDecoration:'none',fontWeight:700}}>Trouver un artisan →</a>
+        </div>
+      </div>
+
+      {/* Breadcrumb */}
+      <div style={{background:'#F0EAE0',padding:'8px 24px',fontSize:12,color:'#7A7065'}}>
+        <a href="/" style={{color:'#C4622D',textDecoration:'none'}}>Snay3i.ma</a>
+        {' › '}
+        <a href="/blog" style={{color:'#C4622D',textDecoration:'none'}}>Blog</a>
+        {' › '}
+        <span style={{color:'#0D1B2A'}}>{article.category}</span>
+      </div>
+
+      <div style={{maxWidth:760,margin:'0 auto',padding:'32px 16px'}}>
+        {/* Meta */}
+        <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:10,flexWrap:'wrap'}}>
+          <span style={{background:'#F5EFE8',color:'#C4622D',padding:'4px 12px',borderRadius:20,fontSize:12,fontWeight:600}}>{article.emoji} {article.category}</span>
+          <span style={{color:'#7A7065',fontSize:12}}>{article.date}</span>
+          <span style={{color:'#7A7065',fontSize:12}}>•</span>
+          <span style={{color:'#7A7065',fontSize:12}}>{article.readTime} de lecture</span>
+        </div>
+
+        {/* Title */}
+        <h1 style={{fontSize:28,fontWeight:800,color:'#0D1B2A',lineHeight:1.3,margin:'0 0 16px'}}>{article.title}</h1>
+        {/* Article Hero Banner */}
+        <div style={{margin:'0 0 24px',borderRadius:16,overflow:'hidden',border:'1.5px solid #E8E0D4',maxHeight:384}}>
+          <img src={getArticleImage(article)} alt={article.title} style={{width:'100%',height:'auto',maxHeight:384,objectFit:'cover',display:'block'}} />
+        </div>
+
+        {/* Author box */}
+        <div style={{display:'flex',alignItems:'center',gap:12,background:'#fff',borderRadius:12,padding:'12px 16px',marginBottom:24,border:'1.5px solid #E8E0D4'}}>
+          <div style={{width:42,height:42,borderRadius:'50%',background:'#C4622D',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,fontWeight:700,flexShrink:0}}>AC</div>
+          <div>
+            <div style={{fontWeight:700,color:'#0D1B2A',fontSize:14}}>{AUTHOR}</div>
+            <div style={{color:'#7A7065',fontSize:12}}>{AUTHOR_TITLE}</div>
+          </div>
+        </div>
+
+        {/* Description */}
+        <p style={{color:'#5A5050',fontSize:16,lineHeight:1.7,margin:'0 0 24px',fontStyle:'italic',borderLeft:'3px solid #C4622D',paddingLeft:16}}>{article.description}</p>
+
+        {/* Content */}
+        <div style={{background:'#fff',borderRadius:16,padding:28,border:'1.5px solid #E8E0D4',lineHeight:1.9}}>
+          <div dangerouslySetInnerHTML={{ __html: article.content }} /></h2>;
+            if (line.startsWith('') && line.endsWith('')) return <p key={i} style={{fontWeight:700,color:'#0D1B2A',fontSize:15,margin:'16px 0 4px'}}>{line.replace(/\*\*/g,'')}</p>;
+            if (line.startsWith('- ')) return <li key={i} style={{color:'#4A4040',fontSize:14,lineHeight:1.8,marginLeft:20,marginBottom:6}}>{line.replace('- ','')}</li>;
+            if (line.match(/^\d\./)) return <li key={i} style={{color:'#4A4040',fontSize:14,lineHeight:1.8,marginLeft:20,marginBottom:6}}>{line.replace(/^\d\./,'')}</li>;
+            if (line.startsWith('|')) return <p key={i} style={{color:'#4A4040',fontSize:13,fontFamily:'monospace',background:'#F5EFE8',padding:'4px 8px',borderRadius:4,margin:'4px 0'}}>{line}</p>;
+            return <p key={i} style={{color:'#4A4040',fontSize:15,lineHeight:1.9,margin:'10px 0'}}>{line}</p>;
+          })}
+        </div>
+
+        {/* Author signature */}
+        <div style={{background:'#F5EFE8',borderRadius:12,padding:16,marginTop:16,display:'flex',alignItems:'center',gap:12}}>
+          <div style={{width:36,height:36,borderRadius:'50%',background:'#C4622D',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,fontWeight:700,flexShrink:0}}>AC</div>
+          <div>
+            <div style={{fontWeight:700,color:'#0D1B2A',fontSize:13}}>Rédigé par {AUTHOR}</div>
+            <div style={{color:'#7A7065',fontSize:12}}>Fondateur de Snay3i.ma — La référence des artisans marocains 🇲🇦</div>
+          </div>
+        </div>
+
+        {/* Related articles */}
+        <div style={{background:'#fff',borderRadius:16,padding:24,marginTop:16,border:'1.5px solid #E8E0D4'}}>
+          <h3 style={{fontSize:16,fontWeight:700,color:'#0D1B2A',marginBottom:12}}>Articles recommandés</h3>
+          {showRelated.map(a=>(
+            <a key={a.slug} href={`/blog/${a.slug}`} style={{display:'flex',alignItems:'center',gap:10,textDecoration:'none',padding:'10px 0',borderBottom:'1px solid #F5EFE8'}}>
+              <span style={{fontSize:22,flexShrink:0}}>{a.emoji}</span>
+              <div>
+                <div style={{color:'#0D1B2A',fontSize:13,fontWeight:600,marginBottom:2}}>{a.title}</div>
+                <div style={{color:'#7A7065',fontSize:12}}>{a.readTime} de lecture</div>
+              </div>
+              <span style={{marginLeft:'auto',color:'#C4622D',fontSize:16,flexShrink:0}}>→</span>
+            </a>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div style={{background:'#0D1B2A',borderRadius:16,padding:24,textAlign:'center',marginTop:16}}>
+          <p style={{color:'#fff',fontWeight:700,fontSize:16,margin:'0 0 8px'}}>Trouvez votre artisan maintenant 🇲🇦</p>
+          <p style={{color:'rgba(255,255,255,0.6)',fontSize:13,margin:'0 0 16px'}}>professionnels référencés référencés dans plusieurs villes du Maroc</p>
+          <a href="/" style={{background:'#C4622D',color:'#fff',padding:'12px 28px',borderRadius:24,textDecoration:'none',fontWeight:800,fontSize:14}}>Voir les artisans →</a>
+        </div>
+
+        <div style={{textAlign:'center',marginTop:20,paddingBottom:32}}>
+          <a href="/blog" style={{color:'#C4622D',fontWeight:700,textDecoration:'none'}}>← Retour au blog Snay3i.ma</a>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div style={{background:'#0D1B2A',padding:'24px',textAlign:'center'}}>
+        <div style={{display:'flex',justifyContent:'center',gap:20,flexWrap:'wrap',marginBottom:10}}>
+          <a href="/" style={{color:'rgba(255,255,255,0.6)',fontSize:12,textDecoration:'none'}}>Accueil</a>
+          <a href="/blog" style={{color:'rgba(255,255,255,0.6)',fontSize:12,textDecoration:'none'}}>Blog</a>
+          <a href="/about" style={{color:'rgba(255,255,255,0.6)',fontSize:12,textDecoration:'none'}}>À propos</a>
+          <a href="/contact" style={{color:'rgba(255,255,255,0.6)',fontSize:12,textDecoration:'none'}}>Contact</a>
+          <a href="/privacy" style={{color:'rgba(255,255,255,0.6)',fontSize:12,textDecoration:'none'}}>Confidentialité</a>
+          <a href="/terms" style={{color:'rgba(255,255,255,0.6)',fontSize:12,textDecoration:'none'}}>CGU</a>
+        </div>
+        <p style={{color:'rgba(255,255,255,0.3)',fontSize:11,margin:0}}>© 2026 Snay3i.ma — contact@snay3i.ma — 🇲🇦 Fait avec fierté au Maroc</p>
+      </div>
+    </div>
+  );
+}
 
 export default function Blog({ articleSlug }) {
   useEffect(() => {
