@@ -663,33 +663,33 @@ Contact : a.couqua@gmail.com`
   },
   privacy:{
     title:"Politique de Confidentialité",
-    body:`Dernière mise à jour : mai 2025
+    body:`Dernière mise à jour : août 2026
 
-1. DONNÉES COLLECTÉES
+1. INTRODUCTION
+Bienvenue sur Snay3i.ma. La protection de vos données personnelles est une priorité pour nous. Cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos informations lorsque vous utilisez notre plateforme de mise en relation avec des artisans au Maroc.
 
-Pour les visiteurs : Aucune donnée personnelle n'est collectée. Pas de cookies publicitaires.
+2. DONNÉES COLLECTÉES
+— Pour les visiteurs : Nous collectons des données de navigation anonymes et utilisons des cookies techniques indispensables au fonctionnement du site. Si vous utilisez la fonction de géolocalisation, votre position est traitée uniquement en temps réel dans votre navigateur pour trier les artisans par distance et n est jamais stockée de manière permanente sur nos serveurs.
+— Pour les artisans inscrits : Nom complet, numéro de téléphone, WhatsApp, ville, adresse, métier, description et années d expérience. Ces informations sont rendues publiques sur la plateforme afin de permettre aux clients de vous contacter directement.
 
-Pour les artisans inscrits :
-— Nom complet
-— Numéro de téléphone et WhatsApp
-— Ville et adresse
-— Métier, description, années d'expérience
+3. COOKIES ET PUBLICITÉ (GOOGLE ADSENSE)
+Nous utilisons des cookies pour améliorer votre expérience utilisateur et analyser le trafic du site.
+— Google AdSense : Nous pouvons diffuser des annonces publicitaires via Google AdSense. Google utilise des cookies pour diffuser des annonces basées sur vos visites sur notre site ou d autres sites Internet. Vous pouvez désactiver la personnalisation des annonces publicitaires à tout moment via les paramètres des annonces Google.
 
-Ces données sont publiques et visibles par tous les visiteurs.
+4. UTILISATION DES DONNÉES
+Les données collectées servent exclusivement à :
+— Faciliter la recherche et la mise en relation directe entre particuliers et artisans.
+— Affiner les résultats de recherche et les classements (prix, notes, distance).
+— Assurer la sécurité et l amélioration continue de la plateforme Snay3i.ma.
 
-2. UTILISATION
-Les données sont utilisées uniquement pour afficher le profil de l'artisan. Elles ne sont ni vendues ni partagées à des fins commerciales.
+5. PARTAGE DES DONNÉES
+Les informations de contact des artisans sont publiques par nature sur la plateforme. Nous ne vendons, n échangeons ni ne louons vos données personnelles à des tiers à des fins commerciales.
 
-3. VOS DROITS
-Droit d'accès, rectification et suppression : a.couqua@gmail.com
+6. SÉCURITÉ ET HÉBERGEMENT
+Vos données sont hébergées sur des serveurs sécurisés (Render, USA, certifiés SOC 2 Type II) et protégées par des protocoles de chiffrement standard.
 
-4. COOKIES
-Uniquement des cookies techniques nécessaires au fonctionnement. Pas de tracking publicitaire.
-
-5. HÉBERGEMENT
-Données hébergées sur Render (USA), certifié SOC 2 Type II.
-
-Contact : a.couqua@gmail.com`
+7. VOS DROITS ET CONTACT
+Vous disposez d un droit d accès, de rectification et de suppression de vos données personnelles. Pour toute question ou demande, vous pouvez nous contacter par e-mail à : a.couqua@gmail.com`
   },
   contact:{
     title:"Nous contacter",
