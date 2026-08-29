@@ -14,6 +14,24 @@ function setCanonical(url) {
 const AUTHOR = 'Anass Couqua';
 const AUTHOR_TITLE = 'Fondateur de Snay3i.ma | Guides pratiques pour les travaux au Maroc';
 
+
+function getArticleImage(article) {
+  const cat = article.category || "";
+  const slug = article.slug || "";
+  if (cat.includes("Plomberie") || slug.includes("plombier")) return "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=1200&q=80";
+  if (cat.includes("Électricité") || slug.includes("electricien")) return "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=80";
+  if (cat.includes("Carrelage") || slug.includes("carreleur")) return "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80";
+  if (cat.includes("Peinture") || slug.includes("peintre")) return "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80";
+  if (cat.includes("Menuiserie") || slug.includes("menuisier")) return "https://images.unsplash.com/photo-1541888946425-d0fbb18f8f4c?auto=format&fit=crop&w=1200&q=80";
+  if (cat.includes("Climatisation") || slug.includes("climatisation")) return "https://images.unsplash.com/photo-1621905251918-2f4460d3d332?auto=format&fit=crop&w=1200&q=80";
+  if (cat.includes("Serrurerie") || slug.includes("serrurier")) return "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1200&q=80";
+  if (cat.includes("Maçonnerie") || slug.includes("macon")) return "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80";
+  if (cat.includes("Jardinage") || slug.includes("jardinier")) return "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=80";
+  if (cat.includes("Ménage") || slug.includes("menage")) return "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80";
+  if (cat.includes("Ferronnerie") || slug.includes("soudeur")) return "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80";
+  return "https://images.unsplash.com/photo-1541888946425-d0fbb18f8f4c?auto=format&fit=crop&w=1200&q=80";
+}
+
 const ARTICLES = [
   {
     slug: 'trouver-bon-plombier-maroc',
@@ -3448,6 +3466,10 @@ function ArticlePage({ slug }) {
 
         {/* Title */}
         <h1 style={{fontSize:28,fontWeight:800,color:'#0D1B2A',lineHeight:1.3,margin:'0 0 16px'}}>{article.title}</h1>
+        {/* Article Hero Banner */}
+        <div style={{margin:'0 0 24px',borderRadius:16,overflow:'hidden',border:'1.5px solid #E8E0D4',maxHeight:384}}>
+          <img src={getArticleImage(article)} alt={article.title} style={{width:'100%',height:'auto',maxHeight:384,objectFit:'cover',display:'block'}} />
+        </div>
 
         {/* Author box */}
         <div style={{display:'flex',alignItems:'center',gap:12,background:'#fff',borderRadius:12,padding:'12px 16px',marginBottom:24,border:'1.5px solid #E8E0D4'}}>
@@ -3562,7 +3584,9 @@ export default function Blog({ articleSlug }) {
         {ARTICLES.map(article => (
           <a key={article.slug} href={`/blog/${article.slug}`} style={{textDecoration:'none',display:'block',marginBottom:14}}>
             <div style={{background:'#fff',borderRadius:16,padding:20,border:'1.5px solid #E8E0D4',display:'flex',gap:16,alignItems:'flex-start'}}>
-              <div style={{fontSize:38,flexShrink:0,marginTop:2}}>{article.emoji}</div>
+              <div style={{width:72,height:72,borderRadius:12,overflow:'hidden',flexShrink:0,background:'#F5EFE8',display:'flex',alignItems:'center',justifyContent:'center',border:'1px solid #E8E0D4'}}>
+            <img src={getArticleImage(article)} alt={article.title} style={{width:'100%',height:'100%',objectFit:'cover'}} />
+          </div>
               <div style={{flex:1}}>
                 <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:6,flexWrap:'wrap'}}>
                   <span style={{background:'#F5EFE8',color:'#C4622D',padding:'2px 10px',borderRadius:20,fontSize:11,fontWeight:600}}>{article.category}</span>
