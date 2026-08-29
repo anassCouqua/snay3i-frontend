@@ -1688,10 +1688,7 @@ export default function App(){
 
       {/* ══ HEADER ══════════════════════════════════════════════ */}
       <header className="header">
-        <div className="header-zellige">
-          <svg width="100%" height="100%"><rect width="100%" height="100%" fill="url(#hz)"/></svg>
-        </div>
-        <div className="header-overlay"/>
+        
 
         <div className="hcontent">
           {/* TOP BAR */}
