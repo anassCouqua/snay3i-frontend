@@ -3074,11 +3074,12 @@ function ArticlePage({ slug }) {
         {/* Title */}
         <h1 style={{fontSize:28,fontWeight:800,color:'#0D1B2A',lineHeight:1.3,margin:'0 0 16px'}}>{article.title}</h1>
         
+        
         {/* Article Hero Banner */}
-        <div style={{margin:'0 0 24px',borderRadius:16,overflow:'hidden',border:'1.5px solid #E8E0D4',background:'linear-gradient(135deg, #0D1B2A 0%, #1B263B 100%)',padding:'48px 24px',textAlign:'center',color:'#fff',boxShadow:'0 4px 20px rgba(13,27,42,0.15)'}}>
-          <div style={{fontSize:56,marginBottom:12}}>{article.emoji || '🔧'}</div>
-          <div style={{fontSize:13,fontWeight:700,background:'#C4622D',color:'#fff',padding:'6px 14px',borderRadius:20,display:'inline-block',marginBottom:16}}>{article.category}</div>
-          <h1 style={{fontSize:24,fontWeight:800,color:'#fff',lineHeight:1.4,margin:0,maxWidth:640,marginLeft:'auto',marginRight:'auto'}}>{article.title}</h1>
+        <div style={{margin:'0 0 24px', borderRadius:16, overflow:'hidden', border:'1.5px solid #E8E0D4', background:'linear-gradient(135deg, #0D1B2A 0%, #1B263B 100%)', padding:'48px 24px', textAlign:'center', color:'#fff', boxShadow:'0 4px 20px rgba(13,27,42,0.15)'}}>
+          <div style={{fontSize:56, marginBottom:12}}>{article.emoji || '🔧'}</div>
+          <div style={{fontSize:13,fontWeight:700, background:'#C4622D', color:'#fff', padding:'6px 14px', borderRadius:20, display:'inline-block', marginBottom:16}}>{article.category}</div>
+          <h1 style={{fontSize:26, fontWeight:800, color:'#fff', lineHeight:1.4, margin:0, maxWidth:680, marginLeft:'auto', marginRight:'auto'}}>{article.title}</h1>
         </div>
 
         {/* Description */}
