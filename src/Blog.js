@@ -1,30 +1,23 @@
 import React, { useEffect } from 'react';
 
+
 function getArticleImage(article) {
-  if (article && article.image && article.image.startsWith('http')) {
+  if (article && article.image && typeof article.image === 'string' && article.image.startsWith('http')) {
     return article.image;
   }
-  const cat = (article?.category || "").toLowerCase();
-  const slug = (article?.slug || "").toLowerCase();
-  const combined = `${cat} ${slug}`;
-
-  if (combined.includes("plomb") || combined.includes("fuite")) {
-    return "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=1200&q=80";
-  }
-  if (combined.includes("elect") || combined.includes("panne")) {
-    return "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=80";
-  }
-  if (combined.includes("renov") || combined.includes("maison") || combined.includes("peint") || combined.includes("riad")) {
-    return "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80";
-  }
-  if (combined.includes("carrel") || combined.includes("جلايجي")) {
-    return "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80";
-  }
-  if (combined.includes("serrur") || combined.includes("porte")) {
-    return "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1200&q=80";
-  }
+  const slug = article?.slug || "";
+  const directMap = {
+    'trouver-bon-plombier-maroc': 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=1200&q=80',
+    'tarif-electricien-maroc': 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=80',
+    'renover-maison-maroc': 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80',
+    'peintre-batiment-maroc': 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80',
+    'serrurier-urgence-maroc': 'https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1200&q=80',
+    'clim-entretien-maroc': 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80'
+  };
+  if (directMap[slug]) return directMap[slug];
   return "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80";
 }
+
 
 
 
