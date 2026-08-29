@@ -3498,22 +3498,8 @@ function ArticlePage({ slug }) {
 
         {/* Content */}
         <div style={{background:'#fff',borderRadius:16,padding:28,border:'1.5px solid #E8E0D4',lineHeight:1.9}}>
-          <div dangerouslySetInnerHTML={{ __html: article.content }} /></h2>;
-            if (line.startsWith('') && line.endsWith('')) return <p key={i} style={{fontWeight:700,color:'#0D1B2A',fontSize:15,margin:'16px 0 4px'}}>{line.replace(/\*\*/g,'')}</p>;
-            if (line.startsWith('- ')) return <li key={i} style={{color:'#4A4040',fontSize:14,lineHeight:1.8,marginLeft:20,marginBottom:6}}>{line.replace('- ','')}</li>;
-            if (line.match(/^\d\./)) return <li key={i} style={{color:'#4A4040',fontSize:14,lineHeight:1.8,marginLeft:20,marginBottom:6}}>{line.replace(/^\d\./,'')}</li>;
-            if (line.startsWith('|')) return <p key={i} style={{color:'#4A4040',fontSize:13,fontFamily:'monospace',background:'#F5EFE8',padding:'4px 8px',borderRadius:4,margin:'4px 0'}}>{line}</p>;
-            return <p key={i} style={{color:'#4A4040',fontSize:15,lineHeight:1.9,margin:'10px 0'}}>{line}</p>;
-          })}
+          <div dangerouslySetInnerHTML={{ __html: article.content }} />
         </div>
-
-        {/* Author signature */}
-        <div style={{background:'#F5EFE8',borderRadius:12,padding:16,marginTop:16,display:'flex',alignItems:'center',gap:12}}>
-          <div style={{width:36,height:36,borderRadius:'50%',background:'#C4622D',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,fontWeight:700,flexShrink:0}}>AC</div>
-          <div>
-            <div style={{fontWeight:700,color:'#0D1B2A',fontSize:13}}>Rédigé par {AUTHOR}</div>
-            <div style={{color:'#7A7065',fontSize:12}}>Fondateur de Snay3i.ma — La référence des artisans marocains 🇲🇦</div>
-          </div>
         </div>
 
         {/* Related articles */}
