@@ -1,18 +1,5 @@
 
-function getArticleImages(article) {
-  const cat = (article.category || "").toLowerCase();
-  const slug = (article.slug || "").toLowerCase();
-  const combined = `${cat} ${slug}`;
-
-  if (combined.includes("plomb") || combined.includes("fuite")) return ["https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=1200&q=80","https://images.unsplash.com/photo-1542013936693-893e3d6e5a95?auto=format&fit=crop&w=1200&q=80","https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?auto=format&fit=crop&w=1200&q=80"];
-  if (combined.includes("elect") || combined.includes("panne")) return ["https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=80","https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80","https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80"];
-  if (combined.includes("renov") || combined.includes("maison") || combined.includes("peint") || combined.includes("riad")) return ["https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80","https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80","https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80"];
-  if (combined.includes("carrel") || combined.includes("جلايجي")) return ["https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80","https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1200&q=80","https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80"];
-  if (combined.includes("serrur") || combined.includes("porte")) return ["https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1200&q=80","https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?auto=format&fit=crop&w=1200&q=80","https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80"];
-  return ["https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80","https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80","https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80"];
-}
-
-
+import React, { useEffect } from 'react';
 
 function getArticleImage(article) {
   if (article && article.image && article.image.startsWith('http')) {
@@ -39,7 +26,6 @@ function getArticleImage(article) {
   }
   return "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80";
 }
-
 
 import React, { useEffect } from 'react';
 
