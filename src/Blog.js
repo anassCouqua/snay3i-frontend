@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 
 function getArticleImage(article) {
@@ -27,7 +26,10 @@ function getArticleImage(article) {
   return "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80";
 }
 
-import React, { useEffect } from 'react';
+
+
+
+
 
 
 function setCanonical(url) {
