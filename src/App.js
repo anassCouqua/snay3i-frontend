@@ -1634,7 +1634,9 @@ export default function App(){
   // Initial load only
   useEffect(()=>{fetchWorkers("all","Toutes","");},[fetchWorkers]);
 
+  const [visibleCount, setVisibleCount] = useState(3);
   const handleSearch=()=>{
+    setVisibleCount(3);
     setCategory(pendingService);
     setCity(pendingCity);
     fetchWorkers(pendingService,pendingCity,"");
