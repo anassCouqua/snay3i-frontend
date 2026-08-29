@@ -13,21 +13,33 @@ function getArticleImages(article) {
 }
 
 
+
 function getArticleImage(article) {
-  const cat = (article.category || "").toLowerCase();
-  const slug = (article.slug || "").toLowerCase();
+  if (article && article.image && article.image.startsWith('http')) {
+    return article.image;
+  }
+  const cat = (article?.category || "").toLowerCase();
+  const slug = (article?.slug || "").toLowerCase();
   const combined = `${cat} ${slug}`;
 
-  if (combined.includes("marrakech")) return "https://images.unsplash.com/photo-1597595260404-5853e34156a6?auto=format&fit=crop&w=1200&q=80";
-  if (combined.includes("casablanca")) return "https://images.unsplash.com/photo-1578895101408-1a3679d26da0?auto=format&fit=crop&w=1200&q=80";
-  if (combined.includes("rabat")) return "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=1200&q=80";
-  if (combined.includes("plomb") || combined.includes("fuite")) return "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=1200&q=80";
-  if (combined.includes("elect") || combined.includes("panne")) return "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=80";
-  if (combined.includes("clim")) return "https://images.unsplash.com/photo-1621905251918-2f4460d3d332?auto=format&fit=crop&w=1200&q=80";
-  if (combined.includes("peint")) return "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80";
-  if (combined.includes("serrur")) return "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1200&q=80";
+  if (combined.includes("plomb") || combined.includes("fuite")) {
+    return "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=1200&q=80";
+  }
+  if (combined.includes("elect") || combined.includes("panne")) {
+    return "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=80";
+  }
+  if (combined.includes("renov") || combined.includes("maison") || combined.includes("peint") || combined.includes("riad")) {
+    return "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80";
+  }
+  if (combined.includes("carrel") || combined.includes("جلايجي")) {
+    return "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80";
+  }
+  if (combined.includes("serrur") || combined.includes("porte")) {
+    return "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1200&q=80";
+  }
   return "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80";
 }
+
 
 import React, { useEffect } from 'react';
 
