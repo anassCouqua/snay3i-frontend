@@ -216,6 +216,26 @@ Repère officiel: les installations électriques basse tension au Maroc sont enc
 
 Repère officiel: les installations électriques basse tension au Maroc sont encadrées par des normes marocaines publiées par l'IMANOR, notamment la NM 06.1.100 et les normes associées de protection et de vérification. Pour un chantier présentant un enjeu de sécurité, demandez à un professionnel de vérifier la conformité de l'installation.
 
+
+
+Repère officiel: les installations électriques basse tension au Maroc sont encadrées par des normes marocaines publiées par l'IMANOR, notamment la NM 06.1.100 et les normes associées de protection et de vérification. Pour un chantier présentant un enjeu de sécurité, demandez à un professionnel de vérifier la conformité de l'installation.
+
+
+
+Repère officiel: les installations électriques basse tension au Maroc sont encadrées par des normes marocaines publiées par l'IMANOR, notamment la NM 06.1.100 et les normes associées de protection et de vérification. Pour un chantier présentant un enjeu de sécurité, demandez à un professionnel de vérifier la conformité de l'installation.
+
+
+
+Repère officiel: les installations électriques basse tension au Maroc sont encadrées par des normes marocaines publiées par l'IMANOR, notamment la NM 06.1.100 et les normes associées de protection et de vérification. Pour un chantier présentant un enjeu de sécurité, demandez à un professionnel de vérifier la conformité de l'installation.
+
+
+
+Repère officiel: les installations électriques basse tension au Maroc sont encadrées par des normes marocaines publiées par l'IMANOR, notamment la NM 06.1.100 et les normes associées de protection et de vérification. Pour un chantier présentant un enjeu de sécurité, demandez à un professionnel de vérifier la conformité de l'installation.
+
+
+
+Repère officiel: les installations électriques basse tension au Maroc sont encadrées par des normes marocaines publiées par l'IMANOR, notamment la NM 06.1.100 et les normes associées de protection et de vérification. Pour un chantier présentant un enjeu de sécurité, demandez à un professionnel de vérifier la conformité de l'installation.
+
 ## Les risques d'un mauvais électricien
 
 L'électricité est dangereuse. Un travail mal fait peut causer:
@@ -1219,6 +1239,26 @@ Réparations:
 Démolition:
 - Démolition cloison (par m²): 80-150 MAD
 - Création ouverture porte: 800-2000 MAD selon l'épaisseur du mur
+
+
+
+Bon réflexe consommateur: au Maroc, la loi n°31-08 encadre la protection du consommateur et le droit à une information claire et objective avant la conclusion d'un contrat. Demandez que le prix, les conditions de vente et toute garantie proposée soient clairement indiqués.
+
+
+
+Bon réflexe consommateur: au Maroc, la loi n°31-08 encadre la protection du consommateur et le droit à une information claire et objective avant la conclusion d'un contrat. Demandez que le prix, les conditions de vente et toute garantie proposée soient clairement indiqués.
+
+
+
+Bon réflexe consommateur: au Maroc, la loi n°31-08 encadre la protection du consommateur et le droit à une information claire et objective avant la conclusion d'un contrat. Demandez que le prix, les conditions de vente et toute garantie proposée soient clairement indiqués.
+
+
+
+Bon réflexe consommateur: au Maroc, la loi n°31-08 encadre la protection du consommateur et le droit à une information claire et objective avant la conclusion d'un contrat. Demandez que le prix, les conditions de vente et toute garantie proposée soient clairement indiqués.
+
+
+
+Bon réflexe consommateur: au Maroc, la loi n°31-08 encadre la protection du consommateur et le droit à une information claire et objective avant la conclusion d'un contrat. Demandez que le prix, les conditions de vente et toute garantie proposée soient clairement indiqués.
 
 
 
