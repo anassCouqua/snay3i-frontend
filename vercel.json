@@ -1,6 +1,5 @@
 {
-  "rewrites": [
-    { "source": "/blog", "destination": "/blog/index.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
+  "framework": null,
+  "buildCommand": "react-scripts build",
+  "outputDirectory": "build"
 }
