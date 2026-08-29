@@ -3074,17 +3074,11 @@ function ArticlePage({ slug }) {
         {/* Title */}
         <h1 style={{fontSize:28,fontWeight:800,color:'#0D1B2A',lineHeight:1.3,margin:'0 0 16px'}}>{article.title}</h1>
         {/* Article Hero Banner */}
-        <div style={{margin:'0 0 24px',borderRadius:16,overflow:'hidden',border:'1.5px solid #E8E0D4',maxHeight:384}}>
-          <div style={{padding:40, textAlign:'center', background:'#0D1B2A', color:'#fff'}}><span style={{fontSize:48}}>{article.emoji || '🔧'}</span><h3>{article.title}</h3></div> { e.currentTarget.style.display = 'none'; }} style={{width:'100%',height:'auto',maxHeight:384,objectFit:'cover',display:'block'}} />
+        <div style={{margin:'0 0 24px',borderRadius:16,overflow:'hidden',border:'1.5px solid #E8E0D4',background:'linear-gradient(135deg, #0D1B2A 0%, #1B263B 100%)',padding:'48px 24px',textAlign:'center',color:'#fff',boxShadow:'0 4px 20px rgba(13,27,42,0.15)'}}>
+          <div style={{fontSize:56,marginBottom:12}}>{article.emoji || '🔧'}</div>
+          <div style={{fontSize:13,fontWeight:700,background:'#C4622D',color:'#fff',padding:'6px 14px',borderRadius:20,display:'inline-block',marginBottom:16}}>{article.category}</div>
+          <h1 style={{fontSize:24,fontWeight:800,color:'#fff',lineHeight:1.4,margin:0,maxWidth:640,marginLeft:'auto',marginRight:'auto'}}>{article.title}</h1>
         </div>
-
-        {/* Author box */}
-        <div style={{display:'flex',alignItems:'center',gap:12,background:'#fff',borderRadius:12,padding:'12px 16px',marginBottom:24,border:'1.5px solid #E8E0D4'}}>
-          <div style={{width:42,height:42,borderRadius:'50%',background:'#C4622D',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,fontWeight:700,flexShrink:0}}>AC</div>
-          <div>
-            <div style={{fontWeight:700,color:'#0D1B2A',fontSize:14}}>{AUTHOR}</div>
-            <div style={{color:'#7A7065',fontSize:12}}>{AUTHOR_TITLE}</div>
-          </div>
         </div>
 
         {/* Description */}
