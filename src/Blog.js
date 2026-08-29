@@ -15,20 +15,84 @@ const AUTHOR = 'Anass Couqua';
 const AUTHOR_TITLE = 'Fondateur de Snay3i.ma | Guides pratiques pour les travaux au Maroc';
 
 
+
 function getArticleImage(article) {
   const cat = article.category || "";
   const slug = article.slug || "";
-  if (cat.includes("Plomberie") || slug.includes("plombier")) return "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=1200&q=80";
-  if (cat.includes("Électricité") || slug.includes("electricien")) return "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=80";
-  if (cat.includes("Carrelage") || slug.includes("carreleur")) return "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80";
-  if (cat.includes("Peinture") || slug.includes("peintre")) return "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80";
-  if (cat.includes("Menuiserie") || slug.includes("menuisier")) return "https://images.unsplash.com/photo-1541888946425-d0fbb18f8f4c?auto=format&fit=crop&w=1200&q=80";
-  if (cat.includes("Climatisation") || slug.includes("climatisation")) return "https://images.unsplash.com/photo-1621905251918-2f4460d3d332?auto=format&fit=crop&w=1200&q=80";
-  if (cat.includes("Serrurerie") || slug.includes("serrurier")) return "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1200&q=80";
-  if (cat.includes("Maçonnerie") || slug.includes("macon")) return "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80";
-  if (cat.includes("Jardinage") || slug.includes("jardinier")) return "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=80";
-  if (cat.includes("Ménage") || slug.includes("menage")) return "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80";
-  if (cat.includes("Ferronnerie") || slug.includes("soudeur")) return "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80";
+  
+  // Plomberie & Fuites
+  if (cat.includes("Plomberie") || slug.includes("plombier") || slug.includes("fuite")) 
+    return "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=1200&q=80";
+  
+  // Électricité & Pannes
+  if (cat.includes("Électricité") || slug.includes("electricien") || slug.includes("panne")) 
+    return "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=80";
+  
+  // Carrelage & Zellige
+  if (cat.includes("Carrelage") || slug.includes("carreleur")) 
+    return "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80";
+  
+  // Peinture
+  if (cat.includes("Peinture") || slug.includes("peintre")) 
+    return "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80";
+  
+  // Menuiserie & Cuisine
+  if (cat.includes("Menuiserie") || slug.includes("menuisier")) 
+    return "https://images.unsplash.com/photo-1541888946425-d0fbb18f8f4c?auto=format&fit=crop&w=1200&q=80";
+  
+  // Climatisation
+  if (cat.includes("Climatisation") || slug.includes("climatisation")) 
+    return "https://images.unsplash.com/photo-1621905251918-2f4460d3d332?auto=format&fit=crop&w=1200&q=80";
+  
+  // Serrurerie & Portes
+  if (cat.includes("Serrurerie") || slug.includes("serrurier") || slug.includes("porte")) 
+    return "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1200&q=80";
+  
+  // Maçonnerie & Rénovation gros œuvre
+  if (cat.includes("Maçonnerie") || slug.includes("macon")) 
+    return "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80";
+  
+  // Jardinage & Paysagiste
+  if (cat.includes("Jardinage") || slug.includes("jardinier")) 
+    return "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=80";
+  
+  // Ménage & Nettoyage
+  if (cat.includes("Ménage") || slug.includes("menage") || slug.includes("nettoyage")) 
+    return "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80";
+  
+  // Ferronnerie & Soudure
+  if (cat.includes("Ferronnerie") || slug.includes("soudeur") || slug.includes("ferronnier")) 
+    return "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80";
+
+  // City Guides: Marrakech
+  if (cat.includes("Marrakech") || slug.includes("marrakech")) 
+    return "https://images.unsplash.com/photo-1597595260404-5853e34156a6?auto=format&fit=crop&w=1200&q=80";
+
+  // City Guides: Casablanca
+  if (cat.includes("Casablanca") || slug.includes("casablanca")) 
+    return "https://images.unsplash.com/photo-1578330722815-f5f3e2f4955f?auto=format&fit=crop&w=1200&q=80";
+
+  // City Guides: Rabat
+  if (cat.includes("Rabat") || slug.includes("rabat")) 
+    return "https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?auto=format&fit=crop&w=1200&q=80";
+
+  // City Guides: Tanger
+  if (cat.includes("Tanger") || slug.includes("tanger")) 
+    return "https://images.unsplash.com/photo-1548777123-e216912df7d8?auto=format&fit=crop&w=1200&q=80";
+
+  // Rénovation générale & Entretien
+  if (cat.includes("Rénovation") || cat.includes("Entretien") || slug.includes("renovation") || slug.includes("entretien")) 
+    return "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80";
+
+  // Urgence générale
+  if (cat.includes("Urgence") || slug.includes("urgence")) 
+    return "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=1200&q=80";
+
+  // دليل دارجة (General Darija guides / Trust guides)
+  if (cat.includes("دليل دارجة") || slug.includes("artisan") || slug.includes("صنايعي")) 
+    return "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80";
+
+  // Default Fallback for any remaining articles
   return "https://images.unsplash.com/photo-1541888946425-d0fbb18f8f4c?auto=format&fit=crop&w=1200&q=80";
 }
 
