@@ -40,8 +40,8 @@ if (source.includes(oldRenderer)) {
 
 // Prevent broken remote/local image assets from showing the browser's native
 // broken-image placeholder. A failed hero image simply disappears cleanly.
-const oldImage = `<img src={getArticleImage(article)} alt={article.title} style={{width:'100%',height:'auto',maxHeight:384,objectFit:'cover',display:'block'}} />`;
-const newImage = `<img src={getArticleImage(article)} alt={article.title} onError={(e) => { e.currentTarget.style.display = 'none'; }} style={{width:'100%',height:'auto',maxHeight:384,objectFit:'cover',display:'block'}} />`;
+const oldImage = `<div style={{padding:40,textAlign:'center',background:'#0D1B2A',color:'#fff'}}><span style={{fontSize:48}}>{article.emoji || '🔧'}</span><h3 style={{color:'#fff'}}>{article.title}</h3></div>`;
+const newImage = `<div style={{padding:40,textAlign:'center',background:'#0D1B2A',color:'#fff'}}><span style={{fontSize:48}}>{article.emoji || '🔧'}</span><h3 style={{color:'#fff'}}>{article.title}</h3></div> { e.currentTarget.style.display = 'none'; }} style={{width:'100%',height:'auto',maxHeight:384,objectFit:'cover',display:'block'}} />`;
 if (source.includes(oldImage)) {
   source = source.replace(oldImage, newImage);
 }
