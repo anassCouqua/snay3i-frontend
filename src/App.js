@@ -1849,9 +1849,19 @@ export default function App(){
             <p className="empty-sub">{lang==="fr"?"Essayez une autre catégorie ou ville":"جرّب فئة أو مدينة أخرى"}</p>
           </div>
         ):(
-          <div className="grid">
-            {sorted.map((w,i)=><WorkerCard key={w.id} worker={w} index={i} userLoc={userLoc}/>)}
-          </div>
+          <>
+      <div className="grid">
+        {sorted.slice(0, visibleCount).map((w,i)=><WorkerCard key={w.id} worker={w} index={i} userLoc={userLoc}/>)}
+      </div>
+      {visibleCount < sorted.length && (
+        <div style={{textAlign:"center", marginTop:24, marginBottom:20}}>
+          <button onClick={()=>setVisibleCount(prev=>prev+3)}
+            style={{background:"var(--terra)", border:"none", color:"#fff", fontWeight:700, fontSize:15, padding:"12px 28px", borderRadius:12, cursor:"pointer", boxShadow:"0 4px 12px rgba(0,0,0,0.1)"}}>
+            {lang==="fr"?"Voir plus d'artisans ⬇️":"عرض المزيد من الحرفيين ⬇️"}
+          </button>
+        </div>
+      )}
+    </>
         )}
 
         {/* CTA */}
