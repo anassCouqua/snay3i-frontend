@@ -2960,6 +2960,49 @@ Snay3i.ma référence des techniciens climatisation vérifiés à Oujda. Consult
 
 ];
 
+function normalizeArticleContent(content) {
+  return String(content || '')
+    .replace(/<h([1-6])[^>]*>([\s\S]*?)<\/h\1>/gi, (_, level, text) => {
+      const clean = text.replace(/<[^>]+>/g, '').trim();
+      return '#'.repeat(Number(level)) + ' ' + clean + '\n';
+    })
+    .replace(/<strong[^>]*>([\s\S]*?)<\/strong>/gi, '**$1**')
+    .replace(/<b[^>]*>([\s\S]*?)<\/b>/gi, '**$1**')
+    .replace(/<li[^>]*>([\s\S]*?)<\/li>/gi, '- $1\n')
+    .replace(/<br\s*\/?>(?=\s*)/gi, '\n')
+    .replace(/<\/?(?:p|div|section|article)[^>]*>/gi, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+function renderInlineMarkdown(text) {
+  const parts = String(text).split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={index}>{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
+}
+
+function Snay3iArticleContent({ content }) {
+  const paragraphs = normalizeArticleContent(content).split('\n').map(line => line.trim()).filter(Boolean);
+  return (
+    <div style={{background:'#fff',borderRadius:16,padding:28,border:'1.5px solid #E8E0D4',lineHeight:1.9}}>
+      {paragraphs.map((line, i) => {
+        if (line.startsWith('### ')) return <h3 key={i} style={{fontSize:18,fontWeight:700,color:'#0D1B2A',margin:'24px 0 10px'}}>{renderInlineMarkdown(line.slice(4))}</h3>;
+        if (line.startsWith('## ')) return <h2 key={i} style={{fontSize:20,fontWeight:700,color:'#0D1B2A',margin:'28px 0 12px',borderBottom:'2px solid #F5EFE8',paddingBottom:8}}>{renderInlineMarkdown(line.slice(3))}</h2>;
+        if (line.startsWith('# ')) return <h2 key={i} style={{fontSize:22,fontWeight:800,color:'#0D1B2A',margin:'28px 0 12px'}}>{renderInlineMarkdown(line.slice(2))}</h2>;
+        if (line.startsWith('- ')) return <li key={i} style={{color:'#4A4040',fontSize:14,lineHeight:1.8,marginLeft:20,marginBottom:6}}>{renderInlineMarkdown(line.slice(2))}</li>;
+        if (/^\d+[.)]\s/.test(line)) return <li key={i} style={{color:'#4A4040',fontSize:14,lineHeight:1.8,marginLeft:20,marginBottom:6}}>{renderInlineMarkdown(line.replace(/^\d+[.)]\s/, ''))}</li>;
+        if (line.startsWith('|')) return <p key={i} style={{color:'#4A4040',fontSize:13,fontFamily:'monospace',background:'#F5EFE8',padding:'4px 8px',borderRadius:4,margin:'4px 0',overflowX:'auto'}}>{line}</p>;
+        return <p key={i} style={{color:'#4A4040',fontSize:15,lineHeight:1.9,margin:'10px 0'}}>{renderInlineMarkdown(line)}</p>;
+      })}
+    </div>
+  );
+}
+
 function ArticlePage({ slug }) {
   const article = ARTICLES.find(a => a.slug === slug);
 
@@ -2993,7 +3036,6 @@ function ArticlePage({ slug }) {
     </div>
   );
 
-  const paragraphs = article.content.trim().split('\n').filter(l => l.trim());
   const relatedArticles = ARTICLES.filter(a => a.slug !== article.slug && (a.category === article.category || a.emoji === article.emoji)).slice(0,3);
   const otherArticles = ARTICLES.filter(a => a.slug !== article.slug).slice(0,3);
   const showRelated = relatedArticles.length > 0 ? relatedArticles : otherArticles;
@@ -3033,7 +3075,7 @@ function ArticlePage({ slug }) {
         <h1 style={{fontSize:28,fontWeight:800,color:'#0D1B2A',lineHeight:1.3,margin:'0 0 16px'}}>{article.title}</h1>
         {/* Article Hero Banner */}
         <div style={{margin:'0 0 24px',borderRadius:16,overflow:'hidden',border:'1.5px solid #E8E0D4',maxHeight:384}}>
-          <img src={getArticleImage(article)} alt={article.title} style={{width:'100%',height:'auto',maxHeight:384,objectFit:'cover',display:'block'}} />
+          <div style={{padding:40, textAlign:'center', background:'#0D1B2A', color:'#fff'}}><span style={{fontSize:48}}>{article.emoji || '🔧'}</span><h3>{article.title}</h3></div> { e.currentTarget.style.display = 'none'; }} style={{width:'100%',height:'auto',maxHeight:384,objectFit:'cover',display:'block'}} />
         </div>
 
         {/* Author box */}
@@ -3049,16 +3091,7 @@ function ArticlePage({ slug }) {
         <p style={{color:'#5A5050',fontSize:16,lineHeight:1.7,margin:'0 0 24px',fontStyle:'italic',borderLeft:'3px solid #C4622D',paddingLeft:16}}>{article.description}</p>
 
         {/* Content */}
-        <div style={{background:'#fff',borderRadius:16,padding:28,border:'1.5px solid #E8E0D4',lineHeight:1.9}}>
-          {paragraphs.map((line, i) => {
-            if (line.startsWith('## ')) return <h2 key={i} style={{fontSize:20,fontWeight:700,color:'#0D1B2A',margin:'28px 0 12px',borderBottom:'2px solid #F5EFE8',paddingBottom:8}}>{line.replace('## ','')}</h2>;
-            if (line.startsWith('**') && line.endsWith('**')) return <p key={i} style={{fontWeight:700,color:'#0D1B2A',fontSize:15,margin:'16px 0 4px'}}>{line.replace(/\*\*/g,'')}</p>;
-            if (line.startsWith('- ')) return <li key={i} style={{color:'#4A4040',fontSize:14,lineHeight:1.8,marginLeft:20,marginBottom:6}}>{line.replace('- ','')}</li>;
-            if (line.match(/^\d\./)) return <li key={i} style={{color:'#4A4040',fontSize:14,lineHeight:1.8,marginLeft:20,marginBottom:6}}>{line.replace(/^\d\./,'')}</li>;
-            if (line.startsWith('|')) return <p key={i} style={{color:'#4A4040',fontSize:13,fontFamily:'monospace',background:'#F5EFE8',padding:'4px 8px',borderRadius:4,margin:'4px 0'}}>{line}</p>;
-            return <p key={i} style={{color:'#4A4040',fontSize:15,lineHeight:1.9,margin:'10px 0'}}>{line}</p>;
-          })}
-        </div>
+        <Snay3iArticleContent content={article.content} />
 
         {/* Author signature */}
         <div style={{background:'#F5EFE8',borderRadius:12,padding:16,marginTop:16,display:'flex',alignItems:'center',gap:12}}>
