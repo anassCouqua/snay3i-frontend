@@ -12,7 +12,7 @@ const PHOTO_REGISTRY = {
   // Plumbing
   'trouver-bon-plombier-maroc': U('photo-1581094288338-2314dddb7ece'),
   'plombier-marrakech-guide': U('photo-1581578731548-c64695cc6952'),
-  'urgence-plomberie-casablanca': U('photo-1581578731548-c64695cc6952'),
+  'urgence-plomberie-casablanca': U('photo-1581092160607-ee22621dd758'),
 
   // Electrical
   'tarif-electricien-maroc-2026': U('photo-1621905252507-b35492cc74b4'),
