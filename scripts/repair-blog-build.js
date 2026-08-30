@@ -14,7 +14,7 @@ const PHOTO_SETS = {
   ],
   renovation: [
     'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1400&q=82',
-    'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1400&q=82'
+    'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1400&q=82'
   ],
   painting: [
     'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1400&q=82',
@@ -46,7 +46,9 @@ const PHOTO_SETS = {
   ]
 };
 
-function keyForSlug(slug) {
+const helper = `
+const ARTICLE_PHOTO_SETS = ${JSON.stringify(PHOTO_SETS)};
+function articlePhotoCategory(slug) {
   const s = String(slug || '').toLowerCase();
   if (s.includes('plomb') || s.includes('sanit')) return 'plumbing';
   if (s.includes('electric') || s.includes('tricien')) return 'electrical';
@@ -60,11 +62,8 @@ function keyForSlug(slug) {
   if (s.includes('soud') || s.includes('ferronn')) return 'metal';
   return 'renovation';
 }
-
-const helper = `
-const ARTICLE_PHOTO_SETS = ${JSON.stringify(PHOTO_SETS)};
 function articlePhotoSet(slug) {
-  return ARTICLE_PHOTO_SETS[${keyForSlug.toString()}(slug)] || ARTICLE_PHOTO_SETS.renovation;
+  return ARTICLE_PHOTO_SETS[articlePhotoCategory(slug)] || ARTICLE_PHOTO_SETS.renovation;
 }
 function SafeArticlePhoto({ src, alt, compact = false }) {
   const fallback = 'linear-gradient(135deg,#0D1B2A 0%,#1B263B 100%)';
