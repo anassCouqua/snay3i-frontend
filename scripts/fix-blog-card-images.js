@@ -43,6 +43,7 @@ if (!source.includes('function snay3iCardPhoto')) {
   const anchor = "function setCanonical(url) {";
   source = source.replace(anchor, `${helper}\n${anchor}`);
 }
-source = source.replace(/getArticleImage\(article\)/g, "snay3iCardPhoto(article?.slug || '')");
+// Replace calls only; never rewrite the getArticleImage function declaration.
+source = source.replace(/(?<!function\s)getArticleImage\(article\)/g, "snay3iCardPhoto(article?.slug || '')");
 fs.writeFileSync(blogPath, source);
 console.log('[blog card repair] topic-specific photography enabled');
