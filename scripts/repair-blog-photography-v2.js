@@ -21,27 +21,22 @@ function repairReactBlog() {
   if (!fs.existsSync(blogPath)) throw new Error(`[blog photography] Missing ${blogPath}`);
   let source = fs.readFileSync(blogPath, 'utf8');
 
-  // Replace every previous image-selection implementation with one explicit registry.
   const imageFunction = `const ARTICLE_PHOTO_MAP = ${jsMap()};\n\nfunction getArticleImage(article) {\n  const slug = article && article.slug ? String(article.slug) : '';\n  return ARTICLE_PHOTO_MAP[slug] || '';\n}\n\n`;
   source = source.replace(/function getArticleImage\(article\)\s*\{[\s\S]*?\n\}\s*\n+/, imageFunction);
-
-  // Remove the old generated card-photo helper if it survived a previous deployment.
   source = source.replace(/\nconst SNAY3I_CARD_PHOTOS = [\s\S]*?\nfunction setCanonical/, '\nfunction setCanonical');
 
-  // Remove the old category-pool helper and replace it with a single safe image renderer.
-  const safeHelper = `function SafeArticlePhoto({ src, alt, compact = false }) {\n  const fallback = '${FALLBACK}';\n  const height = compact ? 150 : 280;\n  return (\n    <div data-snay3i-photo="1" style={{position:'relative',width:'100%',minHeight:height,margin:compact?'0 0 14px':'24px 0',borderRadius:16,overflow:'hidden',background:fallback,border:'1.5px solid #E8E0D4',boxShadow:'0 5px 18px rgba(13,27,42,0.10)'}}>\n      {src ? <img src={src} alt={alt || 'Snay3i.ma — artisan au Maroc'} loading={compact?'eager':'lazy'} onError={(e)=>{e.currentTarget.style.display='none';e.currentTarget.parentElement?.setAttribute('data-image-fallback','1');}} style={{display:'block',width:'100%',height,objectFit:'cover'}} /> : null}\n      <div style={{position:'absolute',left:12,bottom:12,background:'rgba(13,27,42,.82)',color:'#fff',padding:'6px 10px',borderRadius:999,fontSize:12,fontWeight:700}}>🇲🇦 Snay3i.ma</div>\n    </div>\n  );\n}\n\n`;
+  const safeHelper = `function SafeArticlePhoto({ src, alt, compact = false }) {\n  const fallback = '${FALLBACK}';\n  const height = compact ? 150 : 280;\n  return (\n    <div data-snay3i-photo="1" style={{position:'relative',width:'100%',minHeight:height,margin:compact?'0 0 14px':'24px 0',borderRadius:16,overflow:'hidden',background:fallback,border:'1.5px solid #E8E0D4',boxShadow:'0 5px 18px rgba(13,27,42,0.10)'}}>\n      {src ? <img src={src} alt={alt || 'Snay3i.ma — artisan au Maroc'} loading={compact?'eager':'lazy'} onError={(e)=>{e.currentTarget.style.display='none';const p=e.currentTarget.parentElement;if(p)p.setAttribute('data-image-fallback','1');}} style={{display:'block',width:'100%',height,objectFit:'cover'}} /> : null}\n      <div style={{position:'absolute',left:12,bottom:12,background:'rgba(13,27,42,.82)',color:'#fff',padding:'6px 10px',borderRadius:999,fontSize:12,fontWeight:700}}>🇲🇦 Snay3i.ma</div>\n    </div>\n  );\n}\n\n`;
   source = source.replace(/const ARTICLE_PHOTO_SETS = [\s\S]*?function Snay3iArticleContent\(/, `${safeHelper}function Snay3iArticleContent(`);
-
-  // Remove the previous automatic "every 8 paragraphs" photo insertion.
   source = source.replace(/\n\s*const usablePhotos = Array\.isArray\(photos\) \? photos\.slice\(0,2\) : \[\];/g, '');
   source = source.replace(/\n\s*const photoIndex = Math\.floor\(i \/ 8\) - 1;\s*if \(i > 0 && i % 8 === 0 && usablePhotos\[photoIndex\]\) return <SafeArticlePhoto[^;]+;/g, '');
   source = source.replace(/function Snay3iArticleContent\(\{ content, photos = \[\] \}\)/g, 'function Snay3iArticleContent({ content })');
   source = source.replace(/\s+photos=\{articlePhotoSet\(article\.slug\)\}/g, '');
   source = source.replace(/articlePhotoSet\(article\.slug\)\[0\]/g, 'getArticleImage(article)');
   source = source.replace(/articlePhotoSet\(article\.slug\)/g, 'getArticleImage(article)');
-
-  // Make any previous hero/card SafeArticlePhoto calls use the same explicit registry.
   source = source.replace(/snay3iCardPhoto\(article\?\.slug \|\| ''\)/g, 'getArticleImage(article)');
+
+  // Keep this project compatible with the existing react-scripts/Babel build.
+  source = source.replace(/\?\./g, '.');
 
   fs.writeFileSync(blogPath, source, 'utf8');
   console.log(`[blog photography v2] React registry applied (${Object.keys(PHOTO_REGISTRY).length} curated articles)`);
@@ -55,8 +50,8 @@ function emojiForSlug(slug) {
   return CATEGORY_EMOJI[categoryForSlug(slug)] || '🇲🇦';
 }
 
-function safePhotoBlock(url, alt, compact = false) {
-  const height = compact ? 150 : 340;
+function safePhotoBlock(url, alt) {
+  const height = 340;
   const image = url ? `background-image:linear-gradient(135deg,rgba(13,27,42,.12),rgba(27,38,59,.58)),url('${url}')` : `background-image:${FALLBACK}`;
   return `<div role="img" aria-label="${escapeHtml(alt)}" data-snay3i-safe-photo="1" style="min-height:${height}px;width:100%;border-radius:20px;background-color:#0D1B2A;${image};background-size:cover;background-position:center;display:flex;align-items:flex-end;box-sizing:border-box;padding:24px"><div style="background:rgba(13,27,42,.82);color:#fff;border-radius:999px;padding:7px 12px;font-size:14px;line-height:1">🇲🇦 Snay3i.ma</div></div>`;
 }
@@ -107,7 +102,6 @@ function processBlogIndex() {
   if (!fs.existsSync(filePath)) return false;
   let html = fs.readFileSync(filePath, 'utf8');
 
-  // Remove previous generated photo blocks so this pass is idempotent.
   html = html.replace(/<div[^>]*data-snay3i-blog-photo=["']1["'][^>]*>[\s\S]*?<\/div>\s*/gi, '');
 
   html = html.replace(/<div class="card">([\s\S]*?)<\/div>/gi, (card) => {
