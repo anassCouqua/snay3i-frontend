@@ -7,7 +7,7 @@ let source = fs.readFileSync(blogPath, 'utf8');
 // react-scripts 5 / its Babel parser can fail on optional chaining in this project.
 // Keep the source compatible with the current production build pipeline.
 const before = source;
-source = source.replace(/article\?\.slug/g, '(article && article.slug)');
+source = source.replace(/\?\./g, '.');
 
 if (source !== before) {
   fs.writeFileSync(blogPath, source, 'utf8');
