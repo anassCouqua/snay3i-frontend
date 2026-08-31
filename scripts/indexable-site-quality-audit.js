@@ -92,18 +92,26 @@ for (const route of routes) {
   const h1 = (route === '/' ? ((html.match(/<noscript[\s\S]*?<h1\b/gi) || []).length) : (html.match(/<h1\b/gi) || []).length);
   const images = [...html.matchAll(/<img\b([^>]*)>/gi)];
   const missingAlt = images.filter((match) => !/\balt=["'][^"']+["']/i.test(match[1])).length;
+  const missingDimensions = images.filter((match) => {
+    const attrs = match[1];
+    const explicit = /\bwidth=["']?\d+/i.test(attrs) && /\bheight=["']?\d+/i.test(attrs);
+    const ratioReserved = /aspect-ratio\s*:/i.test(attrs);
+    return !explicit && !ratioReserved;
+  }).length;
   const hasAds = /adsbygoogle\.js|google-adsense-account/i.test(html);
   const min = route.startsWith('/blog/') ? 800 : (minimumWords[route] || 180);
 
-  rows.push({ route, words: tokens.length, h1, images: images.length, missingAlt, hasAds, shingles: shingles(tokens) });
+  rows.push({ route, words: tokens.length, h1, images: images.length, missingAlt, missingDimensions, hasAds, shingles: shingles(tokens) });
 
   if (!/^index\s*,\s*follow$/.test(robots)) failures.push(`${route}: robots is "${robots || 'missing'}"`);
   if (canonical !== `https://snay3i.ma${route === '/' ? '/' : route}`) failures.push(`${route}: canonical mismatch (${canonical || 'missing'})`);
+  if (/[?#]/.test(canonical || '')) failures.push(`${route}: canonical contains query string or fragment`);
   if (!title) failures.push(`${route}: title missing`);
   if (!desc || desc.length < 70) failures.push(`${route}: meta description too weak/missing (${desc.length})`);
   if (h1 !== 1) failures.push(`${route}: expected exactly one H1 in primary content, found ${h1}`);
   if (tokens.length < min) failures.push(`${route}: only ${tokens.length} words; internal floor is ${min}`);
   if (missingAlt) failures.push(`${route}: ${missingAlt} image(s) missing meaningful alt text`);
+  if (missingDimensions) failures.push(`${route}: ${missingDimensions} image(s) lack explicit dimensions/aspect-ratio and may contribute to layout shift`);
   if (!/lang=["']fr["']/i.test(html)) failures.push(`${route}: html lang=fr missing`);
   if (!/<meta\s+name=["']viewport["']/i.test(html)) failures.push(`${route}: viewport meta missing`);
   if (!adEligible.has(route) && hasAds) failures.push(`${route}: AdSense code present on non-editorial/trust route`);
@@ -117,8 +125,8 @@ for (const route of routes) {
 }
 
 console.log('=== SNAY3I FINAL INDEXABLE-SITE GATE ===');
-console.log('Route | Words | H1 | Images | Missing alt | Ads');
-for (const row of rows) console.log(`${row.route} | ${row.words} | ${row.h1} | ${row.images} | ${row.missingAlt} | ${row.hasAds ? 'YES' : 'NO'}`);
+console.log('Route | Words | H1 | Images | Missing alt | Missing dimensions | Ads');
+for (const row of rows) console.log(`${row.route} | ${row.words} | ${row.h1} | ${row.images} | ${row.missingAlt} | ${row.missingDimensions} | ${row.hasAds ? 'YES' : 'NO'}`);
 
 const overlaps = [];
 for (let i = 0; i < rows.length; i += 1) {
@@ -137,4 +145,4 @@ if (overlaps.length) {
 }
 
 if (failures.length) throw new Error(`[indexable gate] BLOCKED (${failures.length}):\n${failures.join('\n')}`);
-console.log(`[indexable gate] PASS: ${routes.length} indexable routes pass depth, metadata, robots/canonical, ad-placement, accessibility and overlap checks`);
+console.log(`[indexable gate] PASS: ${routes.length} indexable routes pass depth, metadata, robots/canonical, ad-placement, accessibility, layout-stability and overlap checks`);
