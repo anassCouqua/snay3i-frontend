@@ -13,6 +13,12 @@ const INDEXABLE_BLOG_SLUGS = [
   'nettoyage-profond-maison-guide',
   'creer-beau-jardin-maroc',
   'projet-soudure-ferronnerie-maroc',
+  'jardin-anglais-maroc-darija',
+  'cuisine-moderne-zero-maroc-darija',
+  'escalier-suspendu-maison-maroc-darija',
+  'open-space-maison-maroc-darija',
+  'villa-riad-piscine-jardin-maroc-darija',
+  'hammam-beldi-maison-maroc-darija',
 ];
 
 // Service/city pages remain usable for visitors, but they are deliberately
