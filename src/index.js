@@ -6,7 +6,6 @@ import App, { RegisterPage } from './App';
 import LandingPage from './LandingPage';
 import Blog from './Blog';
 import { AboutPage, ContactPage, PrivacyPage, TermsPage } from './Pages';
-import reportWebVitals from './reportWebVitals';
 
 function Router() {
   const path = window.location.pathname;
@@ -40,4 +39,3 @@ function Router() {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<React.StrictMode><Router /></React.StrictMode>);
-reportWebVitals();
