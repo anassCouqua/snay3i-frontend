@@ -37,6 +37,7 @@ const replacements = [
   ["Le mot « urgence » doit correspondre au risque réel, car les conditions d'intervention peuvent différer.", "Utilisez le terme « urgence » lorsque la situation nécessite réellement une intervention rapide, car les conditions d'intervention peuvent différer."],
   ["Une fourchette trouvée sur internet peut aider à préparer la discussion mais ne doit pas être présentée comme un tarif garanti pour Casablanca.", "Une fourchette trouvée sur internet peut aider à préparer la discussion mais ne devrait pas être présentée comme un tarif garanti pour Casablanca."],
   ["Le professionnel peut réparer l'urgence, mais la question de la responsabilité ou de la prise en charge doit être traitée séparément avec l'interlocuteur approprié.", "Le professionnel peut traiter la fuite ou la panne, tandis que la question de la responsabilité ou d'une éventuelle prise en charge se traite séparément avec l'interlocuteur approprié."],
+  ["Les portes coulissantes réduisent l’encombrement mais une partie du rangement reste toujours masquée par un panneau.", "Les portes coulissantes réduisent l’encombrement mais, selon le système, une partie du rangement peut rester masquée par un panneau."],
 ];
 
 let total = 0;
