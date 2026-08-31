@@ -1,5 +1,17 @@
 {
   "framework": null,
   "buildCommand": "npm run build",
-  "outputDirectory": "build"
+  "outputDirectory": "build",
+  "redirects": [
+    {
+      "source": "/seo",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/seo/:path*",
+      "destination": "/:path*",
+      "permanent": true
+    }
+  ]
 }
