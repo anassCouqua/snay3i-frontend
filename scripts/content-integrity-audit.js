@@ -27,10 +27,10 @@ function countWords(html){
 }
 function h1(html){return decode((html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)||[,''])[1]).replace(/<[^>]+>/g,'').trim().toLowerCase();}
 function meta(html,name){return decode((html.match(new RegExp(`<meta\\s+name=["']${name}["']\\s+content=["']([^"']*)`,'i'))||[,''])[1]);}
-function images(html){
-  const native=(html.match(/<img\b[^>]*>/gi)||[]).map(x=>({alt:(x.match(/\balt=["']([^"']+)/i)||[,''])[1],kind:'img'}));
-  const safe=(html.match(/<(?:div|figure)\b[^>]*(?:data-snay3i-safe-photo|data-snay3i-inline-photo|data-snay3i-photo-upgrade|data-snay3i-article-cover|data-snay3i-blog-photo)=["']1["'][^>]*>/gi)||[]).map(x=>({alt:(x.match(/(?:aria-label|alt)=["']([^"']+)/i)||[,''])[1],kind:'safe'}));
-  return native.concat(safe);
+function imageInfo(html){
+  const imgs=[...html.matchAll(/<img\b[^>]*>/gi)].map(m=>({alt:(m[0].match(/\balt=["']([^"']+)/i)||[,''])[1]}));
+  const safeBlocks=[...html.matchAll(/<(?:figure|div)\b[^>]*(?:data-snay3i-safe-photo|data-snay3i-inline-photo|data-snay3i-photo-upgrade|data-snay3i-article-cover|data-snay3i-blog-photo)=["']1["'][^>]*>/gi)];
+  return {visuals:Math.max(imgs.length,safeBlocks.length), imgs};
 }
 
 if(!fs.existsSync(blogRoot)) throw new Error('[integrity] public/blog missing');
@@ -45,16 +45,16 @@ for(const [slug,tokens] of Object.entries(rules)){
   if(hits<2) failures.push(`${slug}: topic mismatch (${hits}/${tokens.length} topic markers)`);
   const ps=paragraphs(html); const counts=new Map(); for(const p of ps) counts.set(p,(counts.get(p)||0)+1);
   for(const [p,n] of counts) if(n>=2) failures.push(`${slug}: repeated paragraph x${n}: ${p.slice(0,120)}`);
-  const title=meta(html,'title') || decode((html.match(/<title>([\s\S]*?)<\/title>/i)||[,''])[1]);
+  const title=decode((html.match(/<title>([\s\S]*?)<\/title>/i)||[,''])[1]);
   const desc=meta(html,'description');
   if((html.match(/<h1\b/gi)||[]).length!==1) failures.push(`${slug}: expected exactly one H1`);
   if(!/<link\s+rel=["']canonical["']/i.test(html)) failures.push(`${slug}: missing canonical`);
   if(wordCount<800) failures.push(`${slug}: editorial depth below 800 words (${wordCount})`);
   if(title.length<35||title.length>70) failures.push(`${slug}: title length ${title.length}`);
   if(desc.length<90||desc.length>165) failures.push(`${slug}: description length ${desc.length}`);
-  const imgs=images(html); if(imgs.length<2) failures.push(`${slug}: fewer than 2 article visual blocks (${imgs.length})`);
-  const missingAlt=imgs.filter(i=>!i.alt||i.alt.length<8).length; if(missingAlt) failures.push(`${slug}: ${missingAlt} article visual blocks missing useful alt/ARIA text`);
-  rows.push({slug,wordCount,titleLen:title.length,descLen:desc.length,visuals:imgs.length});
+  const info=imageInfo(html); if(info.visuals<2) failures.push(`${slug}: fewer than 2 article visual blocks (${info.visuals})`);
+  const missingAlt=info.imgs.filter(i=>!i.alt||i.alt.length<8).length; if(missingAlt) failures.push(`${slug}: ${missingAlt} native article images missing useful alt text`);
+  rows.push({slug,wordCount,titleLen:title.length,descLen:desc.length,visuals:info.visuals});
 }
 
 const allRows=Object.entries(rules).map(([slug])=>rows.find(r=>r.slug===slug)).filter(Boolean);
