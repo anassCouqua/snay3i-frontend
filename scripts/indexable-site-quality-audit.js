@@ -24,7 +24,6 @@ const minimumWords = {
 function fileFor(route) {
   return route === '/' ? path.join(publicRoot, 'index.html') : path.join(publicRoot, route.slice(1), 'index.html');
 }
-
 function decodeEntities(text) {
   return text
     .replace(/&nbsp;/gi, ' ')
@@ -33,7 +32,6 @@ function decodeEntities(text) {
     .replace(/&#39;|&apos;/gi, "'")
     .replace(/&[a-z0-9#]+;/gi, ' ');
 }
-
 function mainText(html, route) {
   let source = html;
   if (route === '/') {
@@ -50,23 +48,19 @@ function mainText(html, route) {
     .replace(/\s+/g, ' ')
     .trim());
 }
-
 function tokenize(text) {
-  return text.toLowerCase().match(/[a-zà-ÿ0-9’'-]+/gi) || [];
+  return text.toLowerCase().match(/[\p{L}\p{N}]+(?:['’][\p{L}\p{N}]+)*/gu) || [];
 }
-
 function shingles(tokens, size = 5) {
   const set = new Set();
   for (let i = 0; i <= tokens.length - size; i += 1) set.add(tokens.slice(i, i + size).join(' '));
   return set;
 }
-
 function jaccard(a, b) {
   let intersection = 0;
   for (const item of a) if (b.has(item)) intersection += 1;
   return intersection / (a.size + b.size - intersection || 1);
 }
-
 function metaContent(html, name) {
   const re = new RegExp(`<meta\\s+name=["']${name}["'][^>]*content=["']([^"']*)["'][^>]*>`, 'i');
   const reverse = new RegExp(`<meta\\s+content=["']([^"']*)["'][^>]*name=["']${name}["'][^>]*>`, 'i');
@@ -100,6 +94,7 @@ for (const route of routes) {
   }).length;
   const hasAds = /adsbygoogle\.js|google-adsense-account/i.test(html);
   const min = route.startsWith('/blog/') ? 800 : (minimumWords[route] || 180);
+  const isDarija = /-darija$/.test(route);
 
   rows.push({ route, words: tokens.length, h1, images: images.length, missingAlt, missingDimensions, hasAds, shingles: shingles(tokens) });
 
@@ -112,7 +107,11 @@ for (const route of routes) {
   if (tokens.length < min) failures.push(`${route}: only ${tokens.length} words; internal floor is ${min}`);
   if (missingAlt) failures.push(`${route}: ${missingAlt} image(s) missing meaningful alt text`);
   if (missingDimensions) failures.push(`${route}: ${missingDimensions} image(s) lack explicit dimensions/aspect-ratio and may contribute to layout shift`);
-  if (!/lang=["']fr["']/i.test(html)) failures.push(`${route}: html lang=fr missing`);
+  if (isDarija) {
+    if (!/<html[^>]*lang=["']ary["'][^>]*dir=["']rtl["']/i.test(html)) failures.push(`${route}: Darija page must expose html lang=ary dir=rtl`);
+  } else if (!/lang=["']fr["']/i.test(html)) {
+    failures.push(`${route}: html lang=fr missing`);
+  }
   if (!/<meta\s+name=["']viewport["']/i.test(html)) failures.push(`${route}: viewport meta missing`);
   if (!adEligible.has(route) && hasAds) failures.push(`${route}: AdSense code present on non-editorial/trust route`);
 
@@ -145,4 +144,4 @@ if (overlaps.length) {
 }
 
 if (failures.length) throw new Error(`[indexable gate] BLOCKED (${failures.length}):\n${failures.join('\n')}`);
-console.log(`[indexable gate] PASS: ${routes.length} indexable routes pass depth, metadata, robots/canonical, ad-placement, accessibility, layout-stability and overlap checks`);
+console.log(`[indexable gate] PASS: ${routes.length} indexable routes pass multilingual depth, metadata, robots/canonical, ad-placement, accessibility, layout-stability and overlap checks`);
