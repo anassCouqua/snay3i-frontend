@@ -9,18 +9,9 @@ const INDEXABLE_BLOG_SLUGS = [
   'urgence-plomberie-casablanca',
 ];
 
-const INDEXABLE_SERVICE_CITY_ROUTES = [
-  '/artisan/plombier/casablanca',
-  '/artisan/plombier/rabat',
-  '/artisan/electricien/casablanca',
-  '/artisan/electricien/rabat',
-  '/artisan/macon/casablanca',
-  '/artisan/peintre/casablanca',
-  '/artisan/menuisier/casablanca',
-  '/artisan/climatisation/casablanca',
-  '/artisan/serrurier/casablanca',
-  '/artisan/carreleur/casablanca',
-];
+// Service/city pages remain usable for visitors, but they are deliberately
+// excluded from Google until they contain genuinely local, non-templated value.
+const INDEXABLE_SERVICE_CITY_ROUTES = [];
 
 const CORE_ROUTES = ['/', '/about', '/blog', '/contact', '/privacy', '/terms'];
 
