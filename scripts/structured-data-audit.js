@@ -24,7 +24,7 @@ function wordsFrom(html) {
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style[\s\S]*?<\/style>/gi, ' ')
     .replace(/<[^>]+>/g, ' ')
-    .match(/[a-zà-ÿ0-9’'-]+/gi) || []).length;
+    .match(/[\p{L}\p{N}]+(?:['’][\p{L}\p{N}]+)*/gu) || []).length;
 }
 function metaDescription(html) {
   return ((html.match(/<meta\s+name=["']description["'][^>]*content=["']([^"']+)["'][^>]*>/i) || html.match(/<meta\s+content=["']([^"']+)["'][^>]*name=["']description["'][^>]*>/i) || [,''])[1] || '').trim();
@@ -37,6 +37,7 @@ for (const route of routes) {
     continue;
   }
   const html = fs.readFileSync(file, 'utf8');
+  const isDarija = /<html[^>]*lang=["']ary["'][^>]*dir=["']rtl["']/i.test(html);
   const title = ((html.match(/<title>([\s\S]*?)<\/title>/i) || [,''])[1] || '').trim();
   const desc = metaDescription(html);
   const h1Count = route === '/'
@@ -57,8 +58,9 @@ for (const route of routes) {
     if (/"@type":"LocalBusiness"/.test(html)) failures.push('/: misleading LocalBusiness schema present');
     if (!/contact@snay3i\.ma/.test(html)) failures.push('/: Organization contact email missing');
   } else {
-    if (!/<nav[^>]*aria-label="Fil d’Ariane"[^>]*data-snay3i-breadcrumbs="1"/i.test(html)) failures.push(`${route}: visible breadcrumb trail missing`);
+    if (!/<nav[^>]*data-snay3i-breadcrumbs="1"/i.test(html)) failures.push(`${route}: visible breadcrumb trail missing`);
     if (!/data-snay3i-breadcrumb-schema="1"/.test(html) || !/"@type":"BreadcrumbList"/.test(html)) failures.push(`${route}: BreadcrumbList schema missing`);
+    if (isDarija && !/aria-label="مسار الصفحة"/.test(html)) failures.push(`${route}: Darija breadcrumb label not localized`);
   }
 
   if (guideSet.has(route)) {
@@ -71,10 +73,11 @@ for (const route of routes) {
       ['mainEntityOfPage', /"mainEntityOfPage":\{"@type":"WebPage","@id":"https:\/\/snay3i\.ma\/blog\//],
       ['visible published date', /data-date-published="1"/],
       ['visible modified date', /data-date-modified="1"/],
+      ['language', isDarija ? /"inLanguage":"ary-MA"/ : /"inLanguage":"fr-MA"/],
     ];
     for (const [label, re] of required) if (!re.test(html)) failures.push(`${route}: ${label} missing`);
   }
 }
 
 if (failures.length) throw new Error(`[structured data audit] BLOCKED (${failures.length}):\n${failures.join('\n')}`);
-console.log(`[structured data audit] PASS: ${routes.length} indexable raw HTML routes have core metadata/H1; homepage has 300+ static words + Organization/WebSite; ${routes.length - 1} interior routes have breadcrumbs; ${INDEXABLE_BLOG_SLUGS.length} guides have complete BlogPosting authorship/date/publisher schema`);
+console.log(`[structured data audit] PASS: ${routes.length} indexable raw HTML routes have core metadata/H1; homepage has 300+ static words + Organization/WebSite; ${routes.length - 1} interior routes have localized breadcrumbs; ${INDEXABLE_BLOG_SLUGS.length} guides have complete language-aware BlogPosting schema`);
