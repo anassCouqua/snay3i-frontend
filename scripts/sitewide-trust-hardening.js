@@ -48,6 +48,9 @@ const app = patchFile('src/App.js', [
   ['Le réseau des artisans marocains', 'Annuaire d’artisans au Maroc'],
   [/<a href="#" onClick=\{\(e\)=>\{e\.preventDefault\(\);setLegalPage\("privacy"\);\}\}([^>]*)>Confidentialité<\/a>/g, '<a href="/privacy"$1>Confidentialité</a>'],
   [/<a href="#" onClick=\{\(e\)=>\{e\.preventDefault\(\);setLegalPage\("terms"\);\}\}([^>]*)>CGU<\/a>/g, '<a href="/terms"$1>CGU</a>'],
+  [/\nconst LEGAL_CONTENT = \{[\s\S]*?\n\};\n\nfunction LegalModal\(\{page, onClose\}\)\{[\s\S]*?\n\}\n\nexport function RegisterPage/, '\nexport function RegisterPage'],
+  [/\n\s*const \[legalPage,setLegalPage\]=useState\(null\);/g, ''],
+  [/\n\s*\{legalPage&&<LegalModal page=\{legalPage\} onClose=\{\(\)=>setLegalPage\(null\)\}\/\>\}/g, ''],
 ]);
 
 const adsenseContent = patchFile('src/AdsenseContent.js', [
@@ -77,5 +80,8 @@ for (const [rel, source] of checks) {
     if (match) failures.push(`${rel}: ${match[0]}`);
   }
 }
+for (const staleLegal of [/LEGAL_CONTENT/, /function LegalModal/, /setLegalPage\(/]) {
+  if (staleLegal.test(app)) failures.push(`src/App.js: duplicate legacy legal system remains (${staleLegal})`);
+}
 if (failures.length) throw new Error(`[trust hardening] BLOCKED:\n${failures.join('\n')}`);
-console.log('[trust hardening] PASS: no broad scale, verification, availability or free-quote promises remain in primary UI source');
+console.log('[trust hardening] PASS: no broad scale, verification, availability, free-quote promises or duplicate legacy legal modals remain in primary UI source');
