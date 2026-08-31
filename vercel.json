@@ -32,6 +32,9 @@
     {"src":"/blog/serrurier-marrakech-guide","status":308,"headers":{"Location":"/blog/serrurier-urgence-maroc"}},
     {"src":"/blog/trouver-snay3i-maroc-darija","status":308,"headers":{"Location":"/blog"}},
 
+    {"src":"/rejoindre","dest":"/index.html","headers":{"X-Robots-Tag":"noindex, follow"}},
+    {"src":"/rejoindre/","dest":"/index.html","headers":{"X-Robots-Tag":"noindex, follow"}},
+
     {"handle":"filesystem"},
     {"src":"/.*","dest":"/404.html","status":404}
   ]
