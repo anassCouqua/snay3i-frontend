@@ -35,7 +35,7 @@ const CATEGORIES = [
   { id: "welder",      label: "Soudeur",       ar: "لحّام",    emoji: "🔥" },
 ];
 
-const CITIES = [
+export const CITIES = [
   "Toutes",
   "Casablanca","Rabat","Marrakech","Fès","Tanger","Agadir",
   "Meknès","Oujda","Nador","Tétouan","Salé","Kénitra",
@@ -49,8 +49,7 @@ const CITIES = [
   "Témara","Skhirat","Sidi Kacem","Sidi Slimane","Khémisset",
   "Fnideq","Martil","M'diq","Tetouan",
   "Youssoufia","Kelaa des Sraghna","Chichaoua",
-  "Ait Benhaddou","Kelaat M'Gouna",
-  "Nador","Berkane","Saïdia",
+  "Ait Benhaddou","Kelaat M'Gouna","Saïdia",
 ];
 
 const CITY_COORDS = {
