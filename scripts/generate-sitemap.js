@@ -7,8 +7,7 @@ const BASE = 'https://snay3i.ma';
 
 if (!fs.existsSync(publicRoot)) throw new Error('Public directory is missing');
 
-// Curated editorial set: only pages that really exist under /public/blog/ are allowed.
-const INDEXABLE_BLOG_SLUGS = new Set([
+const INDEXABLE_BLOG_SLUGS = [
   'trouver-bon-plombier-maroc',
   'tarif-electricien-maroc-2026',
   'climatisation-maroc-installation',
@@ -16,9 +15,9 @@ const INDEXABLE_BLOG_SLUGS = new Set([
   'choisir-carreleur-maroc',
   'macon-construction-maroc',
   'urgence-plomberie-casablanca',
-]);
+];
 
-const INDEXABLE_SERVICE_CITY_ROUTES = new Set([
+const INDEXABLE_SERVICE_CITY_ROUTES = [
   '/artisan/plombier/casablanca',
   '/artisan/plombier/rabat',
   '/artisan/electricien/casablanca',
@@ -29,46 +28,48 @@ const INDEXABLE_SERVICE_CITY_ROUTES = new Set([
   '/artisan/climatisation/casablanca',
   '/artisan/serrurier/casablanca',
   '/artisan/carreleur/casablanca',
-]);
+];
 
-const walk = (dir, skip = new Set()) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-  if (entry.isDirectory() && skip.has(entry.name)) return [];
-  const full = path.join(dir, entry.name);
-  return entry.isDirectory() ? walk(full, skip) : [full];
-});
+const CORE_ROUTES = ['/', '/about', '/blog', '/contact', '/privacy', '/terms'];
+
+const routeFile = (route) => {
+  if (route === '/') return path.join(publicRoot, 'index.html');
+  return path.join(publicRoot, route.slice(1), 'index.html');
+};
+
+const ensureRoute = (route) => {
+  const file = routeFile(route);
+  if (!fs.existsSync(file)) throw new Error(`[sitemap] curated route does not exist: ${route}`);
+  return file;
+};
 
 const setRobots = (file, desired) => {
   let html = fs.readFileSync(file, 'utf8');
-  if (/<meta name="robots" content="[^"]*">/i.test(html)) {
-    html = html.replace(/<meta name="robots" content="[^"]*">/i, `<meta name="robots" content="${desired}">`);
+  if (/<meta\s+name=["']robots["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+name=["']robots["'][^>]*>/i, `<meta name="robots" content="${desired}">`);
   } else {
     html = html.replace('</head>', `<meta name="robots" content="${desired}">\n</head>`);
   }
   fs.writeFileSync(file, html, 'utf8');
 };
 
-const routes = new Set(['/']);
+const blogRoutes = INDEXABLE_BLOG_SLUGS.map((slug) => `/blog/${slug}`);
+const allRoutes = [...CORE_ROUTES, ...INDEXABLE_SERVICE_CITY_ROUTES, ...blogRoutes];
 
-for (const file of walk(publicRoot, new Set(['seo'])).filter((f) => f.endsWith('/index.html'))) {
-  const relative = path.relative(publicRoot, file).split(path.sep).join('/');
-  const route = relative === 'index.html'
-    ? '/'
-    : `/${relative.slice(0, -'/index.html'.length)}`;
+for (const route of blogRoutes) setRobots(ensureRoute(route), 'index,follow');
+for (const route of INDEXABLE_SERVICE_CITY_ROUTES) setRobots(ensureRoute(route), 'index,follow');
 
-  if (route.startsWith('/blog/')) {
-    const slug = route.slice('/blog/'.length);
-    const indexable = INDEXABLE_BLOG_SLUGS.has(slug);
-    setRobots(file, indexable ? 'index,follow' : 'noindex,follow');
-    if (!indexable) continue;
+// Everything else under canonical blog/service roots remains crawlable but out of the index.
+for (const root of ['blog', 'artisan']) {
+  const base = path.join(publicRoot, root);
+  if (!fs.existsSync(base)) continue;
+  for (const entry of fs.readdirSync(base, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const route = `/${root}/${entry.name}`;
+    const file = path.join(base, entry.name, 'index.html');
+    if (!fs.existsSync(file)) continue;
+    if (!allRoutes.includes(route)) setRobots(file, 'noindex,follow');
   }
-
-  if (route.startsWith('/artisan/')) {
-    const indexable = INDEXABLE_SERVICE_CITY_ROUTES.has(route);
-    setRobots(file, indexable ? 'index,follow' : 'noindex,follow');
-    if (!indexable) continue;
-  }
-
-  routes.add(route);
 }
 
 const priority = (route) => {
@@ -85,7 +86,7 @@ const changefreq = (route) => {
   return 'monthly';
 };
 
-const urls = [...routes]
+const urls = [...new Set(allRoutes)]
   .sort()
   .map((route) => `  <url><loc>${BASE}${route}</loc><changefreq>${changefreq(route)}</changefreq><priority>${priority(route)}</priority></url>`)
   .join('\n');
@@ -93,4 +94,4 @@ const urls = [...routes]
 const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
 
 fs.writeFileSync(output, xml, 'utf8');
-console.log(`Generated canonical sitemap with ${routes.size} URLs and ${INDEXABLE_BLOG_SLUGS.size} curated blog guides`);
+console.log(`Generated curated sitemap with ${allRoutes.length} verified routes and ${INDEXABLE_BLOG_SLUGS.length} curated blog guides`);
