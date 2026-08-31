@@ -37,6 +37,7 @@ function sentences(text) {
 
 function isExplicitDisclaimer(sentence) {
   return /(?:\bne\b|\bn['’])[^.!?]{0,120}\bgarant(?:i|it|issent)\b[^.!?]{0,80}\bpas\b/i.test(sentence)
+    || /\baucun(?:e)?\b[^.!?]{0,120}\bne\s+garant(?:it|issent)\b/i.test(sentence)
     || /\bsans\s+faire\s+croire\b[^.!?]{0,120}\bgaranti\b/i.test(sentence)
     || /\bne\s+devrait\s+pas\s+être\s+présent(?:é|ée|és|ées)\b[^.!?]{0,120}\bgaranti\b/i.test(sentence)
     || /\bpas\s+toujours\b/i.test(sentence)
