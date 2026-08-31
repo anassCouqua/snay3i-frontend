@@ -1,12 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const root = path.join(__dirname, '..');
+const root = path.join(process.cwd());
 const blogPath = path.join(root, 'src', 'Blog.js');
-const htmlRoots = [
-  path.join(root, 'public', 'blog'),
-  path.join(root, 'public', 'seo')
-];
+const htmlRoots = [path.join(root, 'public', 'blog'), path.join(root, 'public', 'seo')];
 
 const rules = [
   [/Les fuites d'eau\*\* représentent 40% des demandes sur Snay3i\.ma\./g, "Les fuites d'eau** font partie des problèmes de plomberie courants. Nous ne publions pas de pourcentage de demandes sans données internes vérifiables."],
@@ -24,7 +21,7 @@ const rules = [
   [/Minimum 6 mois sur la main d'œuvre\. Pour les nouvelles installations, demandez 1 an\./g, "La garantie dépend du professionnel, du travail réalisé et des conditions convenues. Demandez-la par écrit avant le début des travaux."],
   [/Légalement oui, mais c'est déconseillé sauf si vous avez des compétences en électricité\./g, "Pour toute intervention électrique présentant un risque, privilégiez un professionnel qualifié et respectez les règles de sécurité applicables."],
   [/Pour les gros travaux, un permis est requis auprès de la municipalité\. Votre électricien doit vous en informer\./g, "Les autorisations et règles applicables dépendent de la nature des travaux et de la commune. Vérifiez les exigences locales avant un chantier important."],
-  [/La rénovation d'une maison au Maroc.*?20 à 40%\./g, "Une rénovation peut améliorer le confort et, selon le projet et le marché local, la valeur d'un logement. L'impact financier dépend fortement du bien, des travaux et du contexte local."],
+  [/peuvent augmenter la valeur de votre bien de 20 à 40%\./g, "Une rénovation peut améliorer le confort et, selon le projet et le marché local, la valeur d'un logement. L'impact financier dépend fortement du bien, des travaux et du contexte local."],
   [/peuvent réduire vos factures de 30 à 50%\./g, "peuvent réduire la consommation d'énergie dans certaines situations, mais le gain dépend du logement, des équipements et des habitudes."],
   [/Ils surviennent dans 90% des projets de rénovation\./g, "Prévoyez une marge pour les imprévus, notamment lorsque l'état réel du logement n'est pas encore connu."],
   [/Les tarifs.*?sont généralement 15-25% plus élevés qu'en province\./g, "Les tarifs peuvent différer sensiblement selon la ville, le quartier, le déplacement, l'urgence, les matériaux et la complexité du travail. Demandez des devis locaux."],
@@ -39,6 +36,9 @@ const rules = [
   [/15 ans d'expérience/gi, "une expérience pertinente"],
   [/au moins 5 ans d&#39;expérience/gi, "une expérience pertinente démontrable"],
   [/15 ans d&#39;expérience/gi, "une expérience pertinente"],
+  [/\+200 artisans vérifiés dans 21 villes du Maroc/gi, "Consultez les professionnels actuellement proposés dans votre ville"],
+  [/La référence des artisans marocains/gi, "La plateforme de recherche d'artisans de Snay3i.ma"],
+  [/les meilleurs artisans au Maroc/gi, "des professionnels proposés sur Snay3i.ma"],
 ];
 
 const bannedPatterns = [
@@ -53,6 +53,8 @@ const bannedPatterns = [
   /\b20 à 40%\b/gi,
   /\b30 à 50%\b/gi,
   /\b90% des projets\b/gi,
+  /\+200 artisans vérifiés/gi,
+  /La référence des artisans marocains/gi,
 ];
 
 function applyRules(source) {
@@ -60,7 +62,7 @@ function applyRules(source) {
   for (const [pattern, replacement] of rules) {
     const before = source;
     source = source.replace(pattern, replacement);
-    if (source !== before) changes++;
+    if (source !== before) changes += 1;
   }
   return { source, changes };
 }
@@ -87,9 +89,9 @@ function findBanned(source, fileLabel) {
 function main() {
   if (!fs.existsSync(blogPath)) throw new Error(`[forensic audit] Missing ${blogPath}`);
 
-  let changes = 0;
   let source = fs.readFileSync(blogPath, 'utf8');
-  ({ source, changes } = applyRules(source));
+  let sourceChanges;
+  ({ source, changes: sourceChanges } = applyRules(source));
 
   source = source.replace(
     /const AUTHOR_TITLE = 'Fondateur de Snay3i\.ma \| Expert en services artisanaux au Maroc';/,
@@ -100,13 +102,12 @@ function main() {
   const banned = findBanned(source, 'src/Blog.js');
   let htmlChanged = 0;
   let htmlFiles = 0;
-
   for (const dir of htmlRoots) {
     for (const file of collectHtmlFiles(dir)) {
-      htmlFiles++;
+      htmlFiles += 1;
       let html = fs.readFileSync(file, 'utf8');
       const before = html;
-      let htmlRuleChanges = 0;
+      let htmlRuleChanges;
       ({ source: html, changes: htmlRuleChanges } = applyRules(html));
       htmlChanged += htmlRuleChanges;
       if (html !== before) fs.writeFileSync(file, html, 'utf8');
@@ -114,12 +115,8 @@ function main() {
     }
   }
 
-  console.log(`[forensic audit] applied ${changes} source rule(s); processed ${htmlFiles} generated HTML file(s); changed ${htmlChanged} generated file(s)`);
-
-  if (banned.length) {
-    throw new Error(`[forensic audit] BLOCKED: unsupported claims remain:\n${Array.from(new Set(banned)).join('\n')}`);
-  }
-
+  console.log(`[forensic audit] applied ${sourceChanges} source rule(s); processed ${htmlFiles} generated HTML file(s); changed ${htmlChanged} generated file(s)`);
+  if (banned.length) throw new Error(`[forensic audit] BLOCKED: unsupported claims remain:\n${Array.from(new Set(banned)).join('\n')}`);
   console.log('[forensic audit] PASS: no banned unsupported-claim patterns remain in source or generated HTML');
 }
 
