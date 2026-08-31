@@ -11,7 +11,13 @@ const rules = {
   'serrurier-urgence-maroc': ['serrurier','serrure','porte','clé'],
   'choisir-carreleur-maroc': ['carreleur','carrelage','zellige'],
   'macon-construction-maroc': ['maçon','macon','maçonnerie','construction','béton'],
-  'urgence-plomberie-casablanca': ['plomberie','plombier','fuite','eau','casablanca']
+  'urgence-plomberie-casablanca': ['plomberie','plombier','fuite','eau','casablanca'],
+  'petites-reparations-bricoleur-maison-maroc': ['bricoleur','réparation','fixation','maison','étagère'],
+  'repeindre-maison-maroc-guide': ['peinture','peintre','mur','couleur','finition'],
+  'rangement-sur-mesure-menuisier-maroc': ['menuisier','menuiserie','rangement','meuble','bois'],
+  'nettoyage-profond-maison-guide': ['nettoyage','ménage','poussière','cuisine','salle de bain'],
+  'creer-beau-jardin-maroc': ['jardin','jardinier','plantes','arrosage','sol'],
+  'projet-soudure-ferronnerie-maroc': ['soudeur','soudure','ferronnerie','métal','portail']
 };
 
 function decode(s){return s.replace(/&amp;/gi,'&').replace(/&lt;/gi,'<').replace(/&gt;/gi,'>').replace(/&quot;/gi,'"').replace(/&#39;|&apos;/gi,"'").replace(/&nbsp;/gi,' ');}
@@ -28,10 +34,7 @@ function countWords(html){
 function h1(html){return decode((html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)||[,''])[1]).replace(/<[^>]+>/g,'').trim().toLowerCase();}
 function meta(html,name){return decode((html.match(new RegExp(`<meta\\s+name=["']${name}["']\\s+content=["']([^"']*)`,'i'))||[,''])[1]);}
 function imageInfo(html){
-  const imgs=[...html.matchAll(/<img\b[^>]*>/gi)].map(m=>({
-    alt:(m[0].match(/\balt=["']([^"']+)/i)||[,''])[1],
-    src:(m[0].match(/\bsrc=["']([^"']+)/i)||[,''])[1]
-  }));
+  const imgs=[...html.matchAll(/<img\b[^>]*>/gi)].map(m=>({alt:(m[0].match(/\balt=["']([^"']+)/i)||[,''])[1],src:(m[0].match(/\bsrc=["']([^"']+)/i)||[,''])[1]}));
   const safeBlocks=[...html.matchAll(/<(?:figure|div)\b[^>]*(?:data-snay3i-safe-photo|data-snay3i-inline-photo|data-snay3i-photo-upgrade|data-snay3i-article-cover|data-snay3i-support-photo|data-snay3i-blog-photo)=["']1["'][^>]*>/gi)];
   return {visuals:Math.max(imgs.length,safeBlocks.length), imgs};
 }
