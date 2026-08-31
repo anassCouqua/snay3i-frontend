@@ -3,6 +3,10 @@ const path = require('path');
 
 const root = path.join(__dirname, '..');
 const blogPath = path.join(root, 'src', 'Blog.js');
+const htmlRoots = [
+  path.join(root, 'public', 'blog'),
+  path.join(root, 'public', 'seo')
+];
 
 const rules = [
   [/Les fuites d'eau\*\* représentent 40% des demandes sur Snay3i\.ma\./g, "Les fuites d'eau** font partie des problèmes de plomberie courants. Nous ne publions pas de pourcentage de demandes sans données internes vérifiables."],
@@ -26,53 +30,94 @@ const rules = [
   [/Les tarifs.*?sont généralement 15-25% plus élevés qu'en province\./g, "Les tarifs peuvent différer sensiblement selon la ville, le quartier, le déplacement, l'urgence, les matériaux et la complexité du travail. Demandez des devis locaux."],
   [/Casablanca et Rabat affichent des tarifs 20-30% plus élevés que les villes moyennes\. Dans les quartiers résidentiels haut de gamme comme Anfa ou Agdal, comptez encore 10-15% de plus\./g, "Les prix peuvent varier selon la ville, le quartier, le déplacement, l'urgence et la complexité du travail. Comparez plusieurs devis pour une prestation comparable."],
   [/Dans les grandes villes comme Casablanca et Marrakech, l'immobilier se vend mieux et plus cher quand il est en bon état\./g, "L'état et la qualité d'un logement peuvent influencer son attractivité, mais l'effet sur le prix dépend du bien et du marché local."],
-
-  // Remaining high-risk experience/count claims found by the forensic scan.
   [/Privilégiez un plombier avec au moins 5 ans d'expérience pour les travaux importants/g, "Pour des travaux importants, privilégiez un professionnel qui peut démontrer une expérience pertinente sur un chantier comparable et demandez des références si nécessaire."],
   [/Un électricien certifié avec 15 ans d'expérience facture plus cher mais offre de bien meilleures garanties qu'un débutant\./g, "L'expérience pertinente et les qualifications peuvent compter, mais elles ne garantissent pas à elles seules la qualité du travail. Vérifiez les compétences, les références et les conditions proposées."],
   [/plus de 100 artisans dans 21 villes du Maroc/gi, "des professionnels actuellement proposés dans plusieurs villes du Maroc"],
   [/plus de 100 artisans disponibles/gi, "les professionnels actuellement proposés dans votre zone"],
   [/21 villes du Maroc/gi, "plusieurs villes du Maroc"],
+  [/au moins 5 ans d'expérience/gi, "une expérience pertinente démontrable"],
+  [/15 ans d'expérience/gi, "une expérience pertinente"],
 ];
 
-function main() {
-  if (!fs.existsSync(blogPath)) throw new Error(`[forensic audit] Missing ${blogPath}`);
-  let source = fs.readFileSync(blogPath, 'utf8');
+const bannedPatterns = [
+  /\bplus de 100 artisans\b/gi,
+  /\b21 villes du Maroc\b/gi,
+  /\b40% des demandes sur Snay3i\.ma\b/gi,
+  /\bau moins 5 ans d'expérience\b/gi,
+  /\b15 ans d'expérience\b/gi,
+  /\b30% maximum est acceptable\b/gi,
+  /\bMinimum 6 mois sur la main d'œuvre\b/gi,
+  /\b20-30% plus élevés\b/gi,
+  /\b20 à 40%\b/gi,
+  /\b30 à 50%\b/gi,
+  /\b90% des projets\b/gi,
+];
+
+function applyRules(source) {
   let changes = 0;
   for (const [pattern, replacement] of rules) {
     const before = source;
     source = source.replace(pattern, replacement);
     if (source !== before) changes++;
   }
+  return { source, changes };
+}
+
+function collectHtmlFiles(dir) {
+  if (!fs.existsSync(dir)) return [];
+  const out = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...collectHtmlFiles(full));
+    else if (entry.isFile() && entry.name.endsWith('.html')) out.push(full);
+  }
+  return out;
+}
+
+function findBanned(source, fileLabel) {
+  const found = [];
+  for (const re of bannedPatterns) {
+    for (const match of source.matchAll(re)) found.push(`${fileLabel}: ${match[0]}`);
+  }
+  return found;
+}
+
+function main() {
+  if (!fs.existsSync(blogPath)) throw new Error(`[forensic audit] Missing ${blogPath}`);
+
+  let changes = 0;
+  let source = fs.readFileSync(blogPath, 'utf8');
+  ({ source, changes } = applyRules(source));
 
   source = source.replace(
     /const AUTHOR_TITLE = 'Fondateur de Snay3i\.ma \| Expert en services artisanaux au Maroc';/,
     "const AUTHOR_TITLE = 'Fondateur de Snay3i.ma | Éditeur du guide pratique Snay3i';"
   );
+  fs.writeFileSync(blogPath, source, 'utf8');
 
-  const bannedPatterns = [
-    /\bplus de 100 artisans\b/gi,
-    /\b21 villes du Maroc\b/gi,
-    /\b40% des demandes sur Snay3i\.ma\b/gi,
-    /\bau moins 5 ans d'expérience\b/gi,
-    /\b15 ans d'expérience\b/gi,
-    /\b30% maximum est acceptable\b/gi,
-    /\bMinimum 6 mois sur la main d'œuvre\b/gi,
-  ];
+  const banned = findBanned(source, 'src/Blog.js');
+  let htmlChanged = 0;
+  let htmlFiles = 0;
 
-  const banned = [];
-  for (const re of bannedPatterns) {
-    for (const match of source.matchAll(re)) banned.push(match[0]);
+  for (const dir of htmlRoots) {
+    for (const file of collectHtmlFiles(dir)) {
+      htmlFiles++;
+      let html = fs.readFileSync(file, 'utf8');
+      const before = html;
+      ({ source: html, changes: htmlRuleChanges } = applyRules(html));
+      htmlChanged += htmlRuleChanges;
+      if (html !== before) fs.writeFileSync(file, html, 'utf8');
+      banned.push(...findBanned(html, path.relative(root, file)));
+    }
   }
 
-  fs.writeFileSync(blogPath, source, 'utf8');
-  console.log(`[forensic audit] applied ${changes} evidence-safety rule(s)`);
+  console.log(`[forensic audit] applied ${changes} source rule(s); processed ${htmlFiles} generated HTML file(s); changed ${htmlChanged} generated file(s)`);
 
   if (banned.length) {
-    throw new Error(`[forensic audit] BLOCKED: unsupported claims remain: ${Array.from(new Set(banned)).join(', ')}`);
+    throw new Error(`[forensic audit] BLOCKED: unsupported claims remain:\n${Array.from(new Set(banned)).join('\n')}`);
   }
 
-  console.log('[forensic audit] PASS: no banned unsupported-claim patterns remain');
+  console.log('[forensic audit] PASS: no banned unsupported-claim patterns remain in source or generated HTML');
 }
 
 main();
