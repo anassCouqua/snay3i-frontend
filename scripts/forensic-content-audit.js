@@ -37,16 +37,18 @@ const rules = [
   [/21 villes du Maroc/gi, "plusieurs villes du Maroc"],
   [/au moins 5 ans d'expérience/gi, "une expérience pertinente démontrable"],
   [/15 ans d'expérience/gi, "une expérience pertinente"],
+  [/au moins 5 ans d&#39;expérience/gi, "une expérience pertinente démontrable"],
+  [/15 ans d&#39;expérience/gi, "une expérience pertinente"],
 ];
 
 const bannedPatterns = [
   /\bplus de 100 artisans\b/gi,
   /\b21 villes du Maroc\b/gi,
   /\b40% des demandes sur Snay3i\.ma\b/gi,
-  /\bau moins 5 ans d'expérience\b/gi,
-  /\b15 ans d'expérience\b/gi,
+  /\bau moins 5 ans d(?:'|&#39;)expérience\b/gi,
+  /\b15 ans d(?:'|&#39;)expérience\b/gi,
   /\b30% maximum est acceptable\b/gi,
-  /\bMinimum 6 mois sur la main d'œuvre\b/gi,
+  /\bMinimum 6 mois sur la main d(?:'|&#39;)œuvre\b/gi,
   /\b20-30% plus élevés\b/gi,
   /\b20 à 40%\b/gi,
   /\b30 à 50%\b/gi,
@@ -104,6 +106,7 @@ function main() {
       htmlFiles++;
       let html = fs.readFileSync(file, 'utf8');
       const before = html;
+      let htmlRuleChanges = 0;
       ({ source: html, changes: htmlRuleChanges } = applyRules(html));
       htmlChanged += htmlRuleChanges;
       if (html !== before) fs.writeFileSync(file, html, 'utf8');
