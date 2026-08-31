@@ -2,8 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const { INDEXABLE_SERVICE_CITY_ROUTES } = require('./site-curation-config');
 
-const publicRoot = path.join(process.cwd(), 'public');
+const root = process.cwd();
+const publicRoot = path.join(root, 'public');
 const artisanRoot = path.join(publicRoot, 'artisan');
+const landingSourceFile = path.join(root, 'src', 'LandingPage.js');
 const curated = new Set(INDEXABLE_SERVICE_CITY_ROUTES);
 
 const GUIDE_BY_TRADE = {
@@ -43,6 +45,26 @@ function stripAdsense(html) {
 
 function stripStructuredData(html) {
   return html.replace(/\s*<script\s+type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>/gi, '');
+}
+
+function hardenRuntimeIndexability() {
+  if (!fs.existsSync(landingSourceFile)) throw new Error('[service-city curation] src/LandingPage.js missing');
+  let source = fs.readFileSync(landingSourceFile, 'utf8');
+  const conditionalRobots = /setMeta\(['"]robots['"],\s*list\.length\s*===\s*0\s*\?\s*['"]noindex,\s*follow['"]\s*:\s*['"]index,\s*follow['"]\s*\);/g;
+  const before = source;
+  source = source.replace(conditionalRobots, "setMeta('robots', 'noindex, follow');");
+
+  // Until a local page is explicitly promoted through site-curation-config, React
+  // must never override the static noindex decision after hydration.
+  if (/setMeta\(['"]robots['"],\s*['"]index,\s*follow['"]\s*\)/i.test(source)) {
+    throw new Error('[service-city curation] LandingPage.js still contains a runtime index,follow override');
+  }
+  if (/list\.length[\s\S]{0,120}['"]index,\s*follow['"]/i.test(source)) {
+    throw new Error('[service-city curation] LandingPage.js still conditionally reindexes populated local pages');
+  }
+
+  fs.writeFileSync(landingSourceFile, source, 'utf8');
+  return source !== before ? 1 : 0;
 }
 
 function relatedSection(route) {
@@ -113,6 +135,7 @@ function collectPages() {
   return pages;
 }
 
+const runtimePatchCount = hardenRuntimeIndexability();
 const pages = collectPages();
 const found = new Set(pages.map((page) => page.route));
 const missing = INDEXABLE_SERVICE_CITY_ROUTES.filter((route) => !found.has(route));
@@ -134,6 +157,10 @@ for (const page of pages) {
 }
 
 const failures = [];
+const runtimeLanding = fs.readFileSync(landingSourceFile, 'utf8');
+if (curated.size === 0 && /setMeta\(['"]robots['"],\s*['"]index,\s*follow['"]\s*\)/i.test(runtimeLanding)) {
+  failures.push('LandingPage.js can reindex a retired service-city page after hydration');
+}
 for (const page of pages) {
   const html = fs.readFileSync(page.file, 'utf8');
   if (curated.has(page.route)) {
@@ -148,4 +175,4 @@ for (const page of pages) {
 }
 
 if (failures.length) throw new Error(`[service-city curation] BLOCKED:\n${failures.join('\n')}`);
-console.log(`[service-city curation] PASS: ${pages.length} service-city pages found; ${curatedCount} curated indexable; ${retiredCount} retired noindex/ad-free; no curated page links to an uncurated service route`);
+console.log(`[service-city curation] PASS: ${pages.length} service-city pages found; ${curatedCount} curated indexable; ${retiredCount} retired noindex/ad-free; runtime reindex patch ${runtimePatchCount ? 'applied' : 'already clean'}; no curated page links to an uncurated service route`);
