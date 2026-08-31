@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "node scripts/repair-blog-photography-v2.js && node scripts/adsense-content-hardening.js && node scripts/forensic-content-audit.js && node scripts/generate-sitemap.js",
+    "prebuild": "node scripts/repair-blog-photography-v2.js && node scripts/adsense-content-hardening.js && node scripts/forensic-content-audit.js && node scripts/content-forensic-report.js && node scripts/generate-sitemap.js",
     "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
