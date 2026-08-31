@@ -28,6 +28,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Inspect production dependency audit
+        run: npm audit --omit=dev || true
+
       - name: Run forensic production build
         run: npm run build
 
