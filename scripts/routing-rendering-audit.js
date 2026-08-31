@@ -30,5 +30,18 @@ if (filesystemIndex < 0) failures.push('vercel routing has no filesystem handle'
 if (catchallIndex < 0) failures.push('vercel routing has no real 404 catch-all');
 if (filesystemIndex >= 0 && catchallIndex >= 0 && catchallIndex < filesystemIndex) failures.push('404 catch-all appears before filesystem handling');
 
+for (const routePath of ['/rejoindre', '/rejoindre/']) {
+  const route = routes.find((r) => r && r.src === routePath);
+  if (!route) {
+    failures.push(`${routePath}: legitimate SPA route is not preserved before 404 catch-all`);
+    continue;
+  }
+  if (route.dest !== '/index.html') failures.push(`${routePath}: expected rewrite to /index.html`);
+  const xRobots = route.headers && (route.headers['X-Robots-Tag'] || route.headers['x-robots-tag']);
+  if (!xRobots || !/noindex/i.test(xRobots)) failures.push(`${routePath}: SPA acquisition route must be noindex`);
+  const routeIndex = routes.indexOf(route);
+  if (catchallIndex >= 0 && routeIndex > catchallIndex) failures.push(`${routePath}: route appears after 404 catch-all`);
+}
+
 if (failures.length) throw new Error(`[routing/rendering] BLOCKED (${failures.length}):\n${failures.join('\n')}`);
-console.log(`[routing/rendering] PASS: homepage exposes ${words.length} raw fallback words with trust links; unknown routes are configured for HTTP 404 + noindex`);
+console.log(`[routing/rendering] PASS: homepage exposes ${words.length} raw fallback words with trust links; /rejoindre remains functional and noindex; unknown routes are configured for HTTP 404 + noindex`);
