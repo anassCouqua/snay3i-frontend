@@ -7,6 +7,12 @@ const INDEXABLE_BLOG_SLUGS = [
   'choisir-carreleur-maroc',
   'macon-construction-maroc',
   'urgence-plomberie-casablanca',
+  'petites-reparations-bricoleur-maison-maroc',
+  'repeindre-maison-maroc-guide',
+  'rangement-sur-mesure-menuisier-maroc',
+  'nettoyage-profond-maison-guide',
+  'creer-beau-jardin-maroc',
+  'projet-soudure-ferronnerie-maroc',
 ];
 
 // Service/city pages remain usable for visitors, but they are deliberately
