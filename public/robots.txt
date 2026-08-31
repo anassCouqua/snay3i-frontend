@@ -1,3 +1,4 @@
+# Snay3i.ma production crawl policy
 User-agent: *
 Allow: /
 
