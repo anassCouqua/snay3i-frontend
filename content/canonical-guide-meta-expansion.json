@@ -1,0 +1,38 @@
+{
+  "petites-reparations-bricoleur-maison-maroc": {
+    "title": "Petites réparations à la maison : organiser un bricoleur",
+    "description": "Méthode pratique pour regrouper les petites réparations, préparer les pièces, choisir les fournitures et organiser une journée de bricolage efficace.",
+    "category": "Bricolage",
+    "emoji": "🔨"
+  },
+  "repeindre-maison-maroc-guide": {
+    "title": "Repeindre une maison au Maroc : méthode et finitions",
+    "description": "Préparer les murs, choisir la finition, protéger les pièces et contrôler le résultat : un guide pratique pour réussir un projet de peinture.",
+    "category": "Peinture",
+    "emoji": "🎨"
+  },
+  "rangement-sur-mesure-menuisier-maroc": {
+    "title": "Rangements sur mesure : préparer un projet de menuiserie",
+    "description": "Inventaire, mesures, matériaux, quincaillerie et pose : comment préparer un rangement sur mesure réellement adapté à votre logement.",
+    "category": "Menuiserie",
+    "emoji": "🪚"
+  },
+  "nettoyage-profond-maison-guide": {
+    "title": "Nettoyage en profondeur : méthode pièce par pièce",
+    "description": "Une méthode complète pour nettoyer une maison du haut vers le bas, organiser les produits, traiter chaque pièce et éviter les erreurs courantes.",
+    "category": "Ménage",
+    "emoji": "🧹"
+  },
+  "creer-beau-jardin-maroc": {
+    "title": "Créer un beau jardin au Maroc : de zéro à l’entretien",
+    "description": "Plan, soleil, sol, plantes, arrosage et entretien : une méthode pratique pour concevoir un jardin agréable, durable et réaliste à entretenir.",
+    "category": "Jardinage",
+    "emoji": "🌿"
+  },
+  "projet-soudure-ferronnerie-maroc": {
+    "title": "Ferronnerie au Maroc : préparer un projet avec un soudeur",
+    "description": "Dimensions, usage, profils, finition, quincaillerie et pose : les décisions à préparer avant un portail, une grille ou un ouvrage métallique.",
+    "category": "Soudure",
+    "emoji": "🔥"
+  }
+}
