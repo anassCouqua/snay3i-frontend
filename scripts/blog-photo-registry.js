@@ -61,7 +61,7 @@ const PHOTO_REGISTRY = {
 
   // City / Morocco-specific guides
   'artisan-marrakech-guide': U('photo-1779088469709-06fe1564c366'),
-  'artisan-rabat-guide-2026': U('photo-1665519448191-f73fc16d5a74'),
+  'artisan-rabat-guide-2026': U('photo-1751407690802-39d531cacd11'),
   'artisan-tanger-guide-2026': U('photo-1781341031281-083ef5964938'),
   'trouver-snay3i-maroc-darija': U('photo-1779088470584-f6a5eb7c14a2')
 };
