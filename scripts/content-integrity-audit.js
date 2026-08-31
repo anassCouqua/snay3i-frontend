@@ -11,7 +11,7 @@ const rules = {
   'serrurier-urgence-maroc': ['serrurier','serrure','porte','clé'],
   'choisir-carreleur-maroc': ['carreleur','carrelage','zellige'],
   'macon-construction-maroc': ['maçon','macon','maçonnerie','construction','béton'],
-  'urgence-plomberie-casablanca': ['plomberie','plombier','fuite','eau','Casablanca']
+  'urgence-plomberie-casablanca': ['plomberie','plombier','fuite','eau','casablanca']
 };
 
 function decode(s){return s.replace(/&amp;/gi,'&').replace(/&lt;/gi,'<').replace(/&gt;/gi,'>').replace(/&quot;/gi,'"').replace(/&#39;|&apos;/gi,"'").replace(/&nbsp;/gi,' ');}
@@ -40,3 +40,4 @@ for(const [slug,tokens] of Object.entries(rules)){
 
 if(failures.length){console.error('[integrity] BLOCKED:\n'+failures.join('\n'));process.exit(1);}
 console.log(`[integrity] PASS: ${Object.keys(rules).length} canonical articles match topic markers and contain no repeated long paragraphs`);
+// Production release gate: this check intentionally fails the build when canonical content drifts.
