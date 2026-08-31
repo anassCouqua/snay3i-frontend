@@ -1,0 +1,51 @@
+name: Refresh Dependency Lock
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - package.json
+
+permissions:
+  contents: write
+
+jobs:
+  refresh-lock:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Use Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Regenerate lockfile without forced upgrades
+        run: npm install --package-lock-only --ignore-scripts
+
+      - name: Install regenerated dependency tree
+        run: npm ci
+
+      - name: Run forensic production build
+        run: npm run build
+
+      - name: Report production dependency audit
+        run: npm audit --omit=dev || true
+
+      - name: Commit validated lockfile
+        run: |
+          if git diff --quiet -- package-lock.json; then
+            echo "package-lock.json already current"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          git commit -m "chore(deps): refresh validated dependency lock"
+          git push origin HEAD:main
