@@ -4,6 +4,12 @@ const { INDEXABLE_SERVICE_CITY_ROUTES } = require('./site-curation-config');
 
 const publicRoot = path.join(process.cwd(), 'public');
 
+if (!INDEXABLE_SERVICE_CITY_ROUTES.length) {
+  console.log('=== SNAY3I CURATED SERVICE-CITY MICROSCOPE ===');
+  console.log('[service quality] PASS: 0 service-city templates are indexable; local pages remain excluded until they contain genuinely local, non-templated value');
+  process.exit(0);
+}
+
 function htmlToText(html) {
   const main = (html.match(/<main[^>]*>([\s\S]*?)<\/main>/i) || [null, html])[1];
   return main
