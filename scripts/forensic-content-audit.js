@@ -5,7 +5,6 @@ const root = path.join(__dirname, '..');
 const blogPath = path.join(root, 'src', 'Blog.js');
 
 const rules = [
-  // Remove claims that require internal evidence we do not have in the article source.
   [/Les fuites d'eau\*\* représentent 40% des demandes sur Snay3i\.ma\./g, "Les fuites d'eau** font partie des problèmes de plomberie courants. Nous ne publions pas de pourcentage de demandes sans données internes vérifiables."],
   [/Avec plus de 100 artisans dans 21 villes du Maroc, vous trouverez rapidement le bon professionnel — sans intermédiaire et sans commission\./g, "Utilisez Snay3i.ma pour rechercher les professionnels actuellement proposés dans votre ville et vérifiez directement la disponibilité, le prix et les conditions de la prestation."],
   [/Casablanca, Rabat, Marrakech, Tanger, Agadir, Fès — plus de 100 artisans dans 21 villes du Maroc\./g, "La disponibilité des professionnels varie selon la ville et évolue dans le temps. Consultez les résultats disponibles pour votre zone."],
@@ -18,7 +17,6 @@ const rules = [
   [/Chaque profil affiche:\n- Le nombre d'années d'expérience\n- La note moyenne des clients\n- Le nombre d'avis\n- La disponibilité \(urgence ou non\)\n- La localisation exacte/g, "Les informations affichées dépendent des données disponibles sur chaque profil. Vérifiez directement avec le professionnel les points importants avant de réserver."],
   [/Un plombier avec 50 avis positifs est beaucoup plus fiable qu'un inconnu trouvé sur Facebook\./g, "Un historique d'avis détaillés peut être utile, mais il faut aussi vérifier les réalisations, le devis, l'expérience pertinente et les conditions de l'intervention."],
   [/Un acompte de 30% maximum est acceptable\./g, "Si un acompte est demandé, convenez par écrit du montant, de ce qu'il couvre et du calendrier de paiement. Évitez de payer la totalité avant le début ou la réception des travaux importants."],
-  [/Dépannage.*?garantie.*?/g, (m) => m],
   [/Minimum 6 mois sur la main d'œuvre\. Pour les nouvelles installations, demandez 1 an\./g, "La garantie dépend du professionnel, du travail réalisé et des conditions convenues. Demandez-la par écrit avant le début des travaux."],
   [/Légalement oui, mais c'est déconseillé sauf si vous avez des compétences en électricité\./g, "Pour toute intervention électrique présentant un risque, privilégiez un professionnel qualifié et respectez les règles de sécurité applicables."],
   [/Pour les gros travaux, un permis est requis auprès de la municipalité\. Votre électricien doit vous en informer\./g, "Les autorisations et règles applicables dépendent de la nature des travaux et de la commune. Vérifiez les exigences locales avant un chantier important."],
@@ -28,6 +26,13 @@ const rules = [
   [/Les tarifs.*?sont généralement 15-25% plus élevés qu'en province\./g, "Les tarifs peuvent différer sensiblement selon la ville, le quartier, le déplacement, l'urgence, les matériaux et la complexité du travail. Demandez des devis locaux."],
   [/Casablanca et Rabat affichent des tarifs 20-30% plus élevés que les villes moyennes\. Dans les quartiers résidentiels haut de gamme comme Anfa ou Agdal, comptez encore 10-15% de plus\./g, "Les prix peuvent varier selon la ville, le quartier, le déplacement, l'urgence et la complexité du travail. Comparez plusieurs devis pour une prestation comparable."],
   [/Dans les grandes villes comme Casablanca et Marrakech, l'immobilier se vend mieux et plus cher quand il est en bon état\./g, "L'état et la qualité d'un logement peuvent influencer son attractivité, mais l'effet sur le prix dépend du bien et du marché local."],
+
+  // Remaining high-risk experience/count claims found by the forensic scan.
+  [/Privilégiez un plombier avec au moins 5 ans d'expérience pour les travaux importants/g, "Pour des travaux importants, privilégiez un professionnel qui peut démontrer une expérience pertinente sur un chantier comparable et demandez des références si nécessaire."],
+  [/Un électricien certifié avec 15 ans d'expérience facture plus cher mais offre de bien meilleures garanties qu'un débutant\./g, "L'expérience pertinente et les qualifications peuvent compter, mais elles ne garantissent pas à elles seules la qualité du travail. Vérifiez les compétences, les références et les conditions proposées."],
+  [/plus de 100 artisans dans 21 villes du Maroc/gi, "des professionnels actuellement proposés dans plusieurs villes du Maroc"],
+  [/plus de 100 artisans disponibles/gi, "les professionnels actuellement proposés dans votre zone"],
+  [/21 villes du Maroc/gi, "plusieurs villes du Maroc"],
 ];
 
 function main() {
@@ -40,27 +45,34 @@ function main() {
     if (source !== before) changes++;
   }
 
-  // Avoid presenting the site owner as an independent technical expert.
   source = source.replace(
     /const AUTHOR_TITLE = 'Fondateur de Snay3i\.ma \| Expert en services artisanaux au Maroc';/,
     "const AUTHOR_TITLE = 'Fondateur de Snay3i.ma | Éditeur du guide pratique Snay3i';"
   );
 
-  // Flag suspicious quantitative claims for the build log rather than silently inventing replacements.
-  const quantitativePatterns = [
-    /\b\d+%\b/g,
-    /\bplus de \d+ artisans\b/gi,
-    /\b\d+ villes\b/gi,
-    /\b\d+ ans d'expérience\b/gi,
+  const bannedPatterns = [
+    /\bplus de 100 artisans\b/gi,
+    /\b21 villes du Maroc\b/gi,
+    /\b40% des demandes sur Snay3i\.ma\b/gi,
+    /\bau moins 5 ans d'expérience\b/gi,
+    /\b15 ans d'expérience\b/gi,
+    /\b30% maximum est acceptable\b/gi,
+    /\bMinimum 6 mois sur la main d'œuvre\b/gi,
   ];
-  const matches = new Set();
-  for (const re of quantitativePatterns) {
-    for (const match of source.matchAll(re)) matches.add(match[0]);
+
+  const banned = [];
+  for (const re of bannedPatterns) {
+    for (const match of source.matchAll(re)) banned.push(match[0]);
   }
 
   fs.writeFileSync(blogPath, source, 'utf8');
   console.log(`[forensic audit] applied ${changes} evidence-safety rule(s)`);
-  console.log(`[forensic audit] remaining quantitative claims to review manually: ${Array.from(matches).slice(0, 40).join(', ') || 'none'}`);
+
+  if (banned.length) {
+    throw new Error(`[forensic audit] BLOCKED: unsupported claims remain: ${Array.from(new Set(banned)).join(', ')}`);
+  }
+
+  console.log('[forensic audit] PASS: no banned unsupported-claim patterns remain');
 }
 
 main();
