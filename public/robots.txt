@@ -1,5 +1,6 @@
 # Snay3i.ma production crawl policy
 User-agent: *
 Allow: /
+Disallow: /api/
 
 Sitemap: https://snay3i.ma/sitemap.xml
