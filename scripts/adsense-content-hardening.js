@@ -1,19 +1,10 @@
 const fs = require('fs');
 const path = require('path');
+const { INDEXABLE_BLOG_SLUGS } = require('./site-curation-config');
 
 const root = path.join(__dirname, '..');
 const publicBlog = path.join(root, 'public', 'blog');
-
-const CANONICAL_SLUGS = new Set([
-  'trouver-bon-plombier-maroc',
-  'tarif-electricien-maroc-2026',
-  'renovation-maison-maroc-guide',
-  'climatisation-maroc-installation',
-  'serrurier-urgence-maroc',
-  'choisir-carreleur-maroc',
-  'macon-construction-maroc',
-  'urgence-plomberie-casablanca',
-]);
+const CANONICAL_SLUGS = new Set(INDEXABLE_BLOG_SLUGS);
 
 function addNoindex(html) {
   if (/<meta\s+name=["']robots["'][^>]*>/i.test(html)) {
@@ -65,7 +56,7 @@ function processArticles() {
       changed += 1;
     }
   }
-  console.log(`[AdSense hardening] cleaned ${changed} static article page(s); ${legacy} legacy articles noindexed; ad code stripped from ${adStripped} legacy page(s)`);
+  console.log(`[AdSense hardening] ${CANONICAL_SLUGS.size} curated guides preserved; ${legacy} legacy articles noindexed; ad code stripped from ${adStripped} legacy page(s); ${changed} page(s) changed`);
 }
 
 processArticles();
