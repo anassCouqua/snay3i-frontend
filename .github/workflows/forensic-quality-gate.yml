@@ -41,3 +41,4 @@ jobs:
           test -f build/sitemap.xml
           test -f build/robots.txt
           test -f build/ads.txt
+          test ! -e build/seo
