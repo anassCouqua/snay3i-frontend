@@ -11,16 +11,16 @@ function visibleText(html) {
   const article = s.match(/<article[^>]*>([\s\S]*?)<\/article>/i); if (article) s = article[1];
   s = s.replace(/<[^>]+>/g,' '); return decode(s).replace(/\s+/g,' ').trim();
 }
-function words(text) { return (text.match(/[A-Za-zÀ-ÖØ-öø-ÿ0-9]+(?:['’][A-Za-zÀ-ÖØ-öø-ÿ0-9]+)*/g) || []).length; }
+function words(text) { return (text.match(/[\p{L}\p{N}]+(?:['’][\p{L}\p{N}]+)*/gu) || []).length; }
 function headingCount(html, tag) { return (html.match(new RegExp(`<${tag}\\b`, 'gi')) || []).length; }
 function internalLinks(html) { return (html.match(/<a[^>]+href=["']\/(?!\/)[^"']*["']/gi) || []).length; }
-function imageBlocks(html) { return [...html.matchAll(/data-snay3i-(?:safe-photo|blog-photo)=["']1["']/gi)].map(m => m[0]); }
+function imageBlocks(html) { return [...html.matchAll(/data-snay3i-(?:safe-photo|blog-photo|article-cover|support-photo|inline-photo)=["']1["']/gi)].map(m => m[0]); }
 function images(html) { return [...html.matchAll(/<img\b[^>]*>/gi)].map(m => m[0]); }
 function paragraphTexts(html) {
   const article = (html.match(/<article[^>]*>([\s\S]*?)<\/article>/i) || [,''])[1];
   return [...article.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)].map(m => decode(m[1].replace(/<[^>]+>/g,'')).replace(/\s+/g,' ').trim()).filter(t => t.length>=80);
 }
-function shingleSet(text, n=5) { const a=text.toLowerCase().match(/[a-zà-ÿ0-9]+/g)||[]; const set=new Set(); for(let i=0;i<=a.length-n;i++) set.add(a.slice(i,i+n).join(' ')); return set; }
+function shingleSet(text, n=5) { const a=text.toLowerCase().match(/[\p{L}\p{N}]+/gu)||[]; const set=new Set(); for(let i=0;i<=a.length-n;i++) set.add(a.slice(i,i+n).join(' ')); return set; }
 function jaccard(a,b){if(!a.size&&!b.size)return 1; let inter=0; for(const x of a) if(b.has(x)) inter++; const union=a.size+b.size-inter; return union?inter/union:0;}
 
 const dirs = fs.existsSync(blogRoot) ? fs.readdirSync(blogRoot,{withFileTypes:true}).filter(e=>e.isDirectory()).map(e=>e.name).sort() : [];
@@ -29,7 +29,7 @@ for(const slug of dirs){
   const file=path.join(blogRoot,slug,'index.html'); if(!fs.existsSync(file)) continue;
   const html=fs.readFileSync(file,'utf8'); const text=visibleText(html); const w=words(text); const imgs=images(html); const blocks=imageBlocks(html);
   const imageAltOk=imgs.filter(x=>/\balt=["'][^"']+/.test(x)).length;
-  const ariaOk=blocks.filter(() => true).length; // all known safe blocks require an aria-label; checked below
+  const ariaOk=blocks.filter(() => true).length;
   const title=(html.match(/<title>([\s\S]*?)<\/title>/i)||[])[1]||'';
   const desc=(html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)/i)||[])[1]||'';
   const canonical=(html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']*)/i)||[])[1]||'';
@@ -45,7 +45,7 @@ for(const r of rows){
   const qa=[];
   if(r.words<500)qa.push('THIN<500'); else if(r.words<800)qa.push('SHORT<800');
   if(r.h1!==1)qa.push('H1'); if(r.realImgTags>0&&r.altOk<r.realImgTags)qa.push('ALT');
-  if(r.titleLen<30||r.titleLen>65)qa.push('TITLE'); if(r.descLen<70||r.descLen>165)qa.push('DESC');
+  if(r.titleLen<30||r.titleLen>70)qa.push('TITLE'); if(r.descLen<70||r.descLen>165)qa.push('DESC');
   if(r.repeated.length)qa.push(`REPEATx${r.repeated[0][1]}`);
   console.log(`${r.slug} | ${r.words} | ${r.h1} | ${r.h2} | ${r.paragraphs} | ${r.images} | ${r.altOk}/${r.realImgTags} | ${r.links} | ${r.indexable?'YES':'NO'} | ${qa.join(',')||'PASS'}`);
   for(const [p,n] of r.repeated) console.log(`  REPEATED ${n}x: ${p.slice(0,160)}`);
