@@ -4,16 +4,15 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 const publicBlog = path.join(root, 'public', 'blog');
 
-const NOINDEX_SLUGS = new Set([
-  'electricien-casablanca-pas-cher',
-  'electricien-professionnel-casablanca',
-  'electricien-rabat-pas-cher',
-  'plombier-autour-de-moi-pas-cher',
-  'plombier-casablanca-pas-cher',
-  'plombier-rabat-pas-cher',
-  'serrurier-casablanca-pas-cher',
-  'serrurier-autour-de-moi-maroc',
-  'macon-casablanca-pas-cher'
+const CANONICAL_SLUGS = new Set([
+  'trouver-bon-plombier-maroc',
+  'tarif-electricien-maroc-2026',
+  'renovation-maison-maroc-guide',
+  'climatisation-maroc-installation',
+  'serrurier-urgence-maroc',
+  'choisir-carreleur-maroc',
+  'macon-construction-maroc',
+  'urgence-plomberie-casablanca',
 ]);
 
 function addNoindex(html) {
@@ -21,6 +20,14 @@ function addNoindex(html) {
     return html.replace(/<meta\s+name=["']robots["'][^>]*>/i, '<meta name="robots" content="noindex,follow">');
   }
   return html.replace('</head>', '<meta name="robots" content="noindex,follow">\n</head>');
+}
+
+function removeAdSense(html) {
+  html = html.replace(/<meta\s+name=["']google-adsense-account["'][^>]*>\s*/gi, '');
+  html = html.replace(/<script\b[^>]*src=["'][^"']*pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js[^"']*["'][^>]*>\s*<\/script>\s*/gi, '');
+  html = html.replace(/<ins\b[^>]*class=["'][^"']*adsbygoogle[^"']*["'][^>]*>[\s\S]*?<\/ins>\s*/gi, '');
+  html = html.replace(/<script\b[^>]*>[\s\S]*?adsbygoogle[\s\S]*?<\/script>\s*/gi, (block) => /pagead2|adsbygoogle\s*=|\.push\s*\(/i.test(block) ? '' : block);
+  return html;
 }
 
 function removeEditorialBoilerplate(html) {
@@ -37,6 +44,8 @@ function removeEditorialBoilerplate(html) {
 function processArticles() {
   if (!fs.existsSync(publicBlog)) return;
   let changed = 0;
+  let legacy = 0;
+  let adStripped = 0;
   for (const entry of fs.readdirSync(publicBlog, { withFileTypes: true })) {
     if (!entry.isDirectory()) continue;
     const file = path.join(publicBlog, entry.name, 'index.html');
@@ -44,13 +53,19 @@ function processArticles() {
     let html = fs.readFileSync(file, 'utf8');
     const before = html;
     html = removeEditorialBoilerplate(html);
-    if (NOINDEX_SLUGS.has(entry.name)) html = addNoindex(html);
+    if (!CANONICAL_SLUGS.has(entry.name)) {
+      legacy += 1;
+      html = addNoindex(html);
+      const beforeAds = html;
+      html = removeAdSense(html);
+      if (html !== beforeAds) adStripped += 1;
+    }
     if (html !== before) {
       fs.writeFileSync(file, html, 'utf8');
       changed += 1;
     }
   }
-  console.log(`[AdSense hardening] cleaned ${changed} static article page(s); ${NOINDEX_SLUGS.size} overlapping variants set to noindex`);
+  console.log(`[AdSense hardening] cleaned ${changed} static article page(s); ${legacy} legacy articles noindexed; ad code stripped from ${adStripped} legacy page(s)`);
 }
 
 processArticles();
