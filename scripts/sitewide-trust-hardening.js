@@ -51,6 +51,26 @@ const app = patchFile('src/App.js', [
   [/\nconst LEGAL_CONTENT = \{[\s\S]*?\n\};\n\nfunction LegalModal\(\{page, onClose\}\)\{[\s\S]*?\n\}\n\nexport function RegisterPage/, '\nexport function RegisterPage'],
   [/\n\s*const \[legalPage,setLegalPage\]=useState\(null\);/g, ''],
   [/\n\s*\{legalPage&&<LegalModal page=\{legalPage\} onClose=\{\(\)=>setLegalPage\(null\)\}\/\>\}/g, ''],
+
+  ['"✨ En train de répondre..."', '"✨ Assistant automatique en préparation..."'],
+  ['`🟢 En ligne • ${catLabel(worker.service)} • ✨ IA`', '`🤖 Assistant automatique • ${catLabel(worker.service)}`'],
+  ['`🟢 En ligne • ${catLabel(worker.service)}`', '`💬 Messagerie du profil • ${catLabel(worker.service)}`'],
+  ['<div className="chat-welcome-bubble">\n                <strong>{worker.name}</strong>\n                <p>Bonjour ! Je suis {catLabel(worker.service)} a {worker.city}. Envoyez-moi votre demande et je vous repondrai rapidement.</p>\n              </div>', '<div className="chat-welcome-bubble">\n                <strong>Assistant Snay3i</strong>\n                <p>Ce chat peut utiliser une réponse automatisée pour le profil de {worker.name}. Pour une réponse directe du professionnel, utilisez Appeler ou WhatsApp.</p>\n              </div>'],
+  ['let replyText = "Je vous répondrai très vite. Vous pouvez aussi m\'appeler directement.";', 'let replyText = "Réponse automatique indisponible pour le moment. Votre message a été enregistré ; vous pouvez aussi contacter directement le professionnel par téléphone ou WhatsApp.";'],
+  ['replyText = aiData.text;\n            setAiActive(aiData.source === "ai");', 'replyText = aiData.source === "ai" ? `🤖 Réponse automatisée Snay3i : ${aiData.text}` : aiData.text;\n            setAiActive(aiData.source === "ai");'],
+
+  ['zoomControl:false, attributionControl:false,', 'zoomControl:false, attributionControl:true,'],
+  ['"https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"', '"https://tile.openstreetmap.org/{z}/{x}/{y}.png"'],
+  ['{subdomains:"abcd",maxZoom:19}', '{maxZoom:19,attribution:\'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>\'}'],
+  ['.leaflet-control-attribution{display:none!important}', '.leaflet-control-attribution{font-size:9px!important;line-height:1.2!important}'],
+
+  ['<img key={i} src={url} alt="" className="modal-portfolio-img"/>', '<img key={i} src={url} alt={`Réalisation de ${worker.name}`} className="modal-portfolio-img"/>'],
+  ['<img key={i} src={url} alt="" className="portfolio-thumb"/>', '<img key={i} src={url} alt={`Réalisation de ${worker.name}`} className="portfolio-thumb"/>'],
+  ['<img key={i} src={url} alt="" className="profile-photo"/>', '<img key={i} src={url} alt={`Réalisation de ${worker.name}`} className="profile-photo"/>'],
+  ['<a className="btn-call" href={"tel:"+worker.phone} onClick={e=>e.stopPropagation()}>', '<a className="btn-call" aria-label={`Appeler ${worker.name}`} href={"tel:"+worker.phone} onClick={e=>e.stopPropagation()}>'],
+  ['<button className="btn-chat-icon" onClick={e=>{e.stopPropagation();setChat(true);}}>', '<button className="btn-chat-icon" aria-label={`Envoyer un message à ${worker.name}`} onClick={e=>{e.stopPropagation();setChat(true);}}>'],
+  ['<button className={`btn-fav${faved?" faved":""}`} onClick={toggleFav}>', '<button className={`btn-fav${faved?" faved":""}`} aria-label={faved?`Retirer ${worker.name} des favoris`:`Ajouter ${worker.name} aux favoris`} onClick={toggleFav}>'],
+  ['<button className="sort-btn map-toggle-btn" onClick={()=>setShowMap(true)} title="Vue carte">', '<button className="sort-btn map-toggle-btn" aria-label="Ouvrir la carte" onClick={()=>setShowMap(true)} title="Vue carte">'],
 ]);
 
 const adsenseContent = patchFile('src/AdsenseContent.js', [
@@ -83,5 +103,15 @@ for (const [rel, source] of checks) {
 for (const staleLegal of [/LEGAL_CONTENT/, /function LegalModal/, /setLegalPage\(/]) {
   if (staleLegal.test(app)) failures.push(`src/App.js: duplicate legacy legal system remains (${staleLegal})`);
 }
+for (const staleUx of [
+  /basemaps\.cartocdn\.com/,
+  /attributionControl:false/,
+  /leaflet-control-attribution\{display:none/i,
+  /🟢 En ligne • .*✨ IA/,
+  /Bonjour ! Je suis \{catLabel\(worker\.service\)\}/,
+  /alt="" className="(?:modal-portfolio-img|portfolio-thumb|profile-photo)"/,
+]) {
+  if (staleUx.test(app)) failures.push(`src/App.js: stale/deceptive UX remains (${staleUx})`);
+}
 if (failures.length) throw new Error(`[trust hardening] BLOCKED:\n${failures.join('\n')}`);
-console.log('[trust hardening] PASS: no broad scale, verification, availability, free-quote promises or duplicate legacy legal modals remain in primary UI source');
+console.log('[trust hardening] PASS: claims, legal routing, automated-chat disclosure, map attribution and key profile accessibility checks are clean');
