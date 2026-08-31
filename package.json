@@ -6,7 +6,7 @@
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/user-event": "^13.5.2",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-scripts": "5.0.1",
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "node scripts/apply-canonical-editorial.js && node scripts/forensic-content-audit.js && node scripts/rebuild-canonical-blog-pages.js && node scripts/repair-blog-photography-v2.js && node scripts/adsense-content-hardening.js && node scripts/repair-blog-index.js && node scripts/generate-sitemap.js && node scripts/content-forensic-report.js && node scripts/content-integrity-audit.js",
+    "prebuild": "node scripts/apply-canonical-editorial.js && node scripts/curate-blog-runtime.js && node scripts/forensic-content-audit.js && node scripts/rebuild-canonical-blog-pages.js && node scripts/repair-blog-photography-v2.js && node scripts/adsense-content-hardening.js && node scripts/repair-blog-index.js && node scripts/generate-sitemap.js && node scripts/content-forensic-report.js && node scripts/content-integrity-audit.js",
     "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
