@@ -28,7 +28,10 @@ function countWords(html){
 function h1(html){return decode((html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)||[,''])[1]).replace(/<[^>]+>/g,'').trim().toLowerCase();}
 function meta(html,name){return decode((html.match(new RegExp(`<meta\\s+name=["']${name}["']\\s+content=["']([^"']*)`,'i'))||[,''])[1]);}
 function imageInfo(html){
-  const imgs=[...html.matchAll(/<img\b[^>]*>/gi)].map(m=>({alt:(m[0].match(/\balt=["']([^"']+)/i)||[,''])[1]}));
+  const imgs=[...html.matchAll(/<img\b[^>]*>/gi)].map(m=>({
+    alt:(m[0].match(/\balt=["']([^"']+)/i)||[,''])[1],
+    src:(m[0].match(/\bsrc=["']([^"']+)/i)||[,''])[1]
+  }));
   const safeBlocks=[...html.matchAll(/<(?:figure|div)\b[^>]*(?:data-snay3i-safe-photo|data-snay3i-inline-photo|data-snay3i-photo-upgrade|data-snay3i-article-cover|data-snay3i-blog-photo)=["']1["'][^>]*>/gi)];
   return {visuals:Math.max(imgs.length,safeBlocks.length), imgs};
 }
@@ -52,16 +55,20 @@ for(const [slug,tokens] of Object.entries(rules)){
   if(wordCount<800) failures.push(`${slug}: editorial depth below 800 words (${wordCount})`);
   if(title.length<35||title.length>70) failures.push(`${slug}: title length ${title.length}`);
   if(desc.length<90||desc.length>165) failures.push(`${slug}: description length ${desc.length}`);
-  const info=imageInfo(html); if(info.visuals<2) failures.push(`${slug}: fewer than 2 article visual blocks (${info.visuals})`);
-  const missingAlt=info.imgs.filter(i=>!i.alt||i.alt.length<8).length; if(missingAlt) failures.push(`${slug}: ${missingAlt} native article images missing useful alt text`);
-  rows.push({slug,wordCount,titleLen:title.length,descLen:desc.length,visuals:info.visuals});
+  const info=imageInfo(html);
+  if(info.visuals<2 || info.imgs.length<2) failures.push(`${slug}: fewer than 2 native article visuals (${info.imgs.length})`);
+  const missingAlt=info.imgs.filter(i=>!i.alt||i.alt.length<8).length;
+  if(missingAlt) failures.push(`${slug}: ${missingAlt} native article images missing useful alt text`);
+  const uniqueSources=new Set(info.imgs.map(i=>i.src).filter(Boolean));
+  if(uniqueSources.size<2) failures.push(`${slug}: article visuals reuse the same image source`);
+  rows.push({slug,wordCount,titleLen:title.length,descLen:desc.length,visuals:info.imgs.length,uniqueImages:uniqueSources.size});
 }
 
 const allRows=Object.entries(rules).map(([slug])=>rows.find(r=>r.slug===slug)).filter(Boolean);
 const total=allRows.reduce((s,r)=>s+r.wordCount,0); const avg=total/(allRows.length||1);
 console.log('=== CANONICAL CONTENT RELEASE GATE ===');
-for(const r of allRows) console.log(`${r.slug} | ${r.wordCount} words | title ${r.titleLen} | desc ${r.descLen} | visuals ${r.visuals}`);
+for(const r of allRows) console.log(`${r.slug} | ${r.wordCount} words | title ${r.titleLen} | desc ${r.descLen} | visuals ${r.visuals} | unique images ${r.uniqueImages}`);
 console.log(`Total canonical words: ${total}`);
 console.log(`Average canonical article length: ${avg.toFixed(0)} words`);
 if(failures.length){console.error(`BLOCKED: ${failures.length} integrity failure(s)\n${failures.join('\n')}`);process.exit(1);}
-console.log(`[integrity] PASS: ${allRows.length} canonical articles pass topic, duplication, depth, metadata and visual checks`);
+console.log(`[integrity] PASS: ${allRows.length} canonical articles pass topic, duplication, depth, metadata and distinct-visual checks`);
