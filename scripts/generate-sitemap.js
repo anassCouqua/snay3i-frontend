@@ -1,22 +1,21 @@
 const fs = require('fs');
 const path = require('path');
 
-const root = path.join(process.cwd(), 'public', 'seo');
-const output = path.join(process.cwd(), 'public', 'sitemap.xml');
+const publicRoot = path.join(process.cwd(), 'public');
+const output = path.join(publicRoot, 'sitemap.xml');
 const BASE = 'https://snay3i.ma';
 
-if (!fs.existsSync(root)) throw new Error('SEO source directory is missing');
+if (!fs.existsSync(publicRoot)) throw new Error('Public directory is missing');
 
-// Only publish strong, coherent editorial guides as indexable.
-// Weak or mismatched legacy articles remain accessible but are noindex,follow.
+// Curated editorial set: only pages that really exist under /public/blog/ are allowed.
 const INDEXABLE_BLOG_SLUGS = new Set([
   'trouver-bon-plombier-maroc',
   'tarif-electricien-maroc-2026',
-  'renovation-maison-maroc-guide',
   'climatisation-maroc-installation',
   'serrurier-autour-de-moi-maroc',
   'choisir-carreleur-maroc',
   'macon-construction-maroc',
+  'urgence-plomberie-casablanca',
 ]);
 
 const INDEXABLE_SERVICE_CITY_ROUTES = new Set([
@@ -32,9 +31,10 @@ const INDEXABLE_SERVICE_CITY_ROUTES = new Set([
   '/artisan/carreleur/casablanca',
 ]);
 
-const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+const walk = (dir, skip = new Set()) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+  if (entry.isDirectory() && skip.has(entry.name)) return [];
   const full = path.join(dir, entry.name);
-  return entry.isDirectory() ? walk(full) : [full];
+  return entry.isDirectory() ? walk(full, skip) : [full];
 });
 
 const setRobots = (file, desired) => {
@@ -49,8 +49,8 @@ const setRobots = (file, desired) => {
 
 const routes = new Set(['/']);
 
-for (const file of walk(root).filter((f) => f.endsWith('/index.html') || path.basename(f) === 'index.html')) {
-  const relative = path.relative(root, file).split(path.sep).join('/');
+for (const file of walk(publicRoot, new Set(['seo'])).filter((f) => f.endsWith('/index.html'))) {
+  const relative = path.relative(publicRoot, file).split(path.sep).join('/');
   const route = relative === 'index.html'
     ? '/'
     : `/${relative.slice(0, -'/index.html'.length)}`;
@@ -93,4 +93,4 @@ const urls = [...routes]
 const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
 
 fs.writeFileSync(output, xml, 'utf8');
-console.log(`Generated curated sitemap with ${routes.size} URLs and ${INDEXABLE_BLOG_SLUGS.size} indexable flagship guides`);
+console.log(`Generated canonical sitemap with ${routes.size} URLs and ${INDEXABLE_BLOG_SLUGS.size} curated blog guides`);
