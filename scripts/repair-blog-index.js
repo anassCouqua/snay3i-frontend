@@ -8,8 +8,9 @@ const indexFile = path.join(blogRoot, 'index.html');
 const INDEXABLE = [
   'trouver-bon-plombier-maroc',
   'tarif-electricien-maroc-2026',
+  'renovation-maison-maroc-guide',
   'climatisation-maroc-installation',
-  'serrurier-autour-de-moi-maroc',
+  'serrurier-urgence-maroc',
   'choisir-carreleur-maroc',
   'macon-construction-maroc',
   'urgence-plomberie-casablanca',
@@ -20,7 +21,7 @@ function firstArticleParagraph(html) {
   const article = (html.match(/<article[^>]*>([\s\S]*?)<\/article>/i) || [,''])[1];
   const ps = [...article.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)]
     .map(m => get(m[1], /([\s\S]+)/))
-    .filter(t => t && !/^Guide Snay3i\.ma/i.test(t) && !/^contenu pratique$/i.test(t));
+    .filter(t => t && !/^Guide Snay3i\.ma/i.test(t));
   return ps.find(t => t.length >= 60) || '';
 }
 function escapeHtml(v) { return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
