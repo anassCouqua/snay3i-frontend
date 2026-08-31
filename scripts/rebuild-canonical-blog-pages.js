@@ -8,8 +8,9 @@ const blogRoot = path.join(root, 'public', 'blog');
 const CANONICAL = [
   'trouver-bon-plombier-maroc',
   'tarif-electricien-maroc-2026',
+  'renovation-maison-maroc-guide',
   'climatisation-maroc-installation',
-  'serrurier-autour-de-moi-maroc',
+  'serrurier-urgence-maroc',
   'choisir-carreleur-maroc',
   'macon-construction-maroc',
   'urgence-plomberie-casablanca',
@@ -42,7 +43,6 @@ function markdownToHtml(markdown) {
   const out = [];
   let paragraph = [];
   let list = null;
-
   function flushParagraph() {
     if (!paragraph.length) return;
     out.push(`<p>${inlineMd(esc(paragraph.join(' ').trim()))}</p>`);
@@ -53,7 +53,6 @@ function markdownToHtml(markdown) {
     out.push(`</${list}>`);
     list = null;
   }
-
   for (const raw of lines) {
     const line = raw.trim();
     if (!line) { flushParagraph(); closeList(); continue; }
@@ -69,7 +68,6 @@ function markdownToHtml(markdown) {
   flushParagraph(); closeList();
   return out.join('\n');
 }
-
 function extractArticle(source, slug) {
   const safeSlug = slug.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   const re = new RegExp(`\\{\\s*\\n\\s*slug: ['"]${safeSlug}['"],[\\s\\S]*?\\n\\s*content: \\`([\\s\\S]*?)\\`\\s*\\n\\s*\\}\\s*(?:,|\\n)`, 'm');
@@ -83,7 +81,6 @@ function extractArticle(source, slug) {
   if (!title || !description || !match[1].trim()) throw new Error(`[canonical blog] Incomplete source article: ${slug}`);
   return { slug, title: unescapeJs(title), description: unescapeJs(description), date, readTime, content: unescapeJs(match[1].trim()) };
 }
-
 function htmlFor(article) {
   const body = markdownToHtml(article.content);
   return `<!doctype html>
@@ -104,6 +101,7 @@ nav{max-width:900px;margin:auto;display:flex;gap:18px;flex-wrap:wrap}nav a,foote
 main{max-width:900px;margin:auto;padding:44px 22px}section{background:#fff;border:1px solid #e8e0d4;border-radius:16px;padding:26px;margin:0 0 16px}
 h1{font-size:34px;line-height:1.2;margin:0 0 12px}h2{font-size:21px;color:#0d1b2a}.meta{color:#6f6a64;font-size:14px}
 .article p,.article li{font-size:17px}.article h2{margin-top:30px}ul,ol{padding-left:22px}
+@media (max-width:640px){main{padding:26px 14px}h1{font-size:28px}.article p,.article li{font-size:16px}section{padding:20px}nav{gap:10px;font-size:14px}}
 </style>
 </head>
 <body>
@@ -128,16 +126,13 @@ ${body}
 <footer><div style="max-width:900px;margin:auto">© 2026 Snay3i.ma · <a href="/privacy">Confidentialité</a> · <a href="/terms">CGU</a> · <a href="/contact">Contact</a></div></footer>
 </body></html>`;
 }
-
 if (!fs.existsSync(sourceFile)) throw new Error('[canonical blog] Blog.js missing');
 if (!fs.existsSync(blogRoot)) fs.mkdirSync(blogRoot, { recursive: true });
 const source = fs.readFileSync(sourceFile, 'utf8');
-
 for (const slug of CANONICAL) {
   const article = extractArticle(source, slug);
   const dir = path.join(blogRoot, slug);
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'index.html'), htmlFor(article), 'utf8');
 }
-
 console.log(`[canonical blog] rebuilt ${CANONICAL.length} canonical article pages directly from Blog.js`);
