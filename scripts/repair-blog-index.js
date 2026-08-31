@@ -9,9 +9,10 @@ const indexFile = path.join(blogRoot, 'index.html');
 function get(html, re) { return (html.match(re) || [,''])[1].replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;|&apos;/g,"'").trim(); }
 function firstArticleParagraph(html) {
   const article = (html.match(/<article[^>]*>([\s\S]*?)<\/article>/i) || [,''])[1];
-  const ps = [...article.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)]
-    .map(m => get(m[1], /([\s\S]+)/))
-    .filter(t => t && !/^Guide Snay3i\.ma/i.test(t));
+  const ps = [...article.matchAll(/<p([^>]*)>([\s\S]*?)<\/p>/gi)]
+    .filter(m => !/data-snay3i-byline=["']1["']/i.test(m[1]) && !/class=["'][^"']*\bmeta\b/i.test(m[1]))
+    .map(m => get(m[2], /([\s\S]+)/))
+    .filter(t => t && !/^Guide Snay3i\.ma/i.test(t) && !/^Rédaction Snay3i\.ma/i.test(t));
   return ps.find(t => t.length >= 60) || '';
 }
 function escapeHtml(v) { return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
