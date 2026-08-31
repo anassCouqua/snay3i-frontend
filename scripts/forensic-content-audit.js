@@ -37,6 +37,7 @@ const rules = [
   [/au moins 5 ans d&#39;expérience/gi, "une expérience pertinente démontrable"],
   [/15 ans d&#39;expérience/gi, "une expérience pertinente"],
   [/\+200 artisans vérifiés dans 21 villes du Maroc/gi, "Consultez les professionnels actuellement proposés dans votre ville"],
+  [/\+200 artisans vérifiés/gi, "Consultez les professionnels actuellement proposés dans votre ville"],
   [/La référence des artisans marocains/gi, "La plateforme de recherche d'artisans de Snay3i.ma"],
   [/les meilleurs artisans au Maroc/gi, "des professionnels proposés sur Snay3i.ma"],
 ];
