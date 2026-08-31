@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "node scripts/repair-blog-index.js && node scripts/repair-blog-photography-v2.js && node scripts/adsense-content-hardening.js && node scripts/forensic-content-audit.js && node scripts/generate-sitemap.js && node scripts/content-forensic-report.js",
+    "prebuild": "node scripts/forensic-content-audit.js && node scripts/rebuild-canonical-blog-pages.js && node scripts/repair-blog-photography-v2.js && node scripts/adsense-content-hardening.js && node scripts/repair-blog-index.js && node scripts/generate-sitemap.js && node scripts/content-forensic-report.js",
     "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -34,7 +34,6 @@
     ],
     "development": [
       "last 1 chrome version",
-      "last 1 firefox version",
       "last 1 safari version"
     ]
   }
