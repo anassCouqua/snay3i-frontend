@@ -43,7 +43,7 @@ const landing = patchFile('src/LandingPage.js', [
 ]);
 
 const app = patchFile('src/App.js', [
-  ['Devis gratuit', 'Demander un devis'],
+  [/devis gratuit/gi, 'Demander un devis'],
   ['Contactez ce professionnel pour obtenir un devis sur place', 'Contactez ce professionnel pour demander un devis et confirmer les conditions'],
   ['Le réseau des artisans marocains', 'Annuaire d’artisans au Maroc'],
   [/<a href="#" onClick=\{\(e\)=>\{e\.preventDefault\(\);setLegalPage\("privacy"\);\}\}([^>]*)>Confidentialité<\/a>/g, '<a href="/privacy"$1>Confidentialité</a>'],
