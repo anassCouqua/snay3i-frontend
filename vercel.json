@@ -3,40 +3,32 @@
   "buildCommand": "npm run build",
   "outputDirectory": "build",
   "redirects": [
-    {
-      "source": "/seo",
-      "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/seo/:path*",
-      "destination": "/:path*",
-      "permanent": true
-    },
-    {
-      "source": "/a-propos",
-      "destination": "/about",
-      "permanent": true
-    },
-    {
-      "source": "/cgu",
-      "destination": "/terms",
-      "permanent": true
-    },
-    {
-      "source": "/politique-de-confidentialite",
-      "destination": "/privacy",
-      "permanent": true
-    },
-    {
-      "source": "/guides",
-      "destination": "/blog",
-      "permanent": true
-    },
-    {
-      "source": "/guides/:path*",
-      "destination": "/blog",
-      "permanent": true
-    }
+    {"source":"/seo","destination":"/","permanent":true},
+    {"source":"/seo/:path*","destination":"/:path*","permanent":true},
+    {"source":"/a-propos","destination":"/about","permanent":true},
+    {"source":"/cgu","destination":"/terms","permanent":true},
+    {"source":"/politique-de-confidentialite","destination":"/privacy","permanent":true},
+    {"source":"/guides","destination":"/blog","permanent":true},
+    {"source":"/guides/:path*","destination":"/blog","permanent":true},
+
+    {"source":"/blog/artisan-marrakech-guide","destination":"/blog","permanent":true},
+    {"source":"/blog/artisan-rabat-guide-2026","destination":"/blog","permanent":true},
+    {"source":"/blog/artisan-tanger-guide-2026","destination":"/blog","permanent":true},
+    {"source":"/blog/electricien-autour-de-moi-maroc","destination":"/blog/tarif-electricien-maroc-2026","permanent":true},
+    {"source":"/blog/electricien-casablanca-guide","destination":"/blog/tarif-electricien-maroc-2026","permanent":true},
+    {"source":"/blog/electricien-professionnel-casablanca","destination":"/blog/tarif-electricien-maroc-2026","permanent":true},
+    {"source":"/blog/electricien-rabat-pas-cher","destination":"/blog/tarif-electricien-maroc-2026","permanent":true},
+    {"source":"/blog/electricien-urgence-casablanca","destination":"/blog/tarif-electricien-maroc-2026","permanent":true},
+    {"source":"/blog/entretien-maison-maroc-checklist","destination":"/blog/renovation-maison-maroc-guide","permanent":true},
+    {"source":"/blog/jardinier-paysagiste-maroc","destination":"/blog","permanent":true},
+    {"source":"/blog/macon-casablanca-pas-cher","destination":"/blog/macon-construction-maroc","permanent":true},
+    {"source":"/blog/menuisier-cuisine-maroc","destination":"/blog","permanent":true},
+    {"source":"/blog/peintre-casablanca-prix","destination":"/blog","permanent":true},
+    {"source":"/blog/plombier-casablanca-pas-cher","destination":"/blog/urgence-plomberie-casablanca","permanent":true},
+    {"source":"/blog/plombier-marrakech-guide","destination":"/blog/trouver-bon-plombier-maroc","permanent":true},
+    {"source":"/blog/renovation-salle-bain-maroc-prix","destination":"/blog/renovation-maison-maroc-guide","permanent":true},
+    {"source":"/blog/serrurier-autour-de-moi-maroc","destination":"/blog/serrurier-urgence-maroc","permanent":true},
+    {"source":"/blog/serrurier-marrakech-guide","destination":"/blog/serrurier-urgence-maroc","permanent":true},
+    {"source":"/blog/trouver-snay3i-maroc-darija","destination":"/blog","permanent":true}
   ]
 }
