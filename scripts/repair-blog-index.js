@@ -15,7 +15,14 @@ const INDEXABLE = [
   'urgence-plomberie-casablanca',
 ];
 
-function get(html, re) { return (html.match(re) || [,''])[1].replace(/<[^>]+>/g,'').trim(); }
+function get(html, re) { return (html.match(re) || [,''])[1].replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;|&apos;/g,"'").trim(); }
+function firstArticleParagraph(html) {
+  const article = (html.match(/<article[^>]*>([\s\S]*?)<\/article>/i) || [,''])[1];
+  const ps = [...article.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)]
+    .map(m => get(m[1], /([\s\S]+)/))
+    .filter(t => t && !/^Guide Snay3i\.ma/i.test(t) && !/^contenu pratique$/i.test(t));
+  return ps.find(t => t.length >= 60) || '';
+}
 function escapeHtml(v) { return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 if (!fs.existsSync(indexFile)) throw new Error('Blog index is missing');
@@ -23,9 +30,10 @@ if (!fs.existsSync(indexFile)) throw new Error('Blog index is missing');
 const cards = INDEXABLE.map((slug) => {
   const file = path.join(blogRoot, slug, 'index.html');
   if (!fs.existsSync(file)) throw new Error(`[blog index] Missing canonical article: ${slug}`);
-  const html = fs.readFileSync(file, 'utf8');
-  const title = get(html, /<h1[^>]*>([\s\S]*?)<\/h1>/i) || slug;
-  const desc = get(html, /<meta\s+name=["']description["']\s+content=["']([^"']*)/i);
+  const articleHtml = fs.readFileSync(file, 'utf8');
+  const title = get(articleHtml, /<h1[^>]*>([\s\S]*?)<\/h1>/i) || slug;
+  const desc = firstArticleParagraph(articleHtml);
+  if (!desc) throw new Error(`[blog index] Missing substantive article summary: ${slug}`);
   return `<div class="card"><h3><a href="/blog/${slug}">${escapeHtml(title)}</a></h3><p>${escapeHtml(desc)}</p></div>`;
 }).join('\n');
 
@@ -37,4 +45,4 @@ const sectionEnd = html.indexOf('</section>', cardsStart);
 if (cardsStart === -1 || sectionEnd === -1) throw new Error('[blog index] Card section boundaries missing');
 html = html.slice(0, cardsStart) + cards + '\n' + html.slice(sectionEnd);
 fs.writeFileSync(indexFile, html, 'utf8');
-console.log(`[blog index] rebuilt ${INDEXABLE.length} canonical guide cards from real files`);
+console.log(`[blog index] rebuilt ${INDEXABLE.length} canonical guide cards from article-body summaries`);
