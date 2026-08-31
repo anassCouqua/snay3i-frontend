@@ -42,6 +42,15 @@ const IMAGE_SETS = {
   }
 };
 
+const ART_TITLES = {
+  'jardin-anglais-maroc-darija': 'الجردة الإنجليزية فالمغرب',
+  'cuisine-moderne-zero-maroc-darija': 'الكوزينة المودرن من الصفر',
+  'escalier-suspendu-maison-maroc-darija': 'الدرج المعلق فدارك',
+  'open-space-maison-maroc-darija': 'Open Space فالدار',
+  'villa-riad-piscine-jardin-maroc-darija': 'فيلا بروح الرياض المغربي',
+  'hammam-beldi-maison-maroc-darija': 'الحمام البلدي فالدار'
+};
+
 const ART = {
   'jardin-anglais-maroc-darija': ['راقب الشمس والريح', 'رسم الممر والجلسة', 'قسم النباتات حسب الماء', 'خطط للصيانة'],
   'cuisine-moderne-zero-maroc-darija': ['قيس المساحة والأجهزة', 'حسم الماء والكهرباء', 'خطط للتخزين والتهوية', 'راجع كلشي قبل التصنيع'],
@@ -87,11 +96,15 @@ function photoFigure(slug, kind) {
 }
 function generateArtwork(slug, title) {
   const steps = ART[slug]; if (!steps) throw new Error(`[darija blog] missing artwork steps: ${slug}`);
+  const displayTitle = ART_TITLES[slug] || title;
   const cards = steps.map((step, i) => {
-    const x = 640; const y = 250 + i * 86;
-    return `<g direction="rtl"><rect x="90" y="${y}" width="1020" height="68" rx="18" fill="#fff" fill-opacity="0.96"/><circle cx="1060" cy="${y + 34}" r="23" fill="#C4622D"/><text x="1060" y="${y + 42}" text-anchor="middle" font-size="22" font-weight="800" fill="#fff">${i + 1}</text><text x="1015" y="${y + 42}" text-anchor="end" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#0D1B2A">${esc(step)}</text></g>`;
+    const y = 250 + i * 86;
+    return `<g><rect x="90" y="${y}" width="1020" height="68" rx="18" fill="#fff" fill-opacity="0.96"/><circle cx="1060" cy="${y + 34}" r="23" fill="#C4622D"/><text x="1060" y="${y + 42}" text-anchor="middle" font-family="Tahoma,Arial,sans-serif" font-size="22" font-weight="800" fill="#fff">${i + 1}</text><text x="1015" y="${y + 42}" text-anchor="start" direction="rtl" unicode-bidi="plaintext" font-family="Tahoma,Arial,sans-serif" font-size="24" font-weight="700" fill="#0D1B2A">${esc(step)}</text></g>`;
   }).join('');
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc"><title id="title">${esc(title)}</title><desc id="desc">مراحل مختصرة من Snay3i.ma لتخطيط المشروع قبل البداية.</desc><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0D1B2A"/><stop offset="1" stop-color="#1B3A4B"/></linearGradient></defs><rect width="1200" height="675" fill="url(#bg)"/><text x="1110" y="78" text-anchor="end" direction="rtl" font-family="Arial,sans-serif" font-size="20" font-weight="800" fill="#E9A66F">SNAY3I.MA · دليل بالدارجة</text><text x="1110" y="142" text-anchor="end" direction="rtl" font-family="Arial,sans-serif" font-size="38" font-weight="800" fill="#fff">${esc(title)}</text><text x="1110" y="190" text-anchor="end" direction="rtl" font-family="Arial,sans-serif" font-size="21" fill="#D7E0E8">قرارات عملية قبل ما تبدأ الأشغال</text>${cards}<text x="1110" y="630" text-anchor="end" direction="rtl" font-family="Arial,sans-serif" font-size="18" fill="#AFC0CD">Snay3i.ma · دليل عملي</text></svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc"><title id="title">${esc(title)}</title><desc id="desc">مراحل مختصرة من Snay3i.ma لتخطيط المشروع قبل البداية.</desc><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0D1B2A"/><stop offset="1" stop-color="#1B3A4B"/></linearGradient></defs><rect width="1200" height="675" fill="url(#bg)"/><text x="1110" y="78" text-anchor="start" direction="rtl" unicode-bidi="plaintext" font-family="Tahoma,Arial,sans-serif" font-size="20" font-weight="800" fill="#E9A66F">دليل بالدارجة · SNAY3I.MA</text><text x="1110" y="142" text-anchor="start" direction="rtl" unicode-bidi="plaintext" font-family="Tahoma,Arial,sans-serif" font-size="38" font-weight="800" fill="#fff">${esc(displayTitle)}</text><text x="1110" y="190" text-anchor="start" direction="rtl" unicode-bidi="plaintext" font-family="Tahoma,Arial,sans-serif" font-size="21" fill="#D7E0E8">قرارات عملية قبل ما تبدأ الأشغال</text>${cards}<text x="1110" y="630" text-anchor="start" direction="rtl" unicode-bidi="plaintext" font-family="Tahoma,Arial,sans-serif" font-size="18" fill="#AFC0CD">دليل عملي · Snay3i.ma</text></svg>`;
+  if (/text-anchor="end"[^>]*direction="rtl"|direction="rtl"[^>]*text-anchor="end"/.test(svg)) {
+    throw new Error(`[darija blog] unsafe RTL text anchoring in artwork: ${slug}`);
+  }
   fs.writeFileSync(path.join(imageRoot, `${slug}.svg`), svg, 'utf8');
 }
 function diagramFigure(slug, title) {
