@@ -12,6 +12,31 @@
       "source": "/seo/:path*",
       "destination": "/:path*",
       "permanent": true
+    },
+    {
+      "source": "/a-propos",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/cgu",
+      "destination": "/terms",
+      "permanent": true
+    },
+    {
+      "source": "/politique-de-confidentialite",
+      "destination": "/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/guides",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/guides/:path*",
+      "destination": "/blog",
+      "permanent": true
     }
   ]
 }
