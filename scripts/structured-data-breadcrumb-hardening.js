@@ -29,6 +29,7 @@ function titleFor(html, route) {
   const title = decode((html.match(/<title>([\s\S]*?)<\/title>/i) || [,''])[1]);
   return title || route;
 }
+function isDarijaHtml(html) { return /<html[^>]*lang=["']ary["'][^>]*dir=["']rtl["']/i.test(html); }
 function labelFor(route, html) {
   if (route === '/blog') return 'Blog';
   if (route === '/about') return 'À propos';
@@ -38,8 +39,9 @@ function labelFor(route, html) {
   return titleFor(html, route);
 }
 function breadcrumbItems(route, html) {
-  const items = [{ name: 'Accueil', url: `${BASE}/` }];
-  if (route.startsWith('/blog/')) items.push({ name: 'Blog', url: `${BASE}/blog` });
+  const darija = isDarijaHtml(html);
+  const items = [{ name: darija ? 'الرئيسية' : 'Accueil', url: `${BASE}/` }];
+  if (route.startsWith('/blog/')) items.push({ name: darija ? 'المدونة' : 'Blog', url: `${BASE}/blog` });
   items.push({ name: labelFor(route, html), url: `${BASE}${route}` });
   return items;
 }
@@ -63,7 +65,7 @@ const siteGraph = {
         '@type': 'ContactPoint',
         email: 'contact@snay3i.ma',
         contactType: 'customer support',
-        availableLanguage: ['fr', 'ar'],
+        availableLanguage: ['fr', 'ar', 'ary'],
       },
     },
     {
@@ -71,7 +73,7 @@ const siteGraph = {
       '@id': `${BASE}/#website`,
       url: `${BASE}/`,
       name: 'Snay3i.ma',
-      inLanguage: 'fr',
+      inLanguage: ['fr-MA', 'ary-MA'],
       publisher: { '@id': `${BASE}/#organization` },
     },
   ],
@@ -84,9 +86,10 @@ for (const route of routes.filter((item) => item !== '/')) {
   const file = fileFor(route);
   if (!fs.existsSync(file)) throw new Error(`[structured data] indexable route missing: ${route}`);
   let html = stripGenerated(fs.readFileSync(file, 'utf8'));
+  const darija = isDarijaHtml(html);
   const items = breadcrumbItems(route, html);
 
-  const visible = `<nav aria-label="Fil d’Ariane" data-snay3i-breadcrumbs="1" style="font-size:13px;line-height:1.5;margin:0 0 20px;color:#6f6a64">${items.map((item, index) => {
+  const visible = `<nav aria-label="${darija ? 'مسار الصفحة' : 'Fil d’Ariane'}" data-snay3i-breadcrumbs="1" style="font-size:13px;line-height:1.5;margin:0 0 20px;color:#6f6a64;${darija ? 'direction:rtl;text-align:right' : ''}">${items.map((item, index) => {
     const last = index === items.length - 1;
     return last ? `<span aria-current="page">${esc(item.name)}</span>` : `<a href="${index === 0 ? '/' : new URL(item.url).pathname}">${esc(item.name)}</a><span aria-hidden="true"> › </span>`;
   }).join('')}</nav>`;
@@ -111,4 +114,4 @@ for (const route of routes.filter((item) => item !== '/')) {
 }
 
 if (/"@type":"LocalBusiness"/.test(homeHtml)) throw new Error('[structured data] homepage must not claim LocalBusiness');
-console.log(`[structured data] PASS: Organization/WebSite identity added; visible + schema breadcrumbs added to ${routes.length - 1} indexable interior routes`);
+console.log(`[structured data] PASS: multilingual Organization/WebSite identity added; localized visible + schema breadcrumbs added to ${routes.length - 1} indexable interior routes`);
