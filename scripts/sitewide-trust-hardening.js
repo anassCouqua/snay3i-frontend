@@ -1,0 +1,81 @@
+const fs = require('fs');
+const path = require('path');
+
+const root = path.join(__dirname, '..');
+
+function patchFile(rel, replacements) {
+  const file = path.join(root, rel);
+  if (!fs.existsSync(file)) throw new Error(`[trust hardening] missing ${rel}`);
+  let source = fs.readFileSync(file, 'utf8');
+  let changed = 0;
+  for (const [from, to] of replacements) {
+    const before = source;
+    source = typeof from === 'string' ? source.split(from).join(to) : source.replace(from, to);
+    if (source !== before) changed += 1;
+  }
+  fs.writeFileSync(file, source, 'utf8');
+  console.log(`[trust hardening] ${rel}: ${changed} replacement rule(s) applied`);
+  return source;
+}
+
+const landing = patchFile('src/LandingPage.js', [
+  ["const title = `${svc.label} ${city} — Trouvez un ${svc.pro} pas cher | Snay3i.ma`;", "const title = `${svc.label} à ${city} — profils et contact | Snay3i.ma`;"],
+  ['"@type":"Service",', '"@type":"CollectionPage",'],
+  ['"provider":{"@type":"Organization","name":"Snay3i.ma","url":"https://snay3i.ma"},\n        "areaServed":{"@type":"City","name":city,"addressCountry":"MA"},\n        "serviceType":svc.label', '"isPartOf":{"@type":"WebSite","name":"Snay3i.ma","url":"https://snay3i.ma"},\n        "about":{"@type":"Thing","name":svc.label},\n        "spatialCoverage":{"@type":"City","name":city,"addressCountry":"MA"}'],
+  ['Contactez nos ${svc.proPlural} à ${city} pour un devis gratuit sans engagement.', 'Contactez les ${svc.proPlural} proposés à ${city} pour demander un devis et confirmer les conditions.'],
+  ['Cliquez sur le profil du ${svc.pro} sur Snay3i.ma puis appelez directement ou envoyez un WhatsApp. Aucun intermédiaire.', 'Cliquez sur le profil du ${svc.pro} sur Snay3i.ma puis utilisez les coordonnées affichées pour confirmer directement le besoin et les conditions.'],
+  ['{svc.desc} — Trouvez votre expert maintenant', '{svc.desc} — Consultez les profils disponibles'],
+  ['{svc.ar} • {city} • 🇲🇦 Gratuit & sans intermédiaire', '{svc.ar} • {city} • 🇲🇦 Profils et contact direct'],
+  ["{n:'100%', l:'Gratuit'},\n          {n:'⭐', l:'Vérifiés'},\n          {n:'Direct', l:'Sans intermédiaire'},", "{n:'Infos', l:'Profils disponibles'},\n          {n:'Direct', l:'Contact professionnel'},\n          {n:'Devis', l:'Conditions à confirmer'},"],
+  ['{svc.emoji} {cap(svc.proPlural)} disponibles à {city}', '{svc.emoji} {cap(svc.proPlural)} proposés à {city}'],
+  ["['✅','Gratuit et sans commission','Aucun frais caché, aucune commission. Contactez directement l\\'artisan.'],", "['🔎','Recherche structurée','Consultez les profils proposés pour ce métier et cette ville.'],"],
+  ["['⭐','Professionnels référencés et notés','Les informations disponibles sur chaque profil peuvent vous aider à comparer les professionnels avant de les contacter.'],", "['⭐','Informations de profil','Comparez les informations, avis et réalisations lorsqu’ils sont disponibles.'],"],
+  ["['⚡','Contact direct','Nos '+svc.proPlural+' à '+city+' sont dont la disponibilité dépend du professionnel et du type d’intervention.'],", "['📞','Contact à confirmer','La disponibilité, le prix et les conditions dépendent de chaque professionnel.'],"],
+  ["['🇲🇦','Réseau marocain','Plus de 100 artisans dans plusieurs villes du Maroc. Bilingue français et arabe.'],", "['🇲🇦','Métiers et villes','Les profils disponibles varient selon le métier, la ville et les données publiées.'],"],
+  ['Snay3i.ma est la plateforme marocaine de référence pour trouver un {svc.pro} qualifié à {city}.\n            Que vous ayez besoin de {svc.desc.toLowerCase()}, nos professionnels à {city} sont disponibles rapidement.\n            Tous nos {svc.proPlural} sont vérifiés, notés par leurs clients, et contactables directement par téléphone ou WhatsApp.\n            La mise en relation et les conditions éventuelles doivent être vérifiées sur la plateforme et avec le professionnel.', 'Snay3i.ma aide à rechercher un {svc.pro} à {city} et à consulter les informations publiées sur les profils proposés.\n            Pour {svc.desc.toLowerCase()}, décrivez précisément votre besoin et comparez les éléments disponibles avant de contacter un professionnel.\n            Les avis, badges, coordonnées et autres informations varient selon chaque profil et ne constituent pas une garantie de résultat.\n            Confirmez directement le prix, la disponibilité, le déplacement et les conditions avant toute prestation.'],
+  ['Les tarifs varient selon l\'intervention et le professionnel. Demandez un devis gratuit directement sur Snay3i.ma.', 'Les tarifs varient selon l\'intervention et le professionnel. Demandez un devis et confirmez ce qu’il comprend avant de vous engager.'],
+  ['Consultez les avis clients et les notes des artisans sur Snay3i.ma avant d\'appeler.', 'Consultez les informations, avis et réalisations lorsqu’ils sont disponibles, puis posez vos questions au professionnel avant de confirmer.'],
+  ['Cliquez sur un profil puis appelez directement ou envoyez un WhatsApp. Aucun intermédiaire.', 'Cliquez sur un profil puis utilisez les coordonnées affichées pour contacter directement le professionnel.'],
+  ['Autres artisans disponibles à {city}', 'Autres métiers à {city}'],
+  ['Rejoignez professionnels référencés sur Snay3i.ma — gratuit et sans commission', 'Créez votre profil sur Snay3i.ma et présentez clairement vos services et votre zone d’intervention'],
+  ['Créer mon profil gratuit →', 'Créer mon profil →'],
+  ['← Retour à Snay3i.ma — Tous les artisans du Maroc 🇲🇦', '← Retour à Snay3i.ma — Rechercher des artisans au Maroc 🇲🇦'],
+]);
+
+const app = patchFile('src/App.js', [
+  ['Devis gratuit', 'Demander un devis'],
+  ['Contactez ce professionnel pour obtenir un devis sur place', 'Contactez ce professionnel pour demander un devis et confirmer les conditions'],
+  ['Le réseau des artisans marocains', 'Annuaire d’artisans au Maroc'],
+  [/<a href="#" onClick=\{\(e\)=>\{e\.preventDefault\(\);setLegalPage\("privacy"\);\}\}([^>]*)>Confidentialité<\/a>/g, '<a href="/privacy"$1>Confidentialité</a>'],
+  [/<a href="#" onClick=\{\(e\)=>\{e\.preventDefault\(\);setLegalPage\("terms"\);\}\}([^>]*)>CGU<\/a>/g, '<a href="/terms"$1>CGU</a>'],
+]);
+
+const adsenseContent = patchFile('src/AdsenseContent.js', [
+  ['dans l\'ensemble des villes marocaines.', 'dans les villes actuellement proposées sur la plateforme.'],
+  ['le portail marocain dédié à la recherche rapide et transparente d\'artisans locaux', 'une plateforme marocaine dédiée à la recherche d\'artisans locaux'],
+]);
+
+const checks = [
+  ['src/LandingPage.js', landing],
+  ['src/App.js', app],
+  ['src/AdsenseContent.js', adsenseContent],
+];
+const banned = [
+  /plateforme marocaine de référence/i,
+  /Tous nos .* vérifiés/i,
+  /Plus de 100 artisans/i,
+  /disponibles rapidement/i,
+  /devis gratuit/i,
+  /Gratuit\s*&\s*sans intermédiaire/i,
+  /dans l'ensemble des villes marocaines/i,
+  /Trouvez un .* pas cher \| Snay3i\.ma/i,
+];
+const failures = [];
+for (const [rel, source] of checks) {
+  for (const re of banned) {
+    const match = source.match(re);
+    if (match) failures.push(`${rel}: ${match[0]}`);
+  }
+}
+if (failures.length) throw new Error(`[trust hardening] BLOCKED:\n${failures.join('\n')}`);
+console.log('[trust hardening] PASS: no broad scale, verification, availability or free-quote promises remain in primary UI source');
