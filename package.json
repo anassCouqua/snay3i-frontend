@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "node scripts/repair-blog-photography-v2.js",
+    "prebuild": "node scripts/repair-blog-photography-v2.js && node scripts/adsense-content-hardening.js",
     "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
