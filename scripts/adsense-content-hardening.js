@@ -12,6 +12,7 @@ const NOINDEX_SLUGS = new Set([
   'plombier-casablanca-pas-cher',
   'plombier-rabat-pas-cher',
   'serrurier-casablanca-pas-cher',
+  'serrurier-autour-de-moi-maroc',
   'macon-casablanca-pas-cher'
 ]);
 
