@@ -8,12 +8,7 @@ const publicRoot = path.join(process.cwd(), 'public', 'blog');
 // "conservez la facture" or "le support doit être propre" does not, by itself,
 // assert a regulated fact or unsupported commercial promise. We block claims that
 // genuinely need evidence, sourcing or legal verification before publication.
-const evidenceRisk = /(?:
-  \b\d+(?:[.,]\d+)?\s*(?:%|MAD|DH|dirhams?|ans?|jours?|heures?|mois|m²|kw|btu)\b
-  |\b(?:obligatoire|obligatoires|interdit|interdite|interdits|interdites|certifié|certifiée|certifiés|certifiées|norme|normes|légal|légale|illégal|illégale)\b
-  |\b(?:garanti|garantit|garantissent)\b
-  |\b(?:toujours|jamais|aucun\s+risque|zéro\s+risque)\b
-)/ix;
+const evidenceRisk = /(?:\b\d+(?:[.,]\d+)?\s*(?:%|MAD|DH|dirhams?|ans?|jours?|heures?|mois|m²|kw|btu)\b|\b(?:obligatoire|obligatoires|interdit|interdite|interdits|interdites|certifié|certifiée|certifiés|certifiées|norme|normes|légal|légale|illégal|illégale)\b|\b(?:garanti|garantit|garantissent)\b|\b(?:toujours|jamais|aucun\s+risque|zéro\s+risque)\b)/i;
 
 function decode(text) {
   return text
