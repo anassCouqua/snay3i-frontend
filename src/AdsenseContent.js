@@ -32,7 +32,7 @@ export function LegalPages() {
     return (
       <div style={{ maxWidth: '900px', margin: '40px auto', padding: '20px', fontFamily: 'sans-serif', lineHeight: '1.6' }}>
         <h1>À Propos de Snay3i.ma</h1>
-        <p>Snay3i.ma est le portail marocain dédié à la recherche rapide et transparente d'artisans locaux (plombiers, électriciens, peintres, maçons) pour tous travaux de rénovation et de dépannage.</p>
+        <p>Snay3i.ma est une plateforme marocaine dédiée à la recherche d'artisans locaux (plombiers, électriciens, peintres, maçons) pour tous travaux de rénovation et de dépannage.</p>
       </div>
     );
   }
@@ -43,9 +43,9 @@ export function LegalPages() {
 export function CategorySEOIntro() {
   return (
     <section style={{ maxWidth: '1100px', margin: '20px auto', padding: '15px', backgroundColor: '#f9f9f9', borderRadius: '8px' }}>
-      <h2>Trouvez un Artisan Qualifié au Maroc pour vos Travaux</h2>
+      <h2>Recherchez un artisan au Maroc pour vos travaux</h2>
       <p>
-        Sur <strong>Snay3i.ma</strong>, accédez rapidement aux profils de plombiers, électriciens, peintres et maçons à Casablanca, Rabat, Marrakech, Tanger et dans l'ensemble des villes marocaines.
+        Sur <strong>Snay3i.ma</strong>, consultez les profils de plombiers, électriciens, peintres et maçons dans les villes actuellement proposées sur la plateforme.
       </p>
     </section>
   );

@@ -202,21 +202,6 @@ function ZelligeSVG({id="z1"}){
   );
 }
 
-// ── STARS ─────────────────────────────────────────────────────────
-function Stars({rating}){
-  return(
-    <div className="stars-row">
-      {[1,2,3,4,5].map(s=>(
-        <svg key={s} width="14" height="14" viewBox="0 0 14 14">
-          <polygon points="7,1 8.8,5 13,5.4 9.8,8.3 10.8,12.6 7,10.4 3.2,12.6 4.2,8.3 1,5.4 5.2,5"
-            fill={s<=Math.round(rating)?"#D4A843":"#E0D8CC"} />
-        </svg>
-      ))}
-      <span className="rating-num">{rating}</span>
-    </div>
-  );
-}
-
 // ── CONTACT MODAL ────────────────────────────────────────────────
 function ContactModal({worker, onClose}){
   const [bg] = avatarColor(worker.name);
@@ -235,7 +220,6 @@ function ContactModal({worker, onClose}){
               <h2 className="modal-name">{worker.name}</h2>
               <p className="modal-service">{catEmoji(worker.service)} {catLabel(worker.service)} • {worker.city}</p>
               <div className="modal-verified">
-                {worker.verified && <span className="vpill">✓ Vérifié • موثوق</span>}
                 <span className="exp-pill">⏱ {worker.years_exp} ans d'expérience</span>
               </div>
             </div>
@@ -264,7 +248,7 @@ function ContactModal({worker, onClose}){
               <h4 className="modal-section-title">Réalisations • أعمالي</h4>
               <div className="modal-portfolio">
                 {worker.photos.map((url,i) => (
-                  <img key={i} src={url} alt="" className="modal-portfolio-img"/>
+                  <img key={i} src={url} alt={`Réalisation de ${worker.name}`} className="modal-portfolio-img"/>
                 ))}
               </div>
             </div>
@@ -274,9 +258,8 @@ function ContactModal({worker, onClose}){
             {worker.tags.map(t=><span key={t} className="modal-tag">{t}</span>)}
           </div>
           <div className="modal-price-row">
-            <span className="modal-price">Devis gratuit</span>
-            <Stars rating={worker.rating}/>
-            <span className="modal-reviews">{worker.reviews > 0 ? `${worker.reviews} avis` : "Aucun avis pour le moment"}</span>
+            <span className="modal-price">Conditions à confirmer</span>
+            <span className="modal-reviews">{worker.years_exp} ans d'expérience déclarée</span>
           </div>
         </div>
       </div>
@@ -327,11 +310,10 @@ function WorkerCard({worker,index,userLoc}){
           <div className="card-meta-info">
             <div className="card-name-row">
               <span className="card-name">{worker.name}</span>
-              {worker.verified&&<span className="v-pill">✓</span>}
             </div>
             <span className="card-service-pill">{catEmoji(worker.service)} {catLabel(worker.service)}</span>
           </div>
-          <div className="card-price-tag">Devis gratuit</div>
+          <div className="card-price-tag">Demander un devis</div>
         </div>
 
         {/* Location ping */}
@@ -345,8 +327,7 @@ function WorkerCard({worker,index,userLoc}){
         <p className="card-bio">{worker.bio}</p>
 
         <div className="card-rating-row">
-          <Stars rating={worker.rating}/>
-          <span className="card-reviews">{worker.reviews > 0 ? `${worker.reviews} avis` : "Aucun avis pour le moment"} • {worker.years_exp} ans exp.</span>
+          <span className="card-reviews">{worker.years_exp} ans d'expérience déclarée</span>
         </div>
 
         <div className="card-tags">
@@ -356,7 +337,7 @@ function WorkerCard({worker,index,userLoc}){
         {worker.photos && worker.photos.length > 0 && (
           <div className="card-portfolio">
             {worker.photos.slice(0,3).map((url,i) => (
-              <img key={i} src={url} alt="" className="portfolio-thumb"/>
+              <img key={i} src={url} alt={`Réalisation de ${worker.name}`} className="portfolio-thumb"/>
             ))}
             {worker.photos.length > 3 && (
               <div className="portfolio-more">+{worker.photos.length - 3}</div>
@@ -365,7 +346,7 @@ function WorkerCard({worker,index,userLoc}){
         )}
 
         <div className="card-actions">
-          <a className="btn-call" href={"tel:"+worker.phone} onClick={e=>e.stopPropagation()}>
+          <a className="btn-call" aria-label={`Appeler ${worker.name}`} href={"tel:"+worker.phone} onClick={e=>e.stopPropagation()}>
             📞
           </a>
           <a className="btn-wa" aria-label="Contacter par WhatsApp" onClick={e=>{e.stopPropagation();trackEvent('whatsapp_click','list_'+worker.service);}} href={"https://wa.me/"+(worker.whatsapp||"").replace(/\D/g,"")} target="_blank" rel="noreferrer">
@@ -374,11 +355,11 @@ function WorkerCard({worker,index,userLoc}){
           <button className="btn-profile" onClick={e=>{e.stopPropagation();setProfile(true);}}>
             👤 Profil
           </button>
-          <button className="btn-chat-icon" onClick={e=>{e.stopPropagation();setChat(true);}}>
+          <button className="btn-chat-icon" aria-label={`Envoyer un message à ${worker.name}`} onClick={e=>{e.stopPropagation();setChat(true);}}>
             ✉️
           </button>
 
-          <button className={`btn-fav${faved?" faved":""}`} onClick={toggleFav}>
+          <button className={`btn-fav${faved?" faved":""}`} aria-label={faved?`Retirer ${worker.name} des favoris`:`Ajouter ${worker.name} aux favoris`} onClick={toggleFav}>
             {faved?"♥":"♡"}
           </button>
         </div>
@@ -456,7 +437,7 @@ function ChatWindow({worker, onClose}){
           content: m.text,
         }));
 
-        let replyText = "Je vous répondrai très vite. Vous pouvez aussi m'appeler directement.";
+        let replyText = "Réponse automatique indisponible pour le moment. Votre message a été enregistré ; vous pouvez aussi contacter directement le professionnel par téléphone ou WhatsApp.";
         try {
           const aiRes = await fetch(`${API_BASE}/ai-reply`, {
             method: "POST",
@@ -465,7 +446,7 @@ function ChatWindow({worker, onClose}){
           });
           if(aiRes.ok) {
             const aiData = await aiRes.json();
-            replyText = aiData.text;
+            replyText = aiData.source === "ai" ? `🤖 Réponse automatisée Snay3i : ${aiData.text}` : aiData.text;
             setAiActive(aiData.source === "ai");
           }
         } catch(e) { setAiActive(false); }
@@ -502,19 +483,19 @@ function ChatWindow({worker, onClose}){
           </div>
           <div className="chat-header-info">
             <span className="chat-name">{worker.name}</span>
-            <span className="chat-status">
+            <span className="chat-status" aria-live="polite">
               {typing
-                ? "✨ En train de répondre..."
+                ? "✨ Assistant automatique en préparation..."
                 : aiActive
-                  ? `🟢 En ligne • ${catLabel(worker.service)} • ✨ IA`
-                  : `🟢 En ligne • ${catLabel(worker.service)}`
+                  ? `🤖 Assistant automatique • ${catLabel(worker.service)}`
+                  : `💬 Messagerie du profil • ${catLabel(worker.service)}`
               }
             </span>
           </div>
           <div className="chat-header-actions">
-            <a href={"tel:" + worker.phone} className="chat-call-btn" title="Appeler">📞</a>
-            <a onClick={()=>trackEvent('whatsapp_click','chat_'+worker.service)} href={"https://wa.me/" + (worker.whatsapp||"").replace(/\D/g,"")} target="_blank" rel="noreferrer" className="chat-wa-btn" title="WhatsApp">💬</a>
-            <button className="chat-close-btn" onClick={onClose}>✕</button>
+            <a href={"tel:" + worker.phone} className="chat-call-btn" aria-label={`Appeler ${worker.name}`} title="Appeler">📞</a>
+            <a onClick={()=>trackEvent('whatsapp_click','chat_'+worker.service)} href={"https://wa.me/" + (worker.whatsapp||"").replace(/\D/g,"")} target="_blank" rel="noopener noreferrer" className="chat-wa-btn" aria-label={`Contacter ${worker.name} sur WhatsApp`} title="WhatsApp">💬</a>
+            <button className="chat-close-btn" aria-label="Fermer la messagerie" onClick={onClose}>✕</button>
           </div>
         </div>
 
@@ -529,8 +510,8 @@ function ChatWindow({worker, onClose}){
                 {initials(worker.name)}
               </div>
               <div className="chat-welcome-bubble">
-                <strong>{worker.name}</strong>
-                <p>Bonjour ! Je suis {catLabel(worker.service)} a {worker.city}. Envoyez-moi votre demande et je vous repondrai rapidement.</p>
+                <strong>Assistant Snay3i</strong>
+                <p>Ce chat peut utiliser une réponse automatisée pour le profil de {worker.name}. Pour une réponse directe du professionnel, utilisez Appeler ou WhatsApp.</p>
               </div>
             </div>
           )}
@@ -603,159 +584,6 @@ const SERVICES_LIST = [
 ];
 
 // ── LEGAL MODAL ────────────────────────────────────────────────────
-const LEGAL_CONTENT = {
-  about:{
-    title:"À propos de Snay3i.ma",
-    body:`Snay3i.ma est une plateforme marocaine de mise en relation entre particuliers et artisans professionnels.
-
-Notre mission : rendre accessible à tous les Marocains un artisan de confiance, rapidement et gratuitement.
-
-Fondée en 2025, Snay3i.ma couvre plus de 30 villes au Maroc et propose des professionnels référencés dans 13 corps de métier : plomberie, électricité, maçonnerie, menuiserie, peinture, carrelage, climatisation, serrurerie, ménage, jardinage, soudure et plus encore.
-
-La plateforme est entièrement gratuite, aussi bien pour les clients que pour les artisans.
-
-🇲🇦 Fait avec fierté pour le Maroc.`
-  },
-  legal:{
-    title:"Mentions légales",
-    body:`ÉDITEUR DU SITE
-Nom : Anass Couqua
-Domicile : Londres, Royaume-Uni
-Email : a.couqua@gmail.com
-WhatsApp : +44 7999 393 290
-
-Le site snay3i.ma est exploité à titre personnel. Il n'est pas encore rattaché à une entité juridique enregistrée.
-
-HÉBERGEMENT
-Frontend : Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, États-Unis
-Backend : Render Services Inc., San Francisco, CA, États-Unis
-
-PROPRIÉTÉ INTELLECTUELLE
-L'ensemble du contenu (textes, logos, interface, code) est la propriété exclusive d'Anass Couqua. Toute reproduction sans autorisation écrite est interdite.
-
-RESPONSABILITÉ
-Snay3i.ma est une plateforme de mise en relation. Elle ne saurait être tenue responsable des prestations réalisées par les artisans référencés.`
-  },
-  terms:{
-    title:"Conditions Générales d'Utilisation",
-    body:`Dernière mise à jour : mai 2025
-
-1. OBJET
-Les présentes CGU régissent l'utilisation de snay3i.ma, plateforme de mise en relation entre clients et artisans au Maroc.
-
-2. ACCÈS AU SERVICE
-Le service est accessible gratuitement. Snay3i.ma se réserve le droit de modifier ou d'interrompre le service à tout moment.
-
-3. INSCRIPTION DES ARTISANS
-L'inscription est libre et gratuite. L'artisan certifie que ses informations sont exactes. Snay3i.ma peut supprimer tout profil contenant des informations fausses.
-
-4. RESPONSABILITÉ
-Snay3i.ma est un intermédiaire de mise en relation uniquement. Elle décline toute responsabilité quant à la qualité des prestations ou aux litiges entre clients et artisans.
-
-5. PROPRIÉTÉ INTELLECTUELLE
-Le contenu du site est protégé. Toute reproduction non autorisée est interdite.
-
-6. DROIT APPLICABLE
-Les présentes CGU sont soumises au droit marocain.
-
-Contact : a.couqua@gmail.com`
-  },
-  privacy:{
-    title:"Politique de Confidentialité",
-    body:`Dernière mise à jour : août 2026
-
-1. INTRODUCTION
-Bienvenue sur Snay3i.ma. La protection de vos données personnelles est une priorité pour nous. Cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos informations lorsque vous utilisez notre plateforme de mise en relation avec des artisans au Maroc.
-
-2. DONNÉES COLLECTÉES
-— Pour les visiteurs : Nous collectons des données de navigation anonymes et utilisons des cookies techniques indispensables au fonctionnement du site. Si vous utilisez la fonction de géolocalisation, votre position est traitée uniquement en temps réel dans votre navigateur pour trier les artisans par distance et n est jamais stockée de manière permanente sur nos serveurs.
-— Pour les artisans inscrits : Nom complet, numéro de téléphone, WhatsApp, ville, adresse, métier, description et années d expérience. Ces informations sont rendues publiques sur la plateforme afin de permettre aux clients de vous contacter directement.
-
-3. COOKIES ET PUBLICITÉ (GOOGLE ADSENSE)
-Nous utilisons des cookies pour améliorer votre expérience utilisateur et analyser le trafic du site.
-— Google AdSense : Nous pouvons diffuser des annonces publicitaires via Google AdSense. Google utilise des cookies pour diffuser des annonces basées sur vos visites sur notre site ou d autres sites Internet. Vous pouvez désactiver la personnalisation des annonces publicitaires à tout moment via les paramètres des annonces Google.
-
-4. UTILISATION DES DONNÉES
-Les données collectées servent exclusivement à :
-— Faciliter la recherche et la mise en relation directe entre particuliers et artisans.
-— Affiner les résultats de recherche et les classements (prix, notes, distance).
-— Assurer la sécurité et l amélioration continue de la plateforme Snay3i.ma.
-
-5. PARTAGE DES DONNÉES
-Les informations de contact des artisans sont publiques par nature sur la plateforme. Nous ne vendons, n échangeons ni ne louons vos données personnelles à des tiers à des fins commerciales.
-
-6. SÉCURITÉ ET HÉBERGEMENT
-Vos données sont hébergées sur des serveurs sécurisés (Render, USA, certifiés SOC 2 Type II) et protégées par des protocoles de chiffrement standard.
-
-7. VOS DROITS ET CONTACT
-Vous disposez d un droit d accès, de rectification et de suppression de vos données personnelles. Pour toute question ou demande, vous pouvez nous contacter par e-mail à : a.couqua@gmail.com`
-  },
-  contact:{
-    title:"Nous contacter",
-    body:`FONDATEUR
-Anass Couqua — Londres, Royaume-Uni
-
-EMAIL
-a.couqua@gmail.com
-Réponse sous 24-48h ouvrables
-
-WHATSAPP
-+44 7999 393 290
-
-ARTISANS — Modifier ou supprimer votre profil
-Envoyez votre nom et votre ville par email ou WhatsApp.
-
-CLIENTS — Signaler un problème
-Email : a.couqua@gmail.com
-
-PARTENARIATS & MÉDIAS
-a.couqua@gmail.com
-
-🇲🇦 Snay3i.ma — Fait avec fierté pour le Maroc`
-  }
-};
-
-function LegalModal({page, onClose}){
-  const content = LEGAL_CONTENT[page];
-  if(!content) return null;
-  return(
-    <div style={{
-      position:"fixed",inset:0,zIndex:3000,
-      background:"rgba(13,27,42,0.7)",
-      display:"flex",alignItems:"flex-end",justifyContent:"center",
-      backdropFilter:"blur(4px)",
-    }} onClick={onClose}>
-      <div style={{
-        background:"var(--white)",borderRadius:"24px 24px 0 0",
-        width:"100%",maxWidth:680,maxHeight:"85vh",
-        display:"flex",flexDirection:"column",
-        boxShadow:"0 -8px 40px rgba(0,0,0,0.2)",
-      }} onClick={e=>e.stopPropagation()}>
-        <div style={{
-          padding:"20px 24px 16px",
-          borderBottom:"1px solid var(--border)",
-          display:"flex",alignItems:"center",justifyContent:"space-between",
-          flexShrink:0,
-        }}>
-          <h2 style={{fontSize:17,fontWeight:800,color:"var(--ink)",margin:0}}>{content.title}</h2>
-          <button onClick={onClose} style={{
-            background:"var(--cream)",border:"none",width:32,height:32,
-            borderRadius:"50%",cursor:"pointer",fontSize:16,color:"var(--muted)",
-            display:"flex",alignItems:"center",justifyContent:"center",
-          }}>✕</button>
-        </div>
-        <div style={{
-          overflowY:"auto",padding:"20px 24px 40px",
-          fontSize:14,lineHeight:1.75,color:"var(--muted)",
-          whiteSpace:"pre-wrap",
-        }}>
-          {content.body}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function RegisterPage({ onBack, lang }) {
   const [step, setStep] = useState(1);
   const [acquisitionSource, setAcquisitionSource] = useState('direct');
@@ -1158,11 +986,11 @@ function MapModal({workers, onClose, userLoc, activeCategory, activeCity}){
       const {center,zoom}=getInitialView();
       const map=L.map(mapRef.current,{
         center, zoom,
-        zoomControl:false, attributionControl:false,
+        zoomControl:false, attributionControl:true,
       });
       L.tileLayer(
-        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-        {subdomains:"abcd",maxZoom:19}
+        "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>'}
       ).addTo(map);
       L.control.zoom({position:"topright"}).addTo(map);
       mapInst.current=map;
@@ -1215,7 +1043,7 @@ function MapModal({workers, onClose, userLoc, activeCategory, activeCity}){
   return(
     <div style={{position:"fixed",inset:0,zIndex:2000,display:"flex",flexDirection:"column"}}>
       <style>{`
-        .leaflet-control-attribution{display:none!important}
+        .leaflet-control-attribution{font-size:9px!important;line-height:1.2!important}
         .map-fp:hover{opacity:.82}
         .wrow:hover{background:rgba(196,98,45,.07)!important}
         @keyframes slideUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
@@ -1287,14 +1115,10 @@ function MapModal({workers, onClose, userLoc, activeCategory, activeCity}){
                     <div style={{flex:1,minWidth:0}}>
                       <div style={{display:"flex",alignItems:"center",gap:5}}>
                         <span style={{fontWeight:700,fontSize:14,color:"#0D1B2A",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",maxWidth:160}}>{w.name}</span>
-                        {w.verified&&<span style={{background:"#D8F5E4",color:"#1A6B3A",fontSize:9,fontWeight:700,padding:"2px 5px",borderRadius:20,flexShrink:0}}>✓</span>}
                       </div>
                       <div style={{fontSize:12,color:"#C4622D",fontWeight:600,marginTop:1}}>{catEmoji(w.service)} {catLabel(w.service)}</div>
                     </div>
-                    <div style={{textAlign:"right",flexShrink:0}}>
-                      <div style={{fontSize:13,fontWeight:700,color:"#D4A843"}}>★ {w.rating}</div>
-                      <div style={{fontSize:10,color:"#9A9085"}}>{w.reviews} avis</div>
-                    </div>
+                    <div style={{textAlign:"right",flexShrink:0,fontSize:10,color:"#9A9085"}}>{w.years_exp} ans exp. déclarés</div>
                     <span style={{color:"#C4622D",fontSize:20,flexShrink:0}}>›</span>
                   </div>
                 );
@@ -1323,13 +1147,9 @@ function MapModal({workers, onClose, userLoc, activeCategory, activeCity}){
                 <div style={{flex:1,minWidth:0}}>
                   <div style={{display:"flex",alignItems:"center",gap:6,flexWrap:"wrap",marginBottom:3}}>
                     <span style={{fontWeight:800,fontSize:16,color:"#0D1B2A"}}>{selectedWorker.name}</span>
-                    {selectedWorker.verified&&<span style={{background:"#D8F5E4",color:"#1A6B3A",fontSize:10,fontWeight:700,padding:"2px 7px",borderRadius:20}}>✓ Vérifié</span>}
                   </div>
                   <div style={{fontSize:13,color:"#C4622D",fontWeight:700,marginBottom:4}}>{catLabel(selectedWorker.service)} · {selectedWorker.city}</div>
-                  <div style={{display:"flex",alignItems:"center",gap:2}}>
-                    {[1,2,3,4,5].map(s=><span key={s} style={{color:s<=Math.round(selectedWorker.rating)?"#D4A843":"#DDD",fontSize:13}}>★</span>)}
-                    <span style={{fontSize:11,color:"#7A7065",marginLeft:4}}>{selectedWorker.rating} · {selectedWorker.reviews} avis · {selectedWorker.years_exp} ans exp.</span>
-                  </div>
+                  <div style={{fontSize:11,color:"#7A7065"}}>{selectedWorker.years_exp} ans d'expérience déclarée</div>
                 </div>
                 <button onClick={()=>setSelectedWorker(null)} style={{background:"#F5F0EB",border:"none",width:32,height:32,borderRadius:"50%",cursor:"pointer",fontSize:15,color:"#666",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>✕</button>
               </div>
@@ -1455,14 +1275,11 @@ function ProfilePage({worker, onClose}) {
 
         {/* HEADER */}
         <div className="profile-hero" style={{background:bg}}>
-          <button className="profile-back" onClick={onClose}>←</button>
+          <button className="profile-back" aria-label="Fermer le profil" onClick={onClose}>←</button>
           <div className="profile-avatar-wrap">
             <div className="profile-avatar" style={{background:"rgba(255,255,255,0.2)"}}>
               <span className="profile-avatar-text">{initials(worker.name)}</span>
             </div>
-            {worker.verified && (
-              <div className="profile-verified">✓</div>
-            )}
           </div>
           <h1 className="profile-name">{worker.name}</h1>
           <div className="profile-meta">
@@ -1471,15 +1288,7 @@ function ProfilePage({worker, onClose}) {
             <span>📍 {worker.city}</span>
           </div>
           <div className="profile-rating-row">
-            <div className="profile-stars">
-              {"★★★★★".slice(0, Math.round(worker.rating)).split("").map((s,i) => (
-                <span key={i} style={{color:"#FFD700",fontSize:18}}>★</span>
-              ))}
-              {"★★★★★".slice(Math.round(worker.rating)).split("").map((s,i) => (
-                <span key={i} style={{color:"rgba(255,255,255,0.3)",fontSize:18}}>★</span>
-              ))}
-            </div>
-            <span className="profile-rating-text">{worker.rating} · {worker.reviews} avis · {worker.years_exp} ans exp.</span>
+            <span className="profile-rating-text">{worker.years_exp} ans d'expérience déclarée</span>
           </div>
         </div>
 
@@ -1537,7 +1346,7 @@ function ProfilePage({worker, onClose}) {
             {worker.photos && worker.photos.length > 0 ? (
               <div className="profile-photos">
                 {worker.photos.map((url, i) => (
-                  <img key={i} src={url} alt="" className="profile-photo"/>
+                  <img key={i} src={url} alt={`Réalisation de ${worker.name}`} className="profile-photo"/>
                 ))}
               </div>
             ) : (
@@ -1553,12 +1362,12 @@ function ProfilePage({worker, onClose}) {
 
           {/* REVIEWS */}
           <ReviewsSection worker={worker} apiBase={API_BASE}/>
-          {/* DEVIS GRATUIT */}
+          {/* Demander un devis */}
           <div className="profile-devis">
             <span className="profile-devis-icon">📋</span>
             <div>
-              <strong>Devis gratuit</strong>
-              <p>Contactez ce professionnel pour obtenir un devis sur place</p>
+              <strong>Demander un devis</strong>
+              <p>Contactez ce professionnel pour demander un devis et confirmer les conditions</p>
             </div>
           </div>
           <div className="srow join-row" onClick={()=>window.scrollTo({top:0,behavior:'smooth'})}>
@@ -1572,6 +1381,11 @@ function ProfilePage({worker, onClose}) {
 
         </div>
 
+        <div className="profile-legal-links" style={{display:"flex",gap:14,justifyContent:"center",flexWrap:"wrap",padding:"4px 18px 22px",fontSize:12}}>
+          <a href="/privacy" style={{color:"var(--muted)",textDecoration:"none"}}>Confidentialité</a>
+          <a href="/terms" style={{color:"var(--muted)",textDecoration:"none"}}>CGU</a>
+          <a href="/contact" style={{color:"var(--muted)",textDecoration:"none"}}>Contact</a>
+        </div>
         {showChat && <ChatWindow worker={worker} onClose={()=>setShowChat(false)}/>}
       </div>
     </div>
@@ -1592,12 +1406,11 @@ export default function App(){
   const [userLoc,setUserLoc]=useState(null);
   const [nearCity,setNearCity]=useState(null);
   const [locErr,setLocErr]=useState("");
-  const [sort,setSort]=useState("rating");
+  const [sort,setSort]=useState("default");
   const [distKm,setDistKm]=useState(null); // null = all, 5 | 10 | 20
   const [lang,setLang]=useState("fr");
   const [showMap,setShowMap]=useState(false);
   const [showRegister,setShowRegister]=useState(false);
-  const [legalPage,setLegalPage]=useState(null);
 
   const CITY_NORMALIZE = {
     "Fès":"Fes","Meknès":"Meknes","Kénitra":"Kenitra","Salé":"Sale",
@@ -1668,8 +1481,6 @@ export default function App(){
       return true;
     })
     .sort((a,b)=>{
-      if(sort==="rating")return b.rating-a.rating;
-      if(sort==="price")return parseInt(a.price)-parseInt(b.price);
       if(sort==="distance"&&userLoc){
         const ca=CITY_COORDS[a.city],cb=CITY_COORDS[b.city];
         if(!ca||!cb)return 0;
@@ -1704,7 +1515,7 @@ export default function App(){
           <div className="hero">
             <div className="hero-badge">
               <span>🇲🇦</span>
-              {lang==="fr"?"Le réseau des artisans marocains":"شبكة الحرفيين المغاربة"}
+              {lang==="fr"?"Annuaire d’artisans au Maroc":"شبكة الحرفيين المغاربة"}
             </div>
             <h1 className="hero-h1">
               {lang==="fr"
@@ -1759,6 +1570,7 @@ export default function App(){
                 🔍 {lang==="fr"?"Rechercher":"بحث"}
               </button>
               <button className={`locate-btn${locating?" spin":""}${userLoc?" located":""}`}
+                aria-label={lang==="fr"?"Me localiser":"تحديد موقعي"}
                 onClick={handleLocate} title="Me localiser"
                 style={{width:48,height:48,borderRadius:12,fontSize:20,background:"#F5F0EB",border:"none",cursor:"pointer"}}>
                 {locating?"⌛":userLoc?"✅":"🎯"}
@@ -1821,14 +1633,15 @@ export default function App(){
         </span>
         {error&&<span className="err-msg">{error}</span>}
         <div className="sort-row">
-          {[["rating","⭐"],["price","💰"],["distance","📍"]].map(([k,ic])=>(
+          {[["distance","📍"]].map(([k,ic])=>(
             <button key={k}
+              aria-label={k==="rating"?"Trier par note":k==="price"?"Trier par prix":"Trier par distance"}
               className={`sort-btn${sort===k?" active":""}`}
               onClick={()=>{if(k==="distance"&&!userLoc)handleLocate();else setSort(k);}}>
               {ic}
             </button>
           ))}
-          <button className="sort-btn map-toggle-btn" onClick={()=>setShowMap(true)} title="Vue carte">
+          <button className="sort-btn map-toggle-btn" aria-label="Ouvrir la carte" onClick={()=>setShowMap(true)} title="Vue carte">
             🗺️
           </button>
         </div>
@@ -1841,8 +1654,15 @@ export default function App(){
         ):sorted.length===0?(
           <div className="empty">
             <div style={{fontSize:52,marginBottom:12}}>🔍</div>
-            <p className="empty-title">{lang==="fr"?"Aucun snay3i trouvé":"لم يتم العثور على معلم"}</p>
-            <p className="empty-sub">{lang==="fr"?"Essayez une autre catégorie ou ville":"جرّب فئة أو مدينة أخرى"}</p>
+            <p className="empty-title">{lang==="fr"?"Aucun snay3i trouvé pour cette recherche":"لم نعثر على صنايعي لهذه المعايير"}</p>
+            <p className="empty-sub">{lang==="fr"?"La disponibilité des profils varie selon le métier, la ville et les informations actuellement publiées.":"تختلف الملفات المتاحة حسب المهنة والمدينة والمعلومات المنشورة حالياً."}</p>
+            <div className="empty-help" style={{maxWidth:620,margin:"16px auto 0",padding:"16px 18px",background:"#fff",border:"1px solid var(--border)",borderRadius:14,lineHeight:1.6}}>
+              <p style={{margin:"0 0 10px",fontSize:14,color:"var(--muted)"}}>{lang==="fr"?"Essayez d’élargir la ville ou le métier, puis comparez les profils disponibles. Vous pouvez aussi consulter nos guides pour préparer votre demande et les questions à poser avant de choisir un professionnel.":"جرّب توسيع المدينة أو المهنة، ثم قارن الملفات المتاحة. يمكنك أيضاً قراءة أدلتنا لتحضير طلبك والأسئلة التي ينبغي طرحها قبل اختيار المهني."}</p>
+              <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
+                <a href="/blog" style={{color:"var(--terra)",fontWeight:700,textDecoration:"none"}}>{lang==="fr"?"Consulter les guides":"تصفح الأدلة"}</a>
+                <a href="/contact" style={{color:"var(--terra)",fontWeight:700,textDecoration:"none"}}>{lang==="fr"?"Nous contacter":"اتصل بنا"}</a>
+              </div>
+            </div>
           </div>
         ):(
           <>
@@ -1859,6 +1679,40 @@ export default function App(){
       )}
     </>
         )}
+
+
+        <section data-publisher-guides="1" style={{background:'#fff',border:'1.5px solid var(--border)',borderRadius:18,padding:'22px 20px',margin:'28px 0'}}>
+          <div style={{fontSize:12,fontWeight:800,color:'var(--terra)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:6}}>Guides Snay3i.ma · دلائل صنايعي</div>
+          <h2 style={{fontSize:22,lineHeight:1.3,color:'var(--ink)',margin:'0 0 8px'}}>Des guides pratiques en français et en darija</h2>
+          <p style={{fontSize:14,lineHeight:1.65,color:'var(--muted)',margin:'0 0 16px'}}>Préparez votre projet, comprenez les étapes et posez les bonnes questions avant de choisir un professionnel. <span lang="ary" dir="rtl">دلائل عملية باش تخطط مزيان قبل ما تبدا الأشغال.</span></p>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:10,marginBottom:14}}>
+            <a href="/blog/renovation-maison-maroc-guide" lang="fr" style={{display:'flex',alignItems:'center',gap:12,minHeight:82,padding:8,borderRadius:14,background:'var(--cream)',color:'var(--ink)',textDecoration:'none',fontWeight:700}}>
+              <img src="https://images.unsplash.com/photo-1768321902097-1d85e7735c5f?auto=format&fit=crop&w=320&q=78" alt="Chantier de rénovation intérieure" loading="lazy" width="72" height="72" style={{width:72,height:72,flex:'0 0 72px',objectFit:'cover',borderRadius:10,border:'1px solid var(--border)'}}/>
+              <span><span style={{display:'inline-block',fontSize:10,fontWeight:800,color:'var(--terra)',letterSpacing:'.06em',marginBottom:4}}>FR</span><span style={{display:'block',fontSize:14,lineHeight:1.35}}>Rénovation maison au Maroc : étapes et artisans</span></span>
+            </a>
+            <a href="/blog/cuisine-moderne-zero-maroc-darija" lang="ary" dir="rtl" style={{display:'flex',alignItems:'center',gap:12,minHeight:82,padding:8,borderRadius:14,background:'var(--cream)',color:'var(--ink)',textDecoration:'none',fontWeight:700,textAlign:'right'}}>
+              <img src="https://unsplash.com/photos/Jl5BfxX089Q/download?force=true&w=320" alt="كوزينة مودرن بخزائن خشبية وجزيرة وسطية" loading="lazy" width="72" height="72" style={{width:72,height:72,flex:'0 0 72px',objectFit:'cover',borderRadius:10,border:'1px solid var(--border)'}}/>
+              <span><span style={{display:'inline-block',fontSize:10,fontWeight:800,color:'var(--terra)',marginBottom:4}}>بالدارجة</span><span style={{display:'block',fontSize:14,lineHeight:1.55}}>كيفاش تخطط لكوزينة مودرن من الصفر</span></span>
+            </a>
+            <a href="/blog/creer-beau-jardin-maroc" lang="fr" style={{display:'flex',alignItems:'center',gap:12,minHeight:82,padding:8,borderRadius:14,background:'var(--cream)',color:'var(--ink)',textDecoration:'none',fontWeight:700}}>
+              <img src="https://images.unsplash.com/photo-1771502674766-8fcbab194e67?auto=format&fit=crop&w=320&q=78" alt="Jardiniers aménageant un espace paysager" loading="lazy" width="72" height="72" style={{width:72,height:72,flex:'0 0 72px',objectFit:'cover',borderRadius:10,border:'1px solid var(--border)'}}/>
+              <span><span style={{display:'inline-block',fontSize:10,fontWeight:800,color:'var(--terra)',letterSpacing:'.06em',marginBottom:4}}>FR</span><span style={{display:'block',fontSize:14,lineHeight:1.35}}>Créer un beau jardin au Maroc</span></span>
+            </a>
+            <a href="/blog/hammam-beldi-maison-maroc-darija" lang="ary" dir="rtl" style={{display:'flex',alignItems:'center',gap:12,minHeight:82,padding:8,borderRadius:14,background:'var(--cream)',color:'var(--ink)',textDecoration:'none',fontWeight:700,textAlign:'right'}}>
+              <img src="https://unsplash.com/photos/9qYFu1NzpS8/download?force=true&w=320" alt="فضاء بخار مودرن بسطوح حجرية وإضاءة هادئة" loading="lazy" width="72" height="72" style={{width:72,height:72,flex:'0 0 72px',objectFit:'cover',borderRadius:10,border:'1px solid var(--border)'}}/>
+              <span><span style={{display:'inline-block',fontSize:10,fontWeight:800,color:'var(--terra)',marginBottom:4}}>بالدارجة</span><span style={{display:'block',fontSize:14,lineHeight:1.55}}>كيفاش تخطط لحمام بلدي فدارك</span></span>
+            </a>
+            <a href="/blog/rangement-sur-mesure-menuisier-maroc" lang="fr" style={{display:'flex',alignItems:'center',gap:12,minHeight:82,padding:8,borderRadius:14,background:'var(--cream)',color:'var(--ink)',textDecoration:'none',fontWeight:700}}>
+              <img src="https://unsplash.com/photos/VMMoVcgTnbA/download?force=true&w=320" alt="Menuisier travaillant le bois en atelier" loading="lazy" width="72" height="72" style={{width:72,height:72,flex:'0 0 72px',objectFit:'cover',borderRadius:10,border:'1px solid var(--border)'}}/>
+              <span><span style={{display:'inline-block',fontSize:10,fontWeight:800,color:'var(--terra)',letterSpacing:'.06em',marginBottom:4}}>FR</span><span style={{display:'block',fontSize:14,lineHeight:1.35}}>Rangements sur mesure : préparer son projet</span></span>
+            </a>
+            <a href="/blog/villa-riad-piscine-jardin-maroc-darija" lang="ary" dir="rtl" style={{display:'flex',alignItems:'center',gap:12,minHeight:82,padding:8,borderRadius:14,background:'var(--cream)',color:'var(--ink)',textDecoration:'none',fontWeight:700,textAlign:'right'}}>
+              <img src="https://unsplash.com/photos/TFhl8b-rRPg/download?force=true&w=320" alt="رياض مغربي بفناء ومسبح وهندسة تقليدية" loading="lazy" width="72" height="72" style={{width:72,height:72,flex:'0 0 72px',objectFit:'cover',borderRadius:10,border:'1px solid var(--border)'}}/>
+              <span><span style={{display:'inline-block',fontSize:10,fontWeight:800,color:'var(--terra)',marginBottom:4}}>بالدارجة</span><span style={{display:'block',fontSize:14,lineHeight:1.55}}>فيلا بروح الرياض مع مسبح وجردة</span></span>
+            </a>
+          </div>
+          <a href="/blog" style={{display:'inline-block',color:'var(--terra)',fontWeight:800,textDecoration:'none'}}>Voir tous les guides · شوف الدلائل كاملة →</a>
+        </section>
 
         {/* CTA */}
         <div className="cta">
@@ -1882,14 +1736,13 @@ export default function App(){
           <div style={{display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap",marginTop:8}}>
             <a href="/about" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>À propos</a>
             <a href="/blog" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Blog</a>
-            <a href="#" onClick={(e)=>{e.preventDefault();setLegalPage("privacy");}} style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Confidentialité</a>
-            <a href="#" onClick={(e)=>{e.preventDefault();setLegalPage("terms");}} style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>CGU</a>
+            <a href="/privacy" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Confidentialité</a>
+            <a href="/terms" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>CGU</a>
             <a href="/contact" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Contact</a>
           </div>
           <span style={{fontSize:11,color:"var(--muted)",marginTop:4}}>🇲🇦 Fait avec fierté au Maroc</span>
         </div>
       </main>
-      {legalPage&&<LegalModal page={legalPage} onClose={()=>setLegalPage(null)}/>}
     </div>
 
   );

@@ -92,6 +92,7 @@ const banned = [
   /Gratuit\s*&\s*sans intermédiaire/i,
   /dans l'ensemble des villes marocaines/i,
   /Trouvez un .* pas cher \| Snay3i\.ma/i,
+  />\s*✓?\s*Vérifié\b/i,
 ];
 const failures = [];
 for (const [rel, source] of checks) {
@@ -99,6 +100,10 @@ for (const [rel, source] of checks) {
     const match = source.match(re);
     if (match) failures.push(`${rel}: ${match[0]}`);
   }
+}
+for (const [rel, source] of [['src/LandingPage.js', landing], ['src/App.js', app]]) {
+  const aggregateSignal = source.match(/(?:worker|w|selectedWorker)\.(?:rating|reviews)\b/);
+  if (aggregateSignal) failures.push(`${rel}: unsupported aggregate profile signal remains (${aggregateSignal[0]})`);
 }
 for (const staleLegal of [/LEGAL_CONTENT/, /function LegalModal/, /setLegalPage\(/]) {
   if (staleLegal.test(app)) failures.push(`src/App.js: duplicate legacy legal system remains (${staleLegal})`);

@@ -91,7 +91,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
   useEffect(() => {
     if (!svc || !city) return;
 
-    const title = `${svc.label} ${city} — Trouvez un ${svc.pro} pas cher | Snay3i.ma`;
+    const title = `${svc.label} à ${city} — profils et contact | Snay3i.ma`;
     const desc = `Recherchez un ${svc.pro} à ${city} sur Snay3i.ma. Consultez les informations disponibles et contactez directement le professionnel pour préciser votre besoin et demander un devis. 🇲🇦`;
     document.title = title;
     setMeta('description', desc);
@@ -105,21 +105,21 @@ export default function LandingPage({ serviceSlug, citySlug }) {
     injectSchema([
       {
         "@context":"https://schema.org",
-        "@type":"Service",
+        "@type":"CollectionPage",
         "name":`${svc.label} à ${city}`,
         "description":`${svc.desc} à ${city}. Consultez les informations disponibles sur les profils et contactez directement le professionnel.`,
-        "provider":{"@type":"Organization","name":"Snay3i.ma","url":"https://snay3i.ma"},
-        "areaServed":{"@type":"City","name":city,"addressCountry":"MA"},
-        "serviceType":svc.label
+        "isPartOf":{"@type":"WebSite","name":"Snay3i.ma","url":"https://snay3i.ma"},
+        "about":{"@type":"Thing","name":svc.label},
+        "spatialCoverage":{"@type":"City","name":city,"addressCountry":"MA"}
       },
       {
         "@context":"https://schema.org",
         "@type":"FAQPage",
         "mainEntity":[
-          {"@type":"Question","name":`Quel est le tarif d'un ${svc.pro} à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Les tarifs varient selon l'intervention. Contactez nos ${svc.proPlural} à ${city} pour un devis gratuit sans engagement.`}},
+          {"@type":"Question","name":`Quel est le tarif d'un ${svc.pro} à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Les tarifs varient selon l'intervention. Contactez les ${svc.proPlural} proposés à ${city} pour demander un devis et confirmer les conditions.`}},
           {"@type":"Question","name":`Y a-t-il des ${svc.proPlural} dont les horaires peuvent varier selon le professionnel à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`La disponibilité dépend de chaque professionnel. Vérifiez directement les horaires et les conditions d'intervention avant de vous déplacer ou de demander un rendez-vous.`}},
           {"@type":"Question","name":`Comment trouver un ${svc.pro} fiable à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Consultez les informations réellement affichées sur chaque profil et posez vos questions au professionnel avant de confirmer la prestation.`}},
-          {"@type":"Question","name":`Comment contacter un ${svc.pro} à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Cliquez sur le profil du ${svc.pro} sur Snay3i.ma puis appelez directement ou envoyez un WhatsApp. Aucun intermédiaire.`}},
+          {"@type":"Question","name":`Comment contacter un ${svc.pro} à ${city}?`,"acceptedAnswer":{"@type":"Answer","text":`Cliquez sur le profil du ${svc.pro} sur Snay3i.ma puis utilisez les coordonnées affichées pour confirmer directement le besoin et les conditions.`}},
         ]
       }
     ]);
@@ -130,7 +130,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
         const list = Array.isArray(d) ? d : [];
         setWorkers(list);
         setLoading(false);
-        setMeta('robots', list.length === 0 ? 'noindex, follow' : 'index, follow');
+        setMeta('robots', 'noindex, follow');
       })
       .catch(() => setLoading(false));
   }, [svc, city, serviceSlug, citySlug]);
@@ -172,18 +172,18 @@ export default function LandingPage({ serviceSlug, citySlug }) {
           {svc.label} à {city}
         </h1>
         <p style={{color:'rgba(255,255,255,0.75)',fontSize:15,margin:'0 0 6px'}}>
-          {svc.desc} — Trouvez votre expert maintenant
+          {svc.desc} — Consultez les profils disponibles
         </p>
-        <p style={{color:'#D4A843',fontSize:13,margin:0}}>{svc.ar} • {city} • 🇲🇦 Gratuit & sans intermédiaire</p>
+        <p style={{color:'#D4A843',fontSize:13,margin:0}}>{svc.ar} • {city} • 🇲🇦 Profils et contact direct</p>
       </div>
 
       {/* Stats */}
       <div style={{background:'#C4622D',padding:'10px 24px',display:'flex',justifyContent:'center',gap:28,flexWrap:'wrap'}}>
         {[
           {n:loading?'..':workers.length, l:`${svc.proPlural} trouvés`},
-          {n:'100%', l:'Gratuit'},
-          {n:'⭐', l:'Vérifiés'},
-          {n:'Direct', l:'Sans intermédiaire'},
+          {n:'Infos', l:'Profils disponibles'},
+          {n:'Direct', l:'Contact professionnel'},
+          {n:'Devis', l:'Conditions à confirmer'},
         ].map(s=>(
           <div key={s.l} style={{textAlign:'center',color:'#fff'}}>
             <div style={{fontSize:18,fontWeight:800}}>{s.n}</div>
@@ -196,7 +196,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
 
         {/* H2: Results */}
         <h2 style={{fontSize:18,fontWeight:700,color:'#0D1B2A',marginBottom:16}}>
-          {svc.emoji} {cap(svc.proPlural)} disponibles à {city}
+          {svc.emoji} {cap(svc.proPlural)} proposés à {city}
         </h2>
 
         {loading ? (
@@ -216,13 +216,8 @@ export default function LandingPage({ serviceSlug, citySlug }) {
               <div style={{flex:1}}>
                 <div style={{display:'flex',alignItems:'center',gap:6,flexWrap:'wrap'}}>
                   <span style={{fontWeight:700,color:'#0D1B2A',fontSize:15}}>{w.name}</span>
-                  {w.verified&&<span style={{background:'#D8F5E4',color:'#1A6B3A',fontSize:10,fontWeight:700,padding:'2px 7px',borderRadius:20}}>✓ Vérifié</span>}
                 </div>
                 <div style={{fontSize:12,color:'#7A7065',marginTop:3}}>📍 {w.city} • {w.years_exp} ans exp.</div>
-              </div>
-              <div style={{textAlign:'center',flexShrink:0}}>
-                <div style={{fontWeight:700,color:'#D4A843',fontSize:16}}>{w.rating}★</div>
-                <div style={{fontSize:10,color:'#7A7065'}}>{w.reviews} avis</div>
               </div>
             </div>
             {w.bio && <p style={{fontSize:13,color:'#7A7065',lineHeight:1.6,margin:'0 0 12px'}}>{w.bio}</p>}
@@ -239,10 +234,10 @@ export default function LandingPage({ serviceSlug, citySlug }) {
             Pourquoi choisir Snay3i.ma pour trouver un {svc.pro} à {city}?
           </h2>
           {[
-            ['✅','Gratuit et sans commission','Aucun frais caché, aucune commission. Contactez directement l\'artisan.'],
-            ['⭐','Professionnels référencés et notés','Les informations disponibles sur chaque profil peuvent vous aider à comparer les professionnels avant de les contacter.'],
-            ['⚡','Contact direct','Nos '+svc.proPlural+' à '+city+' sont dont la disponibilité dépend du professionnel et du type d’intervention.'],
-            ['🇲🇦','Réseau marocain','Plus de 100 artisans dans plusieurs villes du Maroc. Bilingue français et arabe.'],
+            ['🔎','Recherche structurée','Consultez les profils proposés pour ce métier et cette ville.'],
+            ['⭐','Informations de profil','Comparez les informations, avis et réalisations lorsqu’ils sont disponibles.'],
+            ['📞','Contact à confirmer','La disponibilité, le prix et les conditions dépendent de chaque professionnel.'],
+            ['🇲🇦','Métiers et villes','Les profils disponibles varient selon le métier, la ville et les données publiées.'],
           ].map(([icon,title,text])=>(
             <div key={title} style={{display:'flex',gap:12,marginBottom:12}}>
               <span style={{fontSize:20,flexShrink:0}}>{icon}</span>
@@ -260,10 +255,10 @@ export default function LandingPage({ serviceSlug, citySlug }) {
             {svc.label} à {city} — Tout ce que vous devez savoir
           </h2>
           <p style={{fontSize:13,color:'#7A7065',lineHeight:1.8,margin:0}}>
-            Snay3i.ma est la plateforme marocaine de référence pour trouver un {svc.pro} qualifié à {city}.
-            Que vous ayez besoin de {svc.desc.toLowerCase()}, nos professionnels à {city} sont disponibles rapidement.
-            Tous nos {svc.proPlural} sont vérifiés, notés par leurs clients, et contactables directement par téléphone ou WhatsApp.
-            La mise en relation et les conditions éventuelles doivent être vérifiées sur la plateforme et avec le professionnel.
+            Snay3i.ma aide à rechercher un {svc.pro} à {city} et à consulter les informations publiées sur les profils proposés.
+            Pour {svc.desc.toLowerCase()}, décrivez précisément votre besoin et comparez les éléments disponibles avant de contacter un professionnel.
+            Les avis, badges, coordonnées et autres informations varient selon chaque profil et ne constituent pas une garantie de résultat.
+            Confirmez directement le prix, la disponibilité, le déplacement et les conditions avant toute prestation.
           </p>
         </div>
 
@@ -273,10 +268,10 @@ export default function LandingPage({ serviceSlug, citySlug }) {
             ❓ FAQ — {svc.label} à {city}
           </h2>
           {[
-            [`Quel est le tarif d'un ${svc.pro} à ${city}?`, `Les tarifs varient selon l'intervention et le professionnel. Demandez un devis gratuit directement sur Snay3i.ma.`],
+            [`Quel est le tarif d'un ${svc.pro} à ${city}?`, `Les tarifs varient selon l'intervention et le professionnel. Demandez un devis et confirmez ce qu’il comprend avant de vous engager.`],
             [`Y a-t-il des ${svc.proPlural} dont les horaires peuvent varier selon le professionnel à ${city}?`, `La disponibilité dépend de chaque professionnel. Vérifiez directement les horaires et les conditions d'intervention avant de vous déplacer ou de demander un rendez-vous.`],
-            [`Comment trouver un ${svc.pro} fiable à ${city}?`, `Consultez les avis clients et les notes des artisans sur Snay3i.ma avant d'appeler.`],
-            [`Comment contacter un ${svc.pro} sur Snay3i.ma?`, `Cliquez sur un profil puis appelez directement ou envoyez un WhatsApp. Aucun intermédiaire.`],
+            [`Comment trouver un ${svc.pro} fiable à ${city}?`, `Consultez les informations, avis et réalisations lorsqu’ils sont disponibles, puis posez vos questions au professionnel avant de confirmer.`],
+            [`Comment contacter un ${svc.pro} sur Snay3i.ma?`, `Cliquez sur un profil puis utilisez les coordonnées affichées pour contacter directement le professionnel.`],
           ].map(([q,a],i)=>(
             <div key={i} style={{borderBottom:i<3?'1px solid #F0EAE0':'none',paddingBottom:12,marginBottom:12}}>
               <div style={{fontWeight:700,color:'#0D1B2A',fontSize:13,marginBottom:4}}>Q: {q}</div>
@@ -288,7 +283,7 @@ export default function LandingPage({ serviceSlug, citySlug }) {
         {/* Internal links: other services in same city */}
         <div style={{background:'#fff',borderRadius:16,padding:24,marginTop:12,border:'1.5px solid #E8E0D4'}}>
           <h2 style={{fontSize:14,fontWeight:700,color:'#0D1B2A',marginBottom:12}}>
-            Autres artisans disponibles à {city}
+            Autres métiers à {city}
           </h2>
           <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
             {otherServices.map(([slug,s])=>(
@@ -322,16 +317,16 @@ export default function LandingPage({ serviceSlug, citySlug }) {
             Vous êtes {svc.pro} à {city}?
           </h3>
           <p style={{color:'rgba(255,255,255,0.6)',fontSize:12,margin:'0 0 16px'}}>
-            Rejoignez professionnels référencés sur Snay3i.ma — gratuit et sans commission
+            Créez votre profil sur Snay3i.ma et présentez clairement vos services et votre zone d’intervention
           </p>
           <a href="/" style={{background:'#C4622D',color:'#fff',padding:'12px 28px',borderRadius:24,textDecoration:'none',fontWeight:800,fontSize:14}}>
-            Créer mon profil gratuit →
+            Créer mon profil →
           </a>
         </div>
 
         <div style={{textAlign:'center',marginTop:20,paddingBottom:32}}>
           <a href="/" style={{color:'#C4622D',fontWeight:700,textDecoration:'none',fontSize:13}}>
-            ← Retour à Snay3i.ma — Tous les artisans du Maroc 🇲🇦
+            ← Retour à Snay3i.ma — Rechercher des artisans au Maroc 🇲🇦
           </a>
         </div>
       </div>
