@@ -219,9 +219,6 @@ function ContactModal({worker, onClose}){
             <div className="modal-identity">
               <h2 className="modal-name">{worker.name}</h2>
               <p className="modal-service">{catEmoji(worker.service)} {catLabel(worker.service)} • {worker.city}</p>
-              <div className="modal-verified">
-                <span className="exp-pill">⏱ {worker.years_exp} ans d'expérience</span>
-              </div>
             </div>
           </div>
         </div>
@@ -259,7 +256,6 @@ function ContactModal({worker, onClose}){
           </div>
           <div className="modal-price-row">
             <span className="modal-price">Conditions à confirmer</span>
-            <span className="modal-reviews">{worker.years_exp} ans d'expérience déclarée</span>
           </div>
         </div>
       </div>
@@ -325,10 +321,6 @@ function WorkerCard({worker,index,userLoc}){
         </div>
 
         <p className="card-bio">{worker.bio}</p>
-
-        <div className="card-rating-row">
-          <span className="card-reviews">{worker.years_exp} ans d'expérience déclarée</span>
-        </div>
 
         <div className="card-tags">
           {worker.tags.map(t=><span key={t} className="card-tag">{t}</span>)}
@@ -1149,7 +1141,6 @@ function MapModal({workers, onClose, userLoc, activeCategory, activeCity}){
                     <span style={{fontWeight:800,fontSize:16,color:"#0D1B2A"}}>{selectedWorker.name}</span>
                   </div>
                   <div style={{fontSize:13,color:"#C4622D",fontWeight:700,marginBottom:4}}>{catLabel(selectedWorker.service)} · {selectedWorker.city}</div>
-                  <div style={{fontSize:11,color:"#7A7065"}}>{selectedWorker.years_exp} ans d'expérience déclarée</div>
                 </div>
                 <button onClick={()=>setSelectedWorker(null)} style={{background:"#F5F0EB",border:"none",width:32,height:32,borderRadius:"50%",cursor:"pointer",fontSize:15,color:"#666",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>✕</button>
               </div>
@@ -1286,9 +1277,6 @@ function ProfilePage({worker, onClose}) {
             <span>{catEmoji(worker.service)} {catLabel(worker.service)}</span>
             <span className="profile-dot">•</span>
             <span>📍 {worker.city}</span>
-          </div>
-          <div className="profile-rating-row">
-            <span className="profile-rating-text">{worker.years_exp} ans d'expérience déclarée</span>
           </div>
         </div>
 
