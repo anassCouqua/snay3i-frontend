@@ -71,6 +71,11 @@ const app = patchFile('src/App.js', [
   ['<button className="btn-chat-icon" onClick={e=>{e.stopPropagation();setChat(true);}}>', '<button className="btn-chat-icon" aria-label={`Envoyer un message à ${worker.name}`} onClick={e=>{e.stopPropagation();setChat(true);}}>'],
   ['<button className={`btn-fav${faved?" faved":""}`} onClick={toggleFav}>', '<button className={`btn-fav${faved?" faved":""}`} aria-label={faved?`Retirer ${worker.name} des favoris`:`Ajouter ${worker.name} aux favoris`} onClick={toggleFav}>'],
   ['<button className="sort-btn map-toggle-btn" onClick={()=>setShowMap(true)} title="Vue carte">', '<button className="sort-btn map-toggle-btn" aria-label="Ouvrir la carte" onClick={()=>setShowMap(true)} title="Vue carte">'],
+  [/\n\s*<div className="modal-verified">\s*<span className="exp-pill">⏱ \{worker\.years_exp\} ans d'expérience<\/span>\s*<\/div>/g, ''],
+  ['\n            <span className="modal-reviews">{worker.years_exp} ans d\'expérience déclarée</span>', ''],
+  [/\n\s*<div className="card-rating-row">\s*<span className="card-reviews">\{worker\.years_exp\} ans d'expérience déclarée<\/span>\s*<\/div>/g, ''],
+  ['\n                  <div style={{fontSize:11,color:"#7A7065"}}>{selectedWorker.years_exp} ans d\'expérience déclarée</div>', ''],
+  [/\n\s*<div className="profile-rating-row">\s*<span className="profile-rating-text">\{worker\.years_exp\} ans d'expérience déclarée<\/span>\s*<\/div>/g, ''],
 ]);
 
 const adsenseContent = patchFile('src/AdsenseContent.js', [
@@ -104,6 +109,9 @@ for (const [rel, source] of checks) {
 for (const [rel, source] of [['src/LandingPage.js', landing], ['src/App.js', app]]) {
   const aggregateSignal = source.match(/(?:worker|w|selectedWorker)\.(?:rating|reviews)\b/);
   if (aggregateSignal) failures.push(`${rel}: unsupported aggregate profile signal remains (${aggregateSignal[0]})`);
+}
+if (/(?:worker|selectedWorker)\\.years_exp\\b/.test(app)) {
+  failures.push('src/App.js: self-declared experience count remains visible on a public profile surface');
 }
 for (const staleLegal of [/LEGAL_CONTENT/, /function LegalModal/, /setLegalPage\(/]) {
   if (staleLegal.test(app)) failures.push(`src/App.js: duplicate legacy legal system remains (${staleLegal})`);
