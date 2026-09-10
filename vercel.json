@@ -9,6 +9,7 @@
     {"src":"/a-propos","status":308,"headers":{"Location":"/about"}},
     {"src":"/cgu","status":308,"headers":{"Location":"/terms"}},
     {"src":"/politique-de-confidentialite","status":308,"headers":{"Location":"/privacy"}},
+    {"src":"/editorial-policy.html","status":308,"headers":{"Location":"/editorial-policy"}},
     {"src":"/guides","status":308,"headers":{"Location":"/blog"}},
     {"src":"/guides/(.*)","status":308,"headers":{"Location":"/blog"}},
 
