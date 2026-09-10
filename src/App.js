@@ -1503,18 +1503,18 @@ export default function App(){
           <div className="hero">
             <div className="hero-badge">
               <span>🇲🇦</span>
-              {lang==="fr"?"Annuaire d’artisans au Maroc":"شبكة الحرفيين المغاربة"}
+              {lang==="fr"?"Guides, outils et artisans au Maroc":"دلائل وأدوات وحرفيين فالمغرب"}
             </div>
             <h1 className="hero-h1">
               {lang==="fr"
-                ?<>Votre <em>Snay3i</em><br/>à portée de main</>
-                :<>صنايعيك<br/><em>في متناول يدك</em></>
+                ?<>Préparez vos travaux.<br/>Trouvez votre <em>Snay3i</em>.</>
+                :<>حضّر خدمتك.<br/><em>لقى صنايعيك.</em></>
               }
             </h1>
             <p className="hero-sub">
               {lang==="fr"
-                ?"Plombiers · Électriciens · Maçons · Peintres · Menuisiers"
-                :"سبّاكون · كهربائيون · بنّاؤون · نقّاشون · نجّارون"
+                ?"Guides pratiques · Calculateurs · Devis · Artisans"
+                : "دلائل عملية · حاسبات · مقارنة الديفي · حرفيين"
               }
             </p>
           </div>
@@ -1703,11 +1703,18 @@ export default function App(){
         </section>
 
 
-        <section data-snay3i-tool="quote-comparator" style={{background:'#fff',border:'1.5px solid var(--border)',borderRadius:18,padding:'22px 20px',margin:'22px 0'}}>
-          <div style={{fontSize:12,fontWeight:800,color:'var(--terra)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:6}}>Outil gratuit · أداة مجانية</div>
-          <h2 style={{fontSize:22,lineHeight:1.3,color:'var(--ink)',margin:'0 0 8px'}}>Comparez jusqu’à trois devis avant de choisir</h2>
-          <p style={{fontSize:14,lineHeight:1.65,color:'var(--muted)',margin:'0 0 14px'}}>Vérifiez si chaque proposition précise le travail, la main-d’œuvre, les matériaux, le déplacement, le délai, le paiement et le suivi. La grille mesure la clarté du devis, pas la qualité du professionnel.</p>
-          <a href="/outils/comparateur-devis" style={{display:'inline-block',background:'var(--terra)',color:'#fff',padding:'11px 16px',borderRadius:12,fontWeight:800,textDecoration:'none'}}>Ouvrir le comparateur de devis →</a>
+        <section data-snay3i-tools-hub="1" style={{background:'#fff',border:'1.5px solid var(--border)',borderRadius:18,padding:'22px 20px',margin:'22px 0'}}>
+          <div style={{fontSize:12,fontWeight:800,color:'var(--terra)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:6}}>Outils Snay3i.ma · أدوات عملية</div>
+          <h2 style={{fontSize:22,lineHeight:1.3,color:'var(--ink)',margin:'0 0 8px'}}>Préparez le chantier avant de choisir un professionnel</h2>
+          <p style={{fontSize:14,lineHeight:1.65,color:'var(--muted)',margin:'0 0 16px'}}>Calculez des quantités, préparez un brief commun et comparez des devis sur les mêmes critères. Les outils servent à organiser votre décision, pas à remplacer un devis ou un diagnostic.</p>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(210px,1fr))',gap:10}}>
+            <a href="/outils/comparateur-devis" style={{padding:14,borderRadius:12,background:'var(--cream)',color:'var(--ink)',textDecoration:'none'}}><strong>📋 Comparateur de devis</strong><span style={{display:'block',fontSize:12,color:'var(--muted)',marginTop:4}}>Comparer 7 points de clarté.</span></a>
+            <a href="/outils/calculateur-peinture" style={{padding:14,borderRadius:12,background:'var(--cream)',color:'var(--ink)',textDecoration:'none'}}><strong>🎨 Calcul peinture</strong><span style={{display:'block',fontSize:12,color:'var(--muted)',marginTop:4}}>Surface, couches et rendement.</span></a>
+            <a href="/outils/calculateur-carrelage" style={{padding:14,borderRadius:12,background:'var(--cream)',color:'var(--ink)',textDecoration:'none'}}><strong>◻️ Calcul carrelage</strong><span style={{display:'block',fontSize:12,color:'var(--muted)',marginTop:4}}>Carreaux, boîtes et marge.</span></a>
+            <a href="/outils/checklist-renovation" style={{padding:14,borderRadius:12,background:'var(--cream)',color:'var(--ink)',textDecoration:'none'}}><strong>✅ Checklist rénovation</strong><span style={{display:'block',fontSize:12,color:'var(--muted)',marginTop:4}}>25 points avant réception.</span></a>
+            <a href="/outils/brief-artisan" style={{padding:14,borderRadius:12,background:'var(--cream)',color:'var(--ink)',textDecoration:'none'}}><strong>✍️ Brief artisan</strong><span style={{display:'block',fontSize:12,color:'var(--muted)',marginTop:4}}>Message comparable en FR/Darija.</span></a>
+          </div>
+          <a href="/outils" style={{display:'inline-block',marginTop:14,color:'var(--terra)',fontWeight:800,textDecoration:'none'}}>Voir tous les outils →</a>
         </section>
 
         {/* CTA */}
@@ -1732,6 +1739,8 @@ export default function App(){
           <div style={{display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap",marginTop:8}}>
             <a href="/about" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>À propos</a>
             <a href="/blog" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Blog</a>
+            <a href="/outils" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Outils</a>
+            <a href="/editorial-policy" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Méthode</a>
             <a href="/privacy" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Confidentialité</a>
             <a href="/terms" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>CGU</a>
             <a href="/contact" style={{color:"var(--muted)",fontSize:12,textDecoration:"none"}}>Contact</a>
