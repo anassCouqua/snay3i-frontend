@@ -25,6 +25,7 @@ const minimumWords = {
   '/outils/calculateur-peinture': 350,
   '/outils/calculateur-carrelage': 350,
   '/outils/checklist-renovation': 350,
+  '/outils/planificateur-budget-renovation': 350,
   '/outils/brief-artisan': 300,
 };
 
