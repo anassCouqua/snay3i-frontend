@@ -121,6 +121,7 @@ for (const route of routes) {
     failures.push(`${route}: html lang=fr missing`);
   }
   if (!/<meta\s+name=["']viewport["']/i.test(html)) failures.push(`${route}: viewport meta missing`);
+  if (!/<meta\s+name=["']referrer["'][^>]*content=["']strict-origin-when-cross-origin["']/i.test(html)) failures.push(`${route}: referrer policy missing or too weak for consent messaging`);
   if (!adEligible.has(route) && hasAds) failures.push(`${route}: AdSense code present on non-editorial/trust route`);
 
   const stale = [...html.matchAll(/href=["'](\/(?:guides|a-propos|cgu|politique-de-confidentialite|seo)(?:\/[^"']*)?)["']/gi)].map((m) => m[1]);
