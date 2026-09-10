@@ -25,7 +25,7 @@ const INDEXABLE_BLOG_SLUGS = [
 // excluded from Google until they contain genuinely local, non-templated value.
 const INDEXABLE_SERVICE_CITY_ROUTES = [];
 
-const CORE_ROUTES = ['/', '/about', '/blog', '/contact', '/privacy', '/terms', '/outils/comparateur-devis'];
+const CORE_ROUTES = ['/', '/about', '/blog', '/contact', '/privacy', '/terms', '/editorial-policy', '/outils', '/outils/comparateur-devis', '/outils/calculateur-peinture', '/outils/calculateur-carrelage', '/outils/checklist-renovation', '/outils/brief-artisan'];
 
 module.exports = {
   INDEXABLE_BLOG_SLUGS,
