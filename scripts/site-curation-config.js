@@ -25,7 +25,7 @@ const INDEXABLE_BLOG_SLUGS = [
 // excluded from Google until they contain genuinely local, non-templated value.
 const INDEXABLE_SERVICE_CITY_ROUTES = [];
 
-const CORE_ROUTES = ['/', '/about', '/blog', '/contact', '/privacy', '/terms'];
+const CORE_ROUTES = ['/', '/about', '/blog', '/contact', '/privacy', '/terms', '/outils/comparateur-devis'];
 
 module.exports = {
   INDEXABLE_BLOG_SLUGS,

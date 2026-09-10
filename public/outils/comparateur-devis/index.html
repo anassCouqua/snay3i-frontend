@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Comparateur de devis travaux — Snay3i.ma</title>
+<meta name="description" content="Comparez jusqu’à trois devis de travaux avec une grille claire : périmètre, main-d’œuvre, matériaux, déplacement, délai, paiement et garantie. Outil gratuit Snay3i.ma.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://snay3i.ma/outils/comparateur-devis">
+<style>
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;background:#faf6ef;color:#17212b;line-height:1.65}header,footer{background:#0d1b2a;color:#fff;padding:18px 22px}nav{max-width:980px;margin:auto;display:flex;gap:18px;flex-wrap:wrap}nav a,footer a{color:#fff;text-decoration:none}main{max-width:980px;margin:auto;padding:40px 20px}section{background:#fff;border:1px solid #e8e0d4;border-radius:16px;padding:24px;margin:0 0 18px}h1{font-size:34px;line-height:1.2;margin:0 0 12px}h2{font-size:22px;margin-top:0}.lead{font-size:18px}.muted{color:#6f6a64}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.quote{border:1px solid #e8e0d4;border-radius:14px;padding:16px;background:#fffaf4}.field{margin:0 0 12px}.field label{display:block;font-weight:700;font-size:13px;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;box-sizing:border-box;padding:10px 11px;border:1px solid #cfc6ba;border-radius:9px;background:#fff;font:inherit}.field textarea{min-height:76px;resize:vertical}.score{font-weight:800;color:#b34f24;margin-top:10px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.actions button{border:0;border-radius:10px;padding:11px 16px;font-weight:800;cursor:pointer}.primary{background:#b34f24;color:#fff}.secondary{background:#eee7dc;color:#17212b}.summary{margin-top:18px;padding:16px;border-radius:12px;background:#f4efe7}.checklist li{margin-bottom:8px}a{color:#b34f24}@media(max-width:800px){.grid{grid-template-columns:1fr}h1{font-size:28px}}@media print{header,footer,.actions{display:none}body{background:#fff}section{border:0;padding:8px 0}.quote{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header><nav><a href="/">Accueil</a><a href="/blog">Guides</a><a href="/outils/comparateur-devis">Comparateur de devis</a><a href="/about">À propos</a><a href="/contact">Contact</a></nav></header>
+<main>
+<section>
+<p class="muted">Outil Snay3i.ma • Comparaison de devis</p>
+<h1>Comparateur de devis travaux</h1>
+<p class="lead">Un devis moins cher n’est pas forcément le plus clair. Cet outil vous aide à comparer jusqu’à trois propositions sur les éléments qui comptent avant de choisir un professionnel.</p>
+<p>La grille ne décide pas quel artisan est « meilleur ». Elle met en évidence les informations présentes ou manquantes : contenu exact du travail, main-d’œuvre, fournitures, déplacement, calendrier, paiement et garantie ou suivi. Vous gardez ainsi une trace simple des questions à poser avant de donner votre accord.</p>
+</section>
+<section>
+<h2>Comparez vos devis</h2>
+<p class="muted">Les informations saisies restent dans votre navigateur pendant cette page. Elles ne sont pas envoyées à Snay3i.ma.</p>
+<div class="grid" id="quotes"></div>
+<div class="actions"><button class="primary" type="button" onclick="compareQuotes()">Comparer la clarté</button><button class="secondary" type="button" onclick="window.print()">Imprimer / enregistrer en PDF</button><button class="secondary" type="button" onclick="resetQuotes()">Effacer</button></div>
+<div id="summary" class="summary" aria-live="polite">Remplissez les colonnes puis cliquez sur « Comparer la clarté ».</div>
+</section>
+<section>
+<h2>Ce que la note signifie</h2>
+<p>Le score mesure uniquement la <strong>complétude des informations</strong>. Un devis obtient un point lorsque vous avez pu confirmer chacun des sept éléments suivants : périmètre du travail, main-d’œuvre, matériaux, déplacement, délai, conditions de paiement et garantie ou suivi après intervention.</p>
+<p>Un score élevé ne garantit ni la qualité du travail ni le sérieux du professionnel. Il indique simplement que la proposition est plus facile à comprendre et à comparer. Si une case reste « À confirmer », demandez une précision écrite avant de commencer.</p>
+</section>
+<section>
+<h2>Les sept points à vérifier avant d’accepter</h2>
+<ul class="checklist">
+<li><strong>Périmètre :</strong> le devis décrit-il précisément ce qui sera fait, et ce qui ne l’est pas ?</li>
+<li><strong>Main-d’œuvre :</strong> est-elle incluse dans le total ou facturée séparément ?</li>
+<li><strong>Matériaux :</strong> qui les achète, quelles références sont prévues et sont-ils compris dans le prix ?</li>
+<li><strong>Déplacement :</strong> le trajet, la visite de diagnostic ou un second déplacement peuvent-ils être facturés ?</li>
+<li><strong>Délai :</strong> une date de début et une durée estimative sont-elles indiquées ?</li>
+<li><strong>Paiement :</strong> acompte, étapes de règlement et solde final sont-ils compréhensibles ?</li>
+<li><strong>Suivi :</strong> que se passe-t-il si un défaut apparaît après l’intervention ?</li>
+</ul>
+</section>
+<section>
+<h2>Comment comparer correctement deux prix</h2>
+<p>Deux montants ne sont comparables que s’ils couvrent le même travail. Une proposition peut paraître plus chère parce qu’elle comprend les fournitures, l’évacuation des déchets, la préparation du support ou plusieurs déplacements. Une autre peut afficher un prix bas puis ajouter ces éléments ensuite.</p>
+<p>Avant de retenir le montant le plus faible, alignez le périmètre. Demandez à chaque professionnel de confirmer les mêmes éléments par écrit. Pour un chantier important, conservez les versions des devis, les références des matériaux et le calendrier convenu.</p>
+</section>
+<section>
+<h2>Quand demander plus de détails</h2>
+<p>Une phrase très générale comme « rénovation complète », « installation comprise » ou « dépannage » peut cacher des interprétations différentes. Pour une salle de bain, par exemple, précisez si la dépose, la plomberie, l’électricité, l’étanchéité, le carrelage, les sanitaires et l’évacuation des gravats sont inclus.</p>
+<p>Pour une urgence, demandez au minimum le coût du déplacement ou du diagnostic avant l’arrivée du professionnel, puis faites confirmer les travaux supplémentaires une fois la cause identifiée. Ne validez pas une extension du chantier si le nouveau montant ou le nouveau périmètre n’est pas clair.</p>
+</section>
+<section>
+<h2>Limites de l’outil</h2>
+<p>Ce comparateur est une aide à l’organisation. Il ne vérifie pas l’identité, les qualifications, les assurances, les références ou la qualité d’un professionnel, et il ne remplace pas un contrat, un devis conforme aux règles applicables ou un avis technique. Les prix et pratiques peuvent varier selon le métier, la ville, l’urgence, le logement et les matériaux.</p>
+<p><a href="/blog">Consulter les guides pratiques Snay3i.ma</a> · <a href="/about">Notre approche éditoriale</a> · <a href="/contact">Signaler un problème</a></p>
+</section>
+</main>
+<footer><div style="max-width:980px;margin:auto">© 2026 Snay3i.ma · <a href="/privacy">Confidentialité</a> · <a href="/terms">CGU</a> · <a href="/contact">Contact</a></div></footer>
+<script>
+const fields=[
+  ['scope','Périmètre du travail'],
+  ['labour','Main-d’œuvre'],
+  ['materials','Matériaux'],
+  ['travel','Déplacement'],
+  ['timing','Délai'],
+  ['payment','Paiement'],
+  ['aftercare','Garantie / suivi']
+];
+function card(i){
+ return '<div class="quote" data-q="'+i+'"><h3>Devis '+(i+1)+'</h3>'+
+ '<div class="field"><label>Professionnel / société</label><input data-name placeholder="Nom ou repère"></div>'+
+ '<div class="field"><label>Montant total annoncé (MAD)</label><input data-price inputmode="decimal" placeholder="Ex. 2500"></div>'+
+ fields.map(f=>'<div class="field"><label>'+f[1]+'</label><select data-key="'+f[0]+'"><option value="">À confirmer</option><option value="yes">Clair / confirmé</option><option value="no">Non inclus / non prévu</option></select></div>').join('')+
+ '<div class="field"><label>Notes personnelles</label><textarea data-notes placeholder="Références, conditions, questions à poser…"></textarea></div>'+
+ '<div class="score" data-score>Clarté : — / 7</div></div>';
+}
+document.getElementById('quotes').innerHTML=[0,1,2].map(card).join('');
+function compareQuotes(){
+ const rows=[...document.querySelectorAll('.quote')].map((q,i)=>{
+  const score=[...q.querySelectorAll('select')].filter(s=>s.value!=='').length;
+  q.querySelector('[data-score]').textContent='Clarté : '+score+' / 7';
+  const name=q.querySelector('[data-name]').value.trim()||('Devis '+(i+1));
+  return {name,score};
+ });
+ const best=Math.max(...rows.map(r=>r.score));
+ const leaders=rows.filter(r=>r.score===best).map(r=>r.name).join(', ');
+ document.getElementById('summary').innerHTML='<strong>Lecture de la grille :</strong> '+leaders+' '+(rows.filter(r=>r.score===best).length>1?'ont':'a')+' le plus d’éléments clarifiés ('+best+'/7). Ce n’est pas une recommandation de professionnel : comparez ensuite le périmètre et les conditions, pas uniquement le montant.';
+}
+function resetQuotes(){
+ document.querySelectorAll('input,textarea').forEach(e=>e.value='');
+ document.querySelectorAll('select').forEach(e=>e.value='');
+ document.querySelectorAll('[data-score]').forEach(e=>e.textContent='Clarté : — / 7');
+ document.getElementById('summary').textContent='Remplissez les colonnes puis cliquez sur « Comparer la clarté ».';
+}
+</script>
+</body>
+</html>

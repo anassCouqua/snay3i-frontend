@@ -1702,6 +1702,14 @@ export default function App(){
           <a href="/blog" style={{display:'inline-block',color:'var(--terra)',fontWeight:800,textDecoration:'none'}}>Voir tous les guides · شوف الدلائل كاملة →</a>
         </section>
 
+
+        <section data-snay3i-tool="quote-comparator" style={{background:'#fff',border:'1.5px solid var(--border)',borderRadius:18,padding:'22px 20px',margin:'22px 0'}}>
+          <div style={{fontSize:12,fontWeight:800,color:'var(--terra)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:6}}>Outil gratuit · أداة مجانية</div>
+          <h2 style={{fontSize:22,lineHeight:1.3,color:'var(--ink)',margin:'0 0 8px'}}>Comparez jusqu’à trois devis avant de choisir</h2>
+          <p style={{fontSize:14,lineHeight:1.65,color:'var(--muted)',margin:'0 0 14px'}}>Vérifiez si chaque proposition précise le travail, la main-d’œuvre, les matériaux, le déplacement, le délai, le paiement et le suivi. La grille mesure la clarté du devis, pas la qualité du professionnel.</p>
+          <a href="/outils/comparateur-devis" style={{display:'inline-block',background:'var(--terra)',color:'#fff',padding:'11px 16px',borderRadius:12,fontWeight:800,textDecoration:'none'}}>Ouvrir le comparateur de devis →</a>
+        </section>
+
         {/* CTA */}
         <div className="cta">
           <div className="cta-zel">
