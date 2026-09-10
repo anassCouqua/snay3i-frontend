@@ -85,6 +85,9 @@ if (!/href=["']\/blog["']/.test(index)) failures.push('raw homepage fallback doe
 const canonicalGuideLinks = [...app.matchAll(/href=["'](\/blog\/[^"']+)["']/g)].map((m) => m[1]);
 if (new Set(canonicalGuideLinks).size < 4) failures.push('interactive homepage does not prominently expose at least four canonical editorial guides');
 if (!/data-publisher-guides=["']1["']/.test(app)) failures.push('interactive homepage editorial guide module missing');
+const firstPartyTools = [...app.matchAll(/href=["'](\/outils(?:\/[^"']*)?)["']/g)].map((m) => m[1]);
+if (new Set(firstPartyTools).size < 5) failures.push('interactive homepage exposes fewer than five distinct first-party tool links');
+if (!/data-snay3i-tools-hub=["']1["']/.test(app)) failures.push('interactive homepage first-party tools module missing');
 
 if (!/"src"\s*:\s*"\/rejoindre"[\s\S]{0,180}X-Robots-Tag["']?\s*:\s*["']noindex,\s*follow/i.test(vercel)) failures.push('/rejoindre is not explicitly noindex at the edge');
 if (!/"dest"\s*:\s*"\/404\.html"[\s\S]{0,80}"status"\s*:\s*404/i.test(vercel)) failures.push('real 404 catchall missing from vercel.json');
