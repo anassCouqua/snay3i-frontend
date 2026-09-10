@@ -1494,6 +1494,11 @@ export default function App(){
             <div className="brand">
               <picture><source srcSet="/logo.webp" type="image/webp"/><img src="/logo.png" alt="Snay3i.ma" width="48" height="48" style={{height:48,objectFit:"contain"}}/></picture>
             </div>
+            <nav data-snay3i-topnav="1" aria-label="Navigation principale" style={{display:"flex",gap:12,alignItems:"center",flexWrap:"wrap",justifyContent:"center",fontSize:12,fontWeight:800}}>
+              <a href="/outils" style={{color:"#fff",textDecoration:"none"}}>{lang==="fr"?"Outils":"الأدوات"}</a>
+              <a href="/blog" style={{color:"#fff",textDecoration:"none"}}>{lang==="fr"?"Guides":"الدلائل"}</a>
+              <a href="/about" style={{color:"#fff",textDecoration:"none"}}>{lang==="fr"?"À propos":"علينا"}</a>
+            </nav>
             <button className="lang-btn" onClick={()=>setLang(l=>l==="fr"?"ar":"fr")}>
               {lang==="fr"?"عربي":"FR"}
             </button>
