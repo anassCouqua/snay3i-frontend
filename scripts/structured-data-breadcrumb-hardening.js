@@ -49,6 +49,9 @@ function breadcrumbItems(route, html) {
 const homepage = fileFor('/');
 if (!fs.existsSync(homepage)) throw new Error('[structured data] homepage missing');
 let homeHtml = stripGenerated(fs.readFileSync(homepage, 'utf8'));
+if (!/<meta\s+name=["']referrer["']/i.test(homeHtml)) {
+  homeHtml = homeHtml.replace('</head>', '<meta name="referrer" content="strict-origin-when-cross-origin"></head>');
+}
 const siteGraph = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -86,6 +89,9 @@ for (const route of routes.filter((item) => item !== '/')) {
   const file = fileFor(route);
   if (!fs.existsSync(file)) throw new Error(`[structured data] indexable route missing: ${route}`);
   let html = stripGenerated(fs.readFileSync(file, 'utf8'));
+  if (!/<meta\s+name=["']referrer["']/i.test(html)) {
+    html = html.replace('</head>', '<meta name="referrer" content="strict-origin-when-cross-origin"></head>');
+  }
   const darija = isDarijaHtml(html);
   const items = breadcrumbItems(route, html);
 
