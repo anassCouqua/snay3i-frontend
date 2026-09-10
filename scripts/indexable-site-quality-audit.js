@@ -19,6 +19,13 @@ const minimumWords = {
   '/contact': 180,
   '/privacy': 350,
   '/terms': 650,
+  '/editorial-policy': 650,
+  '/outils': 300,
+  '/outils/comparateur-devis': 450,
+  '/outils/calculateur-peinture': 350,
+  '/outils/calculateur-carrelage': 350,
+  '/outils/checklist-renovation': 350,
+  '/outils/brief-artisan': 300,
 };
 
 function fileFor(route) {
