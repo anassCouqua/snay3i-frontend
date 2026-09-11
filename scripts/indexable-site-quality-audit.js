@@ -43,8 +43,8 @@ function decodeEntities(text) {
 function mainText(html, route) {
   let source = html;
   if (route === '/') {
-    const noscript = html.match(/<noscript[^>]*>([\s\S]*?)<\/noscript>/i);
-    if (noscript) source = noscript[1];
+    const fallback = html.match(/<main[^>]*data-static-app-fallback=["']1["'][^>]*>([\s\S]*?)<\/main>/i);
+    if (fallback) source = fallback[1];
   } else {
     const main = html.match(/<main[^>]*>([\s\S]*?)<\/main>/i);
     if (main) source = main[1];
@@ -91,7 +91,9 @@ for (const route of routes) {
   const desc = metaContent(html, 'description');
   const robots = metaContent(html, 'robots').toLowerCase();
   const canonical = (html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["'][^>]*>/i) || [null, ''])[1];
-  const h1 = (route === '/' ? ((html.match(/<noscript[\s\S]*?<h1\b/gi) || []).length) : (html.match(/<h1\b/gi) || []).length);
+  const h1 = route === '/'
+    ? (((html.match(/<main[^>]*data-static-app-fallback=["']1["'][^>]*>[\s\S]*?<\/main>/i) || [''])[0].match(/<h1\b/gi) || []).length)
+    : (html.match(/<h1\b/gi) || []).length;
   const images = [...html.matchAll(/<img\b([^>]*)>/gi)];
   const missingAlt = images.filter((match) => !/\balt=["'][^"']+["']/i.test(match[1])).length;
   const missingDimensions = images.filter((match) => {
