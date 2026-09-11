@@ -52,6 +52,9 @@ let homeHtml = stripGenerated(fs.readFileSync(homepage, 'utf8'));
 if (!/<meta\s+name=["']referrer["']/i.test(homeHtml)) {
   homeHtml = homeHtml.replace('</head>', '<meta name="referrer" content="strict-origin-when-cross-origin"></head>');
 }
+if (!/<link\s+rel=["'](?:icon|shortcut icon)["']/i.test(homeHtml)) {
+  homeHtml = homeHtml.replace('</head>', '<link rel="icon" href="/favicon.ico"></head>');
+}
 const siteGraph = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -91,6 +94,9 @@ for (const route of routes.filter((item) => item !== '/')) {
   let html = stripGenerated(fs.readFileSync(file, 'utf8'));
   if (!/<meta\s+name=["']referrer["']/i.test(html)) {
     html = html.replace('</head>', '<meta name="referrer" content="strict-origin-when-cross-origin"></head>');
+  }
+  if (!/<link\s+rel=["'](?:icon|shortcut icon)["']/i.test(html)) {
+    html = html.replace('</head>', '<link rel="icon" href="/favicon.ico"></head>');
   }
   const darija = isDarijaHtml(html);
   const items = breadcrumbItems(route, html);
