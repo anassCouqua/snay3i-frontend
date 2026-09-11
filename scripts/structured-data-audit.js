@@ -40,8 +40,11 @@ for (const route of routes) {
   const isDarija = /<html[^>]*lang=["']ary["'][^>]*dir=["']rtl["']/i.test(html);
   const title = ((html.match(/<title>([\s\S]*?)<\/title>/i) || [,''])[1] || '').trim();
   const desc = metaDescription(html);
+  const homepageFallback = route === '/'
+    ? ((html.match(/<main[^>]*data-static-app-fallback=["']1["'][^>]*>([\s\S]*?)<\/main>/i) || [,''])[1])
+    : '';
   const h1Count = route === '/'
-    ? ((html.match(/<noscript[\s\S]*?<h1\b/gi) || []).length)
+    ? (homepageFallback.match(/<h1\b/gi) || []).length
     : (html.match(/<h1\b/gi) || []).length;
 
   if (!title) failures.push(`${route}: <title> missing from raw HTML`);
@@ -49,8 +52,7 @@ for (const route of routes) {
   if (h1Count !== 1) failures.push(`${route}: expected one raw H1, found ${h1Count}`);
 
   if (route === '/') {
-    const noscript = (html.match(/<noscript[^>]*>([\s\S]*?)<\/noscript>/i) || [,''])[1];
-    const wordCount = wordsFrom(noscript);
+    const wordCount = wordsFrom(homepageFallback);
     if (wordCount < 300) failures.push(`/: raw static fallback only ${wordCount} words; internal robustness floor is 300`);
     if (!/data-snay3i-site-schema="1"/.test(html)) failures.push('/: site identity schema marker missing');
     if (!/"@type":"Organization"/.test(html)) failures.push('/: Organization schema missing');
