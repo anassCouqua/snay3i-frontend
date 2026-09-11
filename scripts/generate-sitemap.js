@@ -30,11 +30,25 @@ const allRoutes = [...CORE_ROUTES, ...INDEXABLE_SERVICE_CITY_ROUTES, ...blogRout
 
 for (const route of allRoutes) setRobots(ensureRoute(route), 'index,follow');
 
-const priority = (route) => route === '/' ? '1.0' : route === '/blog' ? '0.8' : route.startsWith('/artisan/') ? '0.6' : route.startsWith('/blog/') ? '0.7' : '0.5';
-const changefreq = (route) => route === '/' ? 'weekly' : (route === '/blog' || route.startsWith('/artisan/')) ? 'weekly' : 'monthly';
+const CORE_SIGNIFICANT_LASTMOD = '2026-09-11';
+const guideLastmod = (file) => {
+  const html = fs.readFileSync(file, 'utf8');
+  const jsonLd = html.match(/"dateModified"\s*:\s*"(\d{4}-\d{2}-\d{2})"/i);
+  if (jsonLd) return jsonLd[1];
+  const time = html.match(/<time[^>]+datetime=["'](\d{4}-\d{2}-\d{2})["'][^>]*data-date-modified/i);
+  return time ? time[1] : null;
+};
+const lastmod = (route) => {
+  if (route.startsWith('/blog/')) return guideLastmod(ensureRoute(route));
+  if (CORE_ROUTES.includes(route)) return CORE_SIGNIFICANT_LASTMOD;
+  return null;
+};
 const urls = [...new Set(allRoutes)]
   .sort()
-  .map((route) => `  <url><loc>${BASE}${route}</loc><changefreq>${changefreq(route)}</changefreq><priority>${priority(route)}</priority></url>`)
+  .map((route) => {
+    const mod = lastmod(route);
+    return `  <url><loc>${BASE}${route}</loc>${mod ? `<lastmod>${mod}</lastmod>` : ''}</url>`;
+  })
   .join('\n');
 
 fs.writeFileSync(output, `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`, 'utf8');
