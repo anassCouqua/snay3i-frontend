@@ -11,13 +11,13 @@ for (const file of [indexFile, notFoundFile, vercelFile]) if (!fs.existsSync(fil
 if (failures.length) throw new Error(`[routing/rendering] BLOCKED:\n${failures.join('\n')}`);
 
 const indexHtml = fs.readFileSync(indexFile, 'utf8');
-const noscript = (indexHtml.match(/<noscript>([\s\S]*?)<\/noscript>/i) || [,''])[1];
-const text = noscript.replace(/<script[\s\S]*?<\/script>/gi,' ').replace(/<style[\s\S]*?<\/style>/gi,' ').replace(/<[^>]+>/g,' ').replace(/&[^;]+;/g,' ').replace(/\s+/g,' ').trim();
+const fallback = (indexHtml.match(/<main[^>]*data-static-app-fallback=["']1["'][^>]*>([\s\S]*?)<\/main>/i) || [,''])[1];
+const text = fallback.replace(/<script[\s\S]*?<\/script>/gi,' ').replace(/<style[\s\S]*?<\/style>/gi,' ').replace(/<[^>]+>/g,' ').replace(/&[^;]+;/g,' ').replace(/\s+/g,' ').trim();
 const words = text.match(/[A-Za-zÀ-ÿ0-9'-]+/g) || [];
-if (!/<h1\b/i.test(noscript)) failures.push('homepage raw response fallback has no H1');
-if ((noscript.match(/<h2\b/gi) || []).length < 3) failures.push('homepage raw response fallback has fewer than 3 H2 sections');
-if (words.length < 220) failures.push(`homepage raw response fallback is only ${words.length} words (internal floor 220)`);
-if (!/href="\/about"/i.test(noscript) || !/href="\/privacy"/i.test(noscript) || !/href="\/terms"/i.test(noscript) || !/href="\/contact"/i.test(noscript)) failures.push('homepage raw response fallback lacks core trust links');
+if (!/<h1\b/i.test(fallback)) failures.push('homepage raw response fallback has no H1');
+if ((fallback.match(/<h2\b/gi) || []).length < 3) failures.push('homepage raw response fallback has fewer than 3 H2 sections');
+if (words.length < 300) failures.push(`homepage raw response fallback is only ${words.length} words (internal floor 300)`);
+if (!/href="\/about"/i.test(fallback) || !/href="\/privacy"/i.test(fallback) || !/href="\/terms"/i.test(fallback) || !/href="\/contact"/i.test(fallback)) failures.push('homepage raw response fallback lacks core trust links');
 
 const notFound = fs.readFileSync(notFoundFile, 'utf8');
 if (!/<meta\s+name="robots"\s+content="noindex,follow"/i.test(notFound)) failures.push('404 page is not noindex,follow');
@@ -44,4 +44,4 @@ for (const routePath of ['/rejoindre', '/rejoindre/']) {
 }
 
 if (failures.length) throw new Error(`[routing/rendering] BLOCKED (${failures.length}):\n${failures.join('\n')}`);
-console.log(`[routing/rendering] PASS: homepage exposes ${words.length} raw fallback words with trust links; /rejoindre remains functional and noindex; unknown routes are configured for HTTP 404 + noindex`);
+console.log(`[routing/rendering] PASS: homepage exposes ${words.length} raw fallback words with one semantic H1 and trust links; /rejoindre remains functional and noindex; unknown routes are configured for HTTP 404 + noindex`);
