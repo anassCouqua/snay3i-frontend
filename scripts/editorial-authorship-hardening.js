@@ -48,6 +48,10 @@ for (const slug of INDEXABLE_BLOG_SLUGS) {
       '@type': 'Organization',
       name: AUTHOR,
       url: 'https://snay3i.ma/about',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://snay3i.ma/logo.png',
+      },
     },
     publisher: {
       '@type': 'Organization',
