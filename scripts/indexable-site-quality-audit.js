@@ -10,7 +10,7 @@ const publicRoot = path.join(process.cwd(), 'public');
 const blogRoutes = INDEXABLE_BLOG_SLUGS.map((slug) => `/blog/${slug}`);
 const routes = [...CORE_ROUTES, ...INDEXABLE_SERVICE_CITY_ROUTES, ...blogRoutes];
 const indexed = new Set(routes);
-const adEligible = new Set(['/', ...blogRoutes]);
+const adEligible = new Set(blogRoutes);
 
 const minimumWords = {
   '/': 250,
@@ -102,11 +102,11 @@ for (const route of routes) {
     const ratioReserved = /aspect-ratio\s*:/i.test(attrs);
     return !explicit && !ratioReserved;
   }).length;
-  const hasAds = /adsbygoogle\.js|google-adsense-account/i.test(html);
+  const hasServingAds = /adsbygoogle\.js|<ins\\b[^>]*class=["'][^"']*adsbygoogle/i.test(html);
   const min = route.startsWith('/blog/') ? 800 : (minimumWords[route] || 180);
   const isDarija = /-darija$/.test(route);
 
-  rows.push({ route, words: tokens.length, h1, images: images.length, missingAlt, missingDimensions, hasAds, shingles: shingles(tokens) });
+  rows.push({ route, words: tokens.length, h1, images: images.length, missingAlt, missingDimensions, hasServingAds, shingles: shingles(tokens) });
 
   if (!/^index\s*,\s*follow$/.test(robots)) failures.push(`${route}: robots is "${robots || 'missing'}"`);
   if (canonical !== `https://snay3i.ma${route === '/' ? '/' : route}`) failures.push(`${route}: canonical mismatch (${canonical || 'missing'})`);
@@ -124,7 +124,7 @@ for (const route of routes) {
   }
   if (!/<meta\s+name=["']viewport["']/i.test(html)) failures.push(`${route}: viewport meta missing`);
   if (!/<meta\s+name=["']referrer["'][^>]*content=["']strict-origin-when-cross-origin["']/i.test(html)) failures.push(`${route}: referrer policy missing or too weak for consent messaging`);
-  if (!adEligible.has(route) && hasAds) failures.push(`${route}: AdSense code present on non-editorial/trust route`);
+  if (!adEligible.has(route) && hasServingAds) failures.push(`${route}: AdSense serving code present on non-editorial/trust route`);
 
   const stale = [...html.matchAll(/href=["'](\/(?:guides|a-propos|cgu|politique-de-confidentialite|seo)(?:\/[^"']*)?)["']/gi)].map((m) => m[1]);
   if (stale.length) failures.push(`${route}: stale internal route link(s): ${[...new Set(stale)].join(', ')}`);
@@ -135,8 +135,8 @@ for (const route of routes) {
 }
 
 console.log('=== SNAY3I FINAL INDEXABLE-SITE GATE ===');
-console.log('Route | Words | H1 | Images | Missing alt | Missing dimensions | Ads');
-for (const row of rows) console.log(`${row.route} | ${row.words} | ${row.h1} | ${row.images} | ${row.missingAlt} | ${row.missingDimensions} | ${row.hasAds ? 'YES' : 'NO'}`);
+console.log('Route | Words | H1 | Images | Missing alt | Missing dimensions | Ad serving');
+for (const row of rows) console.log(`${row.route} | ${row.words} | ${row.h1} | ${row.images} | ${row.missingAlt} | ${row.missingDimensions} | ${row.hasServingAds ? 'YES' : 'NO'}`);
 
 const overlaps = [];
 for (let i = 0; i < rows.length; i += 1) {
