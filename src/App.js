@@ -1674,6 +1674,21 @@ export default function App(){
         )}
 
 
+        <section data-directory-demand-hub="1" style={{background:'#fff',border:'1.5px solid var(--border)',borderRadius:18,padding:'22px 20px',margin:'28px 0 18px'}}>
+          <div style={{fontSize:12,fontWeight:800,color:'var(--terra)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:6}}>Annuaire Snay3i.ma · دليل الصنايعية</div>
+          <h2 style={{fontSize:22,lineHeight:1.3,color:'var(--ink)',margin:'0 0 8px'}}>Recherches d’artisans actuellement disponibles</h2>
+          <p style={{fontSize:14,lineHeight:1.65,color:'var(--muted)',margin:'0 0 14px'}}>Ces pages affichent des profils actuellement publiés dans l’annuaire. La disponibilité et les conditions sont à confirmer directement avec chaque professionnel.</p>
+          <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+            <a href="/artisan/plombier/oujda" style={{padding:'9px 12px',borderRadius:999,background:'var(--cream)',color:'var(--terra)',fontWeight:800,textDecoration:'none'}}>🔧 Plombiers à Oujda</a>
+            <a href="/artisan/serrurier/casablanca" style={{padding:'9px 12px',borderRadius:999,background:'var(--cream)',color:'var(--terra)',fontWeight:800,textDecoration:'none'}}>🔑 Serruriers à Casablanca</a>
+            <a href="/artisan/serrurier/meknes" style={{padding:'9px 12px',borderRadius:999,background:'var(--cream)',color:'var(--terra)',fontWeight:800,textDecoration:'none'}}>🔑 Serruriers à Meknes</a>
+            <a href="/artisan/menage/casablanca" style={{padding:'9px 12px',borderRadius:999,background:'var(--cream)',color:'var(--terra)',fontWeight:800,textDecoration:'none'}}>🧹 Ménage à Casablanca</a>
+            <a href="/artisan/bricoleur/marrakech" style={{padding:'9px 12px',borderRadius:999,background:'var(--cream)',color:'var(--terra)',fontWeight:800,textDecoration:'none'}}>🔨 Bricoleurs à Marrakech</a>
+            <a href="/artisan/carreleur/marrakech" style={{padding:'9px 12px',borderRadius:999,background:'var(--cream)',color:'var(--terra)',fontWeight:800,textDecoration:'none'}}>◻️ Carreleurs à Marrakech</a>
+          </div>
+        </section>
+
+
         <section data-publisher-guides="1" style={{background:'#fff',border:'1.5px solid var(--border)',borderRadius:18,padding:'22px 20px',margin:'28px 0'}}>
           <div style={{fontSize:12,fontWeight:800,color:'var(--terra)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:6}}>Guides Snay3i.ma · دلائل صنايعي</div>
           <h2 style={{fontSize:22,lineHeight:1.3,color:'var(--ink)',margin:'0 0 8px'}}>Des guides pratiques en français et en darija</h2>
