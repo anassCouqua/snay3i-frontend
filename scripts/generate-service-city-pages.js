@@ -100,7 +100,7 @@ function htmlFor(route, item) {
     return `<a href="${esc(r)}">${esc(x.service_label)} à ${esc(x.city)}</a>`;
   }).join(' · ');
 
-  const schema = {
+  const collectionSchema = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: `${item.service_label} à ${item.city}`,
@@ -116,6 +116,15 @@ function htmlFor(route, item) {
       }))
     }
   };
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://snay3i.ma/' },
+      { '@type': 'ListItem', position: 2, name: item.service_label, item: `https://snay3i.ma/?service=${item.service_slug}` },
+      { '@type': 'ListItem', position: 3, name: item.city, item: `https://snay3i.ma${route}` }
+    ]
+  };
 
   return `<!doctype html>
 <html lang="fr">
@@ -127,13 +136,15 @@ function htmlFor(route, item) {
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://snay3i.ma${esc(route)}">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<script type="application/ld+json">${JSON.stringify(schema).replace(/</g, '\\u003c')}</script>
+<script type="application/ld+json">${JSON.stringify(collectionSchema).replace(/</g, '\\u003c')}</script>
+<script type="application/ld+json" data-snay3i-breadcrumb-schema="1">${JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c')}</script>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;background:#faf6ef;color:#17212b;line-height:1.65}header,footer{background:#0d1b2a;color:#fff;padding:18px 22px}nav,footer>div{max-width:980px;margin:auto;display:flex;gap:18px;flex-wrap:wrap}nav a,footer a{color:#fff;text-decoration:none}main{max-width:980px;margin:auto;padding:36px 20px 56px}.hero,.panel,.listing{background:#fff;border:1px solid #e8e0d4;border-radius:18px}.hero{padding:30px;margin-bottom:18px}.hero h1{font-size:34px;line-height:1.15;margin:0 0 10px}.hero p{max-width:760px}.count{display:inline-block;background:#f2e7dc;color:#9f451f;border-radius:999px;padding:6px 11px;font-weight:700;font-size:13px}.panel{padding:24px;margin-top:18px}.listings{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}.listing{padding:20px;display:flex;flex-direction:column;justify-content:space-between}.listing h3{font-size:18px;margin:0 0 5px}.listing p{margin:6px 0}.area{color:#6f6a64;font-size:14px}.actions{display:flex;gap:8px;margin-top:16px}.actions a{flex:1;text-align:center;padding:10px 12px;border-radius:10px;text-decoration:none;font-weight:700}.call{background:#eaf4fb;color:#124d72}.whatsapp{background:#edf8ed;color:#176235}h2{font-size:22px;margin:0 0 14px}li{margin:7px 0}.notice{font-size:14px;color:#615b55;background:#fff8e8;border:1px solid #ead9af;border-radius:12px;padding:14px}.links a,a{color:#a94924}.fine{font-size:13px;color:#6f6a64}@media(max-width:600px){.hero h1{font-size:28px}.actions{flex-direction:column}}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;background:#faf6ef;color:#17212b;line-height:1.65}header,footer{background:#0d1b2a;color:#fff;padding:18px 22px}.topnav,footer>div{max-width:980px;margin:auto;display:flex;gap:18px;flex-wrap:wrap}.topnav a,footer a{color:#fff;text-decoration:none}.crumbs{max-width:980px;margin:0 auto;padding:10px 20px;font-size:13px}.crumbs a{color:#9f451f;text-decoration:none}main{max-width:980px;margin:auto;padding:26px 20px 56px}.hero,.panel,.listing{background:#fff;border:1px solid #e8e0d4;border-radius:18px}.hero{padding:30px;margin-bottom:18px}.hero h1{font-size:34px;line-height:1.15;margin:0 0 10px}.hero p{max-width:760px}.count{display:inline-block;background:#f2e7dc;color:#9f451f;border-radius:999px;padding:6px 11px;font-weight:700;font-size:13px}.panel{padding:24px;margin-top:18px}.listings{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}.listing{padding:20px;display:flex;flex-direction:column;justify-content:space-between}.listing h3{font-size:18px;margin:0 0 5px}.listing p{margin:6px 0}.area{color:#6f6a64;font-size:14px}.actions{display:flex;gap:8px;margin-top:16px}.actions a{flex:1;text-align:center;padding:10px 12px;border-radius:10px;text-decoration:none;font-weight:700}.call{background:#eaf4fb;color:#124d72}.whatsapp{background:#edf8ed;color:#176235}h2{font-size:22px;margin:0 0 14px}li{margin:7px 0}.notice{font-size:14px;color:#615b55;background:#fff8e8;border:1px solid #ead9af;border-radius:12px;padding:14px}.links a,a{color:#a94924}.fine{font-size:13px;color:#6f6a64}@media(max-width:600px){.hero h1{font-size:28px}.actions{flex-direction:column}}
 </style>
 </head>
 <body>
-<header><nav><a href="/">Accueil</a><a href="/blog">Guides</a><a href="/outils">Outils</a><a href="/rejoindre">Créer un profil</a><a href="/contact">Contact</a></nav></header>
+<header><nav class="topnav"><a href="/">Accueil</a><a href="/blog">Guides</a><a href="/outils">Outils</a><a href="/rejoindre">Créer un profil</a><a href="/contact">Contact</a></nav></header>
+<nav class="crumbs" data-snay3i-breadcrumbs="1" aria-label="Fil d’Ariane"><a href="/">Accueil</a> › <span>${esc(item.service_label)}</span> › <strong>${esc(item.city)}</strong></nav>
 <main>
 <section class="hero">
   <span class="count">${profiles.length} profils disponibles</span>
