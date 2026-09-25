@@ -30,7 +30,7 @@ for (const route of INDEXABLE_SERVICE_CITY_ROUTES) {
   const listings = (html.match(/data-directory-listing=/g) || []).length;
   const calls = (html.match(/data-lead-action="call"/g) || []).length;
   const whatsapps = (html.match(/data-lead-action="whatsapp"/g) || []).length;
-  const workerIds = (html.match(/data-worker-id="\\d+"/g) || []).length;
+  const workerIds = (html.match(/data-worker-id="\d+"/g) || []).length;
   const trackingScripts = (html.match(/data-directory-lead-tracking="1"/g) || []).length;
   const words = wordCount(html);
   const uniqueMarker = 'data-directory-unique="1"';
