@@ -31,7 +31,11 @@ for (const route of INDEXABLE_SERVICE_CITY_ROUTES) {
   const calls = (html.match(/data-lead-action="call"/g) || []).length;
   const whatsapps = (html.match(/data-lead-action="whatsapp"/g) || []).length;
   const words = wordCount(html);
-  const uniqueHtml = ((html.match(/<section[^>]*data-directory-unique=["']1["'][^>]*>([\\s\\S]*?)<\\/section>/i) || [null, ''])[1] || '');
+  const uniqueMarker = 'data-directory-unique="1"';
+  const markerAt = html.indexOf(uniqueMarker);
+  const sectionStart = markerAt >= 0 ? html.lastIndexOf('<section', markerAt) : -1;
+  const sectionEnd = markerAt >= 0 ? html.indexOf('</section>', markerAt) : -1;
+  const uniqueHtml = sectionStart >= 0 && sectionEnd > sectionStart ? html.slice(sectionStart, sectionEnd + 10) : '';
   const uniqueWords = wordCount(uniqueHtml);
   rows.push({ route, listings, calls, whatsapps, words, uniqueWords });
 

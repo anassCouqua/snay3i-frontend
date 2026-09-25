@@ -105,14 +105,19 @@ for (const route of routes) {
   const hasServingAds = /adsbygoogle\.js|<ins\\b[^>]*class=["'][^"']*adsbygoogle/i.test(html);
   const min = route.startsWith('/blog/') ? 800 : (minimumWords[route] || 180);
   const isDarija = /-darija$/.test(route);
-  const directoryUniqueHtml = route.startsWith('/artisan/')
-    ? ((html.match(/<section[^>]*data-directory-unique=["']1["'][^>]*>([\\s\\S]*?)<\\/section>/i) || [null, ''])[1] || '')
-    : '';
+  let directoryUniqueHtml = '';
+  if (route.startsWith('/artisan/')) {
+    const uniqueMarker = 'data-directory-unique="1"';
+    const markerAt = html.indexOf(uniqueMarker);
+    const sectionStart = markerAt >= 0 ? html.lastIndexOf('<section', markerAt) : -1;
+    const sectionEnd = markerAt >= 0 ? html.indexOf('</section>', markerAt) : -1;
+    directoryUniqueHtml = sectionStart >= 0 && sectionEnd > sectionStart ? html.slice(sectionStart, sectionEnd + 10) : '';
+  }
   const directoryUniqueText = decodeEntities(directoryUniqueHtml
-    .replace(/<script[\\s\\S]*?<\\/script>/gi, ' ')
-    .replace(/<style[\\s\\S]*?<\\/style>/gi, ' ')
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
     .replace(/<[^>]+>/g, ' ')
-    .replace(/\\s+/g, ' ')
+    .replace(/\s+/g, ' ')
     .trim());
   const similarityTokens = route.startsWith('/artisan/') ? tokenize(directoryUniqueText) : tokens;
 
