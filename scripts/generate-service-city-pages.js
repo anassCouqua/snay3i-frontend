@@ -73,8 +73,8 @@ function listingCard(profile) {
       <p>${esc(profile.bio)}</p>
     </div>
     <div class="actions">
-      <a class="call" data-lead-action="call" href="tel:${esc(profile.phone)}">📞 Appeler</a>
-      <a class="whatsapp" data-lead-action="whatsapp" href="https://wa.me/${esc(wa(profile.whatsapp || profile.phone))}" rel="nofollow noopener" target="_blank">💬 WhatsApp</a>
+      <a class="call" data-lead-action="call" data-worker-id="${esc(profile.id)}" href="tel:${esc(profile.phone)}">📞 Appeler</a>
+      <a class="whatsapp" data-lead-action="whatsapp" data-worker-id="${esc(profile.id)}" href="https://wa.me/${esc(wa(profile.whatsapp || profile.phone))}" rel="nofollow noopener" target="_blank">💬 WhatsApp</a>
     </div>
   </article>`;
 }
@@ -178,6 +178,27 @@ function htmlFor(route, item) {
 </section>
 </main>
 <footer><div>© 2026 Snay3i.ma · <a href="/about">À propos</a> · <a href="/privacy">Confidentialité</a> · <a href="/terms">CGU</a> · <a href="/contact">Contact</a></div></footer>
+<script data-directory-lead-tracking="1">
+(function(){
+  var endpoint='https://snay3i-backend.onrender.com/events/lead';
+  document.addEventListener('click',function(event){
+    var link=event.target.closest('[data-lead-action][data-worker-id]');
+    if(!link)return;
+    var workerId=Number(link.getAttribute('data-worker-id'));
+    var action=link.getAttribute('data-lead-action');
+    if(!Number.isInteger(workerId)||!['call','whatsapp'].includes(action))return;
+    try{
+      fetch(endpoint,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({worker_id:workerId,route:window.location.pathname.replace(/\\/$/,'')||'/',action:action}),
+        keepalive:true,
+        credentials:'omit'
+      }).catch(function(){});
+    }catch(e){}
+  },{passive:true});
+})();
+</script>
 </body>
 </html>`;
 }
