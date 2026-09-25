@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const { INDEXABLE_BLOG_SLUGS, CORE_ROUTES } = require('./site-curation-config');
+const { INDEXABLE_BLOG_SLUGS, INDEXABLE_SERVICE_CITY_ROUTES, CORE_ROUTES } = require('./site-curation-config');
 const root = path.join(__dirname, '..');
 const publicRoot = path.join(root, 'public');
 const routeFile = (route) => route === '/' ? path.join(publicRoot,'index.html') : path.join(publicRoot,route.slice(1),'index.html');
-const curated = [...CORE_ROUTES, ...INDEXABLE_BLOG_SLUGS.map(s=>'/blog/'+s)];
+const curated = [...CORE_ROUTES, ...INDEXABLE_SERVICE_CITY_ROUTES, ...INDEXABLE_BLOG_SLUGS.map(s=>'/blog/'+s)];
 const failures = [];
 for (const route of curated) {
   const file = routeFile(route);

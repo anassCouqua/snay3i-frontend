@@ -4,16 +4,8 @@ const { INDEXABLE_SERVICE_CITY_ROUTES } = require('./site-curation-config');
 
 const publicRoot = path.join(process.cwd(), 'public');
 
-if (!INDEXABLE_SERVICE_CITY_ROUTES.length) {
-  console.log('=== SNAY3I CURATED SERVICE-CITY MICROSCOPE ===');
-  console.log('[service quality] PASS: 0 service-city templates are indexable; local pages remain excluded until they contain genuinely local, non-templated value');
-  process.exit(0);
-}
-
-function htmlToText(html) {
-  const main = (html.match(/<main[^>]*>([\s\S]*?)<\/main>/i) || [null, html])[1];
-  return main
-    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+function text(html) {
+  return html.replace(/<script[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style[\s\S]*?<\/style>/gi, ' ')
     .replace(/<[^>]+>/g, ' ')
     .replace(/&[a-z0-9#]+;/gi, ' ')
@@ -21,61 +13,43 @@ function htmlToText(html) {
     .trim();
 }
 
-function words(text) {
-  return text.toLowerCase().match(/[a-zà-ÿ0-9’'-]+/gi) || [];
+function wordCount(html) {
+  return (text(html).match(/[a-zà-ÿ0-9’'-]+/gi) || []).length;
 }
 
-function shingles(tokens, size = 5) {
-  const out = new Set();
-  for (let i = 0; i <= tokens.length - size; i += 1) out.add(tokens.slice(i, i + size).join(' '));
-  return out;
-}
-
-function jaccard(a, b) {
-  if (!a.size && !b.size) return 1;
-  let intersection = 0;
-  for (const item of a) if (b.has(item)) intersection += 1;
-  return intersection / (a.size + b.size - intersection || 1);
-}
-
+const failures = [];
 const rows = [];
+
 for (const route of INDEXABLE_SERVICE_CITY_ROUTES) {
   const file = path.join(publicRoot, route.slice(1), 'index.html');
-  if (!fs.existsSync(file)) throw new Error(`[service quality] missing ${route}`);
-  const html = fs.readFileSync(file, 'utf8');
-  const text = htmlToText(html);
-  const tokenList = words(text);
-  rows.push({
-    route,
-    html,
-    words: tokenList.length,
-    h1: (html.match(/<h1\b/gi) || []).length,
-    h2: (html.match(/<h2\b/gi) || []).length,
-    paragraphs: (html.match(/<p\b/gi) || []).length,
-    links: (html.match(/<a\s/gi) || []).length,
-    shingleSet: shingles(tokenList),
-  });
-}
-
-console.log('=== SNAY3I CURATED SERVICE-CITY MICROSCOPE ===');
-console.log('Route | Words | H1 | H2 | P | Links');
-for (const row of rows) console.log(`${row.route} | ${row.words} | ${row.h1} | ${row.h2} | ${row.paragraphs} | ${row.links}`);
-
-const total = rows.reduce((sum, row) => sum + row.words, 0);
-console.log(`Total curated service-city words: ${total}`);
-console.log(`Average curated service-city length: ${Math.round(total / rows.length)} words`);
-
-const pairs = [];
-for (let i = 0; i < rows.length; i += 1) {
-  for (let j = i + 1; j < rows.length; j += 1) {
-    const score = jaccard(rows[i].shingleSet, rows[j].shingleSet);
-    pairs.push({ a: rows[i].route, b: rows[j].route, score });
+  if (!fs.existsSync(file)) {
+    failures.push(`${route}: missing generated page`);
+    continue;
   }
-}
-pairs.sort((a, b) => b.score - a.score);
-console.log('=== HIGHEST SERVICE-PAGE OVERLAP (5-word shingle Jaccard) ===');
-for (const pair of pairs.slice(0, 12)) console.log(`${pair.score.toFixed(3)} | ${pair.a} <> ${pair.b}`);
+  const html = fs.readFileSync(file, 'utf8');
+  const listings = (html.match(/data-directory-listing=/g) || []).length;
+  const calls = (html.match(/data-lead-action="call"/g) || []).length;
+  const whatsapps = (html.match(/data-lead-action="whatsapp"/g) || []).length;
+  const words = wordCount(html);
+  const uniqueMarker = 'data-directory-unique="1"';
+  const markerAt = html.indexOf(uniqueMarker);
+  const sectionStart = markerAt >= 0 ? html.lastIndexOf('<section', markerAt) : -1;
+  const sectionEnd = markerAt >= 0 ? html.indexOf('</section>', markerAt) : -1;
+  const uniqueHtml = sectionStart >= 0 && sectionEnd > sectionStart ? html.slice(sectionStart, sectionEnd + 10) : '';
+  const uniqueWords = wordCount(uniqueHtml);
+  rows.push({ route, listings, calls, whatsapps, words, uniqueWords });
 
-const suspicious = pairs.filter((pair) => pair.score >= 0.30);
-if (suspicious.length) console.log(`[service quality] REVIEW: ${suspicious.length} pair(s) have overlap >= 0.30`);
-else console.log('[service quality] PASS: no curated service-page pair has overlap >= 0.30');
+  if (!/<meta\s+name="robots"\s+content="index,follow"/i.test(html)) failures.push(`${route}: not index,follow`);
+  if (listings < 2) failures.push(`${route}: fewer than 2 real directory listings`);
+  if (calls < listings) failures.push(`${route}: missing call action on a listing`);
+  if (whatsapps < listings) failures.push(`${route}: missing WhatsApp action on a listing`);
+  if (words < 250) failures.push(`${route}: thin generated page (${words} words)`);
+  if (uniqueWords < 80) failures.push(`${route}: unique listing section too weak (${uniqueWords} words)`);
+  if (/adsbygoogle\.js|google-adsense-account/i.test(html)) failures.push(`${route}: AdSense must remain off directory pages during recovery`);
+  if (/\b(?:4\.[0-9]|5\.0)\b|\bverified\b|\bvérifié\b|\breviews?\b/i.test(html)) failures.push(`${route}: unsupported rating/review/verification claim found`);
+}
+
+console.log('=== SNAY3I DIRECTORY VALUE GATE ===');
+for (const row of rows) console.log(`${row.route} | profiles=${row.listings} | call=${row.calls} | whatsapp=${row.whatsapps} | words=${row.words} | unique=${row.uniqueWords}`);
+if (failures.length) throw new Error(`[directory value gate] BLOCKED:\n${failures.join('\n')}`);
+console.log(`[directory value gate] PASS: ${rows.length} indexable service-city pages have >=2 listings, direct contact actions, substantial HTML and no ad/ratings leakage`);

@@ -1,0 +1,380 @@
+{
+  "/artisan/plombier/oujda": {
+    "service_slug": "plombier",
+    "service_label": "Plombier",
+    "city_slug": "oujda",
+    "city": "Oujda",
+    "profiles": [
+      {
+        "id": 799,
+        "name": "Plombier Oujda",
+        "bio": "Service plomberie à Oujda.",
+        "phone": "0662516868",
+        "whatsapp": "212662516868",
+        "area": "Oujda"
+      },
+      {
+        "id": 781,
+        "name": "Plombier Oujda Sidi Yahya",
+        "bio": "Service plomberie à Oujda.",
+        "phone": "0642364801",
+        "whatsapp": "212642364801",
+        "area": "Oujda"
+      }
+    ],
+    "summary": "Deux profils de plomberie sont actuellement publiés pour Oujda. Le premier apparaît sous le nom « Plombier Oujda » et le second sous « Plombier Oujda Sidi Yahya ». Les deux indiquent Oujda comme zone et présentent une offre de plomberie générale. Leurs descriptions restent courtes : avant de choisir, il est donc utile de préciser le type de panne, l’équipement concerné, le quartier et l’urgence éventuelle, puis de demander séparément le déplacement, la main-d’œuvre et les pièces. Cette page sert surtout à mettre en relation avec les contacts réellement disponibles dans l’annuaire."
+  },
+  "/artisan/serrurier/meknes": {
+    "service_slug": "serrurier",
+    "service_label": "Serrurier",
+    "city_slug": "meknes",
+    "city": "Meknes",
+    "profiles": [
+      {
+        "id": 893,
+        "name": "Bellotrav Serrurier",
+        "bio": "Service serrurerie à Meknes.",
+        "phone": "0674026831",
+        "whatsapp": "212674026831",
+        "area": "Meknes"
+      },
+      {
+        "id": 898,
+        "name": "AutoKeys Meknes",
+        "bio": "Reproduction de clés et serrurerie à Meknes.",
+        "phone": "0681724353",
+        "whatsapp": "212681724353",
+        "area": "Meknes"
+      },
+      {
+        "id": 907,
+        "name": "Mafatih Ouislane Meknes",
+        "bio": "Serrurerie et reproduction de clés à Meknes.",
+        "phone": "0671110104",
+        "whatsapp": "212671110104",
+        "area": "Meknes"
+      },
+      {
+        "id": 912,
+        "name": "Reparation Serrures Meknes",
+        "bio": "Réparation de serrures et clés à Meknes.",
+        "phone": "0660786051",
+        "whatsapp": "212660786051",
+        "area": "Meknes"
+      }
+    ],
+    "summary": "Quatre profils de serrurerie sont actuellement proposés à Meknes. AutoKeys Meknes et Mafatih Ouislane Meknes mentionnent la reproduction de clés, tandis que Reparation Serrures Meknes indique la réparation de serrures et de clés. Bellotrav Serrurier complète la sélection avec une offre de serrurerie plus générale. Cette diversité permet de choisir un contact selon le besoin : clé à reproduire, serrure à réparer ou intervention plus large. Avant tout déplacement, décrivez le modèle de serrure ou de clé, envoyez une photo si possible et confirmez le coût de la pièce et de la main-d’œuvre."
+  },
+  "/artisan/serrurier/casablanca": {
+    "service_slug": "serrurier",
+    "service_label": "Serrurier",
+    "city_slug": "casablanca",
+    "city": "Casablanca",
+    "profiles": [
+      {
+        "id": 875,
+        "name": "Serrurier Casablanca Verdin",
+        "bio": "Service serrurerie à Casablanca.",
+        "phone": "0674710559",
+        "whatsapp": "212674710559",
+        "area": "Verdin, Casablanca"
+      },
+      {
+        "id": 876,
+        "name": "Serrurier Casablanca Anfa",
+        "bio": "Service serrurerie à Casablanca.",
+        "phone": "0668971352",
+        "whatsapp": "212668971352",
+        "area": "Place Marrakech, Anfa, Casablanca"
+      },
+      {
+        "id": 894,
+        "name": "Serrurier Aziz Casablanca",
+        "bio": "Service serrurerie et urgence à Casablanca, quartier Sbata.",
+        "phone": "0611520170",
+        "whatsapp": "212611520170",
+        "area": "Casablanca"
+      },
+      {
+        "id": 895,
+        "name": "Serrurier El Harti",
+        "bio": "Service serrurerie à Casablanca, Boulevard Driss El Harti.",
+        "phone": "0669144853",
+        "whatsapp": "212669144853",
+        "area": "Casablanca"
+      },
+      {
+        "id": 897,
+        "name": "Abdo Serrurier",
+        "bio": "Service serrurerie à Casablanca.",
+        "phone": "0668122319",
+        "whatsapp": "212668122319",
+        "area": "Casablanca"
+      },
+      {
+        "id": 899,
+        "name": "Ben Bihi Serrurerie",
+        "bio": "Service serrurerie à Casablanca, Avenue Zerktouni.",
+        "phone": "0661143945",
+        "whatsapp": "212661143945",
+        "area": "Casablanca"
+      },
+      {
+        "id": 904,
+        "name": "Dierre Serrures Casablanca",
+        "bio": "Serrures et solutions de sécurité à Casablanca.",
+        "phone": "0661549557",
+        "whatsapp": "212661549557",
+        "area": "Casablanca"
+      },
+      {
+        "id": 909,
+        "name": "Pro-Lock El Ouajdi",
+        "bio": "Service serrurerie à Casablanca.",
+        "phone": "0625318565",
+        "whatsapp": "212625318565",
+        "area": "Casablanca"
+      },
+      {
+        "id": 910,
+        "name": "Programmation Cle Casablanca",
+        "bio": "Programmation et reproduction de clés à Casablanca.",
+        "phone": "0601545377",
+        "whatsapp": "212601545377",
+        "area": "Casablanca"
+      },
+      {
+        "id": 986,
+        "name": "Abderrahim depan",
+        "bio": "Serrurerie, ouverture et réparation de serrures à Casablanca.",
+        "phone": "0707766410",
+        "whatsapp": "0707766410",
+        "area": "Rte Moulay Thami, Casablanca"
+      }
+    ],
+    "summary": "Casablanca dispose de la sélection la plus fournie de cette partie de l’annuaire, avec dix profils de serrurerie actuellement publiés. Les zones ou repères mentionnés incluent notamment Anfa, Sbata, Boulevard Driss El Harti, Avenue Zerktouni et la route Moulay Thami. Certains profils parlent de reproduction ou programmation de clés, d’autres de serrures, d’ouverture ou de solutions de sécurité. Comme les prestations varient fortement d’un contact à l’autre, indiquez le quartier, le type de porte et le problème exact avant de demander un tarif. Pour une urgence, confirmez aussi le déplacement et le prix avant l’intervention."
+  },
+  "/artisan/bricoleur/marrakech": {
+    "service_slug": "bricoleur",
+    "service_label": "Bricoleur",
+    "city_slug": "marrakech",
+    "city": "Marrakech",
+    "profiles": [
+      {
+        "id": 975,
+        "name": "Bricoleur Marrakech",
+        "bio": "Service bricolage et réparations à Marrakech.",
+        "phone": "0694557776",
+        "whatsapp": "212694557776",
+        "area": "Marrakech"
+      },
+      {
+        "id": 789,
+        "name": "Allo Zain Multiservices",
+        "bio": "Multiservices, nettoyage, déménagement et plomberie à Marrakech.",
+        "phone": "0661885592",
+        "whatsapp": "212661885592",
+        "area": "Marrakech"
+      }
+    ],
+    "summary": "Deux profils de bricolage sont actuellement publiés pour Marrakech. « Bricoleur Marrakech » se présente autour des réparations et petits travaux, alors que « Allo Zain Multiservices » mentionne plusieurs activités, dont nettoyage, déménagement et plomberie. Les deux profils ne couvrent donc pas exactement le même périmètre. Pour éviter un déplacement inutile, envoyez une liste précise des tâches, quelques photos et, lorsque cela compte, les dimensions ou références des pièces à poser. Demandez ensuite si les fournitures, le transport et l’évacuation des déchets sont compris dans le montant annoncé."
+  },
+  "/artisan/carreleur/marrakech": {
+    "service_slug": "carreleur",
+    "service_label": "Carreleur",
+    "city_slug": "marrakech",
+    "city": "Marrakech",
+    "profiles": [
+      {
+        "id": 951,
+        "name": "Baticomplex Carrelage Marrakech",
+        "bio": "Construction, rénovation et pose de carrelage, parquet et sanitaire à Marrakech.",
+        "phone": "0525011749",
+        "whatsapp": "212525011749",
+        "area": "Marrakech"
+      },
+      {
+        "id": 955,
+        "name": "Carreaux des Suds Marrakech",
+        "bio": "Pose de carrelage et zellige à Marrakech, Sidi Ghanem.",
+        "phone": "0660607755",
+        "whatsapp": "212660607755",
+        "area": "Marrakech"
+      }
+    ],
+    "summary": "Deux profils orientés carrelage sont actuellement disponibles à Marrakech. Baticomplex Carrelage Marrakech mentionne la rénovation, la pose de carrelage, le parquet et le sanitaire. Carreaux des Suds Marrakech met en avant la pose de carrelage et de zellige, avec une localisation indiquée à Sidi Ghanem. Ces offres peuvent correspondre à des chantiers différents. Avant de contacter, notez la surface, le type de support, le format des carreaux et l’état du sol ou du mur. Demandez surtout si la préparation, les découpes, les joints et les finitions sont inclus dans la proposition."
+  },
+  "/artisan/bricoleur/casablanca": {
+    "service_slug": "bricoleur",
+    "service_label": "Bricoleur",
+    "city_slug": "casablanca",
+    "city": "Casablanca",
+    "profiles": [
+      {
+        "id": 972,
+        "name": "Bricoleur Casablanca Express",
+        "bio": "Service bricolage et petites réparations à Casablanca.",
+        "phone": "0675822084",
+        "whatsapp": "212675822084",
+        "area": "Casablanca"
+      },
+      {
+        "id": 973,
+        "name": "3A Services Casablanca",
+        "bio": "Service multiservice et bricolage à Casablanca.",
+        "phone": "0680568494",
+        "whatsapp": "212680568494",
+        "area": "Casablanca"
+      }
+    ],
+    "summary": "Deux profils de bricolage sont actuellement affichés pour Casablanca : « Bricoleur Casablanca Express » et « 3A Services Casablanca ». Le premier présente une activité centrée sur le bricolage et les petites réparations, tandis que le second se décrit comme multiservice. Pour ce type de besoin, le meilleur gain de temps vient souvent d’un brief très concret : listez chaque tâche, envoyez une photo de la zone concernée et précisez si vous avez déjà acheté les pièces ou accessoires. Avant de confirmer, demandez également si le prix annoncé couvre le déplacement et l’ensemble des petites interventions décrites."
+  },
+  "/artisan/serrurier/oujda": {
+    "service_slug": "serrurier",
+    "service_label": "Serrurier",
+    "city_slug": "oujda",
+    "city": "Oujda",
+    "profiles": [
+      {
+        "id": 902,
+        "name": "Cle et Electromenager Mousaab",
+        "bio": "Service serrurerie à Oujda.",
+        "phone": "0637614537",
+        "whatsapp": "212637614537",
+        "area": "Oujda"
+      },
+      {
+        "id": 903,
+        "name": "CodeCle Oujda",
+        "bio": "Serrurerie et programmation de clés à Oujda.",
+        "phone": "0672840037",
+        "whatsapp": "212672840037",
+        "area": "Oujda"
+      },
+      {
+        "id": 905,
+        "name": "Jaouadkey Oujda",
+        "bio": "Reproduction de clés et serrurerie à Oujda.",
+        "phone": "0628661455",
+        "whatsapp": "212628661455",
+        "area": "Oujda"
+      }
+    ],
+    "summary": "Trois profils de serrurerie sont actuellement publiés pour Oujda. « Clé et Electroménager Mousaab » présente une offre de serrurerie générale, « CodeCle Oujda » mentionne la programmation de clés et « Jaouadkey Oujda » la reproduction de clés en plus de la serrurerie. Ces différences sont utiles si votre besoin concerne une clé, une serrure ou une intervention plus générale. Lorsque vous contactez un profil, précisez la marque ou le type de serrure si vous la connaissez, expliquez si la porte est simplement claquée ou verrouillée et demandez le coût du déplacement avant l’intervention."
+  },
+  "/artisan/plombier/kenitra": {
+    "service_slug": "plombier",
+    "service_label": "Plombier",
+    "city_slug": "kenitra",
+    "city": "Kenitra",
+    "profiles": [
+      {
+        "id": 839,
+        "name": "Sobeca",
+        "bio": "Plomberie et construction à Kenitra.",
+        "phone": "0537361629",
+        "whatsapp": "212537361629",
+        "area": "Kenitra"
+      },
+      {
+        "id": 777,
+        "name": "Water Sebou",
+        "bio": "Service plomberie à Kenitra.",
+        "phone": "0537365759",
+        "whatsapp": "212537365759",
+        "area": "Kenitra"
+      }
+    ],
+    "summary": "Deux profils de plomberie sont actuellement présents pour Kenitra : Sobeca et Water Sebou. Water Sebou se décrit autour de la plomberie, tandis que Sobeca mentionne à la fois la plomberie et la construction. Si votre besoin est une réparation précise, expliquez le symptôme, la zone du logement et l’équipement concerné afin de savoir quel profil correspond le mieux. Pour un chantier plus large, demandez au professionnel de distinguer clairement la plomberie des éventuels travaux de construction. Dans les deux cas, confirmez le déplacement, les fournitures, le délai et le montant avant de commencer."
+  },
+  "/artisan/menage/casablanca": {
+    "service_slug": "menage",
+    "service_label": "Ménage",
+    "city_slug": "casablanca",
+    "city": "Casablanca",
+    "profiles": [
+      {
+        "id": 937,
+        "name": "HVNET Nettoyage Casablanca",
+        "bio": "Nettoyage, ménage, fin de chantier et nettoyage industriel à Casablanca.",
+        "phone": "0666560650",
+        "whatsapp": "212666560650",
+        "area": "Casablanca"
+      },
+      {
+        "id": 938,
+        "name": "NSS Nettoyage Casablanca",
+        "bio": "Nettoyage, ménage, nettoyage industriel et fin de chantier à Casablanca.",
+        "phone": "0630983012",
+        "whatsapp": "212630983012",
+        "area": "Casablanca"
+      },
+      {
+        "id": 939,
+        "name": "Winbest Nettoyage Casablanca",
+        "bio": "Nettoyage professionnel et services de ménage à Casablanca.",
+        "phone": "0644271049",
+        "whatsapp": "212644271049",
+        "area": "Casablanca"
+      },
+      {
+        "id": 940,
+        "name": "Nettoyage Vitres Casablanca",
+        "bio": "Nettoyage industriel, vitres et moquettes à Casablanca.",
+        "phone": "0613958063",
+        "whatsapp": "212613958063",
+        "area": "Casablanca"
+      },
+      {
+        "id": 941,
+        "name": "Nettoyage Industriel Casablanca",
+        "bio": "Service de nettoyage industriel à Casablanca.",
+        "phone": "0694931487",
+        "whatsapp": "212694931487",
+        "area": "Casablanca"
+      },
+      {
+        "id": 943,
+        "name": "Wash Express Casablanca",
+        "bio": "Service lavage et nettoyage à Casablanca.",
+        "phone": "0663149437",
+        "whatsapp": "212663149437",
+        "area": "Casablanca"
+      },
+      {
+        "id": 948,
+        "name": "2E Services Nettoyage Casablanca",
+        "bio": "Nettoyage et entretien à Casablanca, Bourgogne.",
+        "phone": "0698767611",
+        "whatsapp": "212698767611",
+        "area": "Casablanca"
+      }
+    ],
+    "summary": "Sept profils de nettoyage et ménage sont actuellement publiés pour Casablanca. Les descriptions couvrent plusieurs besoins : entretien courant, fin de chantier, nettoyage industriel, vitres, moquettes et services de lavage. « 2E Services Nettoyage Casablanca » mentionne aussi Bourgogne, tandis que d’autres profils indiquent simplement Casablanca. Cette variété permet de chercher un contact en fonction du type de prestation plutôt que sur le nom seul. Pour obtenir une réponse comparable, précisez la surface, le nombre de pièces, l’état des lieux, les surfaces particulières à traiter et si les produits ou le matériel doivent être fournis."
+  },
+  "/artisan/soudeur/marrakech": {
+    "service_slug": "soudeur",
+    "service_label": "Soudeur",
+    "city_slug": "marrakech",
+    "city": "Marrakech",
+    "profiles": [
+      {
+        "id": 886,
+        "name": "Ferronnier Marrakech",
+        "bio": "Service ferronnerie à Marrakech.",
+        "phone": "0666453716",
+        "whatsapp": "212666453716",
+        "area": "Al Massira, Marrakech"
+      },
+      {
+        "id": 887,
+        "name": "Ferronnier Marrakech Sidi Boudchich",
+        "bio": "Ferronnerie et fabrication sur mesure à Marrakech.",
+        "phone": "0668513785",
+        "whatsapp": "212668513785",
+        "area": "Sidi Boudchich, Marrakech"
+      }
+    ],
+    "summary": "Deux profils de ferronnerie et soudure sont actuellement publiés pour Marrakech. L’un est indiqué à Al Massira et l’autre à Sidi Boudchich. Le second mentionne explicitement la fabrication sur mesure, ce qui peut être pertinent pour un portail, une grille, un garde-corps ou une pièce métallique adaptée. Avant de demander un prix, préparez les dimensions principales, des photos de l’emplacement et une description de la finition souhaitée. Pour comparer les propositions, vérifiez séparément la fabrication, le transport, la pose sur place et la finition ou peinture éventuelle."
+  }
+}

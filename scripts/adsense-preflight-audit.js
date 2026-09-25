@@ -1,6 +1,6 @@
 const fs=require('fs');
 const path=require('path');
-const {INDEXABLE_BLOG_SLUGS,CORE_ROUTES}=require('./site-curation-config');
+const {INDEXABLE_BLOG_SLUGS,INDEXABLE_SERVICE_CITY_ROUTES,CORE_ROUTES}=require('./site-curation-config');
 const root=path.join(__dirname,'..');
 const pub=path.join(root,'public');
 const fileFor=r=>r==='/'?path.join(pub,'index.html'):path.join(pub,r.slice(1),'index.html');
@@ -26,17 +26,17 @@ for(const slug of INDEXABLE_BLOG_SLUGS){
   if(!hasServingCode(h)) failures.push(route+': AdSense serving code missing on monetizable editorial page');
   checkId(route,h);
 }
-for(const route of CORE_ROUTES.filter(r=>r!=='/')){
+for(const route of [...CORE_ROUTES.filter(r=>r!=='/'),...INDEXABLE_SERVICE_CITY_ROUTES]){
   const h=fs.readFileSync(fileFor(route),'utf8');
-  if(hasServingCode(h)||hasVerification(h)) failures.push(route+': ad/verification tags must not appear on trust/navigation/tool page');
+  if(hasServingCode(h)||hasVerification(h)) failures.push(route+': ad/verification tags must not appear on trust/tool/directory page');
   checkId(route,h);
 }
 const privacy=fs.readFileSync(fileFor('/privacy'),'utf8');
 if(hasServingCode(privacy)||hasVerification(privacy)) failures.push('/privacy: privacy-policy URL must stay free of AdSense tags');
-for(const route of CORE_ROUTES){
+for(const route of [...CORE_ROUTES,...INDEXABLE_SERVICE_CITY_ROUTES]){
   const h=fs.readFileSync(fileFor(route),'utf8');
   if(!/<meta\s+name=["']referrer["'][^>]*content=["']strict-origin-when-cross-origin["']/i.test(h)) failures.push(route+': consent-compatible referrer policy missing');
 }
 if(!adsTxt.includes(pubId)) failures.push('ads.txt publisher ID mismatch');
 if(failures.length) throw new Error('[adsense preflight] BLOCKED ('+failures.length+'):\n'+failures.join('\n'));
-console.log('[adsense preflight] PASS: '+pubId+' matches ads.txt/site verification; homepage + tools/trust pages are ad-free; ads are limited to 20 canonical editorial guides; CMP referrer policy present');
+console.log('[adsense preflight] PASS: '+pubId+' matches ads.txt/site verification; tools/trust/directory pages are ad-free; ads remain limited to '+INDEXABLE_BLOG_SLUGS.length+' canonical editorial guides; CMP referrer policy present');

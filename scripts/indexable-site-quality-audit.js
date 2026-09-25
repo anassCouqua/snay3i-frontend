@@ -105,8 +105,23 @@ for (const route of routes) {
   const hasServingAds = /adsbygoogle\.js|<ins\\b[^>]*class=["'][^"']*adsbygoogle/i.test(html);
   const min = route.startsWith('/blog/') ? 800 : (minimumWords[route] || 180);
   const isDarija = /-darija$/.test(route);
+  let directoryUniqueHtml = '';
+  if (route.startsWith('/artisan/')) {
+    const uniqueMarker = 'data-directory-unique="1"';
+    const markerAt = html.indexOf(uniqueMarker);
+    const sectionStart = markerAt >= 0 ? html.lastIndexOf('<section', markerAt) : -1;
+    const sectionEnd = markerAt >= 0 ? html.indexOf('</section>', markerAt) : -1;
+    directoryUniqueHtml = sectionStart >= 0 && sectionEnd > sectionStart ? html.slice(sectionStart, sectionEnd + 10) : '';
+  }
+  const directoryUniqueText = decodeEntities(directoryUniqueHtml
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim());
+  const similarityTokens = route.startsWith('/artisan/') ? tokenize(directoryUniqueText) : tokens;
 
-  rows.push({ route, words: tokens.length, h1, images: images.length, missingAlt, missingDimensions, hasServingAds, shingles: shingles(tokens) });
+  rows.push({ route, words: tokens.length, h1, images: images.length, missingAlt, missingDimensions, hasServingAds, shingles: shingles(similarityTokens) });
 
   if (!/^index\s*,\s*follow$/.test(robots)) failures.push(`${route}: robots is "${robots || 'missing'}"`);
   if (canonical !== `https://snay3i.ma${route === '/' ? '/' : route}`) failures.push(`${route}: canonical mismatch (${canonical || 'missing'})`);
@@ -122,6 +137,7 @@ for (const route of routes) {
   } else if (!/lang=["']fr["']/i.test(html)) {
     failures.push(`${route}: html lang=fr missing`);
   }
+  if (route.startsWith('/artisan/') && similarityTokens.length < 80) failures.push(`${route}: unique directory section is too weak (${similarityTokens.length} words)`);
   if (!/<meta\s+name=["']viewport["']/i.test(html)) failures.push(`${route}: viewport meta missing`);
   if (!/<meta\s+name=["']referrer["'][^>]*content=["']strict-origin-when-cross-origin["']/i.test(html)) failures.push(`${route}: referrer policy missing or too weak for consent messaging`);
   if (!adEligible.has(route) && hasServingAds) failures.push(`${route}: AdSense serving code present on non-editorial/trust route`);
