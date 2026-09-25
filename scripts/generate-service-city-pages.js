@@ -153,8 +153,9 @@ function htmlFor(route, item) {
   <p class="fine">Snay3i.ma est un annuaire. La présence d’un profil ne constitue pas une certification, une garantie de disponibilité ni une validation de la qualité du travail.</p>
 </section>
 
-<section class="panel">
+<section class="panel" data-directory-unique="1">
   <h2>Profils disponibles à ${esc(item.city)}</h2>
+  <p>${esc(item.summary || '')}</p>
   <div class="listings">${profiles.map(listingCard).join('\n')}</div>
 </section>
 
