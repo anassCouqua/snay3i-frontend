@@ -1716,17 +1716,16 @@ export default function App(){
 
           {/* SEARCH CARD */}
           <div className="search-card">
-            <div style={{display:"flex",gap:10,marginBottom:10}}>
+            <div className="search-filters-row">
               <div style={{flex:1,display:"flex",alignItems:"center",gap:10,background:"#F5F0EB",borderRadius:12,padding:"12px 16px"}}>
                 <select aria-label="Filtrer par service" value={pendingService} onChange={e=>setPendingService(e.target.value)}
                   style={{flex:1,background:"transparent",border:"none",fontSize:14,fontWeight:600,color:"var(--ink)",outline:"none",cursor:"pointer"}}>
                   {CATEGORIES.map(c=>(<option key={c.id} value={c.id}>{c.emoji} {lang==="fr"?c.label:c.ar}</option>))}
                 </select>
               </div>
-              <div style={{flex:1,display:"flex",alignItems:"center",gap:10,background:"#F5F0EB",borderRadius:12,padding:"12px 16px"}}>
+              <div className="search-filter-box">
                 <span style={{fontSize:16}}>📍</span>
-                <select aria-label="Filtrer par ville" className="scity" value={pendingCity} onChange={e=>setPendingCity(e.target.value)}
-                  style={{flex:1,background:"transparent",border:"none",fontSize:14,fontWeight:600,color:"var(--ink)",outline:"none",cursor:"pointer"}}>
+                <select aria-label="Filtrer par ville" className="search-filter-select" value={pendingCity} onChange={e=>setPendingCity(e.target.value)}>
                   {CITIES.map(c=><option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
@@ -1809,24 +1808,21 @@ export default function App(){
 
       {/* ══ TOOLBAR ═════════════════════════════════════════════ */}
       <div className="toolbar">
-        <span className="count-label">
-          <strong>{sorted.length}</strong> snay3i{sorted.length!==1?"s":""}
-          {nearCity&&<span className="near-tag"> · {nearCity}</span>}
-          {distKm&&<span className="near-tag"> · &lt;{distKm} km</span>}
-        </span>
+        <div className="toolbar-left">
+          <span className="count-label">
+            <strong>{sorted.length}</strong> {sorted.length===1?"profil disponible":"profils disponibles"}
+            {nearCity&&<span className="near-tag"> · {nearCity}</span>}
+            {distKm&&<span className="near-tag"> · &lt;{distKm} km</span>}
+          </span>
+          {(category!=="all"||city!=="Toutes"||distKm) && (
+            <button className="clear-filters-btn" onClick={clearFilters}>Réinitialiser</button>
+          )}
+        </div>
         {error&&<span className="err-msg">{error}</span>}
         <div className="sort-row">
-          {[["distance","📍"]].map(([k,ic])=>(
-            <button key={k}
-              aria-label={k==="rating"?"Trier par note":k==="price"?"Trier par prix":"Trier par distance"}
-              className={`sort-btn${sort===k?" active":""}`}
-              onClick={()=>{if(k==="distance"&&!userLoc)handleLocate();else setSort(k);}}>
-              {ic}
-            </button>
-          ))}
-          <button className="sort-btn map-toggle-btn" aria-label="Ouvrir la carte" onClick={()=>setShowMap(true)} title="Vue carte">
-            🗺️
-          </button>
+          <button aria-label="Me localiser" className={`sort-btn${sort==="distance"?" active":""}`}
+            onClick={()=>{if(!userLoc)handleLocate();else setSort("distance");}}>📍</button>
+          <button className="sort-btn map-toggle-btn" aria-label="Ouvrir la carte" onClick={()=>setShowMap(true)} title="Vue carte">🗺️</button>
         </div>
       </div>
 
