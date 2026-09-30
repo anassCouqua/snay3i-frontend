@@ -285,7 +285,7 @@ function WorkerCard({worker,index,userLoc}){
       {modal && <ContactModal worker={worker} onClose={()=>setModal(false)}/>}
       {chat && <ChatWindow worker={worker} onClose={()=>setChat(false)}/>}
       {profile && <ProfilePage worker={worker} onClose={()=>setProfile(false)}/>}
-      <div className="card" style={{animationDelay:`${index*80}ms`}}>
+      <div className="card" role="button" tabIndex={0} onClick={()=>setProfile(true)} onKeyDown={e=>{if(e.key==="Enter"||e.key===" ")setProfile(true);}} style={{animationDelay:`${index*80}ms`}}>
         {/* Zellige corner */}
         <div className="card-zel-corner">
           <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -309,7 +309,7 @@ function WorkerCard({worker,index,userLoc}){
             </div>
             <span className="card-service-pill">{catEmoji(worker.service)} {catLabel(worker.service)}</span>
           </div>
-          <div className="card-price-tag">Demander un devis</div>
+          <div className="card-price-tag">Profil détaillé</div>
         </div>
 
         {/* Location ping */}
@@ -1620,6 +1620,17 @@ export default function App(){
     fetchWorkers(pendingService,pendingCity,"");
   };
 
+  const clearFilters=()=>{
+    setQuery("");
+    setPendingService("all");
+    setPendingCity("Toutes");
+    setCategory("all");
+    setCity("Toutes");
+    setDistKm(null);
+    setVisibleCount(3);
+    fetchWorkers("all","Toutes","");
+  };
+
   const handleLocate=()=>{
     if(!navigator.geolocation){setLocErr("GPS non supporté");return;}
     setLocating(true);setLocErr("");
@@ -1694,7 +1705,8 @@ export default function App(){
                 :<>حضّر خدمتك.<br/><em>لقى صنايعيك.</em></>
               }
             </h1>
-            <p className="hero-sub">
+            <div className="hero-trust-row" aria-label="Pourquoi utiliser Snay3i"><span>✓ Profils disponibles</span><span>✓ Outils gratuits</span><span>✓ FR + Darija</span></div>
+          <p className="hero-sub">
               {lang==="fr"
                 ?"Guides pratiques · Calculateurs · Devis · Artisans"
                 : "دلائل عملية · حاسبات · مقارنة الديفي · حرفيين"
@@ -1786,7 +1798,7 @@ export default function App(){
           {CATEGORIES.map(cat=>(
             <button key={cat.id}
               className={`cat-btn${category===cat.id?" active":""}`}
-              onClick={()=>setCategory(cat.id)}>
+              onClick={()=>{setCategory(cat.id);setPendingService(cat.id);setVisibleCount(3);fetchWorkers(cat.id,city,"");}}>
               <span className="cat-ico">{cat.emoji}</span>
               <span className="cat-fr">{cat.label}</span>
               <span className="cat-ar">{cat.ar}</span>
@@ -1915,6 +1927,13 @@ export default function App(){
           </div>
           <a href="/outils" style={{display:'inline-block',marginTop:14,color:'var(--terra)',fontWeight:800,textDecoration:'none'}}>Voir tous les outils →</a>
         </section>
+
+        <nav className="mobile-bottom-nav" aria-label="Navigation rapide">
+          <a href="/" className="mobile-nav-item"><span>⌂</span><small>Accueil</small></a>
+          <button className="mobile-nav-item" onClick={()=>setShowMap(true)}><span>🗺️</span><small>Carte</small></button>
+          <a href="/outils" className="mobile-nav-item"><span>🧰</span><small>Outils</small></a>
+          <button className="mobile-nav-item mobile-nav-join" onClick={()=>setShowRegister(true)}><span>＋</span><small>Ajouter</small></button>
+        </nav>
 
         {/* CTA */}
         <div className="cta">
