@@ -1399,7 +1399,7 @@ function ProfileUpdateModal({worker, onClose}) {
 }
 
 // ── PROFILE PAGE ──────────────────────────────────────────────────
-function ProfilePage({worker, onClose) {
+function ProfilePage({worker, onClose}) {
   const [bg] = avatarColor(worker.name);
   const [showChat, setShowChat] = useState(false);
 
