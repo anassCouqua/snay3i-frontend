@@ -1298,8 +1298,108 @@ function ReviewsSection({worker, apiBase}) {
   );
 }
 
+// ── PROFILE UPDATE / CLAIM REQUEST ────────────────────────────────
+function ProfileUpdateModal({worker, onClose}) {
+  const [name,setName]=useState("");
+  const [email,setEmail]=useState("");
+  const [phone,setPhone]=useState("");
+  const [changes,setChanges]=useState("");
+  const [sending,setSending]=useState(false);
+  const [done,setDone]=useState(false);
+  const [error,setError]=useState("");
+
+  const submit=async()=>{
+    if(name.trim().length<2 || changes.trim().length<10){
+      setError("Ajoutez votre nom et décrivez clairement la correction ou la mise à jour.");
+      return;
+    }
+    setSending(true);setError("");
+    try{
+      const res=await fetch(`${API_BASE}/profile-update-requests`,{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          worker_id:worker.id,
+          claimant_name:name.trim(),
+          claimant_email:email.trim(),
+          claimant_phone:phone.trim(),
+          requested_changes:changes.trim()
+        })
+      });
+      const data=await res.json().catch(()=>({}));
+      if(!res.ok) throw new Error(data.detail||"Impossible d'envoyer la demande.");
+      setDone(true);
+    }catch(e){setError(e.message||"Impossible d'envoyer la demande.");}
+    finally{setSending(false);}
+  };
+
+  return(
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-card" onClick={e=>e.stopPropagation()} style={{maxWidth:560}}>
+        <button className="modal-close" onClick={onClose}>✕</button>
+        {!done ? (
+          <>
+            <div className="modal-header" style={{background:"#0D1B2A"}}>
+              <div className="modal-header-inner">
+                <div className="modal-avatar" style={{background:"rgba(255,255,255,0.12)",color:"#fff"}}>✎</div>
+                <div className="modal-identity">
+                  <h2 className="modal-name">Modifier ce profil</h2>
+                  <p className="modal-service">{worker.name} · {catLabel(worker.service)} · {worker.city}</p>
+                </div>
+              </div>
+            </div>
+            <div className="modal-body">
+              <p style={{fontSize:13,color:"#6F6A64",lineHeight:1.6}}>
+                Vous êtes le professionnel concerné ou vous avez repéré une information incorrecte ?
+                Envoyez une demande. <strong>La fiche n'est pas modifiée automatiquement :</strong> nous vérifions la demande avant publication.
+              </p>
+
+              <div className="reg-field">
+                <label className="reg-label">Votre nom</label>
+                <input className="reg-input" value={name} onChange={e=>setName(e.target.value)} placeholder="Nom complet"/>
+              </div>
+              <div className="reg-field">
+                <label className="reg-label">Email (facultatif)</label>
+                <input className="reg-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="vous@example.com"/>
+              </div>
+              <div className="reg-field">
+                <label className="reg-label">Téléphone (facultatif)</label>
+                <input className="reg-input" type="tel" value={phone} onChange={e=>setPhone(e.target.value)} placeholder="06 XX XX XX XX"/>
+              </div>
+              <div className="reg-field">
+                <label className="reg-label">Correction / informations à ajouter</label>
+                <textarea className="reg-textarea" rows={6} value={changes} onChange={e=>setChanges(e.target.value)}
+                  placeholder="Ex: Ajouter mes zones d'intervention, corriger mon numéro WhatsApp, préciser mes services, remplacer une ancienne description..."/>
+              </div>
+              {error && <p className="reg-error">{error}</p>}
+              <div style={{fontSize:11,color:"#8A8178",lineHeight:1.5,marginBottom:14}}>
+                Évitez d'envoyer des documents d'identité ou d'autres informations sensibles dans ce formulaire.
+              </div>
+              <div style={{display:"flex",gap:10}}>
+                <button className="reg-btn-ghost" onClick={onClose}>Annuler</button>
+                <button className="reg-btn-primary" disabled={sending} onClick={submit}>
+                  {sending?"⌛ Envoi...":"Envoyer la demande"}
+                </button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="modal-body" style={{textAlign:"center",padding:"42px 28px"}}>
+            <div style={{fontSize:46,marginBottom:12}}>✅</div>
+            <h2 style={{color:"#0D1B2A"}}>Demande reçue</h2>
+            <p style={{color:"#6F6A64",lineHeight:1.7}}>
+              Merci. Nous allons vérifier les informations avant de modifier la fiche.
+            </p>
+            <button className="reg-btn-primary" onClick={onClose}>Fermer</button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ── PROFILE PAGE ──────────────────────────────────────────────────
-function ProfilePage({worker, onClose}) {
+function ProfilePage({worker, onClose) {
   const [bg] = avatarColor(worker.name);
   const [showChat, setShowChat] = useState(false);
 
@@ -1339,6 +1439,12 @@ function ProfilePage({worker, onClose}) {
             <button className="profile-btn-chat" onClick={()=>setShowChat(true)}>
               <span>✉️</span>
               <span>Message</span>
+            </button>
+          </div>
+
+          <div style={{display:"flex",justifyContent:"flex-end",marginBottom:10}}>
+            <button onClick={()=>setShowUpdateRequest(true)} style={{border:"1px solid #E2D8CB",background:"#fff",color:"#8B4A2A",borderRadius:20,padding:"8px 14px",fontSize:12,fontWeight:700,cursor:"pointer"}}>
+              ✎ C'est mon profil / Corriger
             </button>
           </div>
 
@@ -1446,6 +1552,7 @@ function ProfilePage({worker, onClose}) {
           <a href="/contact" style={{color:"var(--muted)",textDecoration:"none"}}>Contact</a>
         </div>
         {showChat && <ChatWindow worker={worker} onClose={()=>setShowChat(false)}/>}
+        {showUpdateRequest && <ProfileUpdateModal worker={worker} onClose={()=>setShowUpdateRequest(false)}/>}
       </div>
     </div>
   );
