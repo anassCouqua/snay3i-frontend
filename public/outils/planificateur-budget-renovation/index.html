@@ -5,4 +5,67 @@
 <section><h2>Décisions à documenter</h2><ul><li>Quels matériaux ou équipements sont déjà choisis ?</li><li>Quels lots incluent la fourniture et lesquels concernent seulement la main-d’œuvre ?</li><li>Quels paiements sont liés à une étape vérifiable du chantier ?</li><li>Quels éléments restent encore à chiffrer ?</li><li>Quels travaux supplémentaires nécessitent votre accord avant exécution ?</li></ul><p>Conservez les différentes versions des devis lorsque le périmètre change. Pour une rénovation importante, un tableau simple avec dates, montants et décisions évite de perdre le fil entre plusieurs artisans.</p><p><a href="/outils/checklist-renovation">Ouvrir la checklist rénovation</a> · <a href="/outils/comparateur-devis">Comparer les devis</a> · <a href="/blog/renovation-maison-maroc-guide">Lire le guide rénovation</a></p></section>
 <section><h2>Limites</h2><p>Ce planificateur ne fournit pas de prix de marché et ne remplace pas un devis. Il additionne uniquement les montants que vous saisissez. Les coûts réels dépendent du projet, de la ville, de l’accès, de l’état du logement, des matériaux et des professionnels. Si un poste technique n’est pas compris, faites-le expliquer avant de signer ou de verser un acompte.</p></section>
 </main><footer><div style="max-width:980px;margin:auto">© 2026 Snay3i.ma · <a href="/outils">Outils</a> · <a href="/editorial-policy">Méthode</a> · <a href="/privacy">Confidentialité</a> · <a href="/terms">CGU</a></div></footer>
-<script>function val(el){return parseFloat(el.value)||0}function money(x){return new Intl.NumberFormat('fr-MA',{maximumFractionDigits:0}).format(x)+' MAD'}function calc(){const plans=[...document.querySelectorAll('[data-plan]')].map(val),quotes=[...document.querySelectorAll('[data-quote]')].map(val),p=plans.reduce((a,b)=>a+b,0),q=quotes.reduce((a,b)=>a+b,0),r=Math.max(0,parseFloat(document.getElementById('reserve').value)||0),withReserve=q*(1+r/100),diff=q-p;document.getElementById('result').innerHTML='<strong>Budget prévu saisi :</strong> '+money(p)+'<br><strong>Devis / estimations saisis :</strong> '+money(q)+'<br><strong>Écart avant réserve :</strong> '+(diff>=0?'+':'')+money(diff)+'<br><strong>Total avec '+r+' % de réserve :</strong> '+money(withReserve)+'<br><span class="muted">Vérifiez les lignes vides : elles peuvent représenter un lot non chiffré.</span>'}function clearAll(){document.querySelectorAll('[data-plan],[data-quote]').forEach(x=>x.value='');document.getElementById('reserve').value='10';document.getElementById('result').textContent='Ajoutez les postes connus puis calculez la synthèse.'}</script></body></html>
+<script>function val(el){return parseFloat(el.value)||0}function money(x){return new Intl.NumberFormat('fr-MA',{maximumFractionDigits:0}).format(x)+' MAD'}function calc(){const plans=[...document.querySelectorAll('[data-plan]')].map(val),quotes=[...document.querySelectorAll('[data-quote]')].map(val),p=plans.reduce((a,b)=>a+b,0),q=quotes.reduce((a,b)=>a+b,0),r=Math.max(0,parseFloat(document.getElementById('reserve').value)||0),withReserve=q*(1+r/100),diff=q-p;document.getElementById('result').innerHTML='<strong>Budget prévu saisi :</strong> '+money(p)+'<br><strong>Devis / estimations saisis :</strong> '+money(q)+'<br><strong>Écart avant réserve :</strong> '+(diff>=0?'+':'')+money(diff)+'<br><strong>Total avec '+r+' % de réserve :</strong> '+money(withReserve)+'<br><span class="muted">Vérifiez les lignes vides : elles peuvent représenter un lot non chiffré.</span>'}function clearAll(){document.querySelectorAll('[data-plan],[data-quote]').forEach(x=>x.value='');document.getElementById('reserve').value='10';document.getElementById('result').textContent='Ajoutez les postes connus puis calculez la synthèse.'}</script>
+<script>
+(function(){
+  const STORE_KEY='snay3i:outil:planificateur-budget-renovation:v1';
+  function fields(){
+    return [...document.querySelectorAll('input,select,textarea')].filter(el=>el.type!=='button' && el.type!=='submit');
+  }
+  function status(text){
+    let el=document.querySelector('[data-save-status]');
+    if(!el){
+      el=document.createElement('p');
+      el.setAttribute('data-save-status','1');
+      el.style.cssText='margin:0 0 12px;padding:9px 12px;border-radius:10px;background:#f7f1e8;color:#6f6a64;font-size:12px';
+      const actions=document.querySelector('.actions');
+      if(actions) actions.parentNode.insertBefore(el,actions);
+    }
+    el.textContent=text;
+  }
+  function save(){
+    try{
+      const data={};
+      fields().forEach((el,i)=>{
+        const key=el.id||el.name||('field-'+i);
+        data[key]={value:el.value,checked:!!el.checked,type:el.type};
+      });
+      localStorage.setItem(STORE_KEY,JSON.stringify(data));
+      status('✓ Vos données sont enregistrées sur cet appareil.');
+    }catch(e){}
+  }
+  function restore(){
+    try{
+      const raw=localStorage.getItem(STORE_KEY);
+      if(!raw) { status('Vos saisies restent dans votre navigateur sur cet appareil.'); return; }
+      const data=JSON.parse(raw);
+      let restored=0;
+      fields().forEach((el,i)=>{
+        const key=el.id||el.name||('field-'+i);
+        if(!data[key]) return;
+        if(el.type==='checkbox' || el.type==='radio') el.checked=!!data[key].checked;
+        else if(data[key].value!==undefined) el.value=data[key].value;
+        restored++;
+      });
+      status(restored ? '↻ Dernières saisies reprises automatiquement sur cet appareil.' : 'Vos saisies restent dans votre navigateur sur cet appareil.');
+    }catch(e){}
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    restore();
+    fields().forEach(el=>{
+      el.addEventListener('input',save);
+      el.addEventListener('change',save);
+    });
+    document.addEventListener('click',function(ev){
+      const b=ev.target.closest('button');
+      if(!b) return;
+      const label=(b.textContent||'').toLowerCase();
+      if(/effacer|décocher|clear/.test(label)){
+        setTimeout(function(){try{localStorage.removeItem(STORE_KEY);status('✓ Données locales effacées.');}catch(e){}},0);
+      }else if(/calculer|comparer|générer|avancement|generate/.test(label)){
+        setTimeout(save,0);
+      }
+    });
+  });
+})();
+</script></body></html>

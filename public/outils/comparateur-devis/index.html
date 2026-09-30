@@ -98,5 +98,68 @@ function resetQuotes(){
  document.getElementById('summary').textContent='Remplissez les colonnes puis cliquez sur « Comparer la clarté ».';
 }
 </script>
-</body>
+
+<script>
+(function(){
+  const STORE_KEY='snay3i:outil:comparateur-devis:v1';
+  function fields(){
+    return [...document.querySelectorAll('input,select,textarea')].filter(el=>el.type!=='button' && el.type!=='submit');
+  }
+  function status(text){
+    let el=document.querySelector('[data-save-status]');
+    if(!el){
+      el=document.createElement('p');
+      el.setAttribute('data-save-status','1');
+      el.style.cssText='margin:0 0 12px;padding:9px 12px;border-radius:10px;background:#f7f1e8;color:#6f6a64;font-size:12px';
+      const actions=document.querySelector('.actions');
+      if(actions) actions.parentNode.insertBefore(el,actions);
+    }
+    el.textContent=text;
+  }
+  function save(){
+    try{
+      const data={};
+      fields().forEach((el,i)=>{
+        const key=el.id||el.name||('field-'+i);
+        data[key]={value:el.value,checked:!!el.checked,type:el.type};
+      });
+      localStorage.setItem(STORE_KEY,JSON.stringify(data));
+      status('✓ Vos données sont enregistrées sur cet appareil.');
+    }catch(e){}
+  }
+  function restore(){
+    try{
+      const raw=localStorage.getItem(STORE_KEY);
+      if(!raw) { status('Vos saisies restent dans votre navigateur sur cet appareil.'); return; }
+      const data=JSON.parse(raw);
+      let restored=0;
+      fields().forEach((el,i)=>{
+        const key=el.id||el.name||('field-'+i);
+        if(!data[key]) return;
+        if(el.type==='checkbox' || el.type==='radio') el.checked=!!data[key].checked;
+        else if(data[key].value!==undefined) el.value=data[key].value;
+        restored++;
+      });
+      status(restored ? '↻ Dernières saisies reprises automatiquement sur cet appareil.' : 'Vos saisies restent dans votre navigateur sur cet appareil.');
+    }catch(e){}
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    restore();
+    fields().forEach(el=>{
+      el.addEventListener('input',save);
+      el.addEventListener('change',save);
+    });
+    document.addEventListener('click',function(ev){
+      const b=ev.target.closest('button');
+      if(!b) return;
+      const label=(b.textContent||'').toLowerCase();
+      if(/effacer|décocher|clear/.test(label)){
+        setTimeout(function(){try{localStorage.removeItem(STORE_KEY);status('✓ Données locales effacées.');}catch(e){}},0);
+      }else if(/calculer|comparer|générer|avancement|generate/.test(label)){
+        setTimeout(save,0);
+      }
+    });
+  });
+})();
+</script></body>
 </html>
