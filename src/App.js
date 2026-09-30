@@ -1153,7 +1153,7 @@ function MapModal({workers, onClose, userLoc, activeCategory, activeCity}){
                       </div>
                       <div style={{fontSize:12,color:"#C4622D",fontWeight:600,marginTop:1}}>{catEmoji(w.service)} {catLabel(w.service)}</div>
                     </div>
-                    <div style={{textAlign:"right",flexShrink:0,fontSize:10,color:"#9A9085"}}>{w.years_exp} ans exp. déclarés</div>
+                    {w.years_exp > 0 && <div style={{textAlign:"right",flexShrink:0,fontSize:10,color:"#9A9085"}}>{w.years_exp} ans d'expérience déclarés</div>}
                     <span style={{color:"#C4622D",fontSize:20,flexShrink:0}}>›</span>
                   </div>
                 );
@@ -1519,7 +1519,7 @@ function ProfilePage({worker, onClose) {
                 <div className="profile-photo-placeholder">📷</div>
                 <div className="profile-photo-placeholder">🔧</div>
                 <div className="profile-photo-placeholder">🏠</div>
-                <p className="profile-photos-hint">Les photos de réalisations arrivent bientôt</p>
+                <p className="profile-photos-hint">Aucune photo de réalisation n'a encore été fournie pour cette fiche.</p>
               </div>
             )}
           </div>
