@@ -316,6 +316,7 @@ function WorkerCard({worker,index,userLoc}){
         <div className="card-loc">
           <div className="ping"><div className="ping-core"/><div className="ping-ring"/></div>
           <span className="card-city">{worker.city}</span>
+          {worker.service_area && <span className="dist-chip">📍 {worker.service_area}</span>}
           {dist&&<span className="dist-chip">📍 {dist}</span>}
           <span className="avail">🟡 Disponibilité à confirmer</span>
         </div>
@@ -592,7 +593,7 @@ export function RegisterPage({ onBack, lang }) {
     } catch {}
   }, []);
   const [form, setForm] = useState({
-    name: "", service: "", city: "", phone: "", whatsapp: "", address: "", bio: "", years_exp: "", tags: "", photos: []
+    name: "", service: "", city: "", phone: "", whatsapp: "", address: "", bio: "", years_exp: "", tags: "", service_details: "", service_area: "", languages: [], availability: "", photos: []
   });
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
@@ -773,14 +774,56 @@ export function RegisterPage({ onBack, lang }) {
             </div>
 
             <div className="reg-field">
-              <label className="reg-label">Specialites (separees par virgule)</label>
+              <label className="reg-label">Spécialités (séparées par virgule)</label>
               <input className="reg-input"
                 placeholder="Ex: Urgences, Chauffe-eau, Hammam"
                 value={form.tags} onChange={e => update("tags", e.target.value)}/>
             </div>
 
             <div className="reg-field">
-              <label className="reg-label">📸 Photos de vos travaux <span className="reg-optional">(optionnel)</span></label>
+              <label className="reg-label">Décrivez vos services • تفاصيل الخدمة</label>
+              <textarea className="reg-textarea"
+                placeholder="Ex: Installation et réparation de chauffe-eau, rénovation de salle de bain, recherche de fuite..."
+                value={form.service_details} onChange={e => update("service_details", e.target.value)} rows={4}/>
+            </div>
+
+            <div className="reg-field">
+              <label className="reg-label">Zones d'intervention • مناطق الخدمة</label>
+              <input className="reg-input"
+                placeholder="Ex: Maarif, Anfa, Bourgogne et centre-ville"
+                value={form.service_area} onChange={e => update("service_area", e.target.value)}/>
+            </div>
+
+            <div className="reg-field">
+              <label className="reg-label">Langues • اللغات</label>
+              <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+                {["Français","Darija","Arabe","Anglais"].map(l => (
+                  <button key={l} type="button"
+                    className={"reg-service-btn " + (form.languages.includes(l) ? "active" : "")}
+                    onClick={() => update("languages", form.languages.includes(l)
+                      ? form.languages.filter(x => x !== l)
+                      : [...form.languages, l])}
+                    style={{padding:'9px 12px',minWidth:90}}>
+                    {l}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="reg-field">
+              <label className="reg-label">Disponibilité • التوفر</label>
+              <select className="reg-select" value={form.availability} onChange={e => update("availability", e.target.value)}>
+                <option value="">À préciser</option>
+                <option>Sur rendez-vous</option>
+                <option>En semaine</option>
+                <option>Soir et week-end</option>
+                <option>Urgences selon disponibilité</option>
+                <option>24h/24 selon disponibilité</option>
+              </select>
+            </div>
+
+            <div className="reg-field">
+              <label className="reg-label">📸 Photos de vos travaux <span className="reg-optional">(aperçu local pour le moment)</span></label>
               <div className="reg-photo-upload" onClick={() => document.getElementById("photo-input").click()}>
                 <input id="photo-input" type="file" accept="image/*" multiple style={{display:"none"}}
                   onChange={e => {
@@ -1304,6 +1347,34 @@ function ProfilePage({worker, onClose}) {
             <h3 className="profile-section-title">À propos • عن المعلم</h3>
             <p className="profile-bio">{worker.bio}</p>
           </div>
+
+          {worker.service_details && (
+            <div className="profile-section">
+              <h3 className="profile-section-title">Services proposés • الخدمات</h3>
+              <p className="profile-bio">{worker.service_details}</p>
+            </div>
+          )}
+
+          {worker.service_area && (
+            <div className="profile-section">
+              <h3 className="profile-section-title">Zones d'intervention • مناطق الخدمة</h3>
+              <div className="profile-address"><span className="profile-address-icon">📍</span><span>{worker.service_area}</span></div>
+            </div>
+          )}
+
+          {worker.availability && (
+            <div className="profile-section">
+              <h3 className="profile-section-title">Disponibilité • التوفر</h3>
+              <p className="profile-bio">{worker.availability}</p>
+            </div>
+          )}
+
+          {worker.languages && worker.languages.length > 0 && (
+            <div className="profile-section">
+              <h3 className="profile-section-title">Langues • اللغات</h3>
+              <div className="profile-tags">{worker.languages.map(l => <span key={l} className="profile-tag">{l}</span>)}</div>
+            </div>
+          )}
 
           {/* SPECIALITIES */}
           {worker.tags && worker.tags.length > 0 && (
