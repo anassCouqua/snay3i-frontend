@@ -285,7 +285,7 @@ function WorkerCard({worker,index,userLoc}){
       {modal && <ContactModal worker={worker} onClose={()=>setModal(false)}/>}
       {chat && <ChatWindow worker={worker} onClose={()=>setChat(false)}/>}
       {profile && <ProfilePage worker={worker} onClose={()=>setProfile(false)}/>}
-      <div className="card" role="button" tabIndex={0} onClick={()=>setProfile(true)} onKeyDown={e=>{if(e.key==="Enter"||e.key===" ")setProfile(true);}} style={{animationDelay:`${index*80}ms`}}>
+      <div className="card" onClick={()=>setProfile(true)} style={{animationDelay:`${index*80}ms`}}>
         {/* Zellige corner */}
         <div className="card-zel-corner">
           <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
