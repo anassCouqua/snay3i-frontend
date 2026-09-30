@@ -781,14 +781,14 @@ export function RegisterPage({ onBack, lang }) {
             </div>
 
             <div className="reg-field">
-              <label className="reg-label">Décrivez vos services • تفاصيل الخدمة</label>
+              <label className="reg-label">Décrivez vos services • تفاصيل الخدمة <span className="reg-required">*</span></label>
               <textarea className="reg-textarea"
                 placeholder="Ex: Installation et réparation de chauffe-eau, rénovation de salle de bain, recherche de fuite..."
                 value={form.service_details} onChange={e => update("service_details", e.target.value)} rows={4}/>
             </div>
 
             <div className="reg-field">
-              <label className="reg-label">Zones d'intervention • مناطق الخدمة</label>
+              <label className="reg-label">Zones d'intervention • مناطق الخدمة <span className="reg-required">*</span></label>
               <input className="reg-input"
                 placeholder="Ex: Maarif, Anfa, Bourgogne et centre-ville"
                 value={form.service_area} onChange={e => update("service_area", e.target.value)}/>
@@ -864,7 +864,7 @@ export function RegisterPage({ onBack, lang }) {
             <div className="reg-btn-row">
               <button className="reg-btn-ghost" onClick={() => setStep(2)}>← Retour</button>
               <button className="reg-btn-primary"
-                disabled={submitting || !form.bio}
+                disabled={submitting || !form.bio || !form.service_details || !form.service_area}
                 onClick={handleSubmit}>
                 {submitting ? "⌛ Inscription..." : "🚀 Publier mon profil"}
               </button>
