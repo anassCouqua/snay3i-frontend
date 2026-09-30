@@ -21,9 +21,11 @@ const INDEXABLE_BLOG_SLUGS = [
   'hammam-beldi-maison-maroc-darija',
 ];
 
-const INDEXABLE_SERVICE_CITY_ROUTES = require('../src/service-city-index-routes.json');
+// Local directory pages remain available to visitors, but are temporarily excluded
+// from the indexable AdSense-facing corpus while richer first-party profile data is built.
+const INDEXABLE_SERVICE_CITY_ROUTES = [];
 
-const CORE_ROUTES = ['/', '/about', '/blog', '/contact', '/privacy', '/terms', '/editorial-policy', '/outils', '/outils/comparateur-devis', '/outils/calculateur-peinture', '/outils/calculateur-carrelage', '/outils/checklist-renovation', '/outils/planificateur-budget-renovation', '/outils/brief-artisan'];
+const CORE_ROUTES = ['/', '/about', '/blog', '/contact', '/privacy', '/terms', '/editorial-policy', '/observatoire-artisans-maroc', '/outils', '/outils/comparateur-devis', '/outils/calculateur-peinture', '/outils/calculateur-carrelage', '/outils/checklist-renovation', '/outils/planificateur-budget-renovation', '/outils/brief-artisan'];
 
 module.exports = {
   INDEXABLE_BLOG_SLUGS,
