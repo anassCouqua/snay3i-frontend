@@ -1402,6 +1402,7 @@ function ProfileUpdateModal({worker, onClose}) {
 function ProfilePage({worker, onClose}) {
   const [bg] = avatarColor(worker.name);
   const [showChat, setShowChat] = useState(false);
+  const [showUpdateRequest, setShowUpdateRequest] = useState(false);
 
   return (
     <div className="profile-overlay" onClick={onClose}>
@@ -1421,6 +1422,10 @@ function ProfilePage({worker, onClose}) {
             <span className="profile-dot">•</span>
             <span>📍 {worker.city}</span>
           </div>
+          <div className="profile-state-row">
+            <span className="profile-state-chip">✓ Fiche publique</span>
+            <span className="profile-state-chip">🟡 Disponibilité à confirmer</span>
+          </div>
         </div>
 
         {/* BODY */}
@@ -1428,17 +1433,17 @@ function ProfilePage({worker, onClose}) {
 
           {/* ACTION BUTTONS */}
           <div className="profile-actions">
-            <a href={"tel:"+worker.phone} className="profile-btn-call">
+            <a href={"tel:"+worker.phone} className="profile-btn-call" onClick={()=>trackLeadEvent('call','profile_'+worker.service)}>
               <span>📞</span>
               <span>Appeler</span>
             </a>
-            <a onClick={()=>trackEvent('whatsapp_click','profile_'+worker.service)} href={"https://wa.me/"+(worker.whatsapp||"").replace(/\D/g,"")} target="_blank" rel="noreferrer" className="profile-btn-wa">
+            <a onClick={()=>{trackEvent('whatsapp_click','profile_'+worker.service);trackLeadEvent('whatsapp','profile_'+worker.service);}} href={"https://wa.me/"+(worker.whatsapp||"").replace(/\D/g,"")} target="_blank" rel="noreferrer" className="profile-btn-wa">
               <span>💬</span>
               <span>WhatsApp</span>
             </a>
             <button className="profile-btn-chat" onClick={()=>setShowChat(true)}>
-              <span>✉️</span>
-              <span>Message</span>
+              <span>🤖</span>
+              <span>Assistant</span>
             </button>
           </div>
 
@@ -1527,12 +1532,11 @@ function ProfilePage({worker, onClose}) {
 
           {/* REVIEWS */}
           <ReviewsSection worker={worker} apiBase={API_BASE}/>
-          {/* Demander un devis */}
-          <div className="profile-devis">
-            <span className="profile-devis-icon">📋</span>
+          <div className="profile-contact-tip">
+            <div className="profile-contact-tip-icon">📋</div>
             <div>
-              <strong>Demander un devis</strong>
-              <p>Contactez ce professionnel pour demander un devis et confirmer les conditions</p>
+              <strong>Besoin d'un devis ?</strong>
+              <p>Décrivez votre besoin, la ville et les travaux à réaliser, puis utilisez WhatsApp ou le téléphone pour confirmer le prix et la disponibilité.</p>
             </div>
           </div>
           <div className="srow join-row" onClick={()=>window.scrollTo({top:0,behavior:'smooth'})}>
