@@ -1509,3 +1509,189 @@ body{
 }
 .join-row:hover { border-color: #C4622D !important; background: rgba(196,98,45,0.04); }
 
+
+
+/* ══ PROFILE UX POLISH ═════════════════════════════════════════════ */
+.profile-state-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+.profile-state-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.14);
+  border: 1px solid rgba(255,255,255,.18);
+  color: rgba(255,255,255,.9);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .1px;
+}
+
+.profile-actions {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  margin: -4px -4px 0;
+  padding: 6px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.94);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(13,27,42,.08);
+}
+.profile-btn-call,
+.profile-btn-wa,
+.profile-btn-chat {
+  min-height: 62px;
+  justify-content: center;
+}
+.profile-btn-call:focus-visible,
+.profile-btn-wa:focus-visible,
+.profile-btn-chat:focus-visible,
+.profile-back:focus-visible {
+  outline: 3px solid rgba(212,168,67,.65);
+  outline-offset: 2px;
+}
+
+.profile-contact-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: var(--terra-l);
+  border: 1.5px solid #F0D8CC;
+  border-radius: 16px;
+}
+.profile-contact-tip-icon {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border-radius: 12px;
+  background: rgba(196,98,45,.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+}
+.profile-contact-tip strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--terra);
+  font-size: 14px;
+}
+.profile-contact-tip p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.profile-update-request {
+  display: flex;
+  justify-content: flex-end;
+  margin: -4px 0 0;
+}
+.profile-update-request button {
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--terra);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.profile-update-request button:hover {
+  border-color: var(--terra);
+  background: var(--terra-l);
+}
+
+@media(max-width:480px){
+  .profile-overlay {
+    align-items: stretch;
+  }
+  .profile-page {
+    height: 100vh;
+    max-width: none;
+    border-radius: 0;
+  }
+  .profile-hero {
+    padding: 18px 16px 22px;
+    gap: 8px;
+  }
+  .profile-back {
+    top: 12px;
+    left: 12px;
+    width: 40px;
+    height: 40px;
+  }
+  .profile-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+  }
+  .profile-name {
+    font-size: 21px;
+    text-align: center;
+    max-width: 88%;
+  }
+  .profile-meta {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .profile-state-row {
+    max-width: 100%;
+    padding: 0 4px;
+  }
+  .profile-body {
+    padding: 14px 14px calc(20px + env(safe-area-inset-bottom));
+    gap: 12px;
+  }
+  .profile-actions {
+    margin: -2px -2px 0;
+    padding: 5px;
+    border-radius: 16px;
+  }
+  .profile-btn-call,
+  .profile-btn-wa,
+  .profile-btn-chat {
+    min-height: 58px;
+    padding: 10px 6px;
+    border-radius: 12px;
+    font-size: 11px;
+  }
+  .profile-btn-call span:first-child,
+  .profile-btn-wa span:first-child,
+  .profile-btn-chat span:first-child {
+    font-size: 20px;
+  }
+  .profile-section {
+    padding: 14px;
+    border-radius: 14px;
+  }
+  .profile-photos,
+  .profile-photos-empty {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .profile-photos-hint {
+    grid-column: 1 / -1;
+  }
+  .profile-update-request {
+    justify-content: center;
+  }
+  .profile-update-request button {
+    width: 100%;
+    min-height: 42px;
+  }
+  .profile-contact-tip {
+    padding: 14px;
+  }
+}
