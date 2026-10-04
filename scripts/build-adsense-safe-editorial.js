@@ -1058,6 +1058,20 @@ ${support2}
 </body></html>`;
 }
 
+// Generate the exact same six articles for the React runtime so the client-side
+// blog cannot expose the retired legacy corpus.
+const safeRuntimeFile = path.join(root, 'src', 'adsense-safe-articles.js');
+const runtimeArticles = ARTICLES.map(({slug, lang, title, description, hero, detail, support2, heroAlt, detailAlt, support2Alt, content}) => ({
+  slug, lang, title, description, hero, detail, support2, heroAlt, detailAlt, support2Alt, content,
+  category: lang === 'ary' ? 'Darija' : 'Guides pratiques',
+  emoji: '🧰',
+  date: lang === 'ary' ? '4 أكتوبر 2026' : '4 octobre 2026',
+  readTime: 'Guide pratique',
+  datePublished: '2026-10-04',
+  dateModified: '2026-10-04'
+}));
+fs.writeFileSync(safeRuntimeFile, 'export const SAFE_ARTICLES = ' + JSON.stringify(runtimeArticles) + ';\n', 'utf8');
+
 fs.mkdirSync(blogRoot,{recursive:true});
 for(const a of ARTICLES){
   const dir=path.join(blogRoot,a.slug);
