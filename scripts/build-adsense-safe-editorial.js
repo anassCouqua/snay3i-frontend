@@ -17,6 +17,8 @@ const ARTICLES = [
     detail: U('photo-1530124566582-a618bc2615dc'),
     heroAlt: 'Outils de bricolage préparés pour une intervention à domicile',
     detailAlt: 'Artisan travaillant avec des outils manuels dans un atelier',
+    support2: U('photo-1581094288338-2314dddb7ece'),
+    support2Alt: 'Artisan préparant du matériel pour une intervention',
     content: `
 ## Commencez par définir précisément le besoin
 
@@ -140,12 +142,14 @@ Snay3i.ma permet de rechercher des professionnels par métier et par ville. Util
   {
     slug: 'questions-avant-travaux-artisan-maroc',
     lang: 'fr',
-    title: '7 questions à poser à un artisan avant de commencer les travaux',
+    title: '7 questions à poser à un artisan avant les travaux',
     description: 'Sept questions simples pour clarifier le projet, le prix, les matériaux, le délai et les conditions avant de commencer des travaux au Maroc.',
     hero: U('photo-1768321902097-1d85e7735c5f'),
     detail: U('photo-1768321902794-c24fb1f00661'),
     heroAlt: 'Intérieur en cours de rénovation avec matériaux visibles',
     detailAlt: 'Chantier de rénovation préparé avant les finitions',
+    support2: U('photo-1621905252507-b35492cc74b4'),
+    support2Alt: 'Chantier résidentiel avant la phase de finition',
     content: `
 ## 1. Avez-vous bien compris les travaux ?
 
@@ -265,12 +269,14 @@ Vous pouvez ensuite utiliser Snay3i.ma pour rechercher des professionnels par m�
   {
     slug: 'comparer-devis-travaux-maroc',
     lang: 'fr',
-    title: 'Comment comparer deux devis de travaux au Maroc sans choisir uniquement le moins cher',
+    title: 'Comment comparer deux devis de travaux au Maroc',
     description: 'Une méthode pratique pour comparer plusieurs devis de travaux au Maroc en regardant le contenu, les matériaux, les délais et les conditions.',
     hero: U('photo-1589939705384-5185137a7f0f'),
     detail: U('photo-1562259949-e8e7689d7828'),
     heroAlt: 'Travaux de peinture intérieure pendant une rénovation',
     detailAlt: 'Matériel de peinture préparé avant une intervention',
+    support2: U('photo-1556912167-f556f1f39fdf'),
+    support2Alt: 'Intérieur de logement en cours de préparation pour des travaux',
     content: `
 ## Commencez par le périmètre des travaux
 
@@ -398,12 +404,14 @@ C'est cette clarté qui vous permet de prendre une décision plus sereine.
   {
     slug: 'preparer-renovation-maison-maroc',
     lang: 'fr',
-    title: 'Préparer une rénovation de maison au Maroc : dans quel ordre organiser les travaux ?',
+    title: 'Préparer une rénovation de maison au Maroc : ordre des travaux',
     description: 'Guide pratique pour structurer une rénovation au Maroc, définir les lots, éviter les reprises inutiles et préparer les devis.',
     hero: U('photo-1503387762-592deb58ef4e'),
     detail: U('photo-1768321902794-c24fb1f00661'),
     heroAlt: 'Maison en chantier pendant une phase de rénovation',
     detailAlt: 'Travaux intérieurs préparés avant les finitions',
+    support2: U('photo-1497366754035-f200968a6e72'),
+    support2Alt: 'Intérieur de maison préparé pour plusieurs étapes de rénovation',
     content: `
 ## Commencez par observer le logement
 
@@ -528,12 +536,14 @@ Snay3i.ma met à disposition des guides et des outils gratuits pour préparer vo
   {
     slug: 'brief-clair-artisan-maroc',
     lang: 'fr',
-    title: 'Comment préparer un brief clair pour un artisan avant de demander un devis',
+    title: 'Préparer un brief clair pour un artisan avant un devis',
     description: 'Préparez un message utile pour un artisan : informations, photos, dimensions, contraintes et questions à inclure avant de demander un devis.',
     hero: U('photo-1530124566582-a618bc2615dc'),
     detail: U('photo-1504148455328-c376907d081c'),
     heroAlt: 'Artisan prenant des mesures sur un projet',
     detailAlt: 'Outils prêts pour préparer une intervention',
+    support2: U('photo-1524758631624-e2822e304c36'),
+    support2Alt: 'Outils et matériel disposés pour préparer une intervention',
     content: `
 ## Pourquoi préparer un brief ?
 
@@ -651,6 +661,37 @@ C'est d'arriver plus rapidement à une conversation précise.
 Le professionnel sait ce que vous demandez. Vous savez quelles informations comparer. Et lorsque le projet nécessite une visite, vous arrivez à cette étape avec une base commune.
 
 Snay3i.ma propose un outil gratuit de brief artisan pour vous aider à structurer votre demande avant de contacter un professionnel.
+
+## Une demande précise ne veut pas dire une demande compliquée
+
+Un bon brief peut rester court.
+
+Ce qui compte, c'est que l'artisan sache rapidement :
+
+- ce qui doit être réalisé ;
+- où se trouve le chantier ;
+- quelles sont les contraintes principales ;
+- quelles informations vous pouvez fournir immédiatement ;
+- et quelle réponse vous attendez.
+
+Vous pouvez aussi préciser ce que vous ne savez pas encore. Écrire « je ne sais pas si la fuite vient du raccord ou du mur » est plus utile que de choisir vous-même une réparation qui n'a peut-être pas de sens.
+
+## Quand une visite sur place est nécessaire
+
+Certaines interventions peuvent être préparées par message, mais une estimation sérieuse nécessite parfois une visite.
+
+C'est notamment le cas lorsque le professionnel doit vérifier les dimensions, l'état d'un support, l'accès au chantier ou un élément qui n'est pas visible sur les photos.
+
+Dans ce cas, ne demandez pas forcément un prix définitif avant la visite. Demandez plutôt ce que le professionnel doit vérifier et quels éléments pourront ensuite apparaître dans le devis.
+
+## Gardez une version de votre brief
+
+Lorsque vous envoyez la même demande à plusieurs professionnels, gardez une copie du message.
+
+Vous pourrez ensuite comparer les réponses sur les mêmes informations.
+
+Si votre projet change, mettez à jour votre brief et indiquez clairement ce qui a changé. Cela évite qu'un professionnel travaille sur une ancienne version de votre demande.
+
 `
   },
   {
@@ -662,6 +703,8 @@ Snay3i.ma propose un outil gratuit de brief artisan pour vous aider à structure
     detail: D('TFhl8b-rRPg'),
     heroAlt: 'كوزينة مودرن فيها خدمة وتجهيزات واضحة',
     detailAlt: 'فضاء مغربي مرتب كيجمع بين التشطيب والاستعمال اليومي',
+    support2: D('eTmXAuuCsL8'),
+    support2Alt: 'مثال ديال فضاء مرتب قبل ما تبدا الأشغال',
     content: `
 ## قبل ما تقارن الثمن، قارن الخدمة
 
@@ -803,6 +846,56 @@ Snay3i.ma propose un outil gratuit de brief artisan pour vous aider à structure
 
 إلى كانت هاد النقاط واضحة، غادي يكون عندك أساس مزيان باش تقارن.
 
+## إلا كان الفرق كبير بين جوج ديفيات
+
+إلى لقيتي واحد الديفي بعيد بزاف على الآخر، ما تديرش الحكم مباشرة.
+
+رجع للسطر ديال الأشغال، المواد والكميات. ممكن واحد حسب الخدمة كاملة والآخر حسب غير اليد العاملة. وممكن واحد شاف مشكل فالمكان واحتسب وقت أو مواد إضافية.
+
+سول الصنايعي على سبب الفرق بطريقة مباشرة ومحترمة. مثلاً:
+
+«شنو داخل فالديفي ديالك اللي ما داخلش فالثاني؟»
+
+و:
+
+«واش كاين شي مواد ولا خدمة خاصها تتزاد من بعد؟»
+
+هاد الأسئلة كتخليك تفهم الفرق بدل ما تبدا مفاوضة على رقم مازال ما واضحش.
+
+## وخا يكون الديفي واضح، خاص المعاينة فبعض المشاريع
+
+كاينين أشغال ما يمكنش يتحدد الثمن ديالها مزيان غير بالصور.
+
+إلى كان المشكل مخبي، ولا القياسات ناقصة، ولا الخدمة مرتبطة بالهيكل، العزل، الكهرباء أو الشبكات داخل الحيطان، ممكن الصنايعي يحتاج يشوف المكان قبل ما يعطيك ثمن نهائي.
+
+الديفي اللي واضح من البداية أحسن من رقم سريع ومن بعد كيبدا يتبدل مع كل خطوة.
+
+## إلا تبدلات الخدمة وسط المشروع
+
+إلى بان شي مشكل جديد، ما تفترضش أن الزيادة داخلة تلقائياً.
+
+سول شنو تبدل، علاش تبدل، وشحال غادي يزيد فالثمن إلا كان كاين تغيير.
+
+إلى كان ممكن، خلي الموافقة على الأشغال الإضافية واضحة قبل ما تبدا هاد الأشغال.
+
+## آخر حاجة قبل ما تقول نعم
+
+خلي عندك جواب واضح على هاد الأسئلة:
+
+شنو غادي يتدار؟
+
+شنو ما غاديش يتدار؟
+
+شنو المواد اللي داخلة؟
+
+شحال المدة التقريبية؟
+
+كيفاش غادي يكون الأداء؟
+
+وشنو غادي يوقع إلا تبدلات الأشغال؟
+
+إلى بقاو شي حوايج غامضين، حسن تسول عليهم قبل البداية.
+
 Snay3i.ma فيه حتى أداة مجانية باش تعاونك ترتب مقارنة الديفيات وتعرف شنو خاصك توضحو مع الصنايعي.
 
 ## إلا كان الفرق كبير بين جوج ديفيات
@@ -908,6 +1001,7 @@ function renderArticle(a) {
   const author=isDarija?'فريق تحرير Snay3i.ma':'Rédaction Snay3i.ma';
   const methodLink=isDarija?'طريقة التحرير ديالنا':'Méthode éditoriale et à propos';
   const support=photoFigure(a.detail,a.detailAlt,false);
+  const support2=photoFigure(a.support2,a.support2Alt,false);
   const hero=photoFigure(a.hero,a.heroAlt,true);
   const schema={
     '@context':'https://schema.org',
@@ -969,6 +1063,7 @@ ${hero}
 ${bodyA}
 ${support}
 ${bodyB}
+${support2}
 </section>
 <section data-snay3i-action-module="1"${isDarija?' lang="ary" dir="rtl"':''}>
 <h2>${isDarija?'قبل ما تبدا: دير هاد التحقق':'Avant de commencer : vérifiez ces points'}</h2>
