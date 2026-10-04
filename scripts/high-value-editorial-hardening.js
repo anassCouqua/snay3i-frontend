@@ -235,8 +235,11 @@ for(const slug of INDEXABLE_BLOG_SLUGS){
   const file=path.join(blogRoot,slug,'index.html');
   if(!fs.existsSync(file)){failures.push(slug+': missing file');continue;}
   const mod=modules[slug];
-  if(!mod){failures.push(slug+': missing high-value module');continue;}
   let html=fs.readFileSync(file,'utf8');
+  if(!mod){
+    if(/data-snay3i-action-module=["']1["']/i.test(html)) continue;
+    failures.push(slug+': missing high-value module');continue;
+  }
   html=html.replace(/\s*<section[^>]*data-snay3i-action-module=["']1["'][^>]*>[\s\S]*?<\/section>\s*/gi,'\n');
   const isDarija=/<html[^>]*lang=["']ary["']/i.test(html);
   const section=`<section data-snay3i-action-module="1"${isDarija?' lang="ary" dir="rtl"':''}><h2>${esc(mod.heading)}</h2><p>${esc(mod.intro)}</p><ul>${mod.items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><p><a href="${mod.tool}"><strong>${esc(mod.label)} →</strong></a> · <a href="/editorial-policy">${isDarija?'كيفاش كنراجعو المحتوى':'Comment nous préparons et corrigeons nos guides'}</a></p></section>`;
