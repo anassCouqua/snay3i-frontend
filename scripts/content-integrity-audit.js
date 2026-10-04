@@ -1,29 +1,16 @@
 const fs = require('fs');
 const path = require('path');
+const { INDEXABLE_BLOG_SLUGS } = require('./site-curation-config');
 
 const root = path.join(__dirname, '..');
 const blogRoot = path.join(root, 'public', 'blog');
 const rules = {
-  'trouver-bon-plombier-maroc': ['plombier','plomberie','fuite','canalisation'],
-  'tarif-electricien-maroc-2026': ['electricien','électricien','électricité','disjoncteur','tableau'],
-  'renovation-maison-maroc-guide': ['rénovation','renovation','maison','travaux'],
-  'climatisation-maroc-installation': ['climatisation','climatiseur','entretien','installation'],
-  'serrurier-urgence-maroc': ['serrurier','serrure','porte','clé'],
-  'choisir-carreleur-maroc': ['carreleur','carrelage','zellige'],
-  'macon-construction-maroc': ['maçon','macon','maçonnerie','construction','béton'],
-  'urgence-plomberie-casablanca': ['plomberie','plombier','fuite','eau','casablanca'],
-  'petites-reparations-bricoleur-maison-maroc': ['bricoleur','réparation','fixation','maison','étagère'],
-  'repeindre-maison-maroc-guide': ['peinture','peintre','mur','couleur','finition'],
-  'rangement-sur-mesure-menuisier-maroc': ['menuisier','menuiserie','rangement','meuble','bois'],
-  'nettoyage-profond-maison-guide': ['nettoyage','ménage','poussière','cuisine','salle de bain'],
-  'creer-beau-jardin-maroc': ['jardin','jardinier','plantes','arrosage','sol'],
-  'projet-soudure-ferronnerie-maroc': ['soudeur','soudure','ferronnerie','métal','portail'],
-  'jardin-anglais-maroc-darija': ['جردة','النباتات','السقي','التربة','garden'],
-  'cuisine-moderne-zero-maroc-darija': ['الكوزينة','التخزين','الكهرباء','الماء','kitchen'],
-  'escalier-suspendu-maison-maroc-darija': ['الدرج','structure','الحداد','garde-corps','escalier'],
-  'open-space-maison-maroc-darija': ['open space','الكوزينة','الصوت','الخصوصية','structure'],
-  'villa-riad-piscine-jardin-maroc-darija': ['riad','المسبح','الجردة','الزليج','patio'],
-  'hammam-beldi-maison-maroc-darija': ['الحمام','البخار','الصرف','tadelakt','ventilation']
+  'guide-trouver-artisan-fiable-maroc': ['artisan','travaux','professionnel','devis','service'],
+  'questions-avant-travaux-artisan-maroc': ['artisan','devis','travaux','matériaux','paiement'],
+  'comparer-devis-travaux-maroc': ['devis','travaux','matériaux','prix','chantier'],
+  'preparer-renovation-maison-maroc': ['rénovation','travaux','chantier','artisan','maison'],
+  'brief-clair-artisan-maroc': ['artisan','devis','projet','demande','chantier'],
+  'comparer-devis-travaux-maroc-darija': ['الديفي','الصنايعي','الأشغال','المواد','الثمن']
 };
 
 function decode(s){return s.replace(/&amp;/gi,'&').replace(/&lt;/gi,'<').replace(/&gt;/gi,'>').replace(/&quot;/gi,'"').replace(/&#39;|&apos;/gi,"'").replace(/&nbsp;/gi,' ');}
@@ -47,7 +34,9 @@ function imageInfo(html){
 
 if(!fs.existsSync(blogRoot)) throw new Error('[integrity] public/blog missing');
 const failures=[]; const rows=[]; const externalPhotoOwner=new Map();
-for(const [slug,tokens] of Object.entries(rules)){
+for(const slug of INDEXABLE_BLOG_SLUGS){
+  const tokens = rules[slug] || [];
+  if (!tokens.length) { failures.push(`${slug}: topic rules missing`); continue; }
   const file=path.join(blogRoot,slug,'index.html');
   if(!fs.existsSync(file)){failures.push(`${slug}: missing canonical page`);continue;}
   const html=fs.readFileSync(file,'utf8');
