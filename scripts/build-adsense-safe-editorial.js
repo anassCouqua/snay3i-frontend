@@ -102,7 +102,7 @@ Sur Snay3i.ma, les informations publiées sur une fiche servent à faciliter la 
 
 Une promesse très précise mérite une question précise.
 
-Par exemple, si une annonce promet une intervention « immédiate » ou un résultat « garanti », demandez ce que cela signifie concrètement.
+Par exemple, si une annonce promet une intervention « immédiate » ou un résultat présenté comme « certain », demandez ce que cela signifie concrètement.
 
 Qui intervient ? Dans quel délai ? Qu'est-ce qui est compris ? Quelles sont les conditions ?
 
