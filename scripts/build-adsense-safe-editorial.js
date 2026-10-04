@@ -407,7 +407,7 @@ C'est cette clarté qui vous permet de prendre une décision plus sereine.
     title: 'Préparer une rénovation de maison au Maroc : ordre des travaux',
     description: 'Guide pratique pour structurer une rénovation au Maroc, définir les lots, éviter les reprises inutiles et préparer les devis.',
     hero: U('photo-1503387762-592deb58ef4e'),
-    detail: U('photo-1768321902794-c24fb1f00661'),
+    detail: U('photo-1505691938895-1758d7feb511'),
     heroAlt: 'Maison en chantier pendant une phase de rénovation',
     detailAlt: 'Travaux intérieurs préparés avant les finitions',
     support2: U('photo-1497366754035-f200968a6e72'),
@@ -538,8 +538,8 @@ Snay3i.ma met à disposition des guides et des outils gratuits pour préparer vo
     lang: 'fr',
     title: 'Préparer un brief clair pour un artisan avant un devis',
     description: 'Préparez un message utile pour un artisan : informations, photos, dimensions, contraintes et questions à inclure avant de demander un devis.',
-    hero: U('photo-1530124566582-a618bc2615dc'),
-    detail: U('photo-1504148455328-c376907d081c'),
+    hero: U('photo-1484154218962-a197022b5858'),
+    detail: U('photo-1538688525198-9b88f6f53126'),
     heroAlt: 'Artisan prenant des mesures sur un projet',
     detailAlt: 'Outils prêts pour préparer une intervention',
     support2: U('photo-1524758631624-e2822e304c36'),
@@ -845,31 +845,6 @@ Si votre projet change, mettez à jour votre brief et indiquez clairement ce qui
 وشنو غادي يوقع إلا تبدلات الأشغال.
 
 إلى كانت هاد النقاط واضحة، غادي يكون عندك أساس مزيان باش تقارن.
-
-## إلا كان الفرق كبير بين جوج ديفيات
-
-إلى لقيتي واحد الديفي بعيد بزاف على الآخر، ما تديرش الحكم مباشرة.
-
-رجع للسطر ديال الأشغال، المواد والكميات. ممكن واحد حسب الخدمة كاملة والآخر حسب غير اليد العاملة. وممكن واحد شاف مشكل فالمكان واحتسب وقت أو مواد إضافية.
-
-سول الصنايعي على سبب الفرق بطريقة مباشرة ومحترمة. مثلاً:
-
-«شنو داخل فالديفي ديالك اللي ما داخلش فالثاني؟»
-
-و:
-
-«واش كاين شي مواد ولا خدمة خاصها تتزاد من بعد؟»
-
-هاد الأسئلة كتخليك تفهم الفرق بدل ما تبدا مفاوضة على رقم مازال ما واضحش.
-
-## وخا يكون الديفي واضح، خاص المعاينة فبعض المشاريع
-
-كاينين أشغال ما يمكنش يتحدد الثمن ديالها مزيان غير بالصور.
-
-إلى كان المشكل مخبي، ولا القياسات ناقصة، ولا الخدمة مرتبطة بالهيكل، العزل، الكهرباء أو الشبكات داخل الحيطان، ممكن الصنايعي يحتاج يشوف المكان قبل ما يعطيك ثمن نهائي.
-
-الديفي اللي واضح من البداية أحسن من رقم سريع ومن بعد كيبدا يتبدل مع كل خطوة.
-
 ## إلا تبدلات الخدمة وسط المشروع
 
 إلى بان شي مشكل جديد، ما تفترضش أن الزيادة داخلة تلقائياً.
