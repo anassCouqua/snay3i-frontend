@@ -11,7 +11,7 @@ const ARTICLES = [
   {
     slug: 'guide-trouver-artisan-fiable-maroc',
     lang: 'fr',
-    title: 'Comment trouver un artisan fiable au Maroc : une méthode simple avant de commencer',
+    title: 'Comment trouver un artisan fiable au Maroc : méthode avant travaux',
     description: 'Une méthode pratique pour chercher un artisan au Maroc, préparer sa demande, comparer les réponses et clarifier les conditions avant les travaux.',
     hero: U('photo-1504148455328-c376907d081c'),
     detail: U('photo-1530124566582-a618bc2615dc'),
