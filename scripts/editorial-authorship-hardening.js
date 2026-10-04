@@ -4,9 +4,9 @@ const { INDEXABLE_BLOG_SLUGS } = require('./site-curation-config');
 
 const root = path.join(__dirname, '..');
 const blogRoot = path.join(root, 'public', 'blog');
-const DATE_ISO = '2026-08-31';
-const DATE_FR = '31 août 2026';
-const DATE_DARIJA = '31 غشت 2026';
+const DATE_ISO = '2026-10-04';
+const DATE_FR = '4 octobre 2026';
+const DATE_DARIJA = '4 أكتوبر 2026';
 const AUTHOR = 'Rédaction Snay3i.ma';
 
 function decode(value='') {
