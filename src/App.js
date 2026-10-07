@@ -623,8 +623,21 @@ export function RegisterPage({ onBack, lang }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
-      if (!res.ok) throw new Error("Erreur lors de l inscription");
-      setDone(true);
+      const created = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(created.detail || "Erreur lors de l'inscription");
+
+      const submissionRes = await fetch(`${API_BASE}/profile-submissions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          worker_id: created.id,
+          acquisition_source: payload.acquisition_source
+        })
+      });
+      const submission = await submissionRes.json().catch(() => ({}));
+      if (!submissionRes.ok) throw new Error(submission.detail || "Votre fiche a été enregistrée, mais la demande de publication n'a pas pu être créée.");
+
+            setDone(true);
     } catch(e) {
       setError(e.message);
     }
@@ -633,11 +646,11 @@ export function RegisterPage({ onBack, lang }) {
 
   if (done) return (
     <div className="reg-success">
-      <div className="reg-success-icon">🎉</div>
-      <h2 className="reg-success-title">Bienvenue sur Snay3i.ma !</h2>
-      <p className="reg-success-sub">Votre profil a été créé. Vérifiez les informations affichées et gardez-les à jour pour aider les clients à vous contacter.</p>
-      <p className="reg-success-ar">مرحباً بك في صنايعي.ما — ملفك الآن متاح للعملاء</p>
-      <button className="reg-btn-primary" onClick={onBack}>Voir mon profil →</button>
+      <div className="reg-success-icon">✅</div>
+      <h2 className="reg-success-title">Demande reçue !</h2>
+      <p className="reg-success-sub">Votre fiche a bien été enregistrée. Nous vérifions les informations avant de la rendre publique sur Snay3i.ma.</p>
+      <p className="reg-success-ar">تم تسجيل ملفك وسنراجع المعلومات قبل نشره</p>
+      <button className="reg-btn-primary" onClick={onBack}>Retour à Snay3i.ma →</button>
     </div>
   );
 
