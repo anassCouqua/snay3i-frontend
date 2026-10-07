@@ -1412,13 +1412,119 @@ function ProfileUpdateModal({worker, onClose}) {
 }
 
 // ── PROFILE PAGE ──────────────────────────────────────────────────
+function QuoteRequestModal({worker, onClose}) {
+  const [name,setName]=useState("");
+  const [phone,setPhone]=useState("");
+  const [email,setEmail]=useState("");
+  const [requestText,setRequestText]=useState("");
+  const [timing,setTiming]=useState("");
+  const [website,setWebsite]=useState("");
+  const [sending,setSending]=useState(false);
+  const [done,setDone]=useState(false);
+  const [error,setError]=useState("");
+
+  const submit=async()=>{
+    if(name.trim().length<2 || phone.trim().length<8 || requestText.trim().length<15){
+      setError("Ajoutez votre nom, un téléphone et décrivez les travaux à réaliser.");
+      return;
+    }
+    setSending(true); setError("");
+    try{
+      const res=await fetch(`${API_BASE}/quote-requests`,{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          worker_id:worker.id,
+          requester_name:name.trim(),
+          requester_phone:phone.trim(),
+          requester_email:email.trim(),
+          request_text:requestText.trim(),
+          preferred_timing:timing,
+          website
+        })
+      });
+      const data=await res.json().catch(()=>({}));
+      if(!res.ok) throw new Error(data.detail||"Impossible d'envoyer la demande.");
+      trackLeadEvent("quote_request","profile_"+worker.service);
+      setDone(true);
+    }catch(e){setError(e.message||"Impossible d'envoyer la demande.");}
+    finally{setSending(false);}
+  };
+
+  return(
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-card" onClick={e=>e.stopPropagation()} style={{maxWidth:600}}>
+        <button className="modal-close" onClick={onClose}>✕</button>
+        {!done ? (
+          <>
+            <div className="modal-header" style={{background:"#0D1B2A"}}>
+              <div className="modal-header-inner">
+                <div className="modal-avatar" style={{background:"rgba(255,255,255,0.12)",color:"#fff"}}>🧾</div>
+                <div className="modal-identity">
+                  <h2 className="modal-name">Demander un devis</h2>
+                  <p className="modal-service">{worker.name} · {catLabel(worker.service)} · {worker.city}</p>
+                </div>
+              </div>
+            </div>
+            <div className="modal-body">
+              <p style={{fontSize:13,color:"#6F6A64",lineHeight:1.6}}>Décrivez votre besoin. La demande est transmise pour traitement ; confirmez ensuite les détails directement avec le professionnel.</p>
+              <div className="reg-field">
+                <label className="reg-label">Votre nom *</label>
+                <input className="reg-input" value={name} onChange={e=>setName(e.target.value)} placeholder="Nom complet"/>
+              </div>
+              <div className="reg-field">
+                <label className="reg-label">Téléphone *</label>
+                <input className="reg-input" type="tel" value={phone} onChange={e=>setPhone(e.target.value)} placeholder="06 XX XX XX XX"/>
+              </div>
+              <div className="reg-field">
+                <label className="reg-label">Email (facultatif)</label>
+                <input className="reg-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="vous@example.com"/>
+              </div>
+              <div className="reg-field">
+                <label className="reg-label">Travaux à réaliser *</label>
+                <textarea className="reg-textarea" rows={6} value={requestText} onChange={e=>setRequestText(e.target.value)} placeholder="Ex: fuite sous l'évier, peinture de deux pièces, pose de carrelage dans une salle de bain..."/>
+              </div>
+              <div className="reg-field">
+                <label className="reg-label">Quand souhaitez-vous intervenir ?</label>
+                <select className="reg-select" value={timing} onChange={e=>setTiming(e.target.value)}>
+                  <option value="">À préciser</option>
+                  <option>Dès que possible</option>
+                  <option>Cette semaine</option>
+                  <option>La semaine prochaine</option>
+                  <option>À convenir</option>
+                </select>
+              </div>
+              <input value={website} onChange={e=>setWebsite(e.target.value)} tabIndex="-1" autoComplete="off" aria-hidden="true" style={{position:"absolute",left:"-10000px",width:1,height:1,opacity:0}}/>
+              {error && <p className="reg-error">{error}</p>}
+              <div style={{fontSize:11,color:"#8A8178",lineHeight:1.5,marginBottom:14}}>N'envoyez pas de documents d'identité ou d'autres informations sensibles.</div>
+              <div style={{display:"flex",gap:10}}>
+                <button className="reg-btn-ghost" onClick={onClose}>Annuler</button>
+                <button className="reg-btn-primary" disabled={sending} onClick={submit}>{sending?"⌛ Envoi...":"Envoyer la demande"}</button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="modal-body" style={{textAlign:"center",padding:"42px 28px"}}>
+            <div style={{fontSize:46,marginBottom:12}}>✅</div>
+            <h2 style={{color:"#0D1B2A"}}>Demande envoyée</h2>
+            <p style={{color:"#6F6A64",lineHeight:1.7}}>Votre demande a bien été enregistrée. Confirmez le prix, le délai et les conditions directement avec le professionnel.</p>
+            <button className="reg-btn-primary" onClick={onClose}>Fermer</button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function ProfilePage({worker, onClose}) {
   const [bg] = avatarColor(worker.name);
   const [showChat, setShowChat] = useState(false);
+  const [showQuoteRequest, setShowQuoteRequest] = useState(false);
   const [showUpdateRequest, setShowUpdateRequest] = useState(false);
 
   return (
     <div className="profile-overlay" onClick={onClose}>
+      {showQuoteRequest && <QuoteRequestModal worker={worker} onClose={()=>setShowQuoteRequest(false)}/>} 
       <div className="profile-page" onClick={e=>e.stopPropagation()}>
 
         {/* HEADER */}
@@ -1446,6 +1552,10 @@ function ProfilePage({worker, onClose}) {
 
           {/* ACTION BUTTONS */}
           <div className="profile-actions">
+            <button className="profile-btn-chat" onClick={()=>setShowQuoteRequest(true)}>
+              <span>🧾</span>
+              <span>Demander un devis</span>
+            </button>
             <a href={"tel:"+worker.phone} className="profile-btn-call" onClick={()=>trackLeadEvent('call','profile_'+worker.service)}>
               <span>📞</span>
               <span>Appeler</span>
