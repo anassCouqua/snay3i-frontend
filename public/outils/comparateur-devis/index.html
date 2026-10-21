@@ -54,6 +54,21 @@ body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;background:#f
 <p>Une phrase très générale comme « rénovation complète », « installation comprise » ou « dépannage » peut cacher des interprétations différentes. Pour une salle de bain, par exemple, précisez si la dépose, la plomberie, l’électricité, l’étanchéité, le carrelage, les sanitaires et l’évacuation des gravats sont inclus.</p>
 <p>Pour une urgence, demandez au minimum le coût du déplacement ou du diagnostic avant l’arrivée du professionnel, puis faites confirmer les travaux supplémentaires une fois la cause identifiée. Ne validez pas une extension du chantier si le nouveau montant ou le nouveau périmètre n’est pas clair.</p>
 </section>
+<section id="questions-avant-intervention">
+<h2>Deux messages à envoyer avant l’intervention</h2>
+<p>Les frais de déplacement ou de diagnostic et les travaux ajoutés sur place doivent être clarifiés avant de donner votre accord. Adaptez ces messages au chantier et gardez une réponse écrite.</p>
+<div class="quote">
+<h3>Avant le déplacement ou le diagnostic</h3>
+<p id="message-frais-deplacement">Bonjour, avant de confirmer votre déplacement, pouvez-vous préciser le coût du déplacement et/ou du diagnostic, ce que ce montant comprend, s’il est déduit du prix si je vous confie les travaux, et si un devis sera validé avant toute réparation ? Merci.</p>
+<div class="actions"><button class="secondary" type="button" data-copy-template="message-frais-deplacement">Copier ce message</button></div>
+</div>
+<div class="quote">
+<h3>Si le périmètre des travaux change</h3>
+<p id="message-travaux-supplementaires">Merci de me préciser par écrit le problème constaté, les travaux indispensables et ceux qui sont optionnels, le nouveau périmètre, le montant total supplémentaire, les matériaux et le délai. Je souhaite confirmer ces éléments avant le début des travaux supplémentaires.</p>
+<div class="actions"><button class="secondary" type="button" data-copy-template="message-travaux-supplementaires">Copier ce message</button></div>
+</div>
+<p id="template-copy-status" class="muted" role="status" aria-live="polite">Vous pouvez adapter les messages à votre situation avant de les envoyer.</p>
+</section>
 <section>
 <h2>Limites de l’outil</h2>
 <p>Ce comparateur est une aide à l’organisation. Il ne vérifie pas l’identité, les qualifications, les assurances, les références ou la qualité d’un professionnel, et il ne remplace pas un contrat, un devis conforme aux règles applicables ou un avis technique. Les prix et pratiques peuvent varier selon le métier, la ville, l’urgence, le logement et les matériaux.</p>
@@ -161,5 +176,24 @@ function resetQuotes(){
     });
   });
 })();
+<script>
+(function(){
+  const status=document.getElementById('template-copy-status');
+  document.querySelectorAll('[data-copy-template]').forEach(button=>{
+    button.addEventListener('click',async()=>{
+      const target=document.getElementById(button.getAttribute('data-copy-template'));
+      if(!target||!status)return;
+      const text=target.innerText.trim();
+      try{
+        if(!navigator.clipboard||!navigator.clipboard.writeText)throw new Error('Clipboard API unavailable');
+        await navigator.clipboard.writeText(text);
+        status.textContent='Message copié. Vous pouvez le coller dans votre SMS ou votre messagerie.';
+      }catch(error){
+        status.textContent='La copie automatique n’a pas fonctionné. Sélectionnez le texte du message et copiez-le manuellement.';
+      }
+    });
+  });
+})();
+</script>
 </script></body>
 </html>
