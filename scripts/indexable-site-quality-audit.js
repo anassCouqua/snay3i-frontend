@@ -170,5 +170,15 @@ if (overlaps.length) {
   console.log('[indexable gate] no page pair has 5-word shingle overlap >= 0.20');
 }
 
+const comparatorHtml = fs.readFileSync(fileFor('/outils/comparateur-devis'), 'utf8');
+for (const templateId of ['message-frais-deplacement', 'message-travaux-supplementaires']) {
+  if (!comparatorHtml.includes(`id="${templateId}"`)) failures.push('/outils/comparateur-devis: missing copyable message ' + templateId);
+  if (!comparatorHtml.includes(`data-copy-template="${templateId}"`)) failures.push('/outils/comparateur-devis: copy button missing for ' + templateId);
+}
+if (!/navigator\.clipboard\.writeText\(text\)/.test(comparatorHtml)) failures.push('/outils/comparateur-devis: clipboard action missing for message templates');
+if (!/id="template-copy-status"[^>]*aria-live="polite"/.test(comparatorHtml)) failures.push('/outils/comparateur-devis: accessible copy feedback missing');
+if (!/id="message-frais-deplacement"[^>]*>[\s\S]*?déplacement[\s\S]*?diagnostic/.test(comparatorHtml)) failures.push('/outils/comparateur-devis: pre-visit message does not clarify travel/diagnostic fees');
+if (!/id="message-travaux-supplementaires"[^>]*>[\s\S]*?montant total supplémentaire[\s\S]*?travaux supplémentaires/.test(comparatorHtml)) failures.push('/outils/comparateur-devis: scope-change message missing written amount/scope clarification');
+
 if (failures.length) throw new Error(`[indexable gate] BLOCKED (${failures.length}):\n${failures.join('\n')}`);
 console.log(`[indexable gate] PASS: ${routes.length} indexable routes pass multilingual depth, metadata, robots/canonical, ad-placement, accessibility, layout-stability and overlap checks`);
