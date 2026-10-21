@@ -171,6 +171,20 @@ if (overlaps.length) {
 }
 
 const comparatorHtml = fs.readFileSync(fileFor('/outils/comparateur-devis'), 'utf8');
+const comparatorScriptTags = comparatorHtml.match(/<\/?script\b[^>]*>/gi) || [];
+let comparatorScriptDepth = 0;
+let malformedComparatorScripts = false;
+for (const tag of comparatorScriptTags) {
+  if (/^<script\b/i.test(tag)) {
+    if (comparatorScriptDepth !== 0) malformedComparatorScripts = true;
+    comparatorScriptDepth += 1;
+  } else {
+    if (comparatorScriptDepth !== 1) malformedComparatorScripts = true;
+    comparatorScriptDepth -= 1;
+  }
+}
+if (malformedComparatorScripts || comparatorScriptDepth !== 0) failures.push('/outils/comparateur-devis: malformed or nested script tags');
+
 for (const templateId of ['message-frais-deplacement', 'message-travaux-supplementaires']) {
   if (!comparatorHtml.includes(`id="${templateId}"`)) failures.push('/outils/comparateur-devis: missing copyable message ' + templateId);
   if (!comparatorHtml.includes(`data-copy-template="${templateId}"`)) failures.push('/outils/comparateur-devis: copy button missing for ' + templateId);
