@@ -30,7 +30,6 @@ const allRoutes = [...CORE_ROUTES, ...INDEXABLE_SERVICE_CITY_ROUTES, ...blogRout
 
 for (const route of allRoutes) setRobots(ensureRoute(route), 'index,follow');
 
-const CORE_SIGNIFICANT_LASTMOD = '2026-09-11';
 const guideLastmod = (file) => {
   const html = fs.readFileSync(file, 'utf8');
   const jsonLd = html.match(/"dateModified"\s*:\s*"(\d{4}-\d{2}-\d{2})"/i);
@@ -40,7 +39,6 @@ const guideLastmod = (file) => {
 };
 const lastmod = (route) => {
   if (route.startsWith('/blog/')) return guideLastmod(ensureRoute(route));
-  if (CORE_ROUTES.includes(route)) return CORE_SIGNIFICANT_LASTMOD;
   return null;
 };
 const urls = [...new Set(allRoutes)]
