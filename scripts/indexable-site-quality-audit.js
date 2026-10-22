@@ -170,6 +170,18 @@ if (overlaps.length) {
   console.log('[indexable gate] no page pair has 5-word shingle overlap >= 0.20');
 }
 
+const blogIndexHtml = fs.readFileSync(fileFor('/blog'), 'utf8');
+const blogSlugs = [...blogIndexHtml.matchAll(/href=["']\/blog\/([^"'?#/]+)\/?(?:[?#][^"']*)?["']/g)].map((match) => match[1]);
+const uniqueBlogSlugs = [...new Set(blogSlugs)];
+const retiredBlogSlugs = [...new Set(uniqueBlogSlugs.filter((slug) => !INDEXABLE_BLOG_SLUGS.includes(slug)))];
+if (retiredBlogSlugs.length) failures.push('/blog: non-curated article links are visible: ' + retiredBlogSlugs.join(', '));
+if (uniqueBlogSlugs.length !== INDEXABLE_BLOG_SLUGS.length || INDEXABLE_BLOG_SLUGS.some((slug) => !uniqueBlogSlugs.includes(slug))) {
+  failures.push('/blog: expected exactly the six curated guides; found ' + uniqueBlogSlugs.length);
+}
+if (/plus de 100 artisans|tous nos artisans sont vérifiés|vérifiés dans 21 villes/i.test(blogIndexHtml)) {
+  failures.push('/blog: unsupported historical directory claims remain');
+}
+
 const comparatorHtml = fs.readFileSync(fileFor('/outils/comparateur-devis'), 'utf8');
 const comparatorScriptTags = comparatorHtml.match(/<\/?script\b[^>]*>/gi) || [];
 let comparatorScriptDepth = 0;
