@@ -4,7 +4,7 @@ const { INDEXABLE_BLOG_SLUGS } = require('./site-curation-config');
 
 const root = path.join(__dirname, '..');
 const blogRoot = path.join(root, 'public', 'blog');
-const modified = '2026-09-10';
+const modified = '2026-10-22';
 
 const modules = {
   'trouver-bon-plombier-maroc': {
@@ -226,8 +226,7 @@ const modules = {
       'خلي الكهرباء والإنارة بعيدة على الارتجال وخلي المختص يحدد الحل المناسب للمكان.'
     ],
     tool: '/outils/checklist-renovation', label: 'تبع المراحل قبل التشطيب'
-  }
-,
+  },
   'guide-trouver-artisan-fiable-maroc': {
     heading: 'Préparer une demande qu’un professionnel peut réellement chiffrer',
     intro: 'Avant de juger une réponse, donnez à chaque professionnel le même point de départ. Cette fiche ne pose pas le diagnostic à sa place : elle décrit ce que vous observez et ce que vous attendez.',
@@ -328,11 +327,11 @@ for(const slug of INDEXABLE_BLOG_SLUGS){
   }
   html=html.replace(/\s*<section[^>]*data-snay3i-action-module=["']1["'][^>]*>[\s\S]*?<\/section>\s*/gi,'\n');
   const isDarija=/<html[^>]*lang=["']ary["']/i.test(html);
-  const section=`<section data-snay3i-action-module="1"${isDarija?' lang="ary" dir="rtl"':''}><h2>${esc(mod.heading)}</h2><p>${esc(mod.intro)}</p><ul>${mod.items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>${mod.example?`<div data-snay3i-case-example="1" style="margin:18px 0;padding:16px 18px;border-left:4px solid #b34f24;background:#faf6ef;border-radius:10px"><h3 style="margin:0 0 8px;font-size:17px">${esc(mod.exampleTitle||"Exemple à adapter")}</h3><p style="margin:0;white-space:normal">${esc(mod.example).replace(/\\n/g,"<br>")}</p></div>`:""}<p><a href="${mod.tool}"><strong>${esc(mod.label)} →</strong></a> · <a href="/editorial-policy">${isDarija?'كيفاش كنراجعو المحتوى':'Comment nous préparons et corrigeons nos guides'}</a></p></section>`;
+  const section=`<section data-snay3i-action-module="1"${isDarija?' lang="ary" dir="rtl"':''}><h2>${esc(mod.heading)}</h2><p>${esc(mod.intro)}</p><ul>${mod.items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>${mod.example?`<div data-snay3i-case-example="1" style="margin:18px 0;padding:16px 18px;border-left:4px solid #b34f24;background:#faf6ef;border-radius:10px"><h3 style="margin:0 0 8px;font-size:17px">${esc(mod.exampleTitle||"Exemple à adapter")}</h3><p style="margin:0;white-space:normal">${esc(mod.example).replace(/\n/g,"<br>")}</p></div>`:""}<p><a href="${mod.tool}"><strong>${esc(mod.label)} →</strong></a> · <a href="/editorial-policy">${isDarija?'كيفاش كنراجعو المحتوى':'Comment nous préparons et corrigeons nos guides'}</a></p></section>`;
   if(!/<\/article>/i.test(html)){failures.push(slug+': article closing tag missing');continue;}
   html=html.replace(/<\/article>/i,section+'</article>');
   html=html.replace(/"dateModified":"\d{4}-\d{2}-\d{2}"/g,`"dateModified":"${modified}"`);
-  html=html.replace(/<time datetime="\d{4}-\d{2}-\d{2}" data-date-modified="1">[\s\S]*?<\/time>/i,isDarija?`<time datetime="${modified}" data-date-modified="1">10 شتنبر 2026</time>`:`<time datetime="${modified}" data-date-modified="1">10 septembre 2026</time>`);
+  html=html.replace(/<time datetime="\d{4}-\d{2}-\d{2}" data-date-modified="1">[\s\S]*?<\/time>/i,isDarija?`<time datetime="${modified}" data-date-modified="1">22 أكتوبر 2026</time>`:`<time datetime="${modified}" data-date-modified="1">22 octobre 2026</time>`);
   fs.writeFileSync(file,html,'utf8');
 }
 for(const slug of INDEXABLE_BLOG_SLUGS){
