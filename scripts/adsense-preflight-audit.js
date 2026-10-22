@@ -25,6 +25,19 @@ for(const slug of INDEXABLE_BLOG_SLUGS){
   const route='/blog/'+slug,h=fs.readFileSync(fileFor(route),'utf8');
   if(!hasServingCode(h)) failures.push(route+': AdSense serving code missing on monetizable editorial page');
   checkId(route,h);
+  const schemaTag=h.match(/<script type=["']application\\/ld\\+json["']>([\\s\\S]*?)<\\/script>/i);
+  const pubTime=h.match(/<time datetime=["']([^"']+)["'][^>]*data-date-published=["']1["']/i);
+  const modTime=h.match(/<time datetime=["']([^"']+)["'][^>]*data-date-modified=["']1["']/i);
+  let schema=null;
+  try{schema= schemaTag ? JSON.parse(schemaTag[1]) : null;}catch{schema=null;}
+  if(!schema) failures.push(route+': BlogPosting structured data missing or invalid');
+  else {
+    if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(schema.datePublished||'')) failures.push(route+': datePublished missing or invalid');
+    if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(schema.dateModified||'')) failures.push(route+': dateModified missing or invalid');
+    if(schema.datePublished>schema.dateModified) failures.push(route+': structured data modification date predates publication');
+    if(!pubTime||pubTime[1]!==schema.datePublished) failures.push(route+': visible publication date disagrees with structured data');
+    if(!modTime||modTime[1]!==schema.dateModified) failures.push(route+': visible modification date disagrees with structured data');
+  }
 }
 for(const route of [...CORE_ROUTES.filter(r=>r!=='/'),...INDEXABLE_SERVICE_CITY_ROUTES]){
   const h=fs.readFileSync(fileFor(route),'utf8');
