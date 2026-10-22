@@ -182,6 +182,24 @@ if (/plus de 100 artisans|tous nos artisans sont vérifiés|vérifiés dans 21 v
   failures.push('/blog: unsupported historical directory claims remain');
 }
 
+const appSource = fs.readFileSync(path.join(process.cwd(), 'src', 'App.js'), 'utf8');
+const publisherGuideSection = appSource.match(/<section data-publisher-guides="1"[\\s\\S]*?<\\/section>/i);
+if (!publisherGuideSection) {
+  failures.push('homepage: publisher guide section missing from React source');
+} else {
+  const appGuideSlugs = [...publisherGuideSection[0].matchAll(/href=["']\\/blog\\/([^"'?#/]+)\\/?(?:[?#][^"']*)?["']/g)].map((match) => match[1]);
+  const uniqueAppGuideSlugs = [...new Set(appGuideSlugs)];
+  const staleAppGuides = [...new Set(uniqueAppGuideSlugs.filter((slug) => !INDEXABLE_BLOG_SLUGS.includes(slug)))];
+  if (staleAppGuides.length) failures.push('homepage: retired article link(s) in React guide section: ' + staleAppGuides.join(', '));
+  if (uniqueAppGuideSlugs.length !== INDEXABLE_BLOG_SLUGS.length || INDEXABLE_BLOG_SLUGS.some((slug) => !uniqueAppGuideSlugs.includes(slug))) {
+    failures.push('homepage: expected all six curated guides exactly once in the React guide section; found ' + uniqueAppGuideSlugs.length);
+  }
+}
+const oldAppGuideLinks = [...appSource.matchAll(/href=["']\\/blog\\/([^"'?#/]+)\\/?(?:[?#][^"']*)?["']/g)]
+  .map((match) => match[1])
+  .filter((slug) => !INDEXABLE_BLOG_SLUGS.includes(slug));
+if (oldAppGuideLinks.length) failures.push('homepage: retired blog URLs remain elsewhere in React source: ' + [...new Set(oldAppGuideLinks)].join(', '));
+
 const comparatorHtml = fs.readFileSync(fileFor('/outils/comparateur-devis'), 'utf8');
 const comparatorScriptTags = comparatorHtml.match(/<\/?script\b[^>]*>/gi) || [];
 let comparatorScriptDepth = 0;
