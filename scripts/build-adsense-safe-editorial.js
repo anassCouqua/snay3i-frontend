@@ -933,23 +933,34 @@ function inlineMd(v) {
 
 function markdownToHtml(markdown) {
   const lines = String(markdown).replace(/\r/g,'').split('\n');
-  const out=[]; let p=[]; let list=null;
-  const flush=()=>{ if(!p.length) return; out.push(`<p>${inlineMd(esc(p.join(' ').trim()))}</p>`); p=[]; };
-  const close=()=>{ if(!list) return; out.push(`</${list}>`); list=null; };
+  const out=[]; let p=[]; let list=null; let tableRows=[];
+  const flush=()=>{ if(!p.length) return; out.push('<p>'+inlineMd(esc(p.join(' ').trim()))+'</p>'); p=[]; };
+  const close=()=>{ if(!list) return; out.push('</'+list+'>'); list=null; };
+  const flushTable=()=>{
+    if(!tableRows.length) return;
+    const parsed=tableRows.map((line)=>line.trim().replace(/^\|/,'').replace(/\|$/,'').split('|').map((cell)=>cell.trim()));
+    const rows=parsed.filter((cells)=>!cells.length || !cells.every((cell)=>/^:?-{3,}:?$/.test(cell)));
+    tableRows=[];
+    if(rows.length<2) return;
+    const headers=rows[0];
+    const headerHtml=headers.map((cell)=>'<th scope="col">'+inlineMd(esc(cell))+'</th>').join('');
+    const bodyHtml=rows.slice(1).map((cells)=>'<tr>'+headers.map((_,i)=>'<td>'+inlineMd(esc(cells[i]||''))+'</td>').join('')+'</tr>').join('');
+    out.push('<div class="table-wrap" role="region" aria-label="Tableau de comparaison" tabindex="0"><table><thead><tr>'+headerHtml+'</tr></thead><tbody>'+bodyHtml+'</tbody></table></div>');
+  };
   for (const raw of lines) {
     const line=raw.trim();
-    if(!line){ flush(); close(); continue; }
+    if(!line){ flush(); close(); flushTable(); continue; }
+    if(/^\|.*\|$/.test(line)){ flush(); close(); tableRows.push(line); continue; }
+    flushTable();
     const h2=line.match(/^##\s+(.+)$/);
-    if(h2){ flush(); close(); out.push(`<h2>${inlineMd(esc(h2[1]))}</h2>`); continue; }
+    if(h2){ flush(); close(); out.push('<h2>'+inlineMd(esc(h2[1]))+'</h2>'); continue; }
     const ol=line.match(/^\d+\.\s+(.+)$/);
-    if(ol){ flush(); if(list!=='ol'){ close(); out.push('<ol>'); list='ol'; } out.push(`<li>${inlineMd(esc(ol[1]))}</li>`); continue; }
+    if(ol){ flush(); if(list!=='ol'){ close(); out.push('<ol>'); list='ol'; } out.push('<li>'+inlineMd(esc(ol[1]))+'</li>'); continue; }
     const ul=line.match(/^[-*]\s+(.+)$/);
-    if(ul){ flush(); if(list!=='ul'){ close(); out.push('<ul>'); list='ul'; } out.push(`<li>${inlineMd(esc(ul[1]))}</li>`); continue; }
-    const table=line.startsWith('|');
-    if(table){ flush(); continue; }
+    if(ul){ flush(); if(list!=='ul'){ close(); out.push('<ul>'); list='ul'; } out.push('<li>'+inlineMd(esc(ul[1]))+'</li>'); continue; }
     close(); p.push(line);
   }
-  flush(); close(); return out.join('\n');
+  flush(); close(); flushTable(); return out.join('\n');
 }
 
 function photoFigure(src, alt, hero) {
@@ -1021,7 +1032,7 @@ h1{font-size:34px;line-height:1.2;margin:0 0 12px}
 h2{font-size:22px;color:#0d1b2a;margin-top:30px}
 .article p,.article li{font-size:17px}
 .meta{color:#6f6a64;font-size:14px}
-figure{margin-left:0;margin-right:0}
+figure{margin-left:0;margin-right:0}.table-wrap{max-width:100%;overflow-x:auto;margin:20px 0;border:1px solid #e8e0d4;border-radius:12px;background:#fff}.table-wrap table{width:100%;border-collapse:collapse;min-width:480px}.table-wrap th,.table-wrap td{padding:11px 12px;border-bottom:1px solid #e8e0d4;text-align:left;vertical-align:top}.table-wrap th{background:#f4eee4;color:#0d1b2a;font-weight:700}.table-wrap tbody tr:last-child td{border-bottom:0}
 a{color:#b34f24}
 @media(max-width:640px){main{padding:24px 14px}h1{font-size:28px}.article p,.article li{font-size:16px}section{padding:20px}}
 </style>
