@@ -78,6 +78,40 @@ function metaContent(html, name) {
 
 const failures = [];
 const rows = [];
+const sitemapPath = path.join(publicRoot, 'sitemap.xml');
+const robotsPath = path.join(publicRoot, 'robots.txt');
+if (!fs.existsSync(sitemapPath)) {
+  failures.push('sitemap.xml: generated sitemap missing');
+} else {
+  const sitemapHtml = fs.readFileSync(sitemapPath, 'utf8');
+  const urlBlocks = [...sitemapHtml.matchAll(/<url>([\s\S]*?)<\/url>/gi)].map((match) => match[1]);
+  const sitemapUrls = urlBlocks.map((block) => ((block.match(/<loc>([^<]+)<\/loc>/i) || [null, ''])[1]));
+  const expectedUrls = routes.map((route) => 'https://snay3i.ma' + (route === '/' ? '/' : route)).sort();
+  const sortedSitemapUrls = [...sitemapUrls].sort();
+  if (sitemapUrls.some((url) => !url)) failures.push('sitemap.xml: one or more URL entries have no <loc>');
+  if (new Set(sitemapUrls).size !== sitemapUrls.length) failures.push('sitemap.xml: duplicate canonical URLs found');
+  if (JSON.stringify(sortedSitemapUrls) !== JSON.stringify(expectedUrls)) {
+    const missing = expectedUrls.filter((url) => !sitemapUrls.includes(url));
+    const extra = sitemapUrls.filter((url) => !expectedUrls.includes(url));
+    failures.push('sitemap.xml: must contain exactly the curated indexable routes; missing [' + missing.join(', ') + '], extra [' + extra.join(', ') + ']');
+  }
+  const blocksByUrl = new Map(urlBlocks.map((block) => [((block.match(/<loc>([^<]+)<\/loc>/i) || [null, ''])[1]), block]));
+  for (const slug of INDEXABLE_BLOG_SLUGS) {
+    const route = '/blog/' + slug;
+    const articleHtml = fs.readFileSync(fileFor(route), 'utf8');
+    const modified = (articleHtml.match(/"dateModified"\s*:\s*"(\d{4}-\d{2}-\d{2})"/i) || [null, ''])[1];
+    const block = blocksByUrl.get('https://snay3i.ma' + route);
+    if (!modified) failures.push(route + ': dateModified missing while validating sitemap lastmod');
+    else if (!block || !block.includes('<lastmod>' + modified + '</lastmod>')) failures.push(route + ': sitemap lastmod does not match BlogPosting dateModified');
+  }
+}
+if (!fs.existsSync(robotsPath)) {
+  failures.push('robots.txt: file missing');
+} else {
+  const robotsText = fs.readFileSync(robotsPath, 'utf8');
+  if (!/^\s*Sitemap:\s*https:\/\/snay3i\.ma\/sitemap\.xml\s*$/im.test(robotsText)) failures.push('robots.txt: canonical sitemap declaration missing');
+}
+
 for (const route of routes) {
   const file = fileFor(route);
   if (!fs.existsSync(file)) {
@@ -223,6 +257,16 @@ if (!/navigator\.clipboard\.writeText\(text\)/.test(comparatorHtml)) failures.pu
 if (!/id="template-copy-status"[^>]*aria-live="polite"/.test(comparatorHtml)) failures.push('/outils/comparateur-devis: accessible copy feedback missing');
 if (!/id="message-frais-deplacement"[^>]*>[\s\S]*?déplacement[\s\S]*?diagnostic/.test(comparatorHtml)) failures.push('/outils/comparateur-devis: pre-visit message does not clarify travel/diagnostic fees');
 if (!/id="message-travaux-supplementaires"[^>]*>[\s\S]*?montant total supplémentaire[\s\S]*?travaux supplémentaires/.test(comparatorHtml)) failures.push('/outils/comparateur-devis: scope-change message missing written amount/scope clarification');
+
+for (const route of ['/blog/questions-avant-travaux-artisan-maroc', '/blog/comparer-devis-travaux-maroc']) {
+  const articleHtml = fs.readFileSync(fileFor(route), 'utf8');
+  if (!/<div class="table-wrap"[^>]*><table><thead><tr>/.test(articleHtml)) {
+    failures.push(route + ': comparison table is missing or was not rendered as semantic HTML');
+  }
+  if (!/<th scope="col">/.test(articleHtml) || !/<tbody>[\s\S]*?<\/tbody>/.test(articleHtml)) {
+    failures.push(route + ': comparison table must include accessible column headings and body rows');
+  }
+}
 
 if (failures.length) throw new Error(`[indexable gate] BLOCKED (${failures.length}):\n${failures.join('\n')}`);
 console.log(`[indexable gate] PASS: ${routes.length} indexable routes pass multilingual depth, metadata, robots/canonical, ad-placement, accessibility, layout-stability and overlap checks`);
