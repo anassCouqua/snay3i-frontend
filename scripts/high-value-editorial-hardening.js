@@ -4,7 +4,7 @@ const { INDEXABLE_BLOG_SLUGS } = require('./site-curation-config');
 
 const root = path.join(__dirname, '..');
 const blogRoot = path.join(root, 'public', 'blog');
-const modified = '2026-09-10';
+const modified = '2026-10-22';
 
 const modules = {
   'trouver-bon-plombier-maroc': {
@@ -226,6 +226,91 @@ const modules = {
       'خلي الكهرباء والإنارة بعيدة على الارتجال وخلي المختص يحدد الحل المناسب للمكان.'
     ],
     tool: '/outils/checklist-renovation', label: 'تبع المراحل قبل التشطيب'
+  },
+  'guide-trouver-artisan-fiable-maroc': {
+    heading: 'Préparer une demande qu’un professionnel peut réellement chiffrer',
+    intro: 'Avant de juger une réponse, donnez à chaque professionnel le même point de départ. Cette fiche ne pose pas le diagnostic à sa place : elle décrit ce que vous observez et ce que vous attendez.',
+    items: [
+      'Décrivez le symptôme ou le résultat souhaité, la pièce concernée et depuis quand le problème existe.',
+      'Indiquez la ville ou le quartier, le type de logement et les contraintes d’accès utiles au rendez-vous.',
+      'Ajoutez des photos générales et rapprochées uniquement si elles peuvent être prises sans danger.',
+      'Demandez séparément le déplacement, le diagnostic, la main-d’œuvre et les fournitures lorsque ces frais peuvent s’appliquer.',
+      'Vérifiez le nom et le numéro du contact, puis gardez par écrit les points convenus pour le rendez-vous.'
+    ],
+    exampleTitle: 'Exemple de demande assez précise',
+    example: 'Bonjour, je suis à [quartier, ville]. Je souhaite faire examiner [problème observé] dans [pièce ou zone]. Le problème est apparu [moment / fréquence]. Je peux envoyer des photos. Avant de fixer le rendez-vous, pouvez-vous préciser vos frais de déplacement ou de diagnostic, et comment le coût des réparations sera confirmé après inspection ?',
+    tool: '/outils/brief-artisan', label: 'Créer un brief artisan'
+  },
+  'questions-avant-travaux-artisan-maroc': {
+    heading: 'Les réponses à obtenir avant le premier coup d’outil',
+    intro: 'Une réponse utile doit permettre de comprendre ce qui est prévu et ce qui reste à décider. Les questions ci-dessous sont à adapter au métier et à l’importance du chantier.',
+    items: [
+      'Périmètre : quelles opérations sont incluses, et lesquelles restent à la charge du client ?',
+      'Coût : le montant inclut-il déplacement, diagnostic, fournitures, consommables, évacuation et finitions ?',
+      'Matériaux : qui achète les fournitures et quelles références ou caractéristiques seront utilisées ?',
+      'Calendrier : quelle date de début est possible, quelle durée est estimée et qu’est-ce qui pourrait la modifier ?',
+      'Paiement : quel acompte éventuel est demandé, à quoi correspond-il et quand le solde devient-il dû ?',
+      'Changement : comment le supplément de travail et son prix seront-ils confirmés avant de commencer ?'
+    ],
+    exampleTitle: 'Une question à envoyer avant le déplacement',
+    example: 'Pour éviter tout malentendu, pouvez-vous me confirmer par écrit le coût du déplacement ou du diagnostic, si ce montant est déduit des travaux en cas d’accord, et à quel moment vous me communiquerez une estimation avant toute réparation ?',
+    tool: '/outils/comparateur-devis', label: 'Comparer les réponses et les devis'
+  },
+  'comparer-devis-travaux-maroc': {
+    heading: 'Faire une comparaison à périmètre égal',
+    intro: 'Une grille ne devrait pas transformer des informations manquantes en note de qualité. Commencez par repérer les lignes qui ne sont pas comparables et faites-les clarifier avant de choisir.',
+    items: [
+      'Recopiez les travaux dans le même ordre : préparation, dépose, réparation, pose, finitions et nettoyage, selon le projet.',
+      'Séparez les montants de main-d’œuvre, fournitures, transport et évacuation lorsqu’ils sont détaillés.',
+      'Comparez les quantités et les références de matériaux ; demandez le calcul si les chiffres diffèrent sensiblement.',
+      'Marquez chaque ligne comme incluse, exclue ou non précisée. « Non précisé » ne veut pas dire « inclus ».',
+      'Demandez une version corrigée ou une confirmation écrite si le périmètre ou le total n’est pas clair.'
+    ],
+    exampleTitle: 'Exemple fictif : deux montants, deux périmètres',
+    example: 'Devis A : pose et main-d’œuvre précisées, déplacement et évacuation non mentionnés. Devis B : déplacement inclus, mais préparation des supports non détaillée. Avant de comparer le total, demandez aux deux professionnels de confirmer ces postes et les mêmes quantités. L’exemple illustre la méthode ; il ne représente pas un tarif de marché.',
+    tool: '/outils/comparateur-devis', label: 'Ouvrir le comparateur de devis'
+  },
+  'preparer-renovation-maison-maroc': {
+    heading: 'Ordonner les décisions avant de lancer les finitions',
+    intro: 'Le calendrier dépend du logement et des métiers choisis. Cette séquence est un aide-mémoire de coordination, pas un ordre technique universel : les intervenants compétents doivent confirmer les dépendances du chantier.',
+    items: [
+      'Définition : relever les zones concernées, les mesures disponibles, ce qui sera conservé et le résultat attendu.',
+      'Vérifications : repérer les questions de structure, d’électricité, de gaz, de plomberie, d’étanchéité ou de ventilation à faire évaluer avant démolition.',
+      'Travaux cachés : faire confirmer les réseaux et supports nécessaires avant de refermer murs, plafonds ou sols.',
+      'Finitions : confirmer formats, teintes, sens de pose, emplacements d’équipement et disponibilité des matériaux avant commande.',
+      'Réception : tester les équipements accessibles, noter les réserves et garder les confirmations écrites des reprises à effectuer.'
+    ],
+    exampleTitle: 'Exemple de point de passage',
+    example: 'Avant la pose du carrelage, vérifiez que les interventions qui doivent passer sous le revêtement ont été planifiées et contrôlées par les professionnels concernés. Si un réseau ou un élément technique reste incertain, suspendez la finition concernée jusqu’à clarification plutôt que de compter sur une correction après fermeture.',
+    tool: '/outils/checklist-renovation', label: 'Suivre les étapes de rénovation'
+  },
+  'brief-clair-artisan-maroc': {
+    heading: 'Un modèle de brief prêt à personnaliser',
+    intro: 'Ce modèle rassemble les informations utiles sans demander au particulier de choisir lui-même une solution technique. Supprimez les champs qui ne s’appliquent pas et n’envoyez que des informations que vous acceptez de partager.',
+    items: [
+      'Décrivez le travail souhaité ou le symptôme observé, sans affirmer une cause que personne n’a vérifiée.',
+      'Ajoutez la ville, le quartier, le type de logement et les contraintes d’accès utiles.',
+      'Indiquez la période souhaitée, les photos disponibles et les informations qui manquent encore.',
+      'Demandez la visite ou les vérifications nécessaires, ainsi que la manière dont le prix sera confirmé.',
+      'Envoyez le même brief aux professionnels comparés puis conservez leurs réponses côte à côte.'
+    ],
+    exampleTitle: 'Modèle à copier puis compléter',
+    example: 'Bonjour, je cherche un professionnel pour [travail souhaité] à [quartier, ville].\nType de logement / zone : [préciser].\nCe que j’observe et depuis quand : [décrire sans poser de diagnostic].\nDimensions ou photos disponibles : [préciser].\nContraintes d’accès ou horaires : [préciser].\nPériode souhaitée : [préciser].\nPouvez-vous indiquer les informations ou la visite nécessaires avant d’établir le devis, ce qui est inclus dans le montant et les éventuels frais de déplacement ou de diagnostic ?',
+    tool: '/outils/brief-artisan', label: 'Générer et copier votre brief'
+  },
+  'comparer-devis-travaux-maroc-darija': {
+    heading: 'مثال عملي باش تقارن بين جوج ديفيات',
+    intro: 'ما تحكمش غير على الثمن النهائي. شوف واش كل ديفي كيهضر على نفس الخدمة، نفس الكميات ونفس المواد، وشنو باقي ما واضحش.',
+    items: [
+      'كتب الأشغال بنفس الترتيب: التهييء، الحيد، الإصلاح، التركيب والتشطيب على حساب المشروع.',
+      'فرق بين اليد العاملة، المواد، التنقل وجمع النفايات إلا كانو مفصلين.',
+      'إلى شي كمية ولا مادة مختلفة، سول على طريقة الحساب والمرجع قبل المقارنة.',
+      'ميز بين داخل فالثمن، ما داخلش، وما مذكورش. الحاجة اللي ما مذكوراش ماشي بالضرورة داخلة.',
+      'خلي أي تغيير فالأشغال والثمن يتأكد كتابياً قبل ما تبدا الخدمة الإضافية.'
+    ],
+    exampleTitle: 'رسالة قصيرة تقدر تصيفطها',
+    example: 'السلام عليكم، بغيت نقارن الديفي مزيان قبل ما نوافق. واش ممكن توضح ليا شنو داخل فالثمن وشنو ما داخلش؟ واش التنقل والتشخيص والمواد والتنقية محسوبين؟ وإلى بان شي عمل إضافي، واش غادي نتافقو على الثمن كتابياً قبل ما تبداو فيه؟ شكراً.',
+    tool: '/outils/comparateur-devis', label: 'حلّ مقارن الديفيات'
   }
 };
 
@@ -242,12 +327,19 @@ for(const slug of INDEXABLE_BLOG_SLUGS){
   }
   html=html.replace(/\s*<section[^>]*data-snay3i-action-module=["']1["'][^>]*>[\s\S]*?<\/section>\s*/gi,'\n');
   const isDarija=/<html[^>]*lang=["']ary["']/i.test(html);
-  const section=`<section data-snay3i-action-module="1"${isDarija?' lang="ary" dir="rtl"':''}><h2>${esc(mod.heading)}</h2><p>${esc(mod.intro)}</p><ul>${mod.items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><p><a href="${mod.tool}"><strong>${esc(mod.label)} →</strong></a> · <a href="/editorial-policy">${isDarija?'كيفاش كنراجعو المحتوى':'Comment nous préparons et corrigeons nos guides'}</a></p></section>`;
+  const section=`<section data-snay3i-action-module="1"${isDarija?' lang="ary" dir="rtl"':''}><h2>${esc(mod.heading)}</h2><p>${esc(mod.intro)}</p><ul>${mod.items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>${mod.example?`<div data-snay3i-case-example="1" style="margin:18px 0;padding:16px 18px;border-left:4px solid #b34f24;background:#faf6ef;border-radius:10px"><h3 style="margin:0 0 8px;font-size:17px">${esc(mod.exampleTitle||"Exemple à adapter")}</h3><p style="margin:0;white-space:normal">${esc(mod.example).replace(/\n/g,"<br>")}</p></div>`:""}<p><a href="${mod.tool}"><strong>${esc(mod.label)} →</strong></a> · <a href="/editorial-policy">${isDarija?'كيفاش كنراجعو المحتوى':'Comment nous préparons et corrigeons nos guides'}</a></p></section>`;
   if(!/<\/article>/i.test(html)){failures.push(slug+': article closing tag missing');continue;}
   html=html.replace(/<\/article>/i,section+'</article>');
   html=html.replace(/"dateModified":"\d{4}-\d{2}-\d{2}"/g,`"dateModified":"${modified}"`);
-  html=html.replace(/<time datetime="\d{4}-\d{2}-\d{2}" data-date-modified="1">[\s\S]*?<\/time>/i,isDarija?`<time datetime="${modified}" data-date-modified="1">10 شتنبر 2026</time>`:`<time datetime="${modified}" data-date-modified="1">10 septembre 2026</time>`);
+  html=html.replace(/<time datetime="\d{4}-\d{2}-\d{2}" data-date-modified="1">[\s\S]*?<\/time>/i,isDarija?`<time datetime="${modified}" data-date-modified="1">22 أكتوبر 2026</time>`:`<time datetime="${modified}" data-date-modified="1">22 octobre 2026</time>`);
   fs.writeFileSync(file,html,'utf8');
+}
+for(const slug of INDEXABLE_BLOG_SLUGS){
+  const file=path.join(blogRoot,slug,'index.html');
+  if(!fs.existsSync(file)){failures.push(slug+': missing article after enrichment');continue;}
+  const html=fs.readFileSync(file,'utf8');
+  if(!/data-snay3i-action-module=["']1["']/.test(html)) failures.push(slug+': topic-specific action module missing');
+  if(!/data-snay3i-case-example=["']1["']/.test(html)) failures.push(slug+': worked example or reusable template missing');
 }
 if(failures.length) throw new Error('[high value editorial] BLOCKED:\n'+failures.join('\n'));
 console.log('[high value editorial] PASS: '+INDEXABLE_BLOG_SLUGS.length+' canonical guides enriched with topic-specific action modules and truthful modification dates');

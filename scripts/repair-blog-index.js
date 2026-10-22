@@ -46,5 +46,15 @@ const cardsStart = html.indexOf('<div class="card">', start);
 const sectionEnd = html.indexOf('</section>', cardsStart);
 if (cardsStart === -1 || sectionEnd === -1) throw new Error('[blog index] Card section boundaries missing');
 html = html.slice(0, cardsStart) + cards + '\n' + html.slice(sectionEnd);
+const listedSlugs = [...html.matchAll(/href=["']\/blog\/([^"'?#/]+)\/?(?:[?#][^"']*)?["']/g)].map((match) => match[1]);
+const retiredLinks = [...new Set(listedSlugs.filter((slug) => !INDEXABLE.includes(slug)))];
+if (retiredLinks.length) throw new Error('[blog index] retired guide link(s) remain: ' + retiredLinks.join(', '));
+const uniqueListed = [...new Set(listedSlugs)];
+if (uniqueListed.length !== INDEXABLE.length || INDEXABLE.some((slug) => !uniqueListed.includes(slug))) {
+  throw new Error('[blog index] expected exactly the six curated guides; found ' + uniqueListed.length);
+}
+if (/plus de 100 artisans|tous nos artisans sont vérifiés|vérifiés dans 21 villes/i.test(html)) {
+  throw new Error('[blog index] unsupported historical directory claims remain');
+}
 fs.writeFileSync(indexFile, html, 'utf8');
 console.log(`[blog index] rebuilt ${INDEXABLE.length} canonical guide cards with article-derived summaries and relevant hero thumbnails`);
