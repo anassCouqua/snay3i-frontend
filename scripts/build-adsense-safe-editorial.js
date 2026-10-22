@@ -970,8 +970,10 @@ function renderArticle(a) {
   const isDarija=a.lang==='ary';
   const langAttr=isDarija?'ary':'fr';
   const dirAttr=isDarija?' dir="rtl"':'';
-  const date='2026-10-04';
-  const dateLabel=isDarija?'4 أكتوبر 2026':'4 octobre 2026';
+  const publishedDate='2026-10-04';
+  const modifiedDate='2026-10-22';
+  const publishedLabel=isDarija?'4 أكتوبر 2026':'4 octobre 2026';
+  const modifiedLabel=isDarija?'22 أكتوبر 2026':'22 octobre 2026';
   const canonical=`https://snay3i.ma/blog/${a.slug}`;
   const author=isDarija?'فريق تحرير Snay3i.ma':'Rédaction Snay3i.ma';
   const methodLink=isDarija?'طريقة التحرير ديالنا':'Méthode éditoriale et à propos';
@@ -985,8 +987,8 @@ function renderArticle(a) {
     description:a.description,
     inLanguage:isDarija?'ary-MA':'fr-MA',
     mainEntityOfPage:{'@type':'WebPage','@id':canonical},
-    datePublished:date,
-    dateModified:date,
+    datePublished:publishedDate,
+    dateModified:modifiedDate,
     author:{'@type':'Organization',name:'Snay3i.ma',url:'https://snay3i.ma/about'},
     publisher:{'@type':'Organization',name:'Snay3i.ma',url:'https://snay3i.ma/',logo:{'@type':'ImageObject',url:'https://snay3i.ma/logo.png'}},
     image:a.hero
@@ -1030,7 +1032,7 @@ a{color:#b34f24}
 ${hero}
 <article class="article">
 <section>
-<p class="meta"><strong>${author}</strong> · ${isDarija?'نشر ف':'Publié le'} <time datetime="${date}" data-date-published="1">${dateLabel}</time> · ${isDarija?'آخر تحديث':'Mis à jour le'} <time datetime="${date}" data-date-modified="1">${dateLabel}</time> · <a href="/about">${methodLink}</a></p>
+<p class="meta"><strong>${author}</strong> · ${isDarija?'نشر ف':'Publié le'} <time datetime="${publishedDate}" data-date-published="1">${publishedLabel}</time> · ${isDarija?'آخر تحديث':'Mis à jour le'} <time datetime="${modifiedDate}" data-date-modified="1">${modifiedLabel}</time> · <a href="/about">${methodLink}</a></p>
 <h1>${esc(a.title)}</h1>
 <p>${esc(a.description)}</p>
 </section>
@@ -1068,7 +1070,7 @@ const runtimeArticles = ARTICLES.map(({slug, lang, title, description, hero, det
   date: lang === 'ary' ? '4 أكتوبر 2026' : '4 octobre 2026',
   readTime: 'Guide pratique',
   datePublished: '2026-10-04',
-  dateModified: '2026-10-04'
+  dateModified: '2026-10-22'
 }));
 fs.writeFileSync(safeRuntimeFile, 'export const SAFE_ARTICLES = ' + JSON.stringify(runtimeArticles) + ';\n', 'utf8');
 
