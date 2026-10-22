@@ -39,4 +39,5 @@ for(const route of [...CORE_ROUTES,...INDEXABLE_SERVICE_CITY_ROUTES]){
 }
 if(!adsTxt.includes(pubId)) failures.push('ads.txt publisher ID mismatch');
 if(failures.length) throw new Error('[adsense preflight] BLOCKED ('+failures.length+'):\n'+failures.join('\n'));
-console.log('[adsense preflight] PASS: '+pubId+' matches ads.txt/site verification; tools/trust/directory pages are ad-free; ads remain limited to '+INDEXABLE_BLOG_SLUGS.length+' canonical editorial guides; CMP referrer policy present');
+console.log('[adsense preflight] PASS: '+pubId+' matches ads.txt/site verification; tools/trust/directory pages are ad-free; ads remain limited to '+INDEXABLE_BLOG_SLUGS.length+' canonical editorial guides; strict-origin referrer policies are present.');
+console.log('[adsense account check REQUIRED] This build cannot verify the account-level Google-certified CMP, published EEA/UK/Switzerland consent message, consent signals or revocation flow. Verify these in AdSense Privacy & messaging before applying.');
