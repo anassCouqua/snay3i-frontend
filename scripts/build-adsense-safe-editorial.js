@@ -109,7 +109,7 @@ Chaque information répond à une question différente. Un numéro affiché peut
 | Nom, métier, ville et numéro affichés | Préparer une première prise de contact et vérifier si le professionnel couvre votre zone | Identité contrôlée, disponibilité immédiate ou niveau de compétence |
 | Contact joint et détails confirmés directement | Confirmer que le numéro répond et que l'interlocuteur comprend votre demande | Qualification, assurance ou qualité future du chantier |
 | Photos d'une réalisation comparable | Poser des questions sur un exemple concret et demander quand et où le travail a été fait | Que la photo représente bien le travail de cette personne sans autre vérification |
-| Référence ou document présenté, lorsque c'est pertinent | Vérifier ce que le document ou la référence couvre, auprès d'une source appropriée si nécessaire | Résultat garanti, absence de risque ou adéquation automatique à votre projet |
+| Référence ou document présenté, lorsque c'est pertinent | Vérifier ce que le document ou la référence couvre, auprès d'une source appropriée si nécessaire | La qualité future du chantier ou l'adéquation automatique à votre projet |
 
 Un bon site doit expliquer précisément ce qu'un éventuel badge signifie, qui a fait la vérification et à quelle date. La confirmation d'un numéro, la confirmation par le propriétaire d'une fiche et le contrôle d'une qualification ne sont pas la même chose. Ne leur donnez pas le même poids.
 
