@@ -267,6 +267,21 @@ if (!/"dateModified":"2026-10-24"/.test(feeQuestionsHtml) ||
   failures.push('/blog/questions-avant-travaux-artisan-maroc: visible modified date must match BlogPosting dateModified after the 24 October content update');
 }
 
+const reliabilityGuideHtml = fs.readFileSync(fileFor('/blog/guide-trouver-artisan-fiable-maroc'), 'utf8');
+if (!/<div class="table-wrap"[^>]*><table><thead><tr>/.test(reliabilityGuideHtml) ||
+    !reliabilityGuideHtml.includes('Information observée') ||
+    !reliabilityGuideHtml.includes('Ce qu&#39;elle ne prouve pas')) {
+  failures.push('/blog/guide-trouver-artisan-fiable-maroc: evidence ladder must render as a semantic table');
+}
+if (!/href="\/observatoire-artisans-maroc">snapshot actuel de l’annuaire et sa méthode<\/a>/.test(reliabilityGuideHtml)) {
+  failures.push('/blog/guide-trouver-artisan-fiable-maroc: evidence ladder must link to the first-party directory snapshot');
+}
+if (!reliabilityGuideHtml.includes('36 fiches') ||
+    !/"dateModified":"2026-10-24"/.test(reliabilityGuideHtml) ||
+    !/datetime="2026-10-24" data-date-modified="1">24 octobre 2026<\/time>/.test(reliabilityGuideHtml)) {
+  failures.push('/blog/guide-trouver-artisan-fiable-maroc: dated first-party snapshot and matching updated metadata must be present');
+}
+
 for (const route of ['/blog/questions-avant-travaux-artisan-maroc', '/blog/comparer-devis-travaux-maroc']) {
   const articleHtml = fs.readFileSync(fileFor(route), 'utf8');
   if (!/<div class="table-wrap"[^>]*><table><thead><tr>/.test(articleHtml)) {
