@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Observatoire de l’annuaire Snay3i.ma — données locales et méthode</title>
-<meta name="description" content="Snapshot transparent de l’annuaire Snay3i.ma : profils publiés, métiers, villes couvertes et méthode de curation. Données datées du 30 septembre 2026.">
+<meta name="description" content="Snapshot transparent de l’annuaire Snay3i.ma : profils publiés, métiers, villes couvertes et méthode de curation. Données vérifiées en direct le 24 octobre 2026.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://snay3i.ma/observatoire-artisans-maroc">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -22,17 +22,17 @@ ul,ol{padding-left:22px}li{margin:7px 0}a{color:#a94924}
 @media(max-width:640px){main{padding:24px 14px}section{padding:20px}h1{font-size:28px}th,td{font-size:14px}}
 </style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Dataset","name":"Snapshot de l’annuaire Snay3i.ma","description":"Données de couverture de l’annuaire Snay3i.ma au 30 septembre 2026, avec méthode de curation et limites d’interprétation.","url":"https://snay3i.ma/observatoire-artisans-maroc","isAccessibleForFree":true,"inLanguage":"fr","temporalCoverage":"2026-09-30"}
+{"@context":"https://schema.org","@type":"Dataset","name":"Snapshot de l’annuaire Snay3i.ma","description":"Données de couverture de l’annuaire Snay3i.ma vérifiées en direct le 24 octobre 2026, avec méthode de curation et limites d’interprétation.","url":"https://snay3i.ma/observatoire-artisans-maroc","isAccessibleForFree":true,"inLanguage":"fr","temporalCoverage":"2026-10-24","dateModified":"2026-10-24"}
 </script>
 </head>
 <body>
 <header><nav><a href="/">Accueil</a><a href="/blog">Guides</a><a href="/outils">Outils</a><a href="/about">À propos</a><a href="/observatoire-artisans-maroc">Données & méthode</a><a href="/contact">Contact</a></nav></header>
 <main>
 <section>
-<p class="meta">Snay3i.ma · Données & curation · mise à jour : 30 septembre 2026</p>
+<p class="meta">Snay3i.ma · Données & curation · snapshot vérifié en direct le 24 octobre 2026</p>
 <h1>Ce que l’annuaire Snay3i.ma contient réellement</h1>
 <p class="lead">Cette page explique la couverture actuelle de l’annuaire à partir des profils publiés dans notre propre jeu de données. Nous publions les chiffres avec leur date et leurs limites plutôt que de transformer un petit échantillon en « moyenne du marché ».</p>
-<p>Au 30 septembre 2026, le jeu de données utilisé pour les pages locales maintenues contient <strong>36 profils publiés</strong>, répartis sur <strong>10 combinaisons métier + ville</strong>, dans <strong>5 villes</strong> et <strong>6 services</strong>. Ces nombres décrivent la couverture de Snay3i.ma à cette date ; ils ne représentent pas le nombre total d’artisans présents au Maroc.</p>
+<p>Au 24 octobre 2026, l’API publique de Snay3i.ma renvoie <strong>36 profils publiés</strong>, répartis sur <strong>10 combinaisons métier + ville</strong>, dans <strong>5 villes</strong> et <strong>6 services</strong>. Ces nombres décrivent la couverture actuelle de Snay3i.ma ; ils ne représentent pas le nombre total d’artisans présents au Maroc.</p>
 </section>
 
 <section>
@@ -62,17 +62,23 @@ ul,ol{padding-left:22px}li{margin:7px 0}a{color:#a94924}
 
 <section>
 <h2>Répartition par service</h2>
-<table><thead><tr><th>Service</th><th>Profils publiés</th><th>Présence dans le snapshot</th></tr></thead>
+<table><thead><tr><th>Service</th><th>Profils publiés</th><th>Répartition par ville</th></tr></thead>
 <tbody>
-<tr><td>Serrurerie</td><td>17</td><td>Oujda, Meknes, Casablanca</td></tr>
-<tr><td>Ménage</td><td>7</td><td>Casablanca</td></tr>
-<tr><td>Bricolage</td><td>4</td><td>Casablanca, Marrakech</td></tr>
-<tr><td>Plomberie</td><td>4</td><td>Oujda, Kenitra</td></tr>
-<tr><td>Carrelage</td><td>2</td><td>Marrakech</td></tr>
-<tr><td>Soudure / ferronnerie</td><td>2</td><td>Marrakech</td></tr>
+<tr><td>Serrurerie</td><td>17</td><td>Casablanca : 10 · Meknes : 4 · Oujda : 3</td></tr>
+<tr><td>Ménage</td><td>7</td><td>Casablanca : 7</td></tr>
+<tr><td>Bricolage</td><td>4</td><td>Casablanca : 2 · Marrakech : 2</td></tr>
+<tr><td>Plomberie</td><td>4</td><td>Oujda : 2 · Kenitra : 2</td></tr>
+<tr><td>Carrelage</td><td>2</td><td>Marrakech : 2</td></tr>
+<tr><td>Soudure / ferronnerie</td><td>2</td><td>Marrakech : 2</td></tr>
 </tbody></table>
 </section>
 
+
+<section>
+<h2>État des informations de confiance</h2>
+<p>Lors du contrôle en direct du 24 octobre 2026, aucune des 36 fiches renvoyées par l’API publique n’était marquée comme vérifiée ; les champs de note et de nombre d’avis des fiches étaient à zéro. Ce n’est pas une évaluation de la qualité des professionnels : cela signifie que Snay3i.ma ne dispose pas actuellement de données de réputation permettant de les comparer.</p>
+<p>Les fiches doivent donc être considérées comme des pistes de contact, pas comme des recommandations ni comme des profils certifiés. Avant de convenir d’une intervention, confirmez directement l’identité du professionnel, ses services, sa zone d’intervention, sa disponibilité, le prix et les conditions. Si une information semble incorrecte, signalez-la via notre <a href="/contact">page de contact</a>.</p>
+</section>
 <section>
 <h2>Comment les profils sont comptés</h2>
 <ol>
