@@ -5,6 +5,10 @@ const { INDEXABLE_BLOG_SLUGS } = require('./site-curation-config');
 const root = path.join(__dirname, '..');
 const blogRoot = path.join(root, 'public', 'blog');
 const modifiedBySlug = {
+  'guide-trouver-artisan-fiable-maroc': {
+    date: '2026-10-24',
+    frLabel: '24 octobre 2026'
+  },
   'questions-avant-travaux-artisan-maroc': {
     date: '2026-10-24',
     frLabel: '24 octobre 2026'
