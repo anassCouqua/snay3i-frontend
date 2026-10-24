@@ -258,6 +258,11 @@ if (!/id="template-copy-status"[^>]*aria-live="polite"/.test(comparatorHtml)) fa
 if (!/id="message-frais-deplacement"[^>]*>[\s\S]*?déplacement[\s\S]*?diagnostic/.test(comparatorHtml)) failures.push('/outils/comparateur-devis: pre-visit message does not clarify travel/diagnostic fees');
 if (!/id="message-travaux-supplementaires"[^>]*>[\s\S]*?montant total supplémentaire[\s\S]*?travaux supplémentaires/.test(comparatorHtml)) failures.push('/outils/comparateur-devis: scope-change message missing written amount/scope clarification');
 
+const feeQuestionsHtml = fs.readFileSync(fileFor('/blog/questions-avant-travaux-artisan-maroc'), 'utf8');
+if (!/href="\\/outils\\/comparateur-devis">comparateur de devis Snay3i\\.ma<\\/a>/.test(feeQuestionsHtml)) {
+  failures.push('/blog/questions-avant-travaux-artisan-maroc: fee worksheet comparator link must render as a real internal anchor');
+}
+
 for (const route of ['/blog/questions-avant-travaux-artisan-maroc', '/blog/comparer-devis-travaux-maroc']) {
   const articleHtml = fs.readFileSync(fileFor(route), 'utf8');
   if (!/<div class="table-wrap"[^>]*><table><thead><tr>/.test(articleHtml)) {
