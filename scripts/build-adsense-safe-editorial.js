@@ -231,6 +231,36 @@ Demandez directement la date ou la période possible d'intervention.
 
 Pour une urgence, précisez la situation et demandez si le professionnel peut réellement la prendre en charge.
 
+## Avant de confirmer un déplacement ou un diagnostic
+
+Le déplacement, le diagnostic, le devis et la réparation peuvent être facturés séparément, réunis dans une même prestation ou ne pas entraîner de frais distincts. Cela dépend du professionnel, de la distance, du métier et de la situation. Il ne faut donc pas déduire un tarif « normal » d’un exemple trouvé en ligne : l’objectif est de connaître les conditions qui s’appliquent à votre demande avant de confirmer le rendez-vous.
+
+Posez les questions suivantes avant de vous déplacer ou d’accepter une intervention :
+
+| Point à clarifier | Question à poser | Ce qu'il faut noter |
+|---|---|---|
+| Déplacement | Des frais de déplacement s’appliquent-ils à mon quartier ? Sont-ils dus même si les travaux ne sont pas réalisés ? | Montant annoncé, zone couverte et condition de paiement |
+| Diagnostic | La recherche de panne ou l’inspection est-elle facturée séparément ? Que couvre-t-elle ? | Contrôles prévus, résultat fourni et montant |
+| Devis | Le devis ou l’estimation est-il payant ? Est-il fourni avant la réparation ? | Frais éventuels, format et délai de remise |
+| Déduction | Si j’accepte la réparation, les frais de déplacement ou de diagnostic sont-ils déduits du total ? | Oui, non ou conditions précises |
+| Accord | Après la visite, le professionnel me communiquera-t-il le coût et le périmètre avant de commencer les réparations ? | Façon de confirmer le montant et les travaux autorisés |
+| Changement | Que se passe-t-il si la cause observée nécessite un travail différent de celui demandé ? | Arrêt, nouvelle estimation et accord avant supplément |
+
+Le fait de poser ces questions ne signifie pas qu’un frais doit exister : le professionnel peut confirmer qu’aucun montant séparé ne s’applique. Ce qui compte est de comprendre la réponse et de pouvoir la retrouver après l’appel. Si un point reste vague, demandez une précision avant de programmer l’intervention plutôt que de supposer que le montant est inclus.
+
+### Message prêt à envoyer avant le rendez-vous
+
+> Bonjour, je suis à [quartier, ville] et j’ai besoin de [décrire le problème ou le travail]. Avant de confirmer le rendez-vous, pouvez-vous me préciser si le déplacement, le diagnostic ou l’établissement du devis entraînent des frais, ce que chacun couvre et si les frais déjà payés sont déduits lorsque les travaux sont acceptés ? Après votre visite, j’aimerais connaître le périmètre et le coût prévu avant toute réparation ou tout travail supplémentaire. Merci.
+
+### Exemple fictif : deux conditions différentes
+
+- **Proposition A :** le déplacement est compris dans la visite, mais le diagnostic est facturé séparément et n’est pas déduit si la réparation est refusée.
+- **Proposition B :** le déplacement est facturé, le diagnostic est inclus, et le professionnel indique qu’il déduira le déplacement si les travaux sont acceptés.
+
+Aucune de ces conditions n’est automatiquement meilleure ou plus courante. Comparez le coût total dans le scénario qui vous concerne, le résultat obtenu pendant la visite et ce qui se passe si vous n’acceptez pas la réparation. Le prix des travaux reste à confirmer après une évaluation suffisante du problème.
+
+Vous pouvez utiliser le [comparateur de devis Snay3i.ma](/outils/comparateur-devis) pour conserver les réponses côte à côte. Cet exemple est fictif : il n’établit aucun prix moyen marocain et ne décrit pas une pratique universelle.
+
 ## Utilisez les mêmes questions avec plusieurs professionnels
 
 Lorsque vous comparez deux ou trois propositions, utilisez autant que possible la même liste de questions.
