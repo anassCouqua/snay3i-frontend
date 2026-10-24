@@ -13,6 +13,8 @@ const ARTICLES = [
     lang: 'fr',
     title: 'Comment trouver un artisan fiable au Maroc : méthode avant travaux',
     description: 'Une méthode pratique pour chercher un artisan au Maroc, préparer sa demande, comparer les réponses et clarifier les conditions avant les travaux.',
+    modifiedDate: '2026-10-24',
+    modifiedLabel: '24 octobre 2026',
     hero: U('photo-1504148455328-c376907d081c'),
     detail: U('photo-1530124566582-a618bc2615dc'),
     heroAlt: 'Outils de bricolage préparés pour une intervention à domicile',
@@ -97,6 +99,25 @@ La présence d'un professionnel sur un annuaire ne signifie pas automatiquement 
 De la même manière, un avis en ligne est une information parmi d'autres. Il ne remplace pas la discussion sur votre chantier.
 
 Sur Snay3i.ma, les informations publiées sur une fiche servent à faciliter la recherche et la prise de contact. La disponibilité, les prix et les conditions doivent être confirmés directement avec le professionnel.
+
+### Comment lire les informations d'une fiche
+
+Chaque information répond à une question différente. Un numéro affiché peut aider à démarrer une conversation ; il ne constitue pas, à lui seul, une preuve d'identité, de qualification ou de qualité de travail.
+
+| Information observée | Ce qu'elle permet de faire | Ce qu'elle ne prouve pas |
+|---|---|---|
+| Nom, métier, ville et numéro affichés | Préparer une première prise de contact et vérifier si le professionnel couvre votre zone | Identité contrôlée, disponibilité immédiate ou niveau de compétence |
+| Contact joint et détails confirmés directement | Confirmer que le numéro répond et que l'interlocuteur comprend votre demande | Qualification, assurance ou qualité future du chantier |
+| Photos d'une réalisation comparable | Poser des questions sur un exemple concret et demander quand et où le travail a été fait | Que la photo représente bien le travail de cette personne sans autre vérification |
+| Référence ou document présenté, lorsque c'est pertinent | Vérifier ce que le document ou la référence couvre, auprès d'une source appropriée si nécessaire | La qualité future du chantier ou l'adéquation automatique à votre projet |
+
+Un bon site doit expliquer précisément ce qu'un éventuel badge signifie, qui a fait la vérification et à quelle date. La confirmation d'un numéro, la confirmation par le propriétaire d'une fiche et le contrôle d'une qualification ne sont pas la même chose. Ne leur donnez pas le même poids.
+
+### Ce que les données publiques de Snay3i indiquent aujourd'hui
+
+Dans le snapshot de l'annuaire vérifié le 24 octobre 2026, l'API publique renvoyait 36 fiches. Pour ces fiches, le champ de vérification était désactivé et les champs de note et de nombre d'avis étaient à zéro. Cela ne permet pas de juger si un professionnel est compétent ou non : cela signifie que ces champs de l'annuaire ne fournissent pas actuellement de preuve de réputation à comparer. Nous préférons exposer cette limite plutôt que fabriquer un score ou laisser entendre que chaque profil a été certifié.
+
+Les chiffres, leur répartition par ville et les limites de ce snapshot sont expliqués dans le [snapshot actuel de l’annuaire et sa méthode](/observatoire-artisans-maroc). Utilisez une fiche comme point de départ, puis confirmez directement l'identité, le service, la zone, les disponibilités et les conditions avant de prendre une décision.
 
 ## Méfiez-vous des promesses difficiles à vérifier
 
