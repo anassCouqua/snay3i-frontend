@@ -4,7 +4,12 @@ const { INDEXABLE_BLOG_SLUGS } = require('./site-curation-config');
 
 const root = path.join(__dirname, '..');
 const blogRoot = path.join(root, 'public', 'blog');
-const modified = '2026-10-22';
+const modifiedBySlug = {
+  'questions-avant-travaux-artisan-maroc': {
+    date: '2026-10-24',
+    frLabel: '24 octobre 2026'
+  }
+};
 
 const modules = {
   'trouver-bon-plombier-maroc': {
@@ -327,11 +332,12 @@ for(const slug of INDEXABLE_BLOG_SLUGS){
   }
   html=html.replace(/\s*<section[^>]*data-snay3i-action-module=["']1["'][^>]*>[\s\S]*?<\/section>\s*/gi,'\n');
   const isDarija=/<html[^>]*lang=["']ary["']/i.test(html);
+  const modifiedInfo=modifiedBySlug[slug] || {date:'2026-10-22',frLabel:'22 octobre 2026',aryLabel:'22 أكتوبر 2026'};
   const section=`<section data-snay3i-action-module="1"${isDarija?' lang="ary" dir="rtl"':''}><h2>${esc(mod.heading)}</h2><p>${esc(mod.intro)}</p><ul>${mod.items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>${mod.example?`<div data-snay3i-case-example="1" style="margin:18px 0;padding:16px 18px;border-left:4px solid #b34f24;background:#faf6ef;border-radius:10px"><h3 style="margin:0 0 8px;font-size:17px">${esc(mod.exampleTitle||"Exemple à adapter")}</h3><p style="margin:0;white-space:normal">${esc(mod.example).replace(/\n/g,"<br>")}</p></div>`:""}<p><a href="${mod.tool}"><strong>${esc(mod.label)} →</strong></a> · <a href="/editorial-policy">${isDarija?'كيفاش كنراجعو المحتوى':'Comment nous préparons et corrigeons nos guides'}</a></p></section>`;
   if(!/<\/article>/i.test(html)){failures.push(slug+': article closing tag missing');continue;}
   html=html.replace(/<\/article>/i,section+'</article>');
-  html=html.replace(/"dateModified":"\d{4}-\d{2}-\d{2}"/g,`"dateModified":"${modified}"`);
-  html=html.replace(/<time datetime="\d{4}-\d{2}-\d{2}" data-date-modified="1">[\s\S]*?<\/time>/i,isDarija?`<time datetime="${modified}" data-date-modified="1">22 أكتوبر 2026</time>`:`<time datetime="${modified}" data-date-modified="1">22 octobre 2026</time>`);
+  html=html.replace(/"dateModified":"\d{4}-\d{2}-\d{2}"/g,`"dateModified":"${modifiedInfo.date}"`);
+  html=html.replace(/<time datetime="\d{4}-\d{2}-\d{2}" data-date-modified="1">[\s\S]*?<\/time>/i,isDarija?`<time datetime="${modifiedInfo.date}" data-date-modified="1">${modifiedInfo.aryLabel || '22 أكتوبر 2026'}</time>`:`<time datetime="${modifiedInfo.date}" data-date-modified="1">${modifiedInfo.frLabel}</time>`);
   fs.writeFileSync(file,html,'utf8');
 }
 for(const slug of INDEXABLE_BLOG_SLUGS){

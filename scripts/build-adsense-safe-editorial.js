@@ -144,6 +144,8 @@ Snay3i.ma permet de rechercher des professionnels par métier et par ville. Util
     lang: 'fr',
     title: '7 questions à poser à un artisan avant les travaux',
     description: 'Sept questions simples pour clarifier le projet, le prix, les matériaux, le délai et les conditions avant de commencer des travaux au Maroc.',
+    modifiedDate: '2026-10-24',
+    modifiedLabel: '24 octobre 2026',
     hero: U('photo-1768321902097-1d85e7735c5f'),
     detail: U('photo-1768321902794-c24fb1f00661'),
     heroAlt: 'Intérieur en cours de rénovation avec matériaux visibles',
@@ -1018,9 +1020,9 @@ function renderArticle(a) {
   const langAttr=isDarija?'ary':'fr';
   const dirAttr=isDarija?' dir="rtl"':'';
   const publishedDate='2026-10-04';
-  const modifiedDate='2026-10-22';
+  const modifiedDate=a.modifiedDate || '2026-10-22';
   const publishedLabel=isDarija?'4 أكتوبر 2026':'4 octobre 2026';
-  const modifiedLabel=isDarija?'22 أكتوبر 2026':'22 octobre 2026';
+  const modifiedLabel=a.modifiedLabel || (isDarija?'22 أكتوبر 2026':'22 octobre 2026');
   const canonical=`https://snay3i.ma/blog/${a.slug}`;
   const author=isDarija?'فريق تحرير Snay3i.ma':'Rédaction Snay3i.ma';
   const methodLink=isDarija?'طريقة التحرير ديالنا':'Méthode éditoriale et à propos';
