@@ -262,6 +262,10 @@ const feeQuestionsHtml = fs.readFileSync(fileFor('/blog/questions-avant-travaux-
 if (!/href="\/outils\/comparateur-devis">comparateur de devis Snay3i\.ma<\/a>/.test(feeQuestionsHtml)) {
   failures.push('/blog/questions-avant-travaux-artisan-maroc: fee worksheet comparator link must render as a real internal anchor');
 }
+if (!/"dateModified":"2026-10-24"/.test(feeQuestionsHtml) ||
+    !/datetime="2026-10-24" data-date-modified="1">24 octobre 2026<\/time>/.test(feeQuestionsHtml)) {
+  failures.push('/blog/questions-avant-travaux-artisan-maroc: visible modified date must match BlogPosting dateModified after the 24 October content update');
+}
 
 for (const route of ['/blog/questions-avant-travaux-artisan-maroc', '/blog/comparer-devis-travaux-maroc']) {
   const articleHtml = fs.readFileSync(fileFor(route), 'utf8');
