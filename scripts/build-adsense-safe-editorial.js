@@ -956,7 +956,13 @@ function esc(v='') {
 }
 
 function inlineMd(v) {
-  return v
+  // Render only local absolute paths in Markdown links; the label is escaped
+  // before this function runs, and the href pattern excludes script/data URLs.
+  const withInternalLinks = v.replace(
+    /\[([^\]]+)\]\((\/[A-Za-z0-9/_-]+)\)/g,
+    '<a href="$2">$1</a>'
+  );
+  return withInternalLinks
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/`([^`]+)`/g, '<code>$1</code>');
 }
