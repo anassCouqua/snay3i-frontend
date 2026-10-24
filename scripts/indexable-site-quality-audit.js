@@ -267,6 +267,29 @@ if (!/"dateModified":"2026-10-24"/.test(feeQuestionsHtml) ||
   failures.push('/blog/questions-avant-travaux-artisan-maroc: visible modified date must match BlogPosting dateModified after the 24 October content update');
 }
 
+const quoteComparisonRoute = '/blog/comparer-devis-travaux-maroc';
+const quoteComparisonHtml = fs.readFileSync(fileFor(quoteComparisonRoute), 'utf8');
+const quoteComparisonText = mainText(quoteComparisonHtml, quoteComparisonRoute);
+const quoteComparisonRequirements = [
+  [/Exemple guidé : deux devis pour le même chantier/i, 'worked example heading'],
+  [/exemple ci-dessous est fictif/i, 'explicitly illustrative example notice'],
+  [/dirhams \(MAD\)/i, 'Morocco currency context without inventing market prices'],
+  [/évacuation des gravats/i, 'local project-cost exclusion'],
+  [/déplacement et livraison/i, 'travel and materials-delivery cost check'],
+  [/Bonjour, pour comparer les propositions/i, 'copyable clarification message'],
+];
+for (const [pattern, label] of quoteComparisonRequirements) {
+  if (!pattern.test(quoteComparisonText)) failures.push(quoteComparisonRoute + ': missing ' + label);
+}
+if (!/<div class="table-wrap"[^>]*><table><thead><tr>/.test(quoteComparisonHtml) ||
+    !/<th scope="col">Point à comparer<\/th>/.test(quoteComparisonHtml) ||
+    !/<tbody>[\s\S]*?Dépose et préparation[\s\S]*?Matériaux[\s\S]*?Déplacement et livraison[\s\S]*?<\/tbody>/.test(quoteComparisonHtml)) {
+  failures.push(quoteComparisonRoute + ': worked quote comparison must render as an accessible semantic table with substantive example rows');
+}
+if (!/href="\/outils\/comparateur-devis">comparateur de devis gratuit Snay3i\.ma<\/a>/.test(quoteComparisonHtml)) {
+  failures.push(quoteComparisonRoute + ': worked example must link to the first-party quote comparator');
+}
+
 const reliabilityGuideHtml = fs.readFileSync(fileFor('/blog/guide-trouver-artisan-fiable-maroc'), 'utf8');
 if (!/<div class="table-wrap"[^>]*><table><thead><tr>/.test(reliabilityGuideHtml) ||
     !reliabilityGuideHtml.includes('Information observée') ||
