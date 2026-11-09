@@ -402,6 +402,8 @@ Un devis plus bas n'est pas automatiquement meilleur ; un devis plus haut ne l'e
   {
     slug: 'preparer-renovation-maison-maroc',
     lang: 'fr',
+    modifiedDate: '2026-11-09',
+    modifiedLabel: '9 novembre 2026',
     title: 'Préparer une rénovation de maison au Maroc : ordre des travaux',
     description: 'Guide pratique pour structurer une rénovation au Maroc, définir les lots, éviter les reprises inutiles et préparer les devis.',
     hero: U('photo-1503387762-592deb58ef4e'),
@@ -521,6 +523,34 @@ Conservez les devis, factures, échanges et modifications.
 Prenez des photos avant, pendant et après les travaux lorsque cela est utile.
 
 Ce dossier peut vous aider à suivre le projet, à retrouver les références de matériaux et à comprendre les choix réalisés plusieurs mois plus tard.
+
+## Exemple de préparation : rénover une cuisine et une salle de bains
+
+Le scénario suivant est fictif. Il sert à montrer comment préparer les décisions, pas à annoncer un prix ou un délai type. Imaginons un appartement au Maroc où le propriétaire souhaite rénover la cuisine et la salle de bains, puis repeindre le séjour. Avant de demander les devis, il prépare un périmètre commun et note les contraintes du logement.
+
+| Étape du projet | À préciser avant le devis | À confirmer avant de poursuivre | Trace à conserver |
+|---|---|---|---|
+| Accès et logistique | Ville, quartier, étage, accès, stationnement, livraison et zone de stockage possible | Horaires et conditions d'accès ; protection des parties communes si nécessaire ; modalités d'évacuation des gravats | Réponse sur l'accès, frais de transport ou livraison et personne chargée des déchets |
+| Dépose et préparation | Éléments à retirer et équipements à conserver ; surfaces concernées | Protection des zones non rénovées et état réel des supports après dépose | Photos avant/après dépose et liste des éléments conservés |
+| Plomberie et électricité | Équipements à déplacer ou remplacer, points d'eau, prises et éclairages concernés | Emplacements et réseaux contrôlés par les professionnels compétents avant fermeture des murs ou sols | Plan ou croquis validé, références des équipements et contrôles convenus |
+| Supports et finitions | Revêtements, formats, teintes, peinture et niveau de préparation souhaités | État du support, étanchéité dans les zones concernées, préparation et temps de séchage indiqués par les intervenants | Références des matériaux, quantités et étapes prévues |
+| Réception | Équipements et finitions à vérifier | Tests des équipements accessibles, réserves et reprises éventuelles avant le solde | Photos finales, factures, devis actualisé et liste des réserves |
+
+Ce tableau n'impose pas un ordre technique universel. Les métiers peuvent se chevaucher et l'état découvert après dépose peut changer l'organisation. Demandez aux artisans concernés de confirmer les dépendances réelles avant de fixer le calendrier. Pour un appartement, vérifiez aussi les modalités pratiques avec le syndic, le gardien ou la personne responsable de l'immeuble lorsqu'il y en a : ne supposez pas que le stationnement, l'ascenseur, les horaires, la livraison ou les gravats sont automatiquement pris en charge.
+
+## Un message de préparation à envoyer aux artisans
+
+Vous pouvez adapter le même brief à chaque métier. Supprimez les points inutiles et ne présentez pas une cause technique comme certaine si elle n'a pas été vérifiée.
+
+> Bonjour, je prépare des travaux dans un [appartement / maison] à [quartier, ville]. Les pièces concernées sont [liste] et les travaux envisagés sont [description]. Je souhaite conserver [éléments] et remplacer ou modifier [éléments]. Je joins les photos et mesures disponibles.
+>
+> Pour l'organisation, l'accès se fait par [étage / ascenseur / escalier] et les contraintes connues sont [stationnement, horaires, livraison, parties communes ou stockage]. Pouvez-vous préciser si une visite est nécessaire, les travaux compris et exclus, les matériaux et quantités prévus, la main-d'œuvre, le déplacement ou la livraison, l'évacuation des gravats, le délai estimé et les étapes de paiement ? Merci d'indiquer le total en dirhams (MAD) et la façon dont un changement de périmètre sera chiffré et validé par écrit avant tout travail supplémentaire.
+
+## Utilisez les outils Snay3i pour passer du plan à l'action
+
+La [checklist rénovation gratuite](/outils/checklist-renovation) permet de suivre les points à préparer et à contrôler. Le [brief artisan](/outils/brief-artisan) aide à structurer la demande envoyée à chaque professionnel. Lorsque vous recevez plusieurs propositions, le [comparateur de devis](/outils/comparateur-devis) aide à repérer les informations qui restent à confirmer.
+
+Ces outils organisent les informations que vous saisissez ; ils ne valident pas un diagnostic, les qualifications d'un professionnel ou la conformité technique d'un chantier.
 
 ## Une rénovation réussie commence avant le premier jour de chantier
 
