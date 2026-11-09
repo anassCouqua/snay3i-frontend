@@ -101,8 +101,8 @@ function ArticlePage({ slug }) {
       "@type": "Article",
       "headline": article.title,
       "description": article.description,
-      "datePublished": "2026-06-" + article.date.split(' ')[0].padStart(2,'0'),
-      "dateModified": "2026-06-16",
+      "datePublished": article.datePublished || "2026-10-04",
+      "dateModified": article.dateModified || article.datePublished || "2026-10-04",
       "author": { "@type": "Person", "name": AUTHOR, "jobTitle": AUTHOR_TITLE, "url": "https://snay3i.ma/about" },
       "publisher": { "@type": "Organization", "name": "Snay3i.ma", "url": "https://snay3i.ma", "logo": { "@type": "ImageObject", "url": "https://snay3i.ma/logo.png" } },
       "mainEntityOfPage": { "@type": "WebPage", "@id": `https://snay3i.ma/blog/${article.slug}` }

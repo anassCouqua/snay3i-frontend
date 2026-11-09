@@ -12,6 +12,10 @@ const modifiedBySlug = {
   'questions-avant-travaux-artisan-maroc': {
     date: '2026-10-24',
     frLabel: '24 octobre 2026'
+  },
+  'comparer-devis-travaux-maroc': {
+    date: '2026-11-09',
+    frLabel: '9 novembre 2026'
   }
 };
 
