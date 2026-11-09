@@ -16,6 +16,10 @@ const modifiedBySlug = {
   'comparer-devis-travaux-maroc': {
     date: '2026-11-09',
     frLabel: '9 novembre 2026'
+  },
+  'preparer-renovation-maison-maroc': {
+    date: '2026-11-09',
+    frLabel: '9 novembre 2026'
   }
 };
 
