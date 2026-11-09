@@ -216,6 +216,12 @@ if (/plus de 100 artisans|tous nos artisans sont vérifiés|vérifiés dans 21 v
   failures.push('/blog: unsupported historical directory claims remain');
 }
 
+const blogSource = fs.readFileSync(path.join(process.cwd(), 'src', 'Blog.js'), 'utf8');
+if (!/"datePublished": article\.datePublished/.test(blogSource) ||
+    !/"dateModified": article\.dateModified/.test(blogSource) ||
+    /"dateModified": "2026-06-16"/.test(blogSource)) {
+  failures.push('React fallback Article schema must use each guide’s source-controlled publication and modification dates');
+}
 const appSource = fs.readFileSync(path.join(process.cwd(), 'src', 'App.js'), 'utf8');
 const publisherGuideSection = appSource.match(/<section data-publisher-guides="1"[\s\S]*?<\/section>/i);
 if (!publisherGuideSection) {
@@ -280,6 +286,13 @@ const quoteComparisonRequirements = [
 ];
 for (const [pattern, label] of quoteComparisonRequirements) {
   if (!pattern.test(quoteComparisonText)) failures.push(quoteComparisonRoute + ': missing ' + label);
+}
+const quoteDateCheck = /"dateModified":"2026-11-09"/.test(quoteComparisonHtml) &&
+  /datetime="2026-11-09" data-date-modified="1">9 novembre 2026<\\/time>/.test(quoteComparisonHtml);
+if (!quoteDateCheck) failures.push(quoteComparisonRoute + ': visible modified date must match the 9 November 2026 BlogPosting dateModified');
+const quoteSitemapBlock = fs.existsSync(sitemapPath) ? fs.readFileSync(sitemapPath, 'utf8').match(/<url>[\\s\\S]*?<loc>https:\\/\\/snay3i\\.ma\\/blog\\/comparer-devis-travaux-maroc<\\/loc>[\\s\\S]*?<\\/url>/i) : null;
+if (!quoteSitemapBlock || !quoteSitemapBlock[0].includes('<lastmod>2026-11-09</lastmod>')) {
+  failures.push(quoteComparisonRoute + ': sitemap lastmod must match the 9 November 2026 revision');
 }
 if (!/<div class="table-wrap"[^>]*><table><thead><tr>/.test(quoteComparisonHtml) ||
     !/<th scope="col">Point à comparer<\/th>/.test(quoteComparisonHtml) ||
