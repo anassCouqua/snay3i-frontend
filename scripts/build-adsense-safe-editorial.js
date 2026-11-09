@@ -322,6 +322,8 @@ Vous pouvez ensuite utiliser Snay3i.ma pour rechercher des professionnels par m�
   {
     slug: 'comparer-devis-travaux-maroc',
     lang: 'fr',
+    modifiedDate: '2026-11-09',
+    modifiedLabel: '9 novembre 2026',
     title: 'Comment comparer deux devis de travaux au Maroc',
     description: 'Une méthode pratique pour comparer plusieurs devis de travaux au Maroc en regardant le contenu, les matériaux, les délais et les conditions.',
     hero: U('photo-1589939705384-5185137a7f0f'),
@@ -1076,14 +1078,14 @@ ${support2}
 // Generate the exact same six articles for the React runtime so the client-side
 // blog cannot expose the retired legacy corpus.
 const safeRuntimeFile = path.join(root, 'src', 'adsense-safe-articles.js');
-const runtimeArticles = ARTICLES.map(({slug, lang, title, description, hero, detail, support2, heroAlt, detailAlt, support2Alt, content}) => ({
+const runtimeArticles = ARTICLES.map(({slug, lang, title, description, hero, detail, support2, heroAlt, detailAlt, support2Alt, content, modifiedDate}) => ({
   slug, lang, title, description, hero, detail, support2, heroAlt, detailAlt, support2Alt, content,
   category: lang === 'ary' ? 'Darija' : 'Guides pratiques',
   emoji: '🧰',
   date: lang === 'ary' ? '4 أكتوبر 2026' : '4 octobre 2026',
   readTime: 'Guide pratique',
   datePublished: '2026-10-04',
-  dateModified: '2026-10-22'
+  dateModified: modifiedDate || '2026-10-22'
 }));
 fs.writeFileSync(safeRuntimeFile, 'export const SAFE_ARTICLES = ' + JSON.stringify(runtimeArticles) + ';\n', 'utf8');
 
