@@ -330,129 +330,72 @@ Vous pouvez ensuite utiliser Snay3i.ma pour rechercher des professionnels par m�
     detailAlt: 'Matériel de peinture préparé avant une intervention',
     support2: U('photo-1556912167-f556f1f39fdf'),
     support2Alt: 'Intérieur de logement en cours de préparation pour des travaux',
-    content: `
-## Commencez par le périmètre des travaux
+    content: `## Commencez par le périmètre des travaux
 
-Avant de comparer les montants, comparez les prestations.
+Avant de comparer les montants, comparez les prestations réellement prévues. Deux devis ne sont comparables que lorsqu'ils décrivent un travail suffisamment proche.
 
-Pour une rénovation, vérifiez si les deux devis comprennent les mêmes opérations : dépose, préparation, réparation des supports, pose, fournitures, finition, nettoyage et évacuation.
+Pour une rénovation, vérifiez si les deux devis comprennent la dépose, la préparation, les réparations, la pose, les fournitures, les finitions, le nettoyage et l'évacuation. Pour un chantier de peinture, demandez si le rebouchage et la sous-couche sont compris. Pour la plomberie, vérifiez si le diagnostic, les pièces et la main-d'œuvre sont inclus.
 
-Pour un chantier de peinture, demandez par exemple si la préparation des murs et la sous-couche sont comprises.
+## Comparez les matériaux et les quantités
 
-Pour un chantier de plomberie, vérifiez si le diagnostic, les pièces et la main-d'œuvre sont inclus.
+Une différence de prix peut venir des matériaux prévus, des quantités ou du niveau de préparation. Demandez les références ou caractéristiques importantes lorsque le choix influence la durabilité ou la finition.
 
-## Comparez les matériaux
+Comparez les mêmes unités : mètres carrés avec mètres carrés, nombre d'équipements avec nombre d'équipements, et même périmètre avec même périmètre. Si les quantités diffèrent beaucoup, demandez comment chaque professionnel les a calculées au lieu de choisir arbitrairement le chiffre le plus bas.
 
-Une différence de prix peut venir simplement des matériaux prévus.
+## Repérez ce qui reste à votre charge
 
-Demandez ce qui est fourni et, lorsque cela compte dans le résultat, les caractéristiques ou références principales.
+Les mentions « à la charge du client », « fourni par le client » ou « non compris » peuvent expliquer une grande partie d'un écart. Une offre peut exclure la préparation, la livraison des matériaux, les petites fournitures ou l'évacuation des gravats.
 
-Vous n'avez pas besoin de choisir le produit le plus cher. Vous devez simplement savoir ce qui est proposé.
+Pour un chantier au Maroc, notez aussi les contraintes pratiques qui peuvent modifier l'organisation : déplacement jusqu'au logement, accès à l'étage, possibilité de stationner pour décharger, transport des matériaux et règles d'accès d'un immeuble lorsqu'il y en a. Ne supposez pas que ces éléments sont inclus ; demandez-le.
 
-## Vérifiez les quantités
+## Exemple guidé : deux devis pour le même chantier
 
-Lorsque le devis comporte des quantités, comparez-les.
+L'exemple ci-dessous est fictif. Il illustre une méthode de lecture, pas des prix du marché ni un modèle universel de devis.
 
-Regardez les mètres carrés, les mètres linéaires, le nombre d'équipements, les pièces ou les quantités de matériaux.
+Imaginez que vous demandiez à deux artisans de rénover une salle de bain. Le devis A annonce un montant total plus bas, mais ne précise pas si la dépose de l'ancien carrelage, la préparation du support, l'étanchéité, la livraison et l'évacuation des gravats sont comprises. Le devis B donne un montant plus élevé et détaille ces postes, les matériaux prévus et les étapes de paiement. À ce stade, il est impossible de conclure que A est réellement moins cher : plusieurs coûts peuvent simplement rester à votre charge.
 
-Si deux devis présentent des chiffres très différents, demandez comment chaque professionnel a calculé son estimation.
+| Point à comparer | Devis A | Devis B | Question à résoudre |
+|---|---|---|---|
+| Dépose et préparation | Mention non détaillée | Étapes décrites | Qui retire l'ancien revêtement et prépare le support ? |
+| Matériaux | Références non précisées | Quantités et références indiquées | Qui choisit et achète les matériaux ? |
+| Main-d'œuvre | Forfait global | Main-d'œuvre décrite par étape | Quels travaux le forfait couvre-t-il exactement ? |
+| Déplacement et livraison | Non précisés | Conditions indiquées | Ces frais sont-ils inclus dans le total annoncé ? |
+| Gravats et nettoyage | Non précisés | Responsabilité indiquée | Qui évacue les gravats et nettoie la zone ? |
+| Délai | Pas de durée estimée | Début et durée estimée | Quand le chantier peut-il commencer et combien de temps est prévu ? |
+| Paiement | Échéances non détaillées | Étapes de paiement identifiées | Quel montant est dû à chaque étape et pour quel travail ? |
+| Travaux supplémentaires | Procédure non précisée | Accord avant changement indiqué | Le nouveau périmètre et son coût seront-ils validés par écrit ? |
 
-## Cherchez les éléments « non compris »
+La prochaine étape n'est pas de choisir immédiatement B. C'est de demander à A de clarifier les points manquants, puis de comparer les deux propositions sur une base équivalente. Si une visite est nécessaire pour chiffrer correctement l'étanchéité ou l'état du support, faites-le préciser plutôt que d'exiger un chiffre artificiellement précis à distance.
 
-Les mentions « à la charge du client » ou « non compris » peuvent expliquer une grande partie d'un écart.
+## Demandez une clarification écrite avant de choisir
 
-Une offre moins chère peut laisser certaines fournitures, la préparation ou l'évacuation à votre charge.
+Vous pouvez envoyer ce message aux différents professionnels, en adaptant les mots à votre chantier :
 
-Une comparaison honnête doit donc regarder le total probable du projet, pas uniquement le premier chiffre affiché.
+> Bonjour, pour comparer les propositions sur la même base, pouvez-vous confirmer par écrit les travaux inclus et exclus, les matériaux et quantités prévus, les frais de déplacement ou de livraison, l'évacuation des déchets, le délai estimé et les étapes de paiement ? Merci d'indiquer le montant total en dirhams (MAD), ce qui reste à ma charge et la façon dont tout travail supplémentaire sera chiffré et validé avant de commencer.
 
-## Comparez la main-d'œuvre et les étapes
+Envoyez les mêmes informations à chaque artisan. Si vous modifiez votre demande en cours de route, signalez-le à tous afin de ne pas comparer un devis ancien avec une proposition qui couvre désormais davantage de travail.
 
-Le prix de la main-d'œuvre ne doit pas être isolé du travail prévu.
+## Regardez la main-d'œuvre, les délais et les paiements ensemble
 
-Demandez comment l'intervention est organisée et quelles étapes sont incluses.
+Le prix de la main-d'œuvre doit être lu avec le travail prévu. Pour un projet à plusieurs étapes, notez la préparation, la réalisation, les contrôles et les finitions. Comparez aussi la date de début, la durée estimée et les dépendances entre les métiers : un carreleur ne peut pas toujours commencer avant la fin des travaux de plomberie ou le temps de séchage requis.
 
-Pour un projet complexe, notez les moments clés : préparation, réalisation, contrôle et finition.
-
-Vous pourrez ensuite comparer des offres qui parlent réellement du même chantier.
-
-## Regardez les délais
-
-Deux devis identiques sur le prix peuvent être très différents sur l'organisation.
-
-Comparez :
-
-- la date de début ;
-- la durée estimée ;
-- les dépendances entre les étapes ;
-- ce qui peut provoquer un retard.
-
-Il n'est pas toujours utile de choisir le devis qui commence le plus vite. Le plus important est que le délai soit cohérent avec le projet.
-
-## Clarifiez les conditions de paiement
-
-Demandez quand les paiements sont prévus et ce qu'ils correspondent à.
-
-Pour les travaux en plusieurs étapes, il est souvent plus simple de relier les paiements à des étapes compréhensibles.
-
-Conservez les informations convenues et faites confirmer les modifications importantes.
+Demandez quand les paiements sont prévus et à quelle étape ils correspondent. Pour un chantier conséquent, reliez autant que possible les règlements à des étapes compréhensibles. Conservez les versions des devis et demandez une confirmation écrite lorsqu'un changement modifie le périmètre ou le montant.
 
 ## Que faire lorsqu'un devis est beaucoup moins cher ?
 
-Ne concluez ni que l'artisan est excellent, ni qu'il y a forcément un problème.
+Ne concluez ni que l'artisan est excellent, ni qu'il y a forcément un problème. Demandez simplement : « Pouvez-vous me détailler ce qui explique la différence ? » La réponse peut venir du périmètre, des matériaux, des quantités, du délai ou de l'organisation.
 
-Demandez simplement :
+Une réponse claire vous aide à décider. Une réponse qui laisse les exclusions ou le total probable ambigus est une raison de demander davantage de précisions, sans accuser le professionnel.
 
-« Pouvez-vous me détailler ce qui explique la différence ? »
+## Utilisez le comparateur de devis Snay3i
 
-La réponse peut venir du périmètre, des matériaux, des quantités, du délai ou de l'organisation.
+Le [comparateur de devis gratuit Snay3i.ma](/outils/comparateur-devis) aide à organiser jusqu'à trois propositions sur les éléments à vérifier : périmètre, main-d'œuvre, matériaux, déplacement, délai, paiement et suivi. Vous pouvez l'utiliser après avoir collecté les informations, puis revenir vers l'artisan pour compléter les cases qui restent à confirmer.
 
-Cette question est plus utile qu'une négociation immédiate.
-
-## Créez un tableau de comparaison
-
-Pour un projet important, un tableau très simple peut suffire.
-
-| Élément | Devis A | Devis B | Devis C |
-|---|---|---|---|
-| Travaux compris | | | |
-| Matériaux | | | |
-| Quantités | | | |
-| Préparation | | | |
-| Nettoyage | | | |
-| Délai | | | |
-| Paiement | | | |
-| Total | | | |
-| Questions à clarifier | | | |
-
-Vous pouvez également ajouter une colonne « remarques » pour noter ce qui mérite une confirmation.
-
-## Un devis n'est pas forcément définitif
-
-Un chantier peut évoluer après découverte d'un problème ou modification demandée par le client.
-
-Lorsque cela arrive, demandez :
-
-- pourquoi le travail supplémentaire est nécessaire ;
-- quel élément du devis initial change ;
-- combien cela ajoute au montant ;
-- quand le travail peut être réalisé.
-
-Pour les changements importants, demandez une validation claire avant de poursuivre lorsque c'est possible.
-
-## Le comparateur de devis Snay3i
-
-Snay3i.ma propose un outil gratuit pour vous aider à structurer une comparaison de devis.
-
-L'outil ne choisit pas un artisan à votre place et ne transforme pas automatiquement un devis en recommandation. Il sert à organiser les informations et à repérer les points à clarifier.
+L'outil évalue la clarté des informations saisies. Il ne vérifie pas l'identité, les qualifications, l'assurance ou la qualité future du professionnel, et ne choisit pas automatiquement le meilleur devis à votre place.
 
 ## Le bon devis est d'abord celui que vous comprenez
 
-Un devis plus bas n'est pas automatiquement meilleur. Un devis plus haut ne l'est pas non plus.
-
-La comparaison devient utile lorsque vous savez exactement ce qui sera fait, ce qui ne l'est pas, quels matériaux sont prévus, combien vous paierez et comment les changements seront gérés.
-
-C'est cette clarté qui vous permet de prendre une décision plus sereine.
-`
+Un devis plus bas n'est pas automatiquement meilleur ; un devis plus haut ne l'est pas non plus. Comparez le travail réel, les matériaux, les éléments qui restent à votre charge, le calendrier et les conditions de paiement. Si ces informations ne sont pas encore claires, demandez des précisions avant de décider.`
   },
   {
     slug: 'preparer-renovation-maison-maroc',
