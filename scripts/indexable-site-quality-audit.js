@@ -288,10 +288,12 @@ for (const [pattern, label] of quoteComparisonRequirements) {
   if (!pattern.test(quoteComparisonText)) failures.push(quoteComparisonRoute + ': missing ' + label);
 }
 const quoteDateCheck = /"dateModified":"2026-11-09"/.test(quoteComparisonHtml) &&
-  /datetime="2026-11-09" data-date-modified="1">9 novembre 2026<\\/time>/.test(quoteComparisonHtml);
+  quoteComparisonHtml.includes('datetime="2026-11-09" data-date-modified="1">9 novembre 2026</time>');
 if (!quoteDateCheck) failures.push(quoteComparisonRoute + ': visible modified date must match the 9 November 2026 BlogPosting dateModified');
-const quoteSitemapBlock = fs.existsSync(sitemapPath) ? fs.readFileSync(sitemapPath, 'utf8').match(/<url>[\\s\\S]*?<loc>https:\\/\\/snay3i\\.ma\\/blog\\/comparer-devis-travaux-maroc<\\/loc>[\\s\\S]*?<\\/url>/i) : null;
-if (!quoteSitemapBlock || !quoteSitemapBlock[0].includes('<lastmod>2026-11-09</lastmod>')) {
+const quoteSitemapBlock = fs.existsSync(sitemapPath)
+  ? fs.readFileSync(sitemapPath, 'utf8').split(/<url>/i).find((block) => block.includes('<loc>https://snay3i.ma/blog/comparer-devis-travaux-maroc</loc>'))
+  : '';
+if (!quoteSitemapBlock || !quoteSitemapBlock.includes('<lastmod>2026-11-09</lastmod>')) {
   failures.push(quoteComparisonRoute + ': sitemap lastmod must match the 9 November 2026 revision');
 }
 if (!/<div class="table-wrap"[^>]*><table><thead><tr>/.test(quoteComparisonHtml) ||
