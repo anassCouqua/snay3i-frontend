@@ -305,6 +305,38 @@ if (!/href="\/outils\/comparateur-devis">comparateur de devis gratuit Snay3i\.ma
   failures.push(quoteComparisonRoute + ': worked example must link to the first-party quote comparator');
 }
 
+const renovationRoute = '/blog/preparer-renovation-maison-maroc';
+const renovationHtml = fs.readFileSync(fileFor(renovationRoute), 'utf8');
+const renovationText = mainText(renovationHtml, renovationRoute);
+const renovationRequirements = [
+  [/Exemple de préparation : rénover une cuisine et une salle de bains/i, 'worked renovation scenario'],
+  [/scénario suivant est fictif/i, 'explicit fictional-example disclosure'],
+  [/stationnement, livraison et zone de stockage/i, 'local access and materials logistics'],
+  [/syndic, le gardien/i, 'conditional building-management coordination'],
+  [/évacuation des gravats/i, 'waste-removal responsibility'],
+  [/total en dirhams \(MAD\)/i, 'clear quote currency'],
+  [/checklist rénovation gratuite/i, 'first-party checklist link'],
+  [/brief artisan/i, 'first-party brief-builder link'],
+  [/comparateur de devis/i, 'first-party quote-comparison link'],
+];
+for (const [pattern, label] of renovationRequirements) {
+  if (!pattern.test(renovationText)) failures.push(renovationRoute + ': missing ' + label);
+}
+if (!/<div class="table-wrap"[^>]*><table><thead><tr>/.test(renovationHtml) ||
+    !/<th scope="col">Étape du projet<\/th>/.test(renovationHtml) ||
+    !/<tbody>[\s\S]*?Accès et logistique[\s\S]*?Plomberie et électricité[\s\S]*?Réception[\s\S]*?<\/tbody>/.test(renovationHtml)) {
+  failures.push(renovationRoute + ': project-planning example must render as an accessible semantic table with useful checkpoints');
+}
+const renovationDateCheck = /"dateModified":"2026-11-09"/.test(renovationHtml) &&
+  renovationHtml.includes('datetime="2026-11-09" data-date-modified="1">9 novembre 2026</time>');
+if (!renovationDateCheck) failures.push(renovationRoute + ': visible modified date must match the 9 November 2026 BlogPosting dateModified');
+const renovationSitemapBlock = fs.existsSync(sitemapPath)
+  ? fs.readFileSync(sitemapPath, 'utf8').split(/<url>/i).find((block) => block.includes('<loc>https://snay3i.ma/blog/preparer-renovation-maison-maroc</loc>'))
+  : '';
+if (!renovationSitemapBlock || !renovationSitemapBlock.includes('<lastmod>2026-11-09</lastmod>')) {
+  failures.push(renovationRoute + ': sitemap lastmod must match the 9 November 2026 revision');
+}
+
 const reliabilityGuideHtml = fs.readFileSync(fileFor('/blog/guide-trouver-artisan-fiable-maroc'), 'utf8');
 if (!/<div class="table-wrap"[^>]*><table><thead><tr>/.test(reliabilityGuideHtml) ||
     !reliabilityGuideHtml.includes('Information observée') ||
